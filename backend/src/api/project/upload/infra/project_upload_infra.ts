@@ -2,35 +2,20 @@ import { Client, Value } from '@libsql/client/web';
 import buildLibsqlClient from '../../../../database';
 import { Env } from '../../../..';
 import { uploadImages, uploadMainImage } from './project_upload_infra_images';
+import { _Object } from '@aws-sdk/client-s3';
+import {
+	InsertImagesToDbInput,
+	InsertProjectToDbInput,
+	InsertProjectToDbOutput,
+	InsertRelationProjectImageInput,
+	UploadProjectToInfraInput,
+	UploadProjectToInfraOutput,
+} from './infra.types';
 
-interface UploadProjectToInfraInput {
-	title: string;
-	year: number;
-	description: string;
-	isTop: boolean;
-	mainImage: File;
-	images: File[];
-}
-
-interface InsertProjectToDbInput {
-	title: string;
-	year: number;
-	description: string;
-	isTop: boolean;
-}
-
-interface InsertImagesToDbInput {
-	key?: string;
-	isMain: boolean;
-	projectId: Value;
-}
-
-interface InsertRelationProjectImageInput {
-	projectId: Value;
-	imageId: string;
-}
-
-async function uploadProjectToInfra({ title, description, year, isTop, mainImage, images }: UploadProjectToInfraInput, env: Env) {
+async function uploadProjectToInfra(
+	{ title, description, year, isTop, mainImage, images }: UploadProjectToInfraInput,
+	env: Env
+): Promise<UploadProjectToInfraOutput> {
 	const client = buildLibsqlClient(env);
 
 	const [mainImageUploaded, imagesUploaded, dbProject] = await Promise.all([
@@ -52,7 +37,10 @@ async function uploadProjectToInfra({ title, description, year, isTop, mainImage
 	};
 }
 
-async function insertProjectToDb({ title, description, year, isTop }: InsertProjectToDbInput, client: Client) {
+async function insertProjectToDb(
+	{ title, description, year, isTop }: InsertProjectToDbInput,
+	client: Client
+): Promise<InsertProjectToDbOutput> {
 	try {
 		const projectId = crypto.randomUUID().toString();
 
@@ -67,7 +55,7 @@ async function insertProjectToDb({ title, description, year, isTop }: InsertProj
 			args: [projectId],
 		});
 
-		return dbProject.rows[0];
+		return dbProject.rows[0] as unknown as InsertProjectToDbOutput;
 	} catch (error) {
 		throw new Error(JSON.stringify({ status: 500, message: 'Error inserting project to DB' }));
 	}
