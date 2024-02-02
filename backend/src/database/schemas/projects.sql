@@ -1,0 +1,9 @@
+CREATE TABLE projects (
+    project_id UUID PRIMARY KEY,
+    title VARCHAR(256) NOT NULL,
+    description VARCHAR(256) NOT NULL,
+    year INT NOT NULL,
+    is_top BOOL DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
