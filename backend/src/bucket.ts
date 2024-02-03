@@ -1,6 +1,7 @@
 import {
 	CompleteMultipartUploadCommand,
 	CreateMultipartUploadCommand,
+	DeleteObjectCommand,
 	ListObjectsV2Command,
 	S3Client,
 	UploadPartCommand,
@@ -75,5 +76,13 @@ export class Bucket {
 		const list = await this.listAllContent();
 
 		return list.Contents?.filter((item) => item.Key?.match(entity));
+	}
+
+	async deleteItemByKey(key: string) {
+		try {
+			return await this.S3.send(new DeleteObjectCommand({ Bucket: this.BucketName, Key: key }));
+		} catch (error) {
+			console.log(error);
+		}
 	}
 }

@@ -4,6 +4,7 @@ import { uploadProjectHandler } from '../api/project/upload/project_upload_handl
 import { Env } from '..';
 import { listProjectsHandler } from '../api/project/list/project_list_handler';
 import { describeProjectHandler } from '../api/project/describe/project_describe_handler';
+import { deleteProjectHandler } from '../api/project/delete/project_delete_handler';
 
 function buildRouter(env: Env): RouterType {
 	const router = Router();
@@ -12,8 +13,9 @@ function buildRouter(env: Env): RouterType {
 	router.get('/project/list', corsMiddleware(listProjectsHandler));
 	router.get('/project/describe/:id', corsMiddleware(describeProjectHandler));
 	router.post('/project/upload', corsMiddleware(uploadProjectHandler));
+	router.delete('/project/delete/:id', corsMiddleware(deleteProjectHandler));
 
-	router.all('*', () => new Response(`${env.LIBSQL_DB_URL}`, { status: 404 }));
+	router.all('*', () => new Response('Request not found', { status: 404 }));
 
 	return router;
 }
