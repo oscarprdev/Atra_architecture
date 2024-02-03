@@ -1,8 +1,8 @@
-export interface User {
+export interface UserResponse {
 	email: string;
 	name: string;
-	password: string;
 	phone: number;
 	direction: string;
 	image: File;
+	createdAt: Date;
 }
