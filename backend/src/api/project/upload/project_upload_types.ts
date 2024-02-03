@@ -17,15 +17,3 @@ export interface UploadProjectOutput {
 	images: File[];
 	updatedAt: Date;
 }
-
-export interface UploadProjectAdapterOutput {
-	projectId: string;
-	title: string;
-	description: string;
-	year: number;
-	isTop: boolean;
-	createdAt: Date;
-	updatedAt: Date;
-	mainImage: File;
-	images: File[];
-}

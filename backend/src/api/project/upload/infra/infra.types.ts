@@ -37,15 +37,3 @@ export interface InsertProjectToDbOutput {
 	created_at: string;
 	updated_at: string;
 }
-
-export interface UploadProjectToInfraOutput {
-	project_id: string;
-	title: string;
-	description: string;
-	year: number;
-	is_top: number;
-	created_at: string;
-	updated_at: string;
-	mainImage?: _Object;
-	images: (_Object | undefined)[];
-}

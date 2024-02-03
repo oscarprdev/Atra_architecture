@@ -4,13 +4,14 @@ import { listProjectHandler } from '../api/project/project_list';
 import { describeProjectHandler } from '../api/project/project_describe';
 import { uploadProjectHandler } from '../api/project/upload/project_upload_handler';
 import { Env } from '..';
+import { listProjectsHandler } from '../api/project/list/project_list_handler';
 
 function buildRouter(env: Env): RouterType {
 	const router = Router();
 
 	// Project handlers
 	router.post('/project/upload', corsMiddleware(uploadProjectHandler));
-	router.get('/project/list/:project', corsMiddleware(listProjectHandler));
+	router.get('/project/list', corsMiddleware(listProjectsHandler));
 	router.get('/project/describe/:id', corsMiddleware(describeProjectHandler));
 
 	// router.get('/add-user', async (request) => {

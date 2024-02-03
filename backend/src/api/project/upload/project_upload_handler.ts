@@ -20,8 +20,6 @@ export async function uploadProjectHandler(request: Request, env: Env) {
 
 		const projectOutput = await uploadProjectAdapter(validInput, env);
 
-		console.log(projectOutput, 'project output');
-
 		return new Response(JSON.stringify(projectOutput), {
 			status: 201,
 		});

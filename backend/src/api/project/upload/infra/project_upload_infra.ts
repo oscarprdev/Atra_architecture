@@ -9,13 +9,13 @@ import {
 	InsertProjectToDbOutput,
 	InsertRelationProjectImageInput,
 	UploadProjectToInfraInput,
-	UploadProjectToInfraOutput,
 } from './infra.types';
+import { ProjectInfraResponse } from '../../common/project_types';
 
 async function uploadProjectToInfra(
 	{ title, description, year, isTop, mainImage, images }: UploadProjectToInfraInput,
 	env: Env
-): Promise<UploadProjectToInfraOutput> {
+): Promise<ProjectInfraResponse> {
 	const client = buildLibsqlClient(env);
 
 	const [mainImageUploaded, imagesUploaded, dbProject] = await Promise.all([
@@ -32,7 +32,7 @@ async function uploadProjectToInfra(
 
 	return {
 		...dbProject,
-		mainImage: mainImageUploaded,
+		main_image: mainImageUploaded,
 		images: imagesUploaded,
 	};
 }
@@ -57,7 +57,12 @@ async function insertProjectToDb(
 
 		return dbProject.rows[0] as unknown as InsertProjectToDbOutput;
 	} catch (error) {
-		throw new Error(JSON.stringify({ status: 500, message: 'Error inserting project to DB' }));
+		throw new Error(
+			JSON.stringify({
+				status: 500,
+				message: `Error SQL: ${error instanceof Error ? error.message : 'Error inserting project to DB'}`,
+			})
+		);
 	}
 }
 
@@ -84,7 +89,12 @@ async function insertImageToDb({ key, isMain, projectId }: InsertImagesToDbInput
 
 		return dbImage.rows[0];
 	} catch (error) {
-		throw new Error(JSON.stringify({ status: 500, message: 'Error inserting images to DB' }));
+		throw new Error(
+			JSON.stringify({
+				status: 500,
+				message: `Error SQL: ${error instanceof Error ? error.message : 'Error inserting images to DB'}`,
+			})
+		);
 	}
 }
 
@@ -98,7 +108,12 @@ async function insertRelationProjectImage({ projectId, imageId }: InsertRelation
 
 		return response.rows[0];
 	} catch (error) {
-		throw new Error(JSON.stringify({ status: 500, message: 'Error relationing project with image in DB' }));
+		throw new Error(
+			JSON.stringify({
+				status: 500,
+				message: `Error SQL: ${error instanceof Error ? error.message : 'Error relationing project with image in DB'}`,
+			})
+		);
 	}
 }
 

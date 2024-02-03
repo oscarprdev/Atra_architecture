@@ -24,7 +24,12 @@ async function uploadImageToBucket(image: File, project: string, env: Env) {
 
 		return await bucket.getItemByKey(key);
 	} catch (error) {
-		throw new Error(JSON.stringify({ status: 500, message: 'Error managing images on bucket' }));
+		throw new Error(
+			JSON.stringify({
+				status: 500,
+				message: `Error SQL: ${error instanceof Error ? error.message : 'Error managing images on bucket'}`,
+			})
+		);
 	}
 }
 
