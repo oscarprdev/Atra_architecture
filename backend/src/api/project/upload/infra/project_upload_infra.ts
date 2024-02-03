@@ -1,4 +1,4 @@
-import { Client, Value } from '@libsql/client/web';
+import { Client } from '@libsql/client/web';
 import buildLibsqlClient from '../../../../database';
 import { Env } from '../../../..';
 import { uploadImages, uploadMainImage } from './project_upload_infra_images';
