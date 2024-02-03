@@ -2,8 +2,7 @@ import { Client } from '@libsql/client/web';
 import { Env } from '../../../..';
 import { Bucket } from '../../../../bucket';
 import buildLibsqlClient from '../../../../database';
-import { ProjectDB } from './infra.types';
-import { ProjectInfraResponse } from '../../common/project_types';
+import { ProjectDB, ProjectInfraResponse } from '../../common/project_types';
 
 async function listProjectsInfra(env: Env): Promise<ProjectInfraResponse[]> {
 	const client = buildLibsqlClient(env);
