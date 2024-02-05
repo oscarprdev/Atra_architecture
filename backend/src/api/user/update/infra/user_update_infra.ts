@@ -62,7 +62,7 @@ async function updateUserIntoDb({ email, name, phone, direction, imageKey, id }:
                         name = ?,
                         phone = ?,
                         direction = ?,
-                        key_image = ?,
+                        key_image = ?
                     WHERE user_id = ?;
                 `,
 			args: [email, name, phone, direction, imageKey, id],

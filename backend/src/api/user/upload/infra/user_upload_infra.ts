@@ -3,8 +3,9 @@ import { Env } from '../../../..';
 import buildLibsqlClient from '../../../../database';
 import uploadImageToBucket from '../../../project/common/upload_image';
 import { User } from '../user_upload_types';
-import { InsertUserToDbInput, UploadUserInfraResponse, UserDBResponse } from './infra.types';
+import { InsertUserToDbInput, UploadUserInfraResponse } from './infra.types';
 import hashPassword from '../../../../utils/hash_password';
+import { UserDBResponse } from '../../common/user_types';
 
 async function uploadUserInfra({ email, password, name, phone, direction, image }: User, env: Env): Promise<UploadUserInfraResponse> {
 	const client = buildLibsqlClient(env);
