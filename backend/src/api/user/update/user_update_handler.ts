@@ -3,6 +3,8 @@ import extractErrorInfo from '../../../utils/extract_from_error_info';
 import { Env } from '../../..';
 import { UserUpdateInput } from './user_update_types';
 import updateUserAdapter from './user_update_adapter';
+import { ApiResponse } from '../../response';
+import { UserResponse } from '../common/user_types';
 
 export async function updateUserHandler(request: Request, env: Env) {
 	try {
@@ -19,7 +21,12 @@ export async function updateUserHandler(request: Request, env: Env) {
 
 			const projectOutput = await updateUserAdapter(validInput, env);
 
-			return new Response(JSON.stringify(projectOutput), {
+			const apiResponse: ApiResponse<UserResponse> = {
+				response: 'User info updated successfully',
+				data: projectOutput,
+			};
+
+			return new Response(JSON.stringify(apiResponse), {
 				status: 201,
 			});
 		}

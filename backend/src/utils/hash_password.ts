@@ -1,4 +1,3 @@
-import { Env } from '..';
 import hexStringToUint8Array from './hex_string_to_uin_array';
 
 async function hashPassword(password: string, hexSalt: string): Promise<string> {

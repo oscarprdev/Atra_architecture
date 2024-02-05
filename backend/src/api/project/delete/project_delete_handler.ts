@@ -3,7 +3,8 @@ import { Env } from '../../..';
 import { RequestParams } from '../../../types';
 import { z } from 'zod';
 import deleteProjectAdapter from './project_delete_adapter';
-import { DeleteProjectInput } from './project_delete_types';
+import { DeleteProjectInput, ProjectDeleteResponse } from './project_delete_types';
+import { ApiResponse } from '../../response';
 
 export async function deleteProjectHandler(request: Request, env: Env) {
 	try {
@@ -12,7 +13,12 @@ export async function deleteProjectHandler(request: Request, env: Env) {
 
 		const projectOutput = await deleteProjectAdapter(validInput.id, env);
 
-		return new Response(JSON.stringify(projectOutput), {
+		const apiResponse: ApiResponse<ProjectDeleteResponse> = {
+			response: 'Project deleted successfully',
+			data: projectOutput,
+		};
+
+		return new Response(JSON.stringify(apiResponse), {
 			status: 202,
 		});
 	} catch (error: unknown) {

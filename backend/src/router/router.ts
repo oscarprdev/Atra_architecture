@@ -8,6 +8,7 @@ import { deleteProjectHandler } from '../api/project/delete/project_delete_handl
 import { uploadUserHandler } from '../api/user/upload/user_upload_handler';
 import { describeUserHandler } from '../api/user/describe/user_describe_handler';
 import { updateUserHandler } from '../api/user/update/user_update_handler';
+import { updatePasswordUserHandler } from '../api/user/update-password/user_update_passowod_handler';
 
 function buildRouter(env: Env): RouterType {
 	const router = Router();
@@ -22,6 +23,7 @@ function buildRouter(env: Env): RouterType {
 	router.get('/user/describe', corsMiddleware(describeUserHandler));
 	router.post('/user/upload', corsMiddleware(uploadUserHandler));
 	router.put('/user/update', corsMiddleware(updateUserHandler));
+	router.put('/user/update/password', corsMiddleware(updatePasswordUserHandler));
 
 	router.all('*', () => new Response('Request not found', { status: 404 }));
 

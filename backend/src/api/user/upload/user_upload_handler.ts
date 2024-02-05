@@ -3,6 +3,8 @@ import extractErrorInfo from '../../../utils/extract_from_error_info';
 import { Env } from '../../..';
 import { User } from './user_upload_types';
 import uploadUserAdapter from './user_upload_adapter';
+import { ApiResponse } from '../../response';
+import { UserResponse } from '../common/user_types';
 
 export async function uploadUserHandler(request: Request, env: Env) {
 	try {
@@ -19,7 +21,12 @@ export async function uploadUserHandler(request: Request, env: Env) {
 
 		const projectOutput = await uploadUserAdapter(validInput, env);
 
-		return new Response(JSON.stringify(projectOutput), {
+		const apiResponse: ApiResponse<UserResponse> = {
+			response: 'User uploaded successfully',
+			data: projectOutput,
+		};
+
+		return new Response(JSON.stringify(apiResponse), {
 			status: 201,
 		});
 	} catch (error: unknown) {

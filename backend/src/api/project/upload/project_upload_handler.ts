@@ -4,6 +4,8 @@ import extractErrorInfo from '../../../utils/extract_from_error_info';
 import uploadProjectAdapter from './project_upload_adapter';
 import { ProjectInput } from './project_upload_types';
 import { Env } from '../../..';
+import { ProjectResponse } from '../common/project_types';
+import { ApiResponse } from '../../response';
 
 export async function uploadProjectHandler(request: Request, env: Env) {
 	try {
@@ -20,7 +22,12 @@ export async function uploadProjectHandler(request: Request, env: Env) {
 
 		const projectOutput = await uploadProjectAdapter(validInput, env);
 
-		return new Response(JSON.stringify(projectOutput), {
+		const apiResponse: ApiResponse<ProjectResponse> = {
+			response: 'Project uploaded successfully',
+			data: projectOutput,
+		};
+
+		return new Response(JSON.stringify(apiResponse), {
 			status: 201,
 		});
 	} catch (error: unknown) {

@@ -4,6 +4,8 @@ import { RequestParams } from '../../../types';
 import { z } from 'zod';
 import { ListProjectInput } from './project_describe_types';
 import describeProjectAdapter from './project_describe_adapter';
+import { ApiResponse } from '../../response';
+import { ProjectResponse } from '../common/project_types';
 
 export async function describeProjectHandler(request: Request, env: Env) {
 	try {
@@ -12,7 +14,12 @@ export async function describeProjectHandler(request: Request, env: Env) {
 
 		const projectOutput = await describeProjectAdapter(validInput.id, env);
 
-		return new Response(JSON.stringify(projectOutput), {
+		const apiResponse: ApiResponse<ProjectResponse> = {
+			response: 'Project retrieved successfully',
+			data: projectOutput,
+		};
+
+		return new Response(JSON.stringify(apiResponse), {
 			status: 200,
 		});
 	} catch (error: unknown) {
