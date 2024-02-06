@@ -1,4 +1,4 @@
-description: Returns user created
+description: Returns JWT
 content:
   application/json:
     schema:
@@ -6,13 +6,14 @@ content:
       required:
         - status
         - response
-        - user
+        - data
       properties:
         status:
           type: integer
           example: 201
         response:
           type: string
-          example: 'User created successfully'
-        user:
-          $ref: 'components/_index.yaml#/schemas/User'
+          example: 'User logged successfully'
+        data:
+          type: string
+          example: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9'

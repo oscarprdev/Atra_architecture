@@ -19,6 +19,9 @@ responses:
   UpdateUserPasswordResponse:
     $ref: 'components/responses/UpdateUserPasswordResponse.yaml'
 
+  LoginUserResponse:
+    $ref: 'components/responses/LoginUserResponse.yaml'
+
 schemas:
   # Common
   Error:
@@ -35,3 +38,6 @@ schemas:
 
   UpdateUserPasswordBody:
     $ref: 'components/schemas/UpdateUserPasswordBody.yaml'
+
+  LoginUserBody:
+    $ref: 'components/schemas/LoginUserBody.yaml'

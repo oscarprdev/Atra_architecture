@@ -1,0 +1,15 @@
+type: object
+required:
+  - password
+  - email
+properties:
+  password:
+    type: string
+    description: 'Password.'
+    nullable: false
+    example: '9876'
+  email:
+    type: string
+    description: 'Email.'
+    nullable: false
+    example: 'email@email.com'

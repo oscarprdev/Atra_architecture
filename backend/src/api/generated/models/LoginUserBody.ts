@@ -2,14 +2,14 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type Error = {
+export type LoginUserBody = {
     /**
-     * Response code
+     * Password.
      */
-    status: number;
+    password: string;
     /**
-     * Error details
+     * Email.
      */
-    details: string;
+    email: string;
 };
 

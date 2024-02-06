@@ -1,4 +1,11 @@
 type: object
+required:
+  - id
+  - email
+  - name
+  - phone
+  - image
+  - createdAt
 properties:
   id:
     type: string

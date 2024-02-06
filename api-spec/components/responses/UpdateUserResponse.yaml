@@ -3,9 +3,16 @@ content:
   application/json:
     schema:
       type: object
+      required:
+        - status
+        - response
+        - data
       properties:
         status:
           type: integer
           example: 201
-        user:
+        response:
+          type: string
+          example: 'User updated successfully'
+        data:
           $ref: 'components/_index.yaml#/schemas/User'

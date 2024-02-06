@@ -1,16 +1,16 @@
-put:
+post:
   tags:
     - Users
-  description: Update user password
+  description: Login user
   requestBody:
     required: true
     content:
       application/json:
         schema:
-          $ref: 'components/_index.yaml#/schemas/UpdateUserPasswordBody'
+          $ref: 'components/_index.yaml#/schemas/LoginUserBody'
   responses:
     '201':
-      $ref: 'components/_index.yaml#/responses/UpdateUserPasswordResponse'
+      $ref: 'components/_index.yaml#/responses/LoginUserResponse'
     '400':
       $ref: 'components/_index.yaml#/responses/BadRequestResponse'
     '500':
