@@ -1,3 +1,9 @@
 # Users
+'/user/describe':
+  $ref: 'paths/users/user_describe.yaml'
+
 '/user/create':
   $ref: 'paths/users/user_create.yaml'
+
+'/user/update':
+  $ref: 'paths/users/user_update.yaml'

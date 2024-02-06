@@ -7,8 +7,14 @@ responses:
     $ref: 'components/responses/InternalErrorResponse.yaml'
 
   # Users
+  DescribeUserResponse:
+    $ref: 'components/responses/DescribeUserResponse.yaml'
+
   CreateUserResponse:
     $ref: 'components/responses/CreateUserResponse.yaml'
+
+  UpdateUserResponse:
+    $ref: 'components/responses/UpdateUserResponse.yaml'
 
 schemas:
   # Common
@@ -20,3 +26,6 @@ schemas:
 
   CreateUserBody:
     $ref: 'components/schemas/CreateUserBody.yaml'
+
+  UpdateUserBody:
+    $ref: 'components/schemas/UpdateUserBody.yaml'

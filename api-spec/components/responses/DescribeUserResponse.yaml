@@ -1,4 +1,4 @@
-description: Returns user created
+description: Returns user info
 content:
   application/json:
     schema:
@@ -6,6 +6,6 @@ content:
       properties:
         status:
           type: integer
-          example: 201
+          example: 200
         user:
           $ref: 'components/_index.yaml#/schemas/User'

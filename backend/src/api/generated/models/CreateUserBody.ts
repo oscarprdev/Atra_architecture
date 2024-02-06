@@ -6,22 +6,26 @@ export type CreateUserBody = {
     /**
      * Email.
      */
-    email?: string;
+    email: string;
     /**
      * Password.
      */
-    password?: string;
+    password: string;
+    /**
+     * User name.
+     */
+    name: string;
     /**
      * Direction.
      */
-    direction?: string;
+    direction: string;
     /**
      * Phone number.
      */
-    phone?: number;
+    phone: number;
     /**
      * User image.
      */
-    image?: Blob;
+    image: Blob;
 };
 

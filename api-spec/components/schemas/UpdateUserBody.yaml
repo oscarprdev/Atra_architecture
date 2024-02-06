@@ -1,7 +1,6 @@
 type: object
 required:
   - email
-  - password
   - name
   - direction
   - phone
@@ -12,11 +11,6 @@ properties:
     description: 'Email.'
     nullable: false
     example: 'email@email.com'
-  password:
-    type: string
-    description: 'Password.'
-    nullable: false
-    example: '12asj23'
   name:
     type: string
     description: 'User name.'

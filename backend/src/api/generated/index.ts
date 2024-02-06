@@ -5,4 +5,5 @@
 
 export type { CreateUserBody } from './models/CreateUserBody';
 export type { Error } from './models/Error';
+export type { UpdateUserBody } from './models/UpdateUserBody';
 export type { User } from './models/User';

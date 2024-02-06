@@ -1,0 +1,17 @@
+put:
+  tags:
+    - Users
+  description: Update user
+  requestBody:
+    required: true
+    content:
+      multipart/form-data:
+        schema:
+          $ref: 'components/_index.yaml#/schemas/UpdateUserBody'
+  responses:
+    '201':
+      $ref: 'components/_index.yaml#/responses/UpdateUserResponse'
+    '400':
+      $ref: 'components/_index.yaml#/responses/BadRequestResponse'
+    '500':
+      $ref: 'components/_index.yaml#/responses/InternalErrorResponse'
