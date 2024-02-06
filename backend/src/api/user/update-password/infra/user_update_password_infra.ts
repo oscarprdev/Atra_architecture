@@ -3,7 +3,7 @@ import { Env } from '../../../..';
 import buildLibsqlClient from '../../../../database';
 import { UserPasswordUpdateInput } from '../user_update_password_types';
 import { UserDBResponse } from '../../common/user_types';
-import verifyOldPassword from '../../../../utils/verify_password';
+import verifyPassword from '../../../../utils/verify_password';
 import hashPassword from '../../../../utils/hash_password';
 
 async function updatePasswordUserInfra(input: UserPasswordUpdateInput, env: Env): Promise<UserDBResponse> {
@@ -11,7 +11,7 @@ async function updatePasswordUserInfra(input: UserPasswordUpdateInput, env: Env)
 
 	const userdb = await selectUserFromDb(client);
 
-	const isPasswordValid = await verifyOldPassword(input.oldPassword, env.SALT, userdb.password_hash);
+	const isPasswordValid = await verifyPassword(input.oldPassword, env.SALT, userdb.password_hash);
 
 	if (!isPasswordValid) {
 		throw new Error(

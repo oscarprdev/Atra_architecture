@@ -5,6 +5,7 @@ export interface Env {
 	LIBSQL_DB_URL?: string;
 	LIBSQL_DB_AUTH_TOKEN?: string;
 	SALT: string;
+	SECRET: string;
 	BUCKET: string;
 	S3_API_URL: string;
 	S3_ACCESS_KEY_ID: string;

@@ -9,6 +9,7 @@ import { uploadUserHandler } from '../api/user/upload/user_upload_handler';
 import { describeUserHandler } from '../api/user/describe/user_describe_handler';
 import { updateUserHandler } from '../api/user/update/user_update_handler';
 import { updatePasswordUserHandler } from '../api/user/update-password/user_update_passowod_handler';
+import { userLoginHandler } from '../api/user/login/user_login_handler';
 
 function buildRouter(env: Env): RouterType {
 	const router = Router();
@@ -22,6 +23,7 @@ function buildRouter(env: Env): RouterType {
 	// User handlers
 	router.get('/user/describe', corsMiddleware(describeUserHandler));
 	router.post('/user/upload', corsMiddleware(uploadUserHandler));
+	router.post('/user/login', corsMiddleware(userLoginHandler));
 	router.put('/user/update', corsMiddleware(updateUserHandler));
 	router.put('/user/update/password', corsMiddleware(updatePasswordUserHandler));
 

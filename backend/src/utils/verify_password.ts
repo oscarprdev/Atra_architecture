@@ -1,6 +1,6 @@
 import hexStringToUint8Array from './hex_string_to_uin_array';
 
-async function verifyOldPassword(inputPassword: string, hexSalt: string, hashedPassword: string): Promise<boolean> {
+async function verifyPassword(inputPassword: string, hexSalt: string, hashedPassword: string): Promise<boolean> {
 	const encoder = new TextEncoder();
 
 	const inputPasswordBuffer = encoder.encode(inputPassword);
@@ -20,4 +20,4 @@ async function verifyOldPassword(inputPassword: string, hexSalt: string, hashedP
 	return hashedInputPassword === hashedPassword;
 }
 
-export default verifyOldPassword;
+export default verifyPassword;

@@ -11,6 +11,9 @@ dependencies:
   '@libsql/client':
     specifier: ^0.4.3
     version: 0.4.3
+  '@tsndr/cloudflare-worker-jwt':
+    specifier: ^2.4.5
+    version: 2.4.5
   itty-router:
     specifier: ^4.0.27
     version: 4.0.27
@@ -1527,6 +1530,10 @@ packages:
       '@smithy/abort-controller': 2.1.1
       '@smithy/types': 2.9.1
       tslib: 2.6.2
+    dev: false
+
+  /@tsndr/cloudflare-worker-jwt@2.4.5:
+    resolution: {integrity: sha512-XLujJR463BLHNMfGJY0jsmw7ZPbicuk5UNJofldZEWbMsWXYWOoX0bpq3vZ87uSSi5By3CH0+7KyJ/26XSlVGQ==}
     dev: false
 
   /@types/node-fetch@2.6.11:
