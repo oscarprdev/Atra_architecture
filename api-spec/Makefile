@@ -7,9 +7,8 @@ serve:
 
 generate:
 	make compile && \
-	oapi-codegen \
-		-generate 'types, server, strict-server' \
-		-package short_url compiled.yaml > ../backend/api/generared/api_generated.ts
+	npx openapi-typescript-codegen \
+	--input ./compiled.yaml --output ../backend/src/api/generated --exportCore false --exportServices false
 
 compile:
 	multi-file-swagger -o yaml index.yaml > compiled_tmp1.yaml && \

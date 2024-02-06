@@ -15,5 +15,8 @@ schemas:
   Error:
     $ref: 'components/schemas/Error.yaml'
 
+  User:
+    $ref: 'components/schemas/User.yaml'
+
   CreateUserBody:
     $ref: 'components/schemas/CreateUserBody.yaml'
