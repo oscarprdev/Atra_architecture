@@ -7,3 +7,6 @@
 
 '/user/update':
   $ref: 'paths/users/user_update.yaml'
+
+'/user/update/password':
+  $ref: 'paths/users/user_update_password.yaml'
