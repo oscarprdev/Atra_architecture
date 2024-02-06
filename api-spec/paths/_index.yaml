@@ -1,0 +1,3 @@
+# Users
+'/user/create':
+  $ref: 'paths/users/user_create.yaml'

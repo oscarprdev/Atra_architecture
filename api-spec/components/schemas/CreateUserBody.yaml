@@ -1,0 +1,28 @@
+type: object
+properties:
+  email:
+    type: string
+    description: 'Email.'
+    nullable: false
+    example: 'email@email.com'
+  password:
+    type: string
+    description: 'Password.'
+    nullable: false
+    example: '12asj23'
+  direction:
+    type: string
+    description: 'Direction.'
+    nullable: false
+    example: 'C/ San benito N 10-B'
+  phone:
+    type: number
+    description: 'Phone number.'
+    nullable: false
+    example: 679123046
+  image:
+    type: string
+    format: binary
+    description: 'User image.'
+    nullable: false
+    example: ''

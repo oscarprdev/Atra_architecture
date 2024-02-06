@@ -1,0 +1,19 @@
+responses:
+  # Common
+  BadRequestResponse:
+    $ref: 'components/responses/BadRequestResponse.yaml'
+
+  InternalErrorResponse:
+    $ref: 'components/responses/InternalErrorResponse.yaml'
+
+  # Users
+  CreateUserResponse:
+    $ref: 'components/responses/CreateUserResponse.yaml'
+
+schemas:
+  # Common
+  Error:
+    $ref: 'components/schemas/Error.yaml'
+
+  CreateUserBody:
+    $ref: 'components/schemas/CreateUserBody.yaml'

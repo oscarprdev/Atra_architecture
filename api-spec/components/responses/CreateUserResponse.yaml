@@ -1,0 +1,11 @@
+description: Returns user created
+content:
+  application/json:
+    schema:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 200
+        user:
+          $ref: 'components/_index.yaml#/schemas/User'
