@@ -1,0 +1,26 @@
+description: Returns project id deleted
+content:
+  application/json:
+    schema:
+      type: object
+      required:
+        - status
+        - response
+        - data
+      properties:
+        status:
+          type: integer
+          example: 202
+        response:
+          type: string
+          example: 'Project deleted successfully'
+        data:
+          type: object
+          required:
+            - id
+          properties:
+            id:
+              type: string
+              description: 'Project id deleted.'
+              nullable: false
+              example: 'fb8f6e09-d550-4358-a288-222406c594cb'

@@ -11,7 +11,7 @@ properties:
     type: string
     description: 'The unique identifier for the user.'
     nullable: false
-    example: '615175183151032984302'
+    example: 'fb8f6e09-d550-4358-a288-222406c594cb'
   email:
     type: string
     format: email

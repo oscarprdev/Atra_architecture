@@ -3,6 +3,6 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * ID of the resource to describe
+ * ID of the resource
  */
 export type Id = string;

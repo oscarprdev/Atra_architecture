@@ -1,0 +1,13 @@
+delete:
+  tags:
+    - Projects
+  parameters:
+    - $ref: 'components/_index.yaml#/parameters/Id'
+  description: Delete project
+  responses:
+    '202':
+      $ref: 'components/_index.yaml#/responses/DeleteProjectResponse'
+    '400':
+      $ref: 'components/_index.yaml#/responses/BadRequestResponse'
+    '500':
+      $ref: 'components/_index.yaml#/responses/InternalErrorResponse'
