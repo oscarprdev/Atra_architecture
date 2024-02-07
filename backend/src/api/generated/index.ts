@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
+export type { CreateProjectBody } from './models/CreateProjectBody';
 export type { CreateUserBody } from './models/CreateUserBody';
 export type { Error } from './models/Error';
 export type { File } from './models/File';

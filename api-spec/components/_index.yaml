@@ -33,6 +33,9 @@ responses:
   DescribeProjectResponse:
     $ref: 'components/responses/DescribeProjectResponse.yaml'
 
+  CreateProjectResponse:
+    $ref: 'components/responses/CreateProjectResponse.yaml'
+
 schemas:
   # Common
   Error:
@@ -60,3 +63,6 @@ schemas:
   # Projects
   Project:
     $ref: 'components/schemas/Project.yaml'
+
+  CreateProjectBody:
+    $ref: 'components/schemas/CreateProjectBody.yaml'

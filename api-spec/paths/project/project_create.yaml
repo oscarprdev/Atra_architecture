@@ -1,0 +1,17 @@
+post:
+  tags:
+    - Projects
+  description: Create project
+  requestBody:
+    required: true
+    content:
+      multipart/form-data:
+        schema:
+          $ref: 'components/_index.yaml#/schemas/CreateProjectBody'
+  responses:
+    '201':
+      $ref: 'components/_index.yaml#/responses/CreateProjectResponse'
+    '400':
+      $ref: 'components/_index.yaml#/responses/BadRequestResponse'
+    '500':
+      $ref: 'components/_index.yaml#/responses/InternalErrorResponse'

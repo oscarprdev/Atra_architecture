@@ -1,4 +1,4 @@
-description: Returns user created
+description: Returns project created
 content:
   application/json:
     schema:
@@ -13,6 +13,6 @@ content:
           example: 201
         response:
           type: string
-          example: 'User created successfully'
+          example: 'Project created successfully'
         data:
-          $ref: 'components/_index.yaml#/schemas/User'
+          $ref: 'components/_index.yaml#/schemas/Project'

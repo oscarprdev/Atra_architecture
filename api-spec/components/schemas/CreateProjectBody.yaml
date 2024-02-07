@@ -1,0 +1,35 @@
+type: object
+required:
+  - title
+  - description
+  - year
+  - isTop
+  - mainImage
+  - images
+properties:
+  title:
+    type: string
+    description: "The project's title."
+    nullable: false
+    example: 'Project title'
+  description:
+    type: string
+    description: "The project's description."
+    nullable: false
+    example: 'Project description'
+  year:
+    type: number
+    description: "The project's year."
+    nullable: false
+    example: 2012
+  isTop:
+    type: boolean
+    description: 'Flag of project top.'
+    nullable: false
+    example: true
+  mainImage:
+    $ref: 'components/_index.yaml#/schemas/File'
+  images:
+    type: array
+    items:
+      $ref: 'components/_index.yaml#/schemas/File'

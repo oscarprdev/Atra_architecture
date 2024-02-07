@@ -20,3 +20,6 @@
 
 '/project/describe/{id}':
   $ref: 'paths/project/project_describe.yaml'
+
+'/project/create':
+  $ref: 'paths/project/project_create.yaml'
