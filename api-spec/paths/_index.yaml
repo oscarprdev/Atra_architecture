@@ -13,3 +13,7 @@
 
 '/user/login':
   $ref: 'paths/users/user_login.yaml'
+
+# Projects
+'/project/list':
+  $ref: 'paths/project/project_list.yaml'

@@ -22,11 +22,16 @@ responses:
   LoginUserResponse:
     $ref: 'components/responses/LoginUserResponse.yaml'
 
+  # Projects
+  DescribeProjectsListResponse:
+    $ref: 'components/responses/DescribeProjectsListResponse.yaml'
+
 schemas:
   # Common
   Error:
     $ref: 'components/schemas/Error.yaml'
 
+  # User
   User:
     $ref: 'components/schemas/User.yaml'
 
@@ -41,3 +46,7 @@ schemas:
 
   LoginUserBody:
     $ref: 'components/schemas/LoginUserBody.yaml'
+
+  # Projects
+  Project:
+    $ref: 'components/schemas/Project.yaml'

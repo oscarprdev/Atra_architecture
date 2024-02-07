@@ -1,0 +1,11 @@
+get:
+  tags:
+    - Projects
+  description: Get projects list
+  responses:
+    '200':
+      $ref: 'components/_index.yaml#/responses/DescribeProjectsListResponse'
+    '400':
+      $ref: 'components/_index.yaml#/responses/BadRequestResponse'
+    '500':
+      $ref: 'components/_index.yaml#/responses/InternalErrorResponse'
