@@ -1,0 +1,13 @@
+get:
+  tags:
+    - Projects
+  parameters:
+    - $ref: 'components/_index.yaml#/parameters/Id'
+  description: Get project info
+  responses:
+    '200':
+      $ref: 'components/_index.yaml#/responses/DescribeProjectResponse'
+    '400':
+      $ref: 'components/_index.yaml#/responses/BadRequestResponse'
+    '500':
+      $ref: 'components/_index.yaml#/responses/InternalErrorResponse'

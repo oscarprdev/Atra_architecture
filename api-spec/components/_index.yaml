@@ -1,3 +1,7 @@
+parameters:
+  Id:
+    $ref: 'components/parameters/Id.yaml'
+
 responses:
   # Common
   BadRequestResponse:
@@ -25,6 +29,9 @@ responses:
   # Projects
   DescribeProjectsListResponse:
     $ref: 'components/responses/DescribeProjectsListResponse.yaml'
+
+  DescribeProjectResponse:
+    $ref: 'components/responses/DescribeProjectResponse.yaml'
 
 schemas:
   # Common

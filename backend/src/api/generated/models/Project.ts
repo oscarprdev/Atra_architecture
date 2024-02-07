@@ -31,10 +31,28 @@ export type Project = {
      * The timestamp when the project was updated.
      */
     updatedAt: string;
-    /**
-     * The project's file of main image.
-     */
-    mainImage: Blob;
+    mainImage: {
+        /**
+         * Image key
+         */
+        Key: string;
+        /**
+         * The timestamp when the iamge was modified.
+         */
+        LastModified: string;
+        /**
+         * Image etag
+         */
+        ETag: string;
+        /**
+         * Image size
+         */
+        Size: number;
+        /**
+         * Image storage class
+         */
+        StorageClass: string;
+    };
     images: Array<{
         /**
          * Image key

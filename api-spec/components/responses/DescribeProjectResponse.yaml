@@ -1,4 +1,4 @@
-description: Returns projects list
+description: Returns project info
 content:
   application/json:
     schema:
@@ -13,8 +13,6 @@ content:
           example: 200
         response:
           type: string
-          example: Projects list retrieved successfully'
+          example: Project retrieved successfully'
         data:
-          type: array
-          items:
-            $ref: 'components/_index.yaml#/schemas/Project'
+          $ref: 'components/_index.yaml#/schemas/Project'

@@ -48,11 +48,7 @@ properties:
     nullable: false
     example: '2024-01-10T19:14:04.489431Z'
   mainImage:
-    type: string
-    format: binary
-    description: "The project's file of main image."
-    nullable: false
-    example: ''
+    $ref: 'components/_index.yaml#/schemas/File'
   images:
     type: array
     items:

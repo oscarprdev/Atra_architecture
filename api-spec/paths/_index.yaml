@@ -17,3 +17,6 @@
 # Projects
 '/project/list':
   $ref: 'paths/project/project_list.yaml'
+
+'/project/describe/{id}':
+  $ref: 'paths/project/project_describe.yaml'
