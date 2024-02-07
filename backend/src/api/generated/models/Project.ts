@@ -2,24 +2,40 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type User = {
+export type Project = {
     /**
-     * The unique identifier for the user.
+     * The unique identifier for the project.
      */
     id: string;
     /**
-     * The user's email.
+     * The project's title.
      */
-    email: string;
+    title: string;
     /**
-     * The user's complete name.
+     * The project's description.
      */
-    name: string;
+    description: string;
     /**
-     * The user's phone number.
+     * The project's year.
      */
-    phone: number;
-    image: {
+    year: number;
+    /**
+     * Flag of project top.
+     */
+    isTop: boolean;
+    /**
+     * The timestamp when the project was created.
+     */
+    createdAt: string;
+    /**
+     * The timestamp when the project was updated.
+     */
+    updatedAt: string;
+    /**
+     * The project's file of main image.
+     */
+    mainImage: Blob;
+    images: Array<{
         /**
          * Image key
          */
@@ -40,10 +56,6 @@ export type User = {
          * Image storage class
          */
         StorageClass: string;
-    };
-    /**
-     * The timestamp when the user was created.
-     */
-    createdAt: string;
+    }>;
 };
 

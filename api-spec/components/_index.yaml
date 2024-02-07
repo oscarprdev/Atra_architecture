@@ -31,6 +31,9 @@ schemas:
   Error:
     $ref: 'components/schemas/Error.yaml'
 
+  File:
+    $ref: 'components/schemas/File.yaml'
+
   # User
   User:
     $ref: 'components/schemas/User.yaml'

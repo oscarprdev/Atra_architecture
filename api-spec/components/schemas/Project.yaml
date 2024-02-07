@@ -56,8 +56,4 @@ properties:
   images:
     type: array
     items:
-      type: string
-      format: binary
-      description: "The project's file of an image."
-      nullable: false
-      example: ''
+      $ref: 'components/_index.yaml#/schemas/File'

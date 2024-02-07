@@ -29,11 +29,7 @@ properties:
     nullable: false
     example: 678120351
   image:
-    type: string
-    format: binary
-    description: "The user's file image."
-    nullable: false
-    example: ''
+    $ref: 'components/_index.yaml#/schemas/File'
   createdAt:
     type: string
     format: date-time
