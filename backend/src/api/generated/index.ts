@@ -10,6 +10,7 @@ export type { File } from './models/File';
 export type { Id } from './models/Id';
 export type { LoginUserBody } from './models/LoginUserBody';
 export type { Project } from './models/Project';
+export type { UpdateProjectBody } from './models/UpdateProjectBody';
 export type { UpdateUserBody } from './models/UpdateUserBody';
 export type { UpdateUserPasswordBody } from './models/UpdateUserPasswordBody';
 export type { User } from './models/User';

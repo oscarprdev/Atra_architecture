@@ -24,8 +24,8 @@
 '/project/create':
   $ref: 'paths/project/project_create.yaml'
 
-'/project/delete/{id}':
-  $ref: 'paths/project/project_delete.yaml'
-
 '/project/update/{id}':
   $ref: 'paths/project/project_update.yaml'
+
+'/project/delete/{id}':
+  $ref: 'paths/project/project_delete.yaml'
