@@ -1,0 +1,17 @@
+put:
+  tags:
+    - Projects
+  description: Update project
+  requestBody:
+    required: true
+    content:
+      multipart/form-data:
+        schema:
+          $ref: 'components/_index.yaml#/schemas/UpdateProjectBody'
+  responses:
+    '201':
+      $ref: 'components/_index.yaml#/responses/UpdateProjectResponse'
+    '400':
+      $ref: 'components/_index.yaml#/responses/BadRequestResponse'
+    '500':
+      $ref: 'components/_index.yaml#/responses/InternalErrorResponse'

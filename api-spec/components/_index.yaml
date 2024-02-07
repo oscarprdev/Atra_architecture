@@ -39,6 +39,9 @@ responses:
   DeleteProjectResponse:
     $ref: 'components/responses/DeleteProjectResponse.yaml'
 
+  UpdateProjectResponse:
+    $ref: 'components/responses/UpdateProjectResponse.yaml'
+
 schemas:
   # Common
   Error:
@@ -69,3 +72,6 @@ schemas:
 
   CreateProjectBody:
     $ref: 'components/schemas/CreateProjectBody.yaml'
+
+  UpdateProjectBody:
+    $ref: 'components/schemas/UpdateProjectBody.yaml'

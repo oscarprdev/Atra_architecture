@@ -26,3 +26,6 @@
 
 '/project/delete/{id}':
   $ref: 'paths/project/project_delete.yaml'
+
+'/project/update/{id}':
+  $ref: 'paths/project/project_udpate.yaml'

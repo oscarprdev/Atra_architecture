@@ -1,0 +1,18 @@
+description: Returns project updated
+content:
+  application/json:
+    schema:
+      type: object
+      required:
+        - status
+        - response
+        - data
+      properties:
+        status:
+          type: integer
+          example: 201
+        response:
+          type: string
+          example: 'Project updated successfully'
+        data:
+          $ref: 'components/_index.yaml#/schemas/Project'
