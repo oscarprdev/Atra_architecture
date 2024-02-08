@@ -1,7 +1,9 @@
 import { CreateProjectHttpAdapter } from '../adapters/create/create_project.http_adapter';
 import { DescribeProjectHttpAdapter } from '../adapters/describe/describe_project.http_adapter';
+import { ListProjectHttpAdapter } from '../adapters/list/project_list.http_adapter';
 import { DefaultProjectCreateUsecases } from '../application/create/project_create.usecases';
 import { DefaultProjectDescribeUsecases } from '../application/describe/project_describe.usecases';
+import { DefaultProjectListUsecases } from '../application/list/project_list.usecases';
 import { DefaultBucketInfra } from '../infra/bucket_infra';
 import { DefaultProjectInfra } from '../infra/project_infra';
 
@@ -15,3 +17,7 @@ export const projectDescribeUsecase = new DefaultProjectDescribeUsecases(project
 // Create project usecase dependency injection
 const projectCreateAdapter = new CreateProjectHttpAdapter(projectInfra, bucketInfra);
 export const projectCreateUsecase = new DefaultProjectCreateUsecases(projectCreateAdapter);
+
+// List project usecase dependency injection
+const projectListAdapter = new ListProjectHttpAdapter(projectInfra, bucketInfra);
+export const projectListUsecase = new DefaultProjectListUsecases(projectListAdapter);

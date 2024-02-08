@@ -1,5 +1,6 @@
 import { Env } from '../../../..';
 import { File } from '../../../generated';
+import { ProjectResponse } from '../../common/project_types';
 
 export interface ProjectCreatePorts {
 	insertProject(input: InsertProjectPorts.Input): Promise<InsertProjectPorts.Output>;
@@ -23,16 +24,6 @@ export namespace InsertProjectPorts {
 		description: string;
 		isTop: boolean;
 		env: Env;
-	};
-
-	export type ProjectResponse = {
-		id: string;
-		title: string;
-		year: number;
-		description: string;
-		isTop: boolean;
-		createdAt: string;
-		updatedAt: string;
 	};
 }
 

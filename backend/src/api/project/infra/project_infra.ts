@@ -4,11 +4,13 @@ import buildLibsqlClient from '../../../database';
 import extractErrorInfo from '../../../utils/extract_from_error_info';
 import { CreateProjectInfra } from './models/create_project';
 import { InsertImageInfra } from './models/insert_image';
+import { ListProjectInfra } from './models/list_project';
 
 export interface ProjectInfra {
 	describeProject(input: DescribeProjectInfra.Input): Promise<DescribeProjectInfra.Output>;
 	createProject(input: CreateProjectInfra.Input): Promise<CreateProjectInfra.Output>;
 	insertImage(input: InsertImageInfra.Input): Promise<InsertImageInfra.Output>;
+	listProject(input: ListProjectInfra.Input): Promise<ListProjectInfra.Output>;
 }
 
 export class DefaultProjectInfra implements ProjectInfra {
@@ -127,6 +129,48 @@ export class DefaultProjectInfra implements ProjectInfra {
 				JSON.stringify({
 					status: 500,
 					message: `Error SQL: ${error instanceof Error ? error.message : 'Error inserting images to DB'}`,
+				})
+			);
+		}
+	}
+
+	async listProject({ env }: ListProjectInfra.Input): Promise<ListProjectInfra.Output> {
+		try {
+			const client = buildLibsqlClient(env);
+
+			const dbProjects = await client.execute({
+				sql: `SELECT
+				projects.project_id,
+				projects.title,
+				projects.description,
+				projects.year,
+				projects.is_top,
+				projects.created_at,
+				projects.updated_at,
+				GROUP_CONCAT(
+					CASE WHEN images.is_main = 0 THEN images.key END
+				) AS images,
+				MAX(CASE WHEN images.is_main = 1 THEN images.key END) AS main_image
+			FROM
+				projects
+			JOIN
+				project_image ON projects.project_id = project_image.project_id
+			JOIN
+				images ON project_image.image_id = images.image_id
+			GROUP BY
+				projects.project_id, projects.title, projects.description, projects.year, projects.is_top, projects.created_at, projects.updated_at;
+			`,
+				args: [],
+			});
+
+			return {
+				projects: dbProjects.rows as unknown as ProjectDb[],
+			};
+		} catch (error: unknown) {
+			throw new Error(
+				JSON.stringify({
+					status: 500,
+					message: `Error SQL: ${error instanceof Error ? error.message : 'Error selecting all projects from db'}`,
 				})
 			);
 		}

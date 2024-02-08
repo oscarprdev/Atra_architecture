@@ -1,17 +1,5 @@
 import { _Object } from '@aws-sdk/client-s3';
 
-export interface ProjectResponse {
-	projectId: string;
-	title: string;
-	description: string;
-	year: number;
-	isTop: boolean;
-	createdAt: Date;
-	updatedAt: Date;
-	mainImage: File;
-	images: File[];
-}
-
 export interface ProjectInfraResponse {
 	project_id: string;
 	title: string;
@@ -35,3 +23,15 @@ export interface ProjectDB {
 	images: string;
 	main_image: string;
 }
+
+export type ProjectResponse = {
+	id: string;
+	title: string;
+	year: number;
+	description: string;
+	isTop: boolean;
+	createdAt: string;
+	updatedAt: string;
+	mainImage: string;
+	images: string;
+};
