@@ -4,7 +4,7 @@ import extractErrorInfo from '../../../utils/extract_from_error_info';
 import { Env } from '../../..';
 import { ApiResponse } from '../../response';
 import { projectCreateUsecase } from '../graph';
-import { CreateProjectBody, File, Project } from '../../generated';
+import { CreateProjectBody, File as ApiFile, Project } from '../../generated';
 
 export async function createProjectHandler(request: Request, env: Env) {
 	try {
@@ -14,8 +14,8 @@ export async function createProjectHandler(request: Request, env: Env) {
 		const year = Number(formData.get('year'));
 		const description = formData.get('description')?.toString() || 'Default description';
 		const isTop = convertToBoolean(formData.get('isTop'));
-		const mainImage = formData.get('mainImage') as unknown as File;
-		const images = formData.getAll('image') as unknown as File[];
+		const mainImage = formData.get('mainImage') as unknown as ApiFile;
+		const images = formData.getAll('image') as unknown as ApiFile[];
 
 		const validInput = checkInputValidations({ title, year, description, isTop, mainImage, images });
 
@@ -54,5 +54,12 @@ function checkInputValidations({ title, description, year, isTop, mainImage, ima
 		throw new Error(JSON.stringify({ status: 400, message: result.error.format() }));
 	}
 
-	return result.data;
+	return {
+		title,
+		description,
+		year,
+		isTop,
+		mainImage,
+		images,
+	};
 }
