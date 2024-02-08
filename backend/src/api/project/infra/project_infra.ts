@@ -2,9 +2,13 @@ import { DescribeProjectInfra } from './models/describe_project';
 import { ProjectDb } from '../../common/models/project_db';
 import buildLibsqlClient from '../../../database';
 import extractErrorInfo from '../../../utils/extract_from_error_info';
+import { CreateProjectInfra } from './models/create_project';
+import { InsertImageInfra } from './models/insert_image';
 
 export interface ProjectInfra {
 	describeProject(input: DescribeProjectInfra.Input): Promise<DescribeProjectInfra.Output>;
+	createProject(input: CreateProjectInfra.Input): Promise<CreateProjectInfra.Output>;
+	insertImage(input: InsertImageInfra.Input): Promise<InsertImageInfra.Output>;
 }
 
 export class DefaultProjectInfra implements ProjectInfra {
@@ -60,6 +64,69 @@ export class DefaultProjectInfra implements ProjectInfra {
 				JSON.stringify({
 					status: status || 500,
 					message: `Error SQL: ${error instanceof Error ? message : 'Error selecting project by id from db'}`,
+				})
+			);
+		}
+	}
+
+	async createProject({ projectId, title, description, year, isTop, env }: CreateProjectInfra.Input): Promise<DescribeProjectInfra.Output> {
+		try {
+			const client = buildLibsqlClient(env);
+
+			await client.execute({
+				sql: `INSERT INTO projects (project_id, title, description, year, is_top)
+				VALUES (?, ?, ?, ?, ?)`,
+				args: [projectId, title, description, year, isTop],
+			});
+
+			const dbProject = await client.execute({
+				sql: `SELECT * FROM projects WHERE project_id = ?;`,
+				args: [projectId],
+			});
+
+			return {
+				project: dbProject.rows[0] as unknown as ProjectDb,
+			};
+		} catch (error) {
+			throw new Error(
+				JSON.stringify({
+					status: 500,
+					message: `Error SQL: ${error instanceof Error ? error.message : 'Error inserting project to DB'}`,
+				})
+			);
+		}
+	}
+
+	async insertImage({ key, projectId, isMain, env }: InsertImageInfra.Input): Promise<InsertImageInfra.Output> {
+		try {
+			const client = buildLibsqlClient(env);
+			const imageId = crypto.randomUUID().toString();
+
+			await client.execute({
+				sql: `INSERT INTO images (image_id, key, is_main)
+				VALUES (?, ?, ?)`,
+				args: [imageId, key, isMain],
+			});
+
+			const dbImage = await client.execute({
+				sql: `SELECT * FROM images WHERE image_id = ?;`,
+				args: [imageId],
+			});
+
+			await client.execute({
+				sql: `INSERT INTO project_image (project_id, image_id)
+				VALUES (?, ?)`,
+				args: [projectId, imageId],
+			});
+
+			return {
+				project: dbImage.rows[0] as unknown as ProjectDb,
+			};
+		} catch (error) {
+			throw new Error(
+				JSON.stringify({
+					status: 500,
+					message: `Error SQL: ${error instanceof Error ? error.message : 'Error inserting images to DB'}`,
 				})
 			);
 		}

@@ -40,6 +40,10 @@ export type CreateProjectBody = {
          * Image storage class
          */
         StorageClass: string;
+        /**
+         * Image type
+         */
+        Type?: string;
     };
     images: Array<{
         /**
@@ -62,6 +66,10 @@ export type CreateProjectBody = {
          * Image storage class
          */
         StorageClass: string;
+        /**
+         * Image type
+         */
+        Type?: string;
     }>;
 };
 

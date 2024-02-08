@@ -1,5 +1,5 @@
 import { Env } from '../../../..';
-import { File, Project } from '../../../generated';
+import { File } from '../../../generated';
 
 export interface ProjectCreatePorts {
 	insertProject(input: InsertProjectPorts.Input): Promise<InsertProjectPorts.Output>;
@@ -13,15 +13,26 @@ export namespace InsertProjectPorts {
 	};
 
 	export type Output = {
-		project: Project;
+		project: ProjectResponse;
 	};
 
 	export type ProjectBody = {
+		projectId: string;
 		title: string;
 		year: number;
 		description: string;
 		isTop: boolean;
 		env: Env;
+	};
+
+	export type ProjectResponse = {
+		id: string;
+		title: string;
+		year: number;
+		description: string;
+		isTop: boolean;
+		createdAt: string;
+		updatedAt: string;
 	};
 }
 
@@ -37,7 +48,8 @@ export namespace InsertImagePorts {
 export namespace UploadImagePorts {
 	export type Input = {
 		file: File;
-		title: string;
+		key: string;
+		type: string;
 		env: Env;
 	};
 

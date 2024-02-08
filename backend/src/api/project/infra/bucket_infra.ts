@@ -4,6 +4,7 @@ import { Bucket } from '../../common/s3_bucket/bucket';
 
 export interface BucketInfra {
 	getItemByKey(key: string, env: Env): Promise<_Object | undefined>;
+	uploadImage(uint8Array: Uint8Array, key: string, type: string, env: Env): Promise<_Object | undefined>;
 }
 
 export class DefaultBucketInfra implements BucketInfra {
@@ -15,8 +16,15 @@ export class DefaultBucketInfra implements BucketInfra {
 
 	async getItemByKey(key: string, env: Env): Promise<_Object | undefined> {
 		const bucket = this.useBucket(env);
-		const bucketObject = await bucket.getItemByKey(key);
 
-		return bucketObject;
+		return await bucket.getItemByKey(key);
+	}
+
+	async uploadImage(uint8Array: Uint8Array, key: string, type: string, env: Env): Promise<_Object | undefined> {
+		const bucket = this.useBucket(env);
+
+		await bucket.uploadFile(uint8Array, key, type);
+
+		return await bucket.getItemByKey(key);
 	}
 }

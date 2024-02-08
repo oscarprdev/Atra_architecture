@@ -11,12 +11,24 @@ export interface ProjectCreateUsecases {
 export class DefaultProjectCreateUsecases implements ProjectCreateUsecases {
 	constructor(private readonly ports: ProjectCreatePorts) {}
 
+	private generateImageKey(project: string) {
+		const imageId = crypto.randomUUID().toString();
+		const projectName = project.replaceAll(' ', '_');
+
+		return `${projectName}/${imageId}`;
+	}
+
 	private async uploadMainImage(mainImage: File, project: string, env: Env) {
-		return await this.ports.uploadImage({ file: mainImage, title: project, env });
+		const key = this.generateImageKey(project);
+		const type = mainImage.Type || 'image/jpg';
+
+		return await this.ports.uploadImage({ file: mainImage, key, type, env });
 	}
 
 	private async uploadImages(images: File[], project: string, env: Env) {
-		return await Promise.all(images.map((image) => this.ports.uploadImage({ file: image, title: project, env })));
+		const key = this.generateImageKey(project);
+
+		return await Promise.all(images.map((image) => this.ports.uploadImage({ file: image, key, type: image.Type || 'image/jpg', env })));
 	}
 
 	private async insertImages({ mainImageKey, imagesKeys, projectId, env }: ProjectCreateUsecasesTypes.NextRequestInput): Promise<void> {
@@ -33,6 +45,7 @@ export class DefaultProjectCreateUsecases implements ProjectCreateUsecases {
 				this.uploadImages(projectBody.images, projectBody.title, env),
 				this.ports.insertProject({
 					projectBody: {
+						projectId: crypto.randomUUID().toString(),
 						title: projectBody.title,
 						year: projectBody.year,
 						description: projectBody.description,

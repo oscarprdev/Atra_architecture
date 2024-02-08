@@ -52,6 +52,10 @@ export type Project = {
          * Image storage class
          */
         StorageClass: string;
+        /**
+         * Image type
+         */
+        Type?: string;
     };
     images: Array<{
         /**
@@ -74,6 +78,10 @@ export type Project = {
          * Image storage class
          */
         StorageClass: string;
+        /**
+         * Image type
+         */
+        Type?: string;
     }>;
 };
 

@@ -28,3 +28,7 @@ properties:
     type: string
     description: Image storage class
     example: 'STANDARD'
+  Type:
+    type: string
+    description: Image type
+    example: 'image/png'

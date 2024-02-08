@@ -40,6 +40,10 @@ export type User = {
          * Image storage class
          */
         StorageClass: string;
+        /**
+         * Image type
+         */
+        Type?: string;
     };
     /**
      * The timestamp when the user was created.

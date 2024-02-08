@@ -43,6 +43,7 @@ export class DescribeProjectHttpAdapter implements ProjectDescribePorts {
 					Size: bucketObject.Size,
 					StorageClass: bucketObject.StorageClass,
 					LastModified: bucketObject.LastModified.toString(),
+					Type: '',
 				},
 			};
 		} else {
