@@ -1,12 +1,12 @@
-import { CreateProjectHttpAdapter } from '../adapters/create/create_project.http_adapter';
-import { DeleteProjectHttpAdapter } from '../adapters/delete/project_delete.http_adapter';
-import { DescribeProjectHttpAdapter } from '../adapters/describe/describe_project.http_adapter';
-import { ListProjectHttpAdapter } from '../adapters/list/project_list.http_adapter';
+import { CreateProjectHttpAdapter } from '../repository/create/create_project.http_adapter';
+import { DeleteProjectHttpAdapter } from '../repository/delete/project_delete.http_adapter';
+import { DescribeProjectHttpAdapter } from '../repository/describe/describe_project.http_adapter';
+import { ListProjectHttpAdapter } from '../repository/list/project_list.http_adapter';
 import { DefaultProjectCreateUsecases } from '../application/create/project_create.usecases';
 import { DefaultProjectDeleteUsecases } from '../application/delete/project_delete.usecases';
 import { DefaultProjectDescribeUsecases } from '../application/describe/project_describe.usecases';
 import { DefaultProjectListUsecases } from '../application/list/project_list.usecases';
-import { DefaultBucketInfra } from '../infra/bucket_infra';
+import { DefaultBucketInfra } from '../../shared/infra/bucket_infra';
 import { DefaultProjectInfra } from '../infra/project_infra';
 
 const projectInfra = new DefaultProjectInfra();

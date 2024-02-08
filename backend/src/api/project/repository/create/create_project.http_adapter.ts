@@ -1,7 +1,7 @@
 import { InsertImagePorts, InsertProjectPorts, ProjectCreatePorts, UploadImagePorts } from '../../application/create/project_create.ports';
-import { BucketInfra } from '../../infra/bucket_infra';
+import { BucketInfra } from '../../../shared/infra/bucket_infra';
 import { ProjectInfra } from '../../infra/project_infra';
-import { mapBucketImageToApp } from '../shared/mappers/mapBucketImagetoApp';
+import { mapBucketImageToApp } from '../../../shared/mappers/mapBucketImagetoApp';
 import { mapProjectDbToApp } from '../shared/mappers/mapProjectDbToApp';
 
 export class CreateProjectHttpAdapter implements ProjectCreatePorts {
