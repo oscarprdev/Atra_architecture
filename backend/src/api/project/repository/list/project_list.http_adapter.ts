@@ -1,10 +1,10 @@
-import { ProjectListPorts, ProjectListPortsTypes } from '../../application/list/project_list.ports';
-import { BucketInfra } from '../../infra/bucket_infra';
+import { HttpAdapter } from '../../../shared/repository/http_adapter';
+import { BucketInfra } from '../../../shared/infra/bucket_infra';
 import { ProjectInfra } from '../../infra/project_infra';
 import { mapProjectDbToApp } from '../shared/mappers/mapProjectDbToApp';
-import { ProjectHttpAdapter } from '../shared/project.http_adapter';
+import { ProjectListPorts, ProjectListPortsTypes } from '../../application/list/project_list.ports';
 
-export class ListProjectHttpAdapter extends ProjectHttpAdapter implements ProjectListPorts {
+export class ListProjectHttpAdapter extends HttpAdapter implements ProjectListPorts {
 	constructor(private readonly client: ProjectInfra, protected readonly bucket: BucketInfra) {
 		super(bucket);
 	}

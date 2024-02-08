@@ -1,5 +1,5 @@
 import { _Object } from '@aws-sdk/client-s3';
-import { File } from '../../../../generated';
+import { File } from '../../generated';
 
 export const mapBucketImageToApp = (bucketImage: _Object | undefined): File => {
 	if (bucketImage && bucketImage.Key && bucketImage.ETag && bucketImage.Size && bucketImage.StorageClass && bucketImage.LastModified) {

@@ -1,7 +1,7 @@
-import { Env } from '../../../..';
-import { File } from '../../../generated';
+import { Env } from '../../..';
+import { File } from '../../generated';
 
-export namespace ProjectHttpAdapterTypes {
+export namespace HttpAdapterTypes {
 	export type GetImageByKeyInput = {
 		key: string;
 		env: Env;

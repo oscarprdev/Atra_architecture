@@ -1,17 +1,5 @@
 import { _Object } from '@aws-sdk/client-s3';
 
-export interface ProjectInfraResponse {
-	project_id: string;
-	title: string;
-	description: string;
-	year: number;
-	is_top: number;
-	created_at: string;
-	updated_at: string;
-	main_image?: _Object;
-	images: (_Object | undefined)[];
-}
-
 export type ProjectDb = {
 	project_id: string;
 	title: string;
