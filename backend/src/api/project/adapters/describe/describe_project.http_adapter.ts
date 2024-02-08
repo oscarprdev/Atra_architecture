@@ -1,9 +1,9 @@
 import { DescribeProjectPorts, GetImageByKeyPorts, ProjectDescribePorts } from '../../application/describe/project_describe.ports';
-import { Bucket } from '../../../common/s3_bucket/bucket';
 import { ProjectInfra } from '../../infra/project_infra';
+import { BucketInfra } from '../../infra/bucket_infra';
 
 export class DescribeProjectHttpAdapter implements ProjectDescribePorts {
-	constructor(private readonly client: ProjectInfra) {}
+	constructor(private readonly client: ProjectInfra, private readonly bucket: BucketInfra) {}
 
 	async describeProject({ projectId, nextRequest, env }: DescribeProjectPorts.Input): Promise<DescribeProjectPorts.Output> {
 		const { project } = await this.client.describeProject({ projectId, env });
@@ -26,8 +26,7 @@ export class DescribeProjectHttpAdapter implements ProjectDescribePorts {
 	}
 
 	async getImageByKey({ key, env }: GetImageByKeyPorts.Input): Promise<GetImageByKeyPorts.Output> {
-		const bucket = new Bucket(env.BUCKET, env.S3_API_URL, env.S3_ACCESS_KEY_ID, env.S3_SECRET_ACCESS_KEY);
-		const bucketObject = await bucket.getItemByKey(key);
+		const bucketObject = await this.bucket.getItemByKey(key, env);
 
 		if (
 			bucketObject &&
