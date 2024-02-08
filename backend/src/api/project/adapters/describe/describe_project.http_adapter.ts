@@ -1,9 +1,12 @@
-import { DescribeProjectPorts, GetImageByKeyPorts, ProjectDescribePorts } from '../../application/describe/project_describe.ports';
+import { DescribeProjectPorts, ProjectDescribePorts } from '../../application/describe/project_describe.ports';
 import { ProjectInfra } from '../../infra/project_infra';
 import { BucketInfra } from '../../infra/bucket_infra';
+import { ProjectHttpAdapter } from '../common/project.http_adapter';
 
-export class DescribeProjectHttpAdapter implements ProjectDescribePorts {
-	constructor(private readonly client: ProjectInfra, private readonly bucket: BucketInfra) {}
+export class DescribeProjectHttpAdapter extends ProjectHttpAdapter implements ProjectDescribePorts {
+	constructor(private readonly client: ProjectInfra, protected readonly bucket: BucketInfra) {
+		super(bucket);
+	}
 
 	async describeProject({ projectId, nextRequest, env }: DescribeProjectPorts.Input): Promise<DescribeProjectPorts.Output> {
 		const { project } = await this.client.describeProject({ projectId, env });
@@ -23,31 +26,5 @@ export class DescribeProjectHttpAdapter implements ProjectDescribePorts {
 				images,
 			},
 		};
-	}
-
-	async getImageByKey({ key, env }: GetImageByKeyPorts.Input): Promise<GetImageByKeyPorts.Output> {
-		const bucketObject = await this.bucket.getItemByKey(key, env);
-
-		if (
-			bucketObject &&
-			bucketObject.Key &&
-			bucketObject.ETag &&
-			bucketObject.Size &&
-			bucketObject.StorageClass &&
-			bucketObject.LastModified
-		) {
-			return {
-				image: {
-					Key: bucketObject.Key,
-					ETag: bucketObject.ETag,
-					Size: bucketObject.Size,
-					StorageClass: bucketObject.StorageClass,
-					LastModified: bucketObject.LastModified.toString(),
-					Type: '',
-				},
-			};
-		} else {
-			throw new Error(JSON.stringify({ status: 500, message: 'Bucket Image file is undefined' }));
-		}
 	}
 }

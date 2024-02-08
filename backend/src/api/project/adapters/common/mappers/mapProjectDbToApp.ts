@@ -1,5 +1,5 @@
-import { ProjectDb } from '../../../common/models/project_db';
-import { ProjectResponse } from '../../common/project_types';
+import { ProjectDb } from '../../../../common/models/project_db';
+import { ProjectResponse } from '../../../common/project_types';
 
 export const mapProjectDbToApp = (project: ProjectDb): ProjectResponse => {
 	return {
