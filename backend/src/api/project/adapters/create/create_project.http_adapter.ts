@@ -1,6 +1,7 @@
 import { InsertImagePorts, InsertProjectPorts, ProjectCreatePorts, UploadImagePorts } from '../../application/create/project_create.ports';
 import { BucketInfra } from '../../infra/bucket_infra';
 import { ProjectInfra } from '../../infra/project_infra';
+import { mapBucketImageToApp } from '../shared/mappers/mapBucketImagetoApp';
 import { mapProjectDbToApp } from '../shared/mappers/mapProjectDbToApp';
 
 export class CreateProjectHttpAdapter implements ProjectCreatePorts {
@@ -24,23 +25,8 @@ export class CreateProjectHttpAdapter implements ProjectCreatePorts {
 
 		const imagedb = await this.bucket.uploadImage(uint8Array, key, type, env);
 
-		if (imagedb && imagedb.Key && imagedb.ETag && imagedb.LastModified && imagedb.Size && imagedb.StorageClass) {
-			return {
-				image: {
-					Key: imagedb.Key,
-					LastModified: imagedb.LastModified.toString(),
-					ETag: imagedb.ETag,
-					Size: imagedb.Size,
-					StorageClass: imagedb.StorageClass,
-				},
-			};
-		} else {
-			throw new Error(
-				JSON.stringify({
-					status: 500,
-					message: 'Error uploading image',
-				})
-			);
-		}
+		return {
+			image: mapBucketImageToApp(imagedb),
+		};
 	}
 }

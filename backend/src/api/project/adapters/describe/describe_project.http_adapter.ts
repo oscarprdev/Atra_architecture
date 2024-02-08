@@ -2,6 +2,7 @@ import { DescribeProjectPorts, ProjectDescribePorts } from '../../application/de
 import { ProjectInfra } from '../../infra/project_infra';
 import { BucketInfra } from '../../infra/bucket_infra';
 import { ProjectHttpAdapter } from '../shared/project.http_adapter';
+import { mapProjectDbToApp } from '../shared/mappers/mapProjectDbToApp';
 
 export class DescribeProjectHttpAdapter extends ProjectHttpAdapter implements ProjectDescribePorts {
 	constructor(private readonly client: ProjectInfra, protected readonly bucket: BucketInfra) {
@@ -15,13 +16,7 @@ export class DescribeProjectHttpAdapter extends ProjectHttpAdapter implements Pr
 
 		return {
 			project: {
-				id: project.project_id,
-				title: project.title,
-				description: project.description,
-				year: project.year,
-				isTop: project.is_top === 1,
-				createdAt: project.created_at,
-				updatedAt: project.updated_at,
+				...mapProjectDbToApp(project),
 				mainImage,
 				images,
 			},
