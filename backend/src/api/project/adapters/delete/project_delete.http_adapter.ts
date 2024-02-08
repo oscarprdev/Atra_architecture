@@ -9,8 +9,6 @@ export class DeleteProjectHttpAdapter implements DeleteProjectPorts {
 	async deleteProject({ projectId, env }: DeleteProjectPortsTypes.Input): Promise<DeleteProjectPortsTypes.Output> {
 		const response = await this.client.deleteProject({ projectId, env });
 
-		console.log(response);
-
 		return {
 			project: mapProjectDbToApp(response.project),
 		};
