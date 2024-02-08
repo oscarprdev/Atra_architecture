@@ -1,5 +1,5 @@
 import { Env } from '../../../..';
-import { ProjectResponse } from '../../common/project_types';
+import { ProjectResponse } from '../../shared/project_types';
 
 export interface DeleteProjectPorts {
 	deleteProject(input: DeleteProjectPortsTypes.Input): Promise<DeleteProjectPortsTypes.Output>;

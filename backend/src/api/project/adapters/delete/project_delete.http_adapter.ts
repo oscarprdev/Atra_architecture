@@ -1,7 +1,7 @@
 import { DeleteItemByKeyPortsTypes, DeleteProjectPorts, DeleteProjectPortsTypes } from '../../application/delete/project_delete.ports';
 import { BucketInfra } from '../../infra/bucket_infra';
 import { ProjectInfra } from '../../infra/project_infra';
-import { mapProjectDbToApp } from '../common/mappers/mapProjectDbToApp';
+import { mapProjectDbToApp } from '../shared/mappers/mapProjectDbToApp';
 
 export class DeleteProjectHttpAdapter implements DeleteProjectPorts {
 	constructor(private readonly client: ProjectInfra, private readonly bucket: BucketInfra) {}

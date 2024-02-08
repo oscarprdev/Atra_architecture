@@ -1,6 +1,6 @@
 import extractErrorInfo from '../../../utils/extract_from_error_info';
 import { Env } from '../../..';
-import { ProjectResponse } from '../common/project_types';
+import { ProjectResponse } from '../shared/project_types';
 import { ApiResponse } from '../../response';
 import { projectListUsecase } from '../graph';
 import { Project } from '../../generated';

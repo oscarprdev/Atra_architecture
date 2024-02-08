@@ -1,6 +1,6 @@
 import { Env } from '../../../..';
 import { File } from '../../../generated';
-import { ProjectResponse } from '../../common/project_types';
+import { ProjectResponse } from '../../shared/project_types';
 
 export interface ProjectListPorts {
 	listProjects(input: ProjectListPortsTypes.Input): Promise<ProjectListPortsTypes.Output>;

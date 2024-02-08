@@ -12,7 +12,7 @@ export interface ProjectInfraResponse {
 	images: (_Object | undefined)[];
 }
 
-export interface ProjectDB {
+export type ProjectDb = {
 	project_id: string;
 	title: string;
 	description: string;
@@ -22,7 +22,7 @@ export interface ProjectDB {
 	updated_at: string;
 	images: string;
 	main_image: string;
-}
+};
 
 export type ProjectResponse = {
 	id: string;

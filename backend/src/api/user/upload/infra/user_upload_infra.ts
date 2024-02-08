@@ -1,7 +1,7 @@
 import { Client } from '@libsql/client/web';
 import { Env } from '../../../..';
 import buildLibsqlClient from '../../../../database';
-import uploadImageToBucket from '../../../project/common/upload_image';
+import uploadImageToBucket from '../../../project/shared/upload_image';
 import { User } from '../user_upload_types';
 import { InsertUserToDbInput, UploadUserInfraResponse } from './infra.types';
 import hashPassword from '../../../../utils/hash_password';

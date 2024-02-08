@@ -1,5 +1,5 @@
 import { Env } from '../../../..';
-import { ProjectDb } from '../../../common/models/project_db';
+import { ProjectDb } from '../../shared/project_types';
 
 export namespace DeleteProjectInfra {
 	export type Input = {

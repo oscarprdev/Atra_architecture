@@ -3,9 +3,9 @@ import { Env } from '../../..';
 import { RequestParams } from '../../../types';
 import { z } from 'zod';
 import { projectDescribeUsecase } from '../graph';
-import { ListProjectInput } from './project_describe_handler.types';
+import { ListProjectInput } from './handlers.types';
 import { Project } from '../../generated';
-import { ApiResponse } from '../../common/models/api_response';
+import { ApiResponse } from '../../shared/models/api_response';
 
 export async function describeProjectHandler(request: Request, env: Env) {
 	try {

@@ -1,7 +1,7 @@
 import { DescribeProjectPorts, ProjectDescribePorts } from '../../application/describe/project_describe.ports';
 import { ProjectInfra } from '../../infra/project_infra';
 import { BucketInfra } from '../../infra/bucket_infra';
-import { ProjectHttpAdapter } from '../common/project.http_adapter';
+import { ProjectHttpAdapter } from '../shared/project.http_adapter';
 
 export class DescribeProjectHttpAdapter extends ProjectHttpAdapter implements ProjectDescribePorts {
 	constructor(private readonly client: ProjectInfra, protected readonly bucket: BucketInfra) {

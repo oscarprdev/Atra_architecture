@@ -1,5 +1,5 @@
 import { DescribeProjectInfra } from './models/describe_project';
-import { ProjectDb } from '../../common/models/project_db';
+import { ProjectDb } from '../shared/project_types';
 import buildLibsqlClient from '../../../database';
 import extractErrorInfo from '../../../utils/extract_from_error_info';
 import { CreateProjectInfra } from './models/create_project';

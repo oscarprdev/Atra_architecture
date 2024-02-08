@@ -2,8 +2,8 @@ import { Client } from '@libsql/client/web';
 import { Env } from '../../../..';
 import buildLibsqlClient from '../../../../database';
 import { UserUpdateInput } from '../user_update_types';
-import { Bucket } from '../../../common/s3_bucket/bucket';
-import uploadImageToBucket from '../../../project/common/upload_image';
+import { Bucket } from '../../../shared/s3_bucket/bucket';
+import uploadImageToBucket from '../../../project/shared/upload_image';
 import { UpdateUserIntoDbInput } from './infra.types';
 import { UserDBResponse, UserInfraResponse } from '../../common/user_types';
 

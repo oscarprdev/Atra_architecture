@@ -1,6 +1,6 @@
 import { _Object } from '@aws-sdk/client-s3';
 import { Env } from '../../..';
-import { Bucket } from '../../common/s3_bucket/bucket';
+import { Bucket } from '../../shared/s3_bucket/bucket';
 
 export interface BucketInfra {
 	getItemByKey(key: string, env: Env): Promise<_Object | undefined>;

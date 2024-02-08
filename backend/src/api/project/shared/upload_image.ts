@@ -1,5 +1,5 @@
 import { Env } from '../../..';
-import { Bucket } from '../../common/s3_bucket/bucket';
+import { Bucket } from '../../shared/s3_bucket/bucket';
 
 async function uploadImageToBucket(image: File, project: string, env: Env) {
 	try {

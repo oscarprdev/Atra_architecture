@@ -1,5 +1,5 @@
 import { Value } from '@libsql/client/web';
-import { ProjectDb } from '../../../common/models/project_db';
+import { ProjectDb } from '../../shared/project_types';
 import { Env } from '../../../..';
 
 export namespace InsertImageInfra {
