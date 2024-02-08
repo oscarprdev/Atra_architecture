@@ -5,12 +5,14 @@ import extractErrorInfo from '../../../utils/extract_from_error_info';
 import { CreateProjectInfra } from './models/create_project';
 import { InsertImageInfra } from './models/insert_image';
 import { ListProjectInfra } from './models/list_project';
+import { DeleteProjectInfra } from './models/delete_project';
 
 export interface ProjectInfra {
 	describeProject(input: DescribeProjectInfra.Input): Promise<DescribeProjectInfra.Output>;
 	createProject(input: CreateProjectInfra.Input): Promise<CreateProjectInfra.Output>;
 	insertImage(input: InsertImageInfra.Input): Promise<InsertImageInfra.Output>;
 	listProject(input: ListProjectInfra.Input): Promise<ListProjectInfra.Output>;
+	deleteProject(input: DeleteProjectInfra.Input): Promise<DeleteProjectInfra.Output>;
 }
 
 export class DefaultProjectInfra implements ProjectInfra {
@@ -171,6 +173,47 @@ export class DefaultProjectInfra implements ProjectInfra {
 				JSON.stringify({
 					status: 500,
 					message: `Error SQL: ${error instanceof Error ? error.message : 'Error selecting all projects from db'}`,
+				})
+			);
+		}
+	}
+
+	async deleteProject({ projectId, env }: DeleteProjectInfra.Input): Promise<DeleteProjectInfra.Output> {
+		try {
+			const client = buildLibsqlClient(env);
+
+			const dbProject = await this.describeProject({ projectId, env });
+
+			await client.execute({
+				sql: `DELETE FROM images
+				WHERE image_id IN (
+					SELECT image_id
+					FROM project_image
+					WHERE project_id = ?
+				);`,
+				args: [projectId],
+			});
+
+			await client.execute({
+				sql: `DELETE FROM project_image
+				WHERE project_id = ?;`,
+				args: [projectId],
+			});
+
+			await client.execute({
+				sql: `DELETE FROM projects
+				WHERE project_id = ?;`,
+				args: [projectId],
+			});
+
+			return {
+				project: dbProject.project,
+			};
+		} catch (error: unknown) {
+			throw new Error(
+				JSON.stringify({
+					status: 500,
+					message: `Error SQL: ${error instanceof Error ? error.message : 'Error deleting project by id from db'}`,
 				})
 			);
 		}

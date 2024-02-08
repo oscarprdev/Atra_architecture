@@ -1,7 +1,9 @@
 import { CreateProjectHttpAdapter } from '../adapters/create/create_project.http_adapter';
+import { DeleteProjectHttpAdapter } from '../adapters/delete/project_delete.http_adapter';
 import { DescribeProjectHttpAdapter } from '../adapters/describe/describe_project.http_adapter';
 import { ListProjectHttpAdapter } from '../adapters/list/project_list.http_adapter';
 import { DefaultProjectCreateUsecases } from '../application/create/project_create.usecases';
+import { DefaultProjectDeleteUsecases } from '../application/delete/project_delete.usecases';
 import { DefaultProjectDescribeUsecases } from '../application/describe/project_describe.usecases';
 import { DefaultProjectListUsecases } from '../application/list/project_list.usecases';
 import { DefaultBucketInfra } from '../infra/bucket_infra';
@@ -21,3 +23,7 @@ export const projectCreateUsecase = new DefaultProjectCreateUsecases(projectCrea
 // List project usecase dependency injection
 const projectListAdapter = new ListProjectHttpAdapter(projectInfra, bucketInfra);
 export const projectListUsecase = new DefaultProjectListUsecases(projectListAdapter);
+
+// Delete project usecase dependency injection
+const projectDeleteAdapter = new DeleteProjectHttpAdapter(projectInfra, bucketInfra);
+export const projectDeleteUsecase = new DefaultProjectDeleteUsecases(projectDeleteAdapter);
