@@ -1,6 +1,6 @@
 import { Client } from '@libsql/client/web';
 import { Env } from '../../../..';
-import { Bucket } from '../../../../bucket';
+import { Bucket } from '../../../common/s3_bucket/bucket';
 import buildLibsqlClient from '../../../../database';
 import { UserDBResponse, UserInfraResponse } from '../../common/user_types';
 

@@ -2,19 +2,20 @@ import extractErrorInfo from '../../../utils/extract_from_error_info';
 import { Env } from '../../..';
 import { RequestParams } from '../../../types';
 import { z } from 'zod';
-import { ListProjectInput } from './project_describe_types';
-import describeProjectAdapter from './project_describe_adapter';
-import { ApiResponse } from '../../response';
-import { ProjectResponse } from '../common/project_types';
+import { projectDescribeUsecase } from '../graph';
+import { ListProjectInput } from './project_describe_handler.types';
+import { Project } from '../../generated';
+import { ApiResponse } from '../../common/models/api_response';
 
 export async function describeProjectHandler(request: Request, env: Env) {
 	try {
 		const { id } = (request as RequestParams).params;
 		const validInput = checkInputValidations({ id });
 
-		const projectOutput = await describeProjectAdapter(validInput.id, env);
+		const projectOutput = await projectDescribeUsecase.describeProject(validInput.id, env);
 
-		const apiResponse: ApiResponse<ProjectResponse> = {
+		const apiResponse: ApiResponse<Project> = {
+			status: 200,
 			response: 'Project retrieved successfully',
 			data: projectOutput,
 		};
@@ -25,9 +26,15 @@ export async function describeProjectHandler(request: Request, env: Env) {
 	} catch (error: unknown) {
 		const { status, message } = extractErrorInfo(error);
 
-		return new Response(JSON.stringify(message), {
-			status: status || 400,
-		});
+		return new Response(
+			JSON.stringify({
+				status,
+				message,
+			}),
+			{
+				status: status || 400,
+			}
+		);
 	}
 }
 

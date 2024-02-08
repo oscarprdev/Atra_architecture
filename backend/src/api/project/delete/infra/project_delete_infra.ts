@@ -1,21 +1,20 @@
 import { Client } from '@libsql/client/web';
 import { Env } from '../../../..';
-import { Bucket } from '../../../../bucket';
+import { Bucket } from '../../../common/s3_bucket/bucket';
 import buildLibsqlClient from '../../../../database';
-import { selectProjectDB } from '../../describe/infra/project_describe_infra';
 
 async function deleteProjectInfra(projectId: string, env: Env): Promise<void> {
 	try {
 		const client = buildLibsqlClient(env);
 		const bucket = new Bucket(env.BUCKET, env.S3_API_URL, env.S3_ACCESS_KEY_ID, env.S3_SECRET_ACCESS_KEY);
 
-		const projectDb = await selectProjectDB(projectId, client);
+		// const projectDb = await selectProjectDB(projectId, client);
 
-		await Promise.all([
-			bucket.deleteItemByKey(projectDb.main_image),
-			...projectDb.images.split(',').map((image) => bucket.deleteItemByKey(image)),
-			deleteProjectDB(projectId, client),
-		]);
+		// await Promise.all([
+		// 	bucket.deleteItemByKey(projectDb.main_image),
+		// 	...projectDb.images.split(',').map((image) => bucket.deleteItemByKey(image)),
+		// 	deleteProjectDB(projectId, client),
+		// ]);
 	} catch (error) {
 		throw new Error(
 			JSON.stringify({
