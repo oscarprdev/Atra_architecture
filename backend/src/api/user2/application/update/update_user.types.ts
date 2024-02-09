@@ -1,13 +1,9 @@
 import { Env } from '../../../..';
-import { File } from '../../../generated';
+import { UpdateUserBody } from '../../../generated';
 
 export namespace UpdateUserUsecasesTypes {
 	export type UpdateUserInput = {
-		email: string;
-		name: string;
-		phone: number;
-		direction: string;
-		image: File;
+		userBody: UpdateUserBody;
 		env: Env;
 	};
 }

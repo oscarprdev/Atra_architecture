@@ -1,6 +1,7 @@
 import { Env } from '../../../..';
 import extractErrorInfo from '../../../../utils/extract_from_error_info';
 import { File, User } from '../../../generated';
+import { UserUsecases } from '../../shared/user.usecases';
 import { UpdateUserPorts } from './update_user.ports';
 import { UpdateUserUsecasesTypes } from './update_user.types';
 
@@ -8,14 +9,9 @@ export interface UpdateUserUsecases {
 	updateUser(input: UpdateUserUsecasesTypes.UpdateUserInput): Promise<User>;
 }
 
-export class DefaultUpdateUserUsecases implements UpdateUserUsecases {
-	constructor(private readonly ports: UpdateUserPorts) {}
-
-	private generateImageKey(project: string) {
-		const imageId = crypto.randomUUID().toString();
-		const projectName = project.replaceAll(' ', '_');
-
-		return `${projectName}/${imageId}`;
+export class DefaultUpdateUserUsecases extends UserUsecases implements UpdateUserUsecases {
+	constructor(private readonly ports: UpdateUserPorts) {
+		super();
 	}
 
 	private async uploadImage(image: File, project: string, env: Env) {
@@ -25,7 +21,7 @@ export class DefaultUpdateUserUsecases implements UpdateUserUsecases {
 		return await this.ports.uploadImage({ file: image, key, type, env });
 	}
 
-	async updateUser({ email, image, name, phone, direction, env }: UpdateUserUsecasesTypes.UpdateUserInput): Promise<User> {
+	async updateUser({ userBody: { email, image, name, phone, direction }, env }: UpdateUserUsecasesTypes.UpdateUserInput): Promise<User> {
 		try {
 			const {
 				user: { imageKey, id },
@@ -46,8 +42,6 @@ export class DefaultUpdateUserUsecases implements UpdateUserUsecases {
 			}
 
 			const { user } = await this.ports.updateUser({ id, email, name, phone, direction, imageKey: imageUploaded.image.Key, env });
-
-			console.log(user, 'usecase');
 
 			return {
 				...user,

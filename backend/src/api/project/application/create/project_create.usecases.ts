@@ -1,6 +1,7 @@
 import { Env } from '../../../..';
 import extractErrorInfo from '../../../../utils/extract_from_error_info';
 import { File, Project } from '../../../generated';
+import { ProjectUsecases } from '../../shared/project.usecases';
 import { ProjectCreatePorts } from './project_create.ports';
 import { ProjectCreateUsecasesTypes } from './project_create.types';
 
@@ -8,14 +9,9 @@ export interface ProjectCreateUsecases {
 	createProject(input: ProjectCreateUsecasesTypes.CreateProjectInput): Promise<Project>;
 }
 
-export class DefaultProjectCreateUsecases implements ProjectCreateUsecases {
-	constructor(private readonly ports: ProjectCreatePorts) {}
-
-	private generateImageKey(project: string) {
-		const imageId = crypto.randomUUID().toString();
-		const projectName = project.replaceAll(' ', '_');
-
-		return `${projectName}/${imageId}`;
+export class DefaultProjectCreateUsecases extends ProjectUsecases implements ProjectCreateUsecases {
+	constructor(private readonly ports: ProjectCreatePorts) {
+		super();
 	}
 
 	private async uploadMainImage(mainImage: File, project: string, env: Env) {

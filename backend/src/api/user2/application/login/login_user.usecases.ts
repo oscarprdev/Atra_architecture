@@ -1,5 +1,6 @@
 import extractErrorInfo from '../../../../utils/extract_from_error_info';
 import { User } from '../../../generated';
+import { UserUsecases } from '../../shared/user.usecases';
 import { LoginUserPorts } from './login_user.ports';
 import { LoginUserUsecasesTypes } from './login_user.types';
 import jwt from '@tsndr/cloudflare-worker-jwt';
@@ -8,21 +9,9 @@ export interface LoginUserUsecases {
 	loginUser(input: LoginUserUsecasesTypes.LoginUserInput): Promise<LoginUserUsecasesTypes.LoginUserOutput>;
 }
 
-export class DefaultLoginUserUsecases implements LoginUserUsecases {
-	constructor(private readonly ports: LoginUserPorts) {}
-
-	private hexStringToUint8Array(hexString?: string): Uint8Array {
-		const hex = hexString || crypto.randomUUID().toString();
-
-		const length = hex.length / 2;
-		const uint8Array = new Uint8Array(length);
-
-		for (let i = 0; i < length; i++) {
-			const byte = parseInt(hex.substr(i * 2, 2), 16);
-			uint8Array[i] = byte;
-		}
-
-		return uint8Array;
+export class DefaultLoginUserUsecases extends UserUsecases implements LoginUserUsecases {
+	constructor(private readonly ports: LoginUserPorts) {
+		super();
 	}
 
 	private async verifyPassword(inputPassword: string, hexSalt: string, hashedPassword: string): Promise<boolean> {

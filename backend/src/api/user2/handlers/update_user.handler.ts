@@ -19,11 +19,13 @@ export async function updateUserHandler(request: Request, env: Env) {
 			const validInput = checkInputValidations({ email, name, direction, phone, image });
 
 			const user = await updateUserUsecase.updateUser({
-				email: validInput.email,
-				name: validInput.name,
-				direction: validInput.direction,
-				phone: validInput.phone,
-				image: validInput.image,
+				userBody: {
+					email: validInput.email,
+					name: validInput.name,
+					direction: validInput.direction,
+					phone: validInput.phone,
+					image: validInput.image,
+				},
 				env,
 			});
 

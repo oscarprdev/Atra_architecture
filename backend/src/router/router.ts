@@ -1,15 +1,15 @@
 import { Router, RouterType } from 'itty-router';
 import corsMiddleware from '../middlewares/cors';
 import { Env } from '..';
-import { uploadUserHandler } from '../api/user/upload/user_upload_handler';
 import { updatePasswordUserHandler } from '../api/user/update-password/user_update_passowod_handler';
 import { describeProjectHandler } from '../api/project/handlers/project_describe_handler';
 import { createProjectHandler } from '../api/project/handlers/project_create_handler';
 import { listProjectsHandler } from '../api/project/handlers/project_list_handler';
 import { deleteProjectHandler } from '../api/project/handlers/project_delete_handler';
-import { describeUserHandler } from '../api/user/describe/user_describe_handler';
 import { userLoginHandler } from '../api/user2/handlers/login_user_handler';
 import { updateUserHandler } from '../api/user2/handlers/update_user.handler';
+import { uploadUserHandler } from '../api/user2/handlers/create_user.handler';
+import { describeUserHandler } from '../api/user2/handlers/describe_user_handler';
 
 function buildRouter(env: Env): RouterType {
 	const router = Router();
@@ -22,7 +22,7 @@ function buildRouter(env: Env): RouterType {
 
 	// User handlers
 	router.get('/user/describe', corsMiddleware(describeUserHandler));
-	router.post('/user/upload', corsMiddleware(uploadUserHandler));
+	router.post('/user/create', corsMiddleware(uploadUserHandler));
 	router.post('/user/login', corsMiddleware(userLoginHandler));
 	router.put('/user/update', corsMiddleware(updateUserHandler));
 	router.put('/user/update/password', corsMiddleware(updatePasswordUserHandler));
