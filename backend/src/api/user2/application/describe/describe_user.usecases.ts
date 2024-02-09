@@ -12,7 +12,7 @@ export class DefaultDescribeUserUsecases implements DescribeUserUsecases {
 	async describeUser({ env }: DescribeUserUsecaseTypes.Input): Promise<DescribeUserUsecaseTypes.Output> {
 		try {
 			const userResponse = await this.ports.describeUser({ env });
-			const userImage = await this.ports.getImageByKey({ key: userResponse.user.imageKey, env });
+			const userImage = await this.ports.getUserImage({ key: userResponse.user.imageKey, env });
 
 			return {
 				user: {

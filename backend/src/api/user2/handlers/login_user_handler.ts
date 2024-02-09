@@ -3,7 +3,7 @@ import extractErrorInfo from '../../../utils/extract_from_error_info';
 import { Env } from '../../..';
 import { ApiResponse } from '../../response';
 import { loginUserUsecase } from '../graph';
-import { UserLoginInput } from './handlers.types';
+import { LoginUserBody } from '../../generated';
 
 export async function userLoginHandler(request: Request, env: Env) {
 	try {
@@ -35,7 +35,7 @@ export async function userLoginHandler(request: Request, env: Env) {
 	}
 }
 
-function checkInputValidations({ email, password }: UserLoginInput): UserLoginInput {
+function checkInputValidations({ email, password }: LoginUserBody): LoginUserBody {
 	const UserPayloadSchema = z.object({
 		email: z.string().email(),
 		password: z.string(),

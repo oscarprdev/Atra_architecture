@@ -2,9 +2,12 @@ import { DeleteItemByKeyPortsTypes, DeleteProjectPorts, DeleteProjectPortsTypes 
 import { BucketInfra } from '../../../shared/infra/bucket_infra';
 import { ProjectInfra } from '../../infra/project_infra';
 import { mapProjectDbToApp } from '../shared/mappers/mapProjectDbToApp';
+import { HttpAdapter } from '../../../shared/repository/http_adapter';
 
-export class DeleteProjectHttpAdapter implements DeleteProjectPorts {
-	constructor(private readonly client: ProjectInfra, private readonly bucket: BucketInfra) {}
+export class DeleteProjectHttpAdapter extends HttpAdapter implements DeleteProjectPorts {
+	constructor(private readonly client: ProjectInfra, protected readonly bucket: BucketInfra) {
+		super(bucket);
+	}
 
 	async deleteProject({ projectId, env }: DeleteProjectPortsTypes.Input): Promise<DeleteProjectPortsTypes.Output> {
 		const response = await this.client.deleteProject({ projectId, env });
@@ -15,6 +18,6 @@ export class DeleteProjectHttpAdapter implements DeleteProjectPorts {
 	}
 
 	async deleteItemByKey({ key, env }: DeleteItemByKeyPortsTypes.Input): Promise<void> {
-		await this.bucket.deleteItemByKey(key, env);
+		await this.deleteItemByKey({ key, env });
 	}
 }

@@ -4,7 +4,7 @@ import { UserResponse } from '../../shared/user_types';
 
 export interface DescribeUserPorts {
 	describeUser(input: DescribeUserPorts.Input): Promise<DescribeUserPorts.Output>;
-	getImageByKey(input: GetImageByKeyPorts.Input): Promise<GetImageByKeyPorts.Output>;
+	getUserImage(input: GetUserImagePorts.Input): Promise<GetUserImagePorts.Output>;
 }
 
 export namespace DescribeUserPorts {
@@ -17,7 +17,7 @@ export namespace DescribeUserPorts {
 	};
 }
 
-export namespace GetImageByKeyPorts {
+export namespace GetUserImagePorts {
 	export type Input = {
 		key: string;
 		env: Env;

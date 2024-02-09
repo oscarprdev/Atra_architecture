@@ -5,6 +5,7 @@ required:
   - name
   - phone
   - image
+  - direction
   - createdAt
 properties:
   id:
@@ -28,6 +29,11 @@ properties:
     description: "The user's phone number."
     nullable: false
     example: 678120351
+  direction:
+    type: string
+    description: "The user's direction."
+    nullable: false
+    example: 'C/ Street Name, 123, City'
   image:
     $ref: 'components/_index.yaml#/schemas/File'
   createdAt:

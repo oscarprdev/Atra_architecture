@@ -19,6 +19,10 @@ export type User = {
      * The user's phone number.
      */
     phone: number;
+    /**
+     * The user's direction.
+     */
+    direction: string;
     image: {
         /**
          * Image key

@@ -1,6 +1,6 @@
 import { BucketInfra } from '../../../shared/infra/bucket_infra';
 import { HttpAdapter } from '../../../shared/repository/http_adapter';
-import { DescribeUserPorts, GetImageByKeyPorts } from '../../application/describe/describe_user.ports';
+import { DescribeUserPorts, GetUserImagePorts } from '../../application/describe/describe_user.ports';
 import { UserInfra } from '../../infra/user_infra';
 import { mapUserDbToApp } from '../shared/mappers/mapUseDbToApp';
 
@@ -17,7 +17,7 @@ export class DescribeUserHttpAdapter extends HttpAdapter implements DescribeUser
 		};
 	}
 
-	async getImageByKey({ key, env }: GetImageByKeyPorts.Input): Promise<GetImageByKeyPorts.Output> {
+	async getUserImage({ key, env }: GetUserImagePorts.Input): Promise<GetUserImagePorts.Output> {
 		return await this.getImageByKey({ key, env });
 	}
 }

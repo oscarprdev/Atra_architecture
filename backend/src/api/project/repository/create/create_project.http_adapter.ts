@@ -1,11 +1,13 @@
 import { InsertImagePorts, InsertProjectPorts, ProjectCreatePorts, UploadImagePorts } from '../../application/create/project_create.ports';
 import { BucketInfra } from '../../../shared/infra/bucket_infra';
 import { ProjectInfra } from '../../infra/project_infra';
-import { mapBucketImageToApp } from '../../../shared/mappers/mapBucketImagetoApp';
 import { mapProjectDbToApp } from '../shared/mappers/mapProjectDbToApp';
+import { HttpAdapter } from '../../../shared/repository/http_adapter';
 
-export class CreateProjectHttpAdapter implements ProjectCreatePorts {
-	constructor(private readonly client: ProjectInfra, private readonly bucket: BucketInfra) {}
+export class CreateProjectHttpAdapter extends HttpAdapter implements ProjectCreatePorts {
+	constructor(private readonly client: ProjectInfra, protected readonly bucket: BucketInfra) {
+		super(bucket);
+	}
 
 	async insertProject({ projectBody }: InsertProjectPorts.Input): Promise<InsertProjectPorts.Output> {
 		const projectDb = await this.client.createProject(projectBody);
@@ -20,13 +22,6 @@ export class CreateProjectHttpAdapter implements ProjectCreatePorts {
 	}
 
 	async uploadImage({ file, key, type, env }: UploadImagePorts.Input): Promise<UploadImagePorts.Output> {
-		const fileBuffer = await (file as unknown as File).arrayBuffer();
-		const uint8Array = new Uint8Array(fileBuffer);
-
-		const imagedb = await this.bucket.uploadImage(uint8Array, key, type, env);
-
-		return {
-			image: mapBucketImageToApp(imagedb),
-		};
+		return await this.uploadImageToBucket({ file, key, type, env });
 	}
 }

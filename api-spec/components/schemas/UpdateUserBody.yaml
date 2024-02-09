@@ -27,8 +27,4 @@ properties:
     nullable: false
     example: 679123046
   image:
-    type: string
-    format: binary
-    description: 'User image.'
-    nullable: false
-    example: ''
+    $ref: 'components/_index.yaml#/schemas/File'
