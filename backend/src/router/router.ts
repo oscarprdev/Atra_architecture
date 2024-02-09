@@ -4,12 +4,12 @@ import { Env } from '..';
 import { uploadUserHandler } from '../api/user/upload/user_upload_handler';
 import { updateUserHandler } from '../api/user/update/user_update_handler';
 import { updatePasswordUserHandler } from '../api/user/update-password/user_update_passowod_handler';
-import { userLoginHandler } from '../api/user/login/user_login_handler';
 import { describeProjectHandler } from '../api/project/handlers/project_describe_handler';
 import { createProjectHandler } from '../api/project/handlers/project_create_handler';
 import { listProjectsHandler } from '../api/project/handlers/project_list_handler';
 import { deleteProjectHandler } from '../api/project/handlers/project_delete_handler';
 import { describeUserHandler } from '../api/user/describe/user_describe_handler';
+import { userLoginHandler } from '../api/user2/handlers/login_user_handler';
 
 function buildRouter(env: Env): RouterType {
 	const router = Router();
