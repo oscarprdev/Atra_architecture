@@ -1,7 +1,6 @@
 import { Router, RouterType } from 'itty-router';
 import corsMiddleware from '../middlewares/cors';
 import { Env } from '..';
-import { updatePasswordUserHandler } from '../api/user/update-password/user_update_passowod_handler';
 import { describeProjectHandler } from '../api/project/handlers/project_describe_handler';
 import { createProjectHandler } from '../api/project/handlers/project_create_handler';
 import { listProjectsHandler } from '../api/project/handlers/project_list_handler';
@@ -10,6 +9,7 @@ import { userLoginHandler } from '../api/user2/handlers/login_user_handler';
 import { updateUserHandler } from '../api/user2/handlers/update_user.handler';
 import { uploadUserHandler } from '../api/user2/handlers/create_user.handler';
 import { describeUserHandler } from '../api/user2/handlers/describe_user_handler';
+import { updatePasswordUserHandler } from '../api/user2/handlers/update_password.handler';
 
 function buildRouter(env: Env): RouterType {
 	const router = Router();

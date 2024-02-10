@@ -14,26 +14,6 @@ export class DefaultLoginUserUsecases extends UserUsecases implements LoginUserU
 		super();
 	}
 
-	private async verifyPassword(inputPassword: string, hexSalt: string, hashedPassword: string): Promise<boolean> {
-		const encoder = new TextEncoder();
-
-		const inputPasswordBuffer = encoder.encode(inputPassword);
-
-		const salt = this.hexStringToUint8Array(hexSalt);
-
-		const saltedInputPassword = new Uint8Array(salt.length + inputPasswordBuffer.length);
-		saltedInputPassword.set(salt, 0);
-		saltedInputPassword.set(inputPasswordBuffer, salt.length);
-
-		const hashedBuffer = await crypto.subtle.digest('SHA-256', saltedInputPassword);
-
-		const hashedInputPassword = Array.from(new Uint8Array(hashedBuffer))
-			.map((byte) => byte.toString(16).padStart(2, '0'))
-			.join('');
-
-		return hashedInputPassword === hashedPassword;
-	}
-
 	async loginUser({ password, email, env }: LoginUserUsecasesTypes.LoginUserInput): Promise<LoginUserUsecasesTypes.LoginUserOutput> {
 		try {
 			const { name, passwordDb, emailDb } = await this.ports.selectUserAuthInfo({ env });

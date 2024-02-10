@@ -2,12 +2,14 @@ import buildLibsqlClient from '../../../database';
 import { UserDb } from '../shared/user_types';
 import { DescribeUserInfra } from './models/describe_user.model';
 import { InsertUserInfra } from './models/insert_user.model';
+import { UpdatePasswordInfra } from './models/update_password';
 import { UpdateUserInfra } from './models/update_user.model';
 
 export interface UserInfra {
 	describeUser(input: DescribeUserInfra.Input): Promise<DescribeUserInfra.Output>;
 	updateUser(input: UpdateUserInfra.Input): Promise<UpdateUserInfra.Output>;
 	insertUser(input: InsertUserInfra.Input): Promise<InsertUserInfra.Output>;
+	updatePassword(input: UpdatePasswordInfra.Input): Promise<UpdatePasswordInfra.Output>;
 }
 
 export class DefaultUserInfra implements UserInfra {
@@ -110,6 +112,37 @@ export class DefaultUserInfra implements UserInfra {
 				JSON.stringify({
 					status: 500,
 					message: `Error SQL: ${error instanceof Error ? error.message : 'Error inserting user to DB'}`,
+				})
+			);
+		}
+	}
+
+	async updatePassword({ hashedPassword, userId, env }: UpdatePasswordInfra.Input): Promise<UpdatePasswordInfra.Output> {
+		try {
+			const client = buildLibsqlClient(env);
+
+			await client.execute({
+				sql: `UPDATE users
+						SET
+							password_hash = ?
+						WHERE user_id = ?;
+					`,
+				args: [hashedPassword, userId],
+			});
+
+			const userDb = await client.execute({
+				sql: `SELECT * FROM users WHERE user_id = ?;`,
+				args: [userId],
+			});
+
+			return {
+				user: userDb.rows[0] as unknown as UserDb,
+			};
+		} catch (error) {
+			throw new Error(
+				JSON.stringify({
+					status: 500,
+					message: `Error SQL: ${error instanceof Error ? error.message : 'Error updating user password to DB'}`,
 				})
 			);
 		}

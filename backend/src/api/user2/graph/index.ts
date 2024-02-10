@@ -3,11 +3,13 @@ import { DefaultCreateUserUsecases } from '../application/create/create_user.use
 import { DefaultDescribeUserUsecases } from '../application/describe/describe_user.usecases';
 import { DefaultLoginUserUsecases } from '../application/login/login_user.usecases';
 import { DefaultUpdateUserUsecases } from '../application/update/update_user.usecases';
+import { DefaultUpdatePasswordUsecases } from '../application/update_password/update_password.usecases';
 import { DefaultUserInfra } from '../infra/user_infra';
 import { CreateUserHttpAdapter } from '../repository/create/create_user.http_adapter';
 import { DescribeUserHttpAdapter } from '../repository/describe/describe_user.http_adapter';
 import { LoginUserHttpAdapter } from '../repository/login/login_user.http_adapter';
 import { UpdateUserHttpAdapter } from '../repository/update/update_user.http_adapter';
+import { UpdatePasswordHttpAdapter } from '../repository/update_password/update_password.http_adapter';
 
 const userInfra = new DefaultUserInfra();
 const bucketInfra = new DefaultBucketInfra();
@@ -27,3 +29,7 @@ export const updateUserUsecase = new DefaultUpdateUserUsecases(updateUserAdapter
 // Create user usecase dependency injection
 const createUserAdapter = new CreateUserHttpAdapter(userInfra, bucketInfra);
 export const createUserUsecase = new DefaultCreateUserUsecases(createUserAdapter);
+
+// Update password usecase dependency injection
+const updatePasswordAdapter = new UpdatePasswordHttpAdapter(userInfra);
+export const updatePasswordUsecase = new DefaultUpdatePasswordUsecases(updatePasswordAdapter);

@@ -21,4 +21,24 @@ export class UserUsecases {
 
 		return `${projectName}/${imageId}`;
 	}
+
+	protected async verifyPassword(inputPassword: string, hexSalt: string, hashedPassword: string): Promise<boolean> {
+		const encoder = new TextEncoder();
+
+		const inputPasswordBuffer = encoder.encode(inputPassword);
+
+		const salt = this.hexStringToUint8Array(hexSalt);
+
+		const saltedInputPassword = new Uint8Array(salt.length + inputPasswordBuffer.length);
+		saltedInputPassword.set(salt, 0);
+		saltedInputPassword.set(inputPasswordBuffer, salt.length);
+
+		const hashedBuffer = await crypto.subtle.digest('SHA-256', saltedInputPassword);
+
+		const hashedInputPassword = Array.from(new Uint8Array(hashedBuffer))
+			.map((byte) => byte.toString(16).padStart(2, '0'))
+			.join('');
+
+		return hashedInputPassword === hashedPassword;
+	}
 }
