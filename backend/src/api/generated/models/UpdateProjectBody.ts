@@ -4,6 +4,10 @@
 /* eslint-disable */
 export type UpdateProjectBody = {
     /**
+     * The unique identifier for the project.
+     */
+    id: string;
+    /**
      * The project's title.
      */
     title: string;

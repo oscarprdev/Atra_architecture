@@ -1,12 +1,13 @@
-import { DescribeProjectPorts, ProjectDescribePorts } from '../../application/describe/project_describe.ports';
+import { DescribeProjectPorts, GetImageByKeyPorts, ProjectDescribePorts } from '../../application/describe/project_describe.ports';
 import { ProjectInfra } from '../../infra/project_infra';
-import { BucketInfra } from '../../../shared/infra/bucket_infra';
 import { mapProjectDbToApp } from '../shared/mappers/mapProjectDbToApp';
-import { HttpAdapter } from '../../../shared/repository/http_adapter';
+import { ImagesUsecases } from '../../../images/application/images.usecases';
 
-export class DescribeProjectHttpAdapter extends HttpAdapter implements ProjectDescribePorts {
-	constructor(private readonly client: ProjectInfra, protected readonly bucket: BucketInfra) {
-		super(bucket);
+export class DescribeProjectHttpAdapter implements ProjectDescribePorts {
+	constructor(private readonly client: ProjectInfra, protected readonly imagesUsecases: ImagesUsecases) {}
+
+	async getImageByKey({ key, env }: GetImageByKeyPorts.Input): Promise<GetImageByKeyPorts.Output> {
+		return await this.imagesUsecases.getImageByKey({ key, env });
 	}
 
 	async describeProject({ projectId, nextRequest, env }: DescribeProjectPorts.Input): Promise<DescribeProjectPorts.Output> {

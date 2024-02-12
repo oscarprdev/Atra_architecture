@@ -1,13 +1,10 @@
-import { DeleteItemByKeyPortsTypes, DeleteProjectPorts, DeleteProjectPortsTypes } from '../../application/delete/project_delete.ports';
-import { BucketInfra } from '../../../shared/infra/bucket_infra';
+import { DeleteImageByKeyPortsTypes, DeleteProjectPorts, DeleteProjectPortsTypes } from '../../application/delete/project_delete.ports';
 import { ProjectInfra } from '../../infra/project_infra';
 import { mapProjectDbToApp } from '../shared/mappers/mapProjectDbToApp';
-import { HttpAdapter } from '../../../shared/repository/http_adapter';
+import { ImagesUsecases } from '../../../images/application/images.usecases';
 
-export class DeleteProjectHttpAdapter extends HttpAdapter implements DeleteProjectPorts {
-	constructor(private readonly client: ProjectInfra, protected readonly bucket: BucketInfra) {
-		super(bucket);
-	}
+export class DeleteProjectHttpAdapter implements DeleteProjectPorts {
+	constructor(private readonly client: ProjectInfra, protected readonly imageUsecases: ImagesUsecases) {}
 
 	async deleteProject({ projectId, env }: DeleteProjectPortsTypes.Input): Promise<DeleteProjectPortsTypes.Output> {
 		const response = await this.client.deleteProject({ projectId, env });
@@ -17,7 +14,7 @@ export class DeleteProjectHttpAdapter extends HttpAdapter implements DeleteProje
 		};
 	}
 
-	async deleteItemByKey({ key, env }: DeleteItemByKeyPortsTypes.Input): Promise<void> {
-		await this.deleteItemByKey({ key, env });
+	async deleteImageByKey({ key, env }: DeleteImageByKeyPortsTypes.Input): Promise<void> {
+		await this.imageUsecases.deleteImageByKey({ key, env });
 	}
 }

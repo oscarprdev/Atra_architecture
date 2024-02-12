@@ -6,6 +6,7 @@ export interface ProjectCreatePorts {
 	insertProject(input: InsertProjectPorts.Input): Promise<InsertProjectPorts.Output>;
 	insertImage(input: InsertImagePorts.Input): Promise<void>;
 	uploadImage(input: UploadImagePorts.Input): Promise<UploadImagePorts.Output>;
+	uploadImages(input: UploadImagesPorts.Input): Promise<UploadImagesPorts.Output>;
 }
 
 export namespace InsertProjectPorts {
@@ -39,12 +40,23 @@ export namespace InsertImagePorts {
 export namespace UploadImagePorts {
 	export type Input = {
 		file: File;
-		key: string;
-		type: string;
+		project: string;
 		env: Env;
 	};
 
 	export type Output = {
 		image: File;
+	};
+}
+
+export namespace UploadImagesPorts {
+	export type Input = {
+		files: File[];
+		project: string;
+		env: Env;
+	};
+
+	export type Output = {
+		images: File[];
 	};
 }

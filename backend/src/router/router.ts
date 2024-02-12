@@ -5,11 +5,11 @@ import { describeProjectHandler } from '../api/project/handlers/project_describe
 import { createProjectHandler } from '../api/project/handlers/project_create_handler';
 import { listProjectsHandler } from '../api/project/handlers/project_list_handler';
 import { deleteProjectHandler } from '../api/project/handlers/project_delete_handler';
-import { userLoginHandler } from '../api/user2/handlers/login_user_handler';
-import { updateUserHandler } from '../api/user2/handlers/update_user.handler';
-import { uploadUserHandler } from '../api/user2/handlers/create_user.handler';
-import { describeUserHandler } from '../api/user2/handlers/describe_user_handler';
-import { updatePasswordUserHandler } from '../api/user2/handlers/update_password.handler';
+import { userLoginHandler } from '../api/user/handlers/login_user_handler';
+import { updateUserHandler } from '../api/user/handlers/update_user.handler';
+import { uploadUserHandler } from '../api/user/handlers/create_user.handler';
+import { describeUserHandler } from '../api/user/handlers/describe_user_handler';
+import { updatePasswordUserHandler } from '../api/user/handlers/update_password.handler';
 
 function buildRouter(env: Env): RouterType {
 	const router = Router();

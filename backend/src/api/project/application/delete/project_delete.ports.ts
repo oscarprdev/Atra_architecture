@@ -3,7 +3,7 @@ import { ProjectResponse } from '../../shared/project_types';
 
 export interface DeleteProjectPorts {
 	deleteProject(input: DeleteProjectPortsTypes.Input): Promise<DeleteProjectPortsTypes.Output>;
-	deleteItemByKey(input: DeleteItemByKeyPortsTypes.Input): Promise<void>;
+	deleteImageByKey(input: DeleteImageByKeyPortsTypes.Input): Promise<void>;
 }
 
 export namespace DeleteProjectPortsTypes {
@@ -17,7 +17,7 @@ export namespace DeleteProjectPortsTypes {
 	};
 }
 
-export namespace DeleteItemByKeyPortsTypes {
+export namespace DeleteImageByKeyPortsTypes {
 	export type Input = {
 		key: string;
 		env: Env;

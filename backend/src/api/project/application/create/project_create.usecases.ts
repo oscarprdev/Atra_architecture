@@ -1,6 +1,5 @@
-import { Env } from '../../../..';
 import extractErrorInfo from '../../../../utils/extract_from_error_info';
-import { File, Project } from '../../../generated';
+import { Project } from '../../../generated';
 import { ProjectUsecases } from '../../shared/project.usecases';
 import { ProjectCreatePorts } from './project_create.ports';
 import { ProjectCreateUsecasesTypes } from './project_create.types';
@@ -14,19 +13,6 @@ export class DefaultProjectCreateUsecases extends ProjectUsecases implements Pro
 		super();
 	}
 
-	private async uploadMainImage(mainImage: File, project: string, env: Env) {
-		const key = this.generateImageKey(project);
-		const type = mainImage.Type || 'image/jpg';
-
-		return await this.ports.uploadImage({ file: mainImage, key, type, env });
-	}
-
-	private async uploadImages(images: File[], project: string, env: Env) {
-		const key = this.generateImageKey(project);
-
-		return await Promise.all(images.map((image) => this.ports.uploadImage({ file: image, key, type: image.Type || 'image/jpg', env })));
-	}
-
 	private async insertImages({ mainImageKey, imagesKeys, projectId, env }: ProjectCreateUsecasesTypes.NextRequestInput): Promise<void> {
 		await Promise.all([
 			this.ports.insertImage({ key: mainImageKey, isMain: true, projectId, env }),
@@ -36,9 +22,9 @@ export class DefaultProjectCreateUsecases extends ProjectUsecases implements Pro
 
 	async createProject({ projectBody, env }: ProjectCreateUsecasesTypes.CreateProjectInput): Promise<Project> {
 		try {
-			const [mainImageUploaded, imagesUploaded, projectResponse] = await Promise.all([
-				this.uploadMainImage(projectBody.mainImage, projectBody.title, env),
-				this.uploadImages(projectBody.images, projectBody.title, env),
+			const [{ image }, { images }, projectResponse] = await Promise.all([
+				this.ports.uploadImage({ file: projectBody.mainImage, project: projectBody.title, env }),
+				this.ports.uploadImages({ files: projectBody.images, project: projectBody.title, env }),
 				this.ports.insertProject({
 					projectBody: {
 						projectId: crypto.randomUUID().toString(),
@@ -52,16 +38,16 @@ export class DefaultProjectCreateUsecases extends ProjectUsecases implements Pro
 			]);
 
 			await this.insertImages({
-				mainImageKey: mainImageUploaded.image.Key,
-				imagesKeys: imagesUploaded.map((outout) => outout.image.Key),
+				mainImageKey: image.Key,
+				imagesKeys: images.map((img) => img.Key),
 				projectId: projectResponse.project.id,
 				env,
 			});
 
 			return {
 				...projectResponse.project,
-				mainImage: mainImageUploaded.image,
-				images: imagesUploaded.map((outout) => outout.image),
+				mainImage: image,
+				images,
 			};
 		} catch (error) {
 			const { status, message } = extractErrorInfo(error);

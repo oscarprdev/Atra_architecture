@@ -1,12 +1,13 @@
-import { HttpAdapter } from '../../../shared/repository/http_adapter';
-import { BucketInfra } from '../../../shared/infra/bucket_infra';
 import { ProjectInfra } from '../../infra/project_infra';
 import { mapProjectDbToApp } from '../shared/mappers/mapProjectDbToApp';
-import { ProjectListPorts, ProjectListPortsTypes } from '../../application/list/project_list.ports';
+import { GetImageByKeyPorts, ProjectListPorts, ProjectListPortsTypes } from '../../application/list/project_list.ports';
+import { ImagesUsecases } from '../../../images/application/images.usecases';
 
-export class ListProjectHttpAdapter extends HttpAdapter implements ProjectListPorts {
-	constructor(private readonly client: ProjectInfra, protected readonly bucket: BucketInfra) {
-		super(bucket);
+export class ListProjectHttpAdapter implements ProjectListPorts {
+	constructor(private readonly client: ProjectInfra, protected readonly imagesUsecases: ImagesUsecases) {}
+
+	async getImageByKey({ key, env }: GetImageByKeyPorts.Input): Promise<GetImageByKeyPorts.Output> {
+		return await this.imagesUsecases.getImageByKey({ key, env });
 	}
 
 	async listProjects({ env }: ProjectListPortsTypes.Input): Promise<ProjectListPortsTypes.Output> {
