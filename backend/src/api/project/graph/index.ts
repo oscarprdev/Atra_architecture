@@ -6,24 +6,23 @@ import { DefaultProjectCreateUsecases } from '../application/create/project_crea
 import { DefaultProjectDeleteUsecases } from '../application/delete/project_delete.usecases';
 import { DefaultProjectDescribeUsecases } from '../application/describe/project_describe.usecases';
 import { DefaultProjectListUsecases } from '../application/list/project_list.usecases';
-import { DefaultBucketInfra } from '../../shared/infra/bucket_infra';
 import { DefaultProjectInfra } from '../infra/project_infra';
+import { imagesUsecases } from '../../images/graph';
 
 const projectInfra = new DefaultProjectInfra();
-const bucketInfra = new DefaultBucketInfra();
 
 // Describe project usecase dependency injection
-const projectDescribeAdapter = new DescribeProjectHttpAdapter(projectInfra, bucketInfra);
+const projectDescribeAdapter = new DescribeProjectHttpAdapter(projectInfra, imagesUsecases);
 export const projectDescribeUsecase = new DefaultProjectDescribeUsecases(projectDescribeAdapter);
 
 // Create project usecase dependency injection
-const projectCreateAdapter = new CreateProjectHttpAdapter(projectInfra, bucketInfra);
+const projectCreateAdapter = new CreateProjectHttpAdapter(projectInfra, imagesUsecases);
 export const projectCreateUsecase = new DefaultProjectCreateUsecases(projectCreateAdapter);
 
 // List project usecase dependency injection
-const projectListAdapter = new ListProjectHttpAdapter(projectInfra, bucketInfra);
+const projectListAdapter = new ListProjectHttpAdapter(projectInfra, imagesUsecases);
 export const projectListUsecase = new DefaultProjectListUsecases(projectListAdapter);
 
 // Delete project usecase dependency injection
-const projectDeleteAdapter = new DeleteProjectHttpAdapter(projectInfra, bucketInfra);
+const projectDeleteAdapter = new DeleteProjectHttpAdapter(projectInfra, imagesUsecases);
 export const projectDeleteUsecase = new DefaultProjectDeleteUsecases(projectDeleteAdapter);

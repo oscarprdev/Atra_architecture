@@ -1,3 +1,4 @@
+import { ImagesUsecases } from '../../../images/application/images.usecases';
 import {
 	InsertImagePorts,
 	InsertProjectPorts,
@@ -7,10 +8,9 @@ import {
 } from '../../application/create/project_create.ports';
 import { ProjectInfra } from '../../infra/project_infra';
 import { mapProjectDbToApp } from '../shared/mappers/mapProjectDbToApp';
-import { ImagesUsecases } from '../../../images/application/images.usecases';
 
 export class CreateProjectHttpAdapter implements ProjectCreatePorts {
-	constructor(private readonly client: ProjectInfra, protected readonly imageUsecases: ImagesUsecases) {}
+	constructor(private readonly client: ProjectInfra, private readonly imageUsecases: ImagesUsecases) {}
 
 	async insertProject({ projectBody }: InsertProjectPorts.Input): Promise<InsertProjectPorts.Output> {
 		const projectDb = await this.client.createProject(projectBody);

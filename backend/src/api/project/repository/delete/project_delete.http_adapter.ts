@@ -1,10 +1,10 @@
+import { ImagesUsecases } from '../../../images/application/images.usecases';
 import { DeleteImageByKeyPortsTypes, DeleteProjectPorts, DeleteProjectPortsTypes } from '../../application/delete/project_delete.ports';
 import { ProjectInfra } from '../../infra/project_infra';
 import { mapProjectDbToApp } from '../shared/mappers/mapProjectDbToApp';
-import { ImagesUsecases } from '../../../images/application/images.usecases';
 
 export class DeleteProjectHttpAdapter implements DeleteProjectPorts {
-	constructor(private readonly client: ProjectInfra, protected readonly imageUsecases: ImagesUsecases) {}
+	constructor(private readonly client: ProjectInfra, private readonly imageUsecases: ImagesUsecases) {}
 
 	async deleteProject({ projectId, env }: DeleteProjectPortsTypes.Input): Promise<DeleteProjectPortsTypes.Output> {
 		const response = await this.client.deleteProject({ projectId, env });
