@@ -26,8 +26,7 @@ export namespace CreateUserPortsTypes {
 export namespace UploadImagePortsTypes {
 	export type Input = {
 		file: File;
-		key: string;
-		type: string;
+		project: string;
 		env: Env;
 	};
 

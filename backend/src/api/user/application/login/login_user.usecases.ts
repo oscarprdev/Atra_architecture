@@ -1,6 +1,5 @@
 import extractErrorInfo from '../../../../utils/extract_from_error_info';
-import { User } from '../../../generated';
-import { UserUsecases } from '../../shared/user.usecases';
+import { AuthUsecases } from '../../shared/user.usecases';
 import { LoginUserPorts } from './login_user.ports';
 import { LoginUserUsecasesTypes } from './login_user.types';
 import jwt from '@tsndr/cloudflare-worker-jwt';
@@ -9,7 +8,7 @@ export interface LoginUserUsecases {
 	loginUser(input: LoginUserUsecasesTypes.LoginUserInput): Promise<LoginUserUsecasesTypes.LoginUserOutput>;
 }
 
-export class DefaultLoginUserUsecases extends UserUsecases implements LoginUserUsecases {
+export class DefaultLoginUserUsecases extends AuthUsecases implements LoginUserUsecases {
 	constructor(private readonly ports: LoginUserPorts) {
 		super();
 	}

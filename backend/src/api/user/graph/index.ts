@@ -1,4 +1,4 @@
-import { DefaultBucketInfra } from '../../shared/infra/bucket_infra';
+import { imagesUsecases } from '../../images/graph';
 import { DefaultCreateUserUsecases } from '../application/create/create_user.usecases';
 import { DefaultDescribeUserUsecases } from '../application/describe/describe_user.usecases';
 import { DefaultLoginUserUsecases } from '../application/login/login_user.usecases';
@@ -12,10 +12,9 @@ import { UpdateUserHttpAdapter } from '../repository/update/update_user.http_ada
 import { UpdatePasswordHttpAdapter } from '../repository/update_password/update_password.http_adapter';
 
 const userInfra = new DefaultUserInfra();
-const bucketInfra = new DefaultBucketInfra();
 
 // Describe user usecase dependency injection
-const describeUserAdapter = new DescribeUserHttpAdapter(userInfra, bucketInfra);
+const describeUserAdapter = new DescribeUserHttpAdapter(userInfra, imagesUsecases);
 export const describeUserUsecase = new DefaultDescribeUserUsecases(describeUserAdapter);
 
 // Login user usecase dependency injection
@@ -23,11 +22,11 @@ const loginUserAdapter = new LoginUserHttpAdapter(userInfra);
 export const loginUserUsecase = new DefaultLoginUserUsecases(loginUserAdapter);
 
 // Update user usecase dependency injection
-const updateUserAdapter = new UpdateUserHttpAdapter(userInfra, bucketInfra);
+const updateUserAdapter = new UpdateUserHttpAdapter(userInfra, imagesUsecases);
 export const updateUserUsecase = new DefaultUpdateUserUsecases(updateUserAdapter);
 
 // Create user usecase dependency injection
-const createUserAdapter = new CreateUserHttpAdapter(userInfra, bucketInfra);
+const createUserAdapter = new CreateUserHttpAdapter(userInfra, imagesUsecases);
 export const createUserUsecase = new DefaultCreateUserUsecases(createUserAdapter);
 
 // Update password usecase dependency injection

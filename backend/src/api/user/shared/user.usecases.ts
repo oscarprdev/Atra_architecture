@@ -1,7 +1,7 @@
-export class UserUsecases {
+export class AuthUsecases {
 	constructor() {}
 
-	protected hexStringToUint8Array(hexString?: string): Uint8Array {
+	private hexStringToUint8Array(hexString?: string): Uint8Array {
 		const hex = hexString || crypto.randomUUID().toString();
 
 		const length = hex.length / 2;
@@ -15,11 +15,24 @@ export class UserUsecases {
 		return uint8Array;
 	}
 
-	protected generateImageKey(project: string) {
-		const imageId = crypto.randomUUID().toString();
-		const projectName = project.replaceAll(' ', '_');
+	protected async hashPassword(password: string, hexSalt: string): Promise<string> {
+		const encoder = new TextEncoder();
 
-		return `${projectName}/${imageId}`;
+		const passwordBuffer = encoder.encode(password);
+
+		const salt = this.hexStringToUint8Array(hexSalt);
+
+		const saltedPassword = new Uint8Array(salt.length + passwordBuffer.length);
+		saltedPassword.set(salt, 0);
+		saltedPassword.set(passwordBuffer, salt.length);
+
+		const hashedBuffer = await crypto.subtle.digest('SHA-256', saltedPassword);
+
+		const hashedPassword = Array.from(new Uint8Array(hashedBuffer))
+			.map((byte) => byte.toString(16).padStart(2, '0'))
+			.join('');
+
+		return hashedPassword;
 	}
 
 	protected async verifyPassword(inputPassword: string, hexSalt: string, hashedPassword: string): Promise<boolean> {

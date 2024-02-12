@@ -1,13 +1,10 @@
-import { BucketInfra } from '../../../shared/infra/bucket_infra';
-import { HttpAdapter } from '../../../shared/repository/http_adapter';
+import { ImagesUsecases } from '../../../images/application/images.usecases';
 import { DescribeUserPorts, GetUserImagePorts } from '../../application/describe/describe_user.ports';
 import { UserInfra } from '../../infra/user_infra';
 import { mapUserDbToApp } from '../shared/mappers/mapUseDbToApp';
 
-export class DescribeUserHttpAdapter extends HttpAdapter implements DescribeUserPorts {
-	constructor(private readonly client: UserInfra, protected readonly bucket: BucketInfra) {
-		super(bucket);
-	}
+export class DescribeUserHttpAdapter implements DescribeUserPorts {
+	constructor(private readonly client: UserInfra, private readonly imagesUsecases: ImagesUsecases) {}
 
 	async describeUser({ env }: DescribeUserPorts.Input): Promise<DescribeUserPorts.Output> {
 		const userResponse = await this.client.describeUser({ env });
@@ -18,6 +15,6 @@ export class DescribeUserHttpAdapter extends HttpAdapter implements DescribeUser
 	}
 
 	async getUserImage({ key, env }: GetUserImagePorts.Input): Promise<GetUserImagePorts.Output> {
-		return await this.getImageByKey({ key, env });
+		return await this.imagesUsecases.getImageByKey({ key, env });
 	}
 }

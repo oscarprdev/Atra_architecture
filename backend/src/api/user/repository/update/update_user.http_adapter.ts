@@ -1,5 +1,4 @@
-import { BucketInfra } from '../../../shared/infra/bucket_infra';
-import { HttpAdapter } from '../../../shared/repository/http_adapter';
+import { ImagesUsecases } from '../../../images/application/images.usecases';
 import {
 	DeleteImagePortsTypes,
 	SelectUserPortsTypes,
@@ -10,10 +9,8 @@ import {
 import { UserInfra } from '../../infra/user_infra';
 import { mapUserDbToApp } from '../shared/mappers/mapUseDbToApp';
 
-export class UpdateUserHttpAdapter extends HttpAdapter implements UpdateUserPorts {
-	constructor(private readonly client: UserInfra, protected readonly bucket: BucketInfra) {
-		super(bucket);
-	}
+export class UpdateUserHttpAdapter implements UpdateUserPorts {
+	constructor(private readonly client: UserInfra, private readonly imagesUsecases: ImagesUsecases) {}
 
 	async selectUser({ env }: SelectUserPortsTypes.Input): Promise<SelectUserPortsTypes.Output> {
 		const { user } = await this.client.describeUser({ env });
@@ -23,12 +20,12 @@ export class UpdateUserHttpAdapter extends HttpAdapter implements UpdateUserPort
 		};
 	}
 
-	async uploadImage({ file, key, type, env }: UploadImagePortsTypes.Input): Promise<UploadImagePortsTypes.Output> {
-		return await this.uploadImageToBucket({ file, key, type, env });
+	async uploadImage({ file, project, env }: UploadImagePortsTypes.Input): Promise<UploadImagePortsTypes.Output> {
+		return await this.imagesUsecases.uploadImage({ file, project, env });
 	}
 
 	async deleteImage({ key, env }: DeleteImagePortsTypes.Input): Promise<void> {
-		await this.deleteItemByKey({ key, env });
+		await this.imagesUsecases.deleteImageByKey({ key, env });
 	}
 
 	async updateUser({ id, name, direction, phone, email, imageKey, env }: UpdateUserPortsTypes.Input): Promise<UpdateUserPortsTypes.Output> {

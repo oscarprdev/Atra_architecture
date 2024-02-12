@@ -1,5 +1,5 @@
 import { Env } from '../../../..';
-import { File, User } from '../../../generated';
+import { File } from '../../../generated';
 import { UserResponse } from '../../shared/user_types';
 
 export interface UpdateUserPorts {
@@ -22,8 +22,7 @@ export namespace SelectUserPortsTypes {
 export namespace UploadImagePortsTypes {
 	export type Input = {
 		file: File;
-		key: string;
-		type: string;
+		project: string;
 		env: Env;
 	};
 

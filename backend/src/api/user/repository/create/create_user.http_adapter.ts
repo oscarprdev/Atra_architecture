@@ -1,16 +1,13 @@
-import { BucketInfra } from '../../../shared/infra/bucket_infra';
-import { HttpAdapter } from '../../../shared/repository/http_adapter';
+import { ImagesUsecases } from '../../../images/application/images.usecases';
 import { CreateUserPorts, CreateUserPortsTypes, UploadImagePortsTypes } from '../../application/create/create_user.ports';
 import { UserInfra } from '../../infra/user_infra';
 import { mapUserDbToApp } from '../shared/mappers/mapUseDbToApp';
 
-export class CreateUserHttpAdapter extends HttpAdapter implements CreateUserPorts {
-	constructor(private readonly client: UserInfra, protected readonly bucket: BucketInfra) {
-		super(bucket);
-	}
+export class CreateUserHttpAdapter implements CreateUserPorts {
+	constructor(private readonly client: UserInfra, private readonly imagesUsecases: ImagesUsecases) {}
 
-	async uploadImage({ file, key, type, env }: UploadImagePortsTypes.Input): Promise<UploadImagePortsTypes.Output> {
-		return await this.uploadImageToBucket({ file, key, type, env });
+	async uploadImage({ file, project, env }: UploadImagePortsTypes.Input): Promise<UploadImagePortsTypes.Output> {
+		return await this.imagesUsecases.uploadImage({ file, project, env });
 	}
 
 	async insertUser({
