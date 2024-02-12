@@ -3,6 +3,8 @@ import { Project } from '../../../generated';
 import { ProjectListPorts } from './project_list.ports';
 import { ProjectListUsecasesTypes } from './project_list.types';
 
+export const LIMIT = 10;
+
 export interface ProjectListUsecases {
 	listProjects(input: ProjectListUsecasesTypes.Input): Promise<Project[]>;
 }
@@ -10,9 +12,14 @@ export interface ProjectListUsecases {
 export class DefaultProjectListUsecases implements ProjectListUsecases {
 	constructor(private readonly ports: ProjectListPorts) {}
 
-	async listProjects({ env }: ProjectListUsecasesTypes.Input): Promise<Project[]> {
+	private calculateOffset = (page: number) => {
+		return LIMIT * (page - 1);
+	};
+
+	async listProjects({ page, env }: ProjectListUsecasesTypes.Input): Promise<Project[]> {
 		try {
-			const { projects } = await this.ports.listProjects({ env });
+			const offset = this.calculateOffset(page);
+			const { projects } = await this.ports.listProjects({ offset, limit: LIMIT, env });
 
 			return await Promise.all(
 				projects.map(async (project) => {

@@ -2,6 +2,8 @@ get:
   tags:
     - Projects
   description: Get projects list
+  parameters:
+    - $ref: 'components/_index.yaml#/parameters/Page'
   responses:
     '200':
       $ref: 'components/_index.yaml#/responses/DescribeProjectsListResponse'

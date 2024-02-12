@@ -6,7 +6,10 @@ import { ApiResponse } from '../../shared/models/api_response';
 
 export async function listProjectsHandler(request: Request, env: Env) {
 	try {
-		const projectsOutput = await projectListUsecase.listProjects({ env });
+		const { searchParams } = new URL(request.url);
+		const page = Number(searchParams.get('page'));
+
+		const projectsOutput = await projectListUsecase.listProjects({ page, env });
 
 		const apiResponse: ApiResponse<Project[]> = {
 			status: 200,

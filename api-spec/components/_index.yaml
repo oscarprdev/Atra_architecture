@@ -1,6 +1,8 @@
 parameters:
   Id:
     $ref: 'components/parameters/Id.yaml'
+  Page:
+    $ref: 'components/parameters/Page.yaml'
 
 responses:
   # Common

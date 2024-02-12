@@ -10,8 +10,8 @@ export class ListProjectHttpAdapter implements ProjectListPorts {
 		return await this.imagesUsecases.getImageByKey({ key, env });
 	}
 
-	async listProjects({ env }: ProjectListPortsTypes.Input): Promise<ProjectListPortsTypes.Output> {
-		const { projects } = await this.client.listProject({ env });
+	async listProjects({ offset, limit, env }: ProjectListPortsTypes.Input): Promise<ProjectListPortsTypes.Output> {
+		const { projects } = await this.client.listProject({ offset, limit, env });
 
 		return {
 			projects: projects.map((project) => mapProjectDbToApp(project)),

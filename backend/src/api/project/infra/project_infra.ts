@@ -136,7 +136,7 @@ export class DefaultProjectInfra implements ProjectInfra {
 		}
 	}
 
-	async listProject({ env }: ListProjectInfra.Input): Promise<ListProjectInfra.Output> {
+	async listProject({ offset, limit, env }: ListProjectInfra.Input): Promise<ListProjectInfra.Output> {
 		try {
 			const client = buildLibsqlClient(env);
 
@@ -160,9 +160,13 @@ export class DefaultProjectInfra implements ProjectInfra {
 			JOIN
 				images ON project_image.image_id = images.image_id
 			GROUP BY
-				projects.project_id, projects.title, projects.description, projects.year, projects.is_top, projects.created_at, projects.updated_at;
+				projects.project_id, projects.title, projects.description, projects.year, projects.is_top, projects.created_at, projects.updated_at
+			ORDER BY
+    			projects.created_at ASC
+			LIMIT ?
+			OFFSET ?;
 			`,
-				args: [],
+				args: [limit, offset],
 			});
 
 			return {
