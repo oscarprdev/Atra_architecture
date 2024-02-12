@@ -1,4 +1,4 @@
-import generateImageKey from '../../shared/utils/generate_image_key';
+import generateImageKey from '../utils/generate_image_key';
 import { ImagesPorts } from './images.ports';
 import { ImagesUsecasesTypes } from './images.types';
 
