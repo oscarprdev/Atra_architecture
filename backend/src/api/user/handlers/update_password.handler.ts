@@ -1,9 +1,9 @@
 import { z } from 'zod';
 import extractErrorInfo from '../../../utils/extract_from_error_info';
 import { Env } from '../../..';
-import { ApiResponse } from '../../response';
 import { UpdateUserPasswordBody } from '../../generated';
 import { updatePasswordUsecase } from '../graph';
+import { ApiResponse } from '../../shared/models/api_response';
 
 export async function updatePasswordUserHandler(request: Request, env: Env) {
 	try {
@@ -19,6 +19,7 @@ export async function updatePasswordUserHandler(request: Request, env: Env) {
 			await updatePasswordUsecase.updatePassword({ oldPassword, newPassword, env });
 
 			const apiResponse: ApiResponse<null> = {
+				status: 201,
 				response: 'Password updated successfully',
 				data: null,
 			};

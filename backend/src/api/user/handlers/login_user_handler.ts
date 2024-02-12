@@ -1,9 +1,9 @@
 import { z } from 'zod';
 import extractErrorInfo from '../../../utils/extract_from_error_info';
 import { Env } from '../../..';
-import { ApiResponse } from '../../response';
 import { loginUserUsecase } from '../graph';
 import { LoginUserBody } from '../../generated';
+import { ApiResponse } from '../../shared/models/api_response';
 
 export async function userLoginHandler(request: Request, env: Env) {
 	try {
@@ -16,6 +16,7 @@ export async function userLoginHandler(request: Request, env: Env) {
 			const response = await loginUserUsecase.loginUser({ password: validInput.password, email: validInput.email, env });
 
 			const apiResponse: ApiResponse<string> = {
+				status: 201,
 				response: 'User logged successfully',
 				data: response.token,
 			};

@@ -1,9 +1,9 @@
 import { z } from 'zod';
 import extractErrorInfo from '../../../utils/extract_from_error_info';
 import { Env } from '../../..';
-import { ApiResponse } from '../../response';
 import { File as ApiFile, CreateUserBody, User } from '../../generated';
 import { createUserUsecase } from '../graph';
+import { ApiResponse } from '../../shared/models/api_response';
 
 export async function uploadUserHandler(request: Request, env: Env) {
 	try {
@@ -21,6 +21,7 @@ export async function uploadUserHandler(request: Request, env: Env) {
 		const projectOutput = await createUserUsecase.createUser({ userBody: { email, name, password, direction, phone, image }, env });
 
 		const apiResponse: ApiResponse<User> = {
+			status: 201,
 			response: 'User created successfully',
 			data: projectOutput.user,
 		};

@@ -2,9 +2,9 @@ import extractErrorInfo from '../../../utils/extract_from_error_info';
 import { Env } from '../../..';
 import { RequestParams } from '../../../types';
 import { z } from 'zod';
-import { ApiResponse } from '../../response';
 import { projectDeleteUsecase } from '../graph';
 import { DeleteProjectInput } from './handlers.types';
+import { ApiResponse } from '../../shared/models/api_response';
 
 export async function deleteProjectHandler(request: Request, env: Env) {
 	try {
@@ -14,6 +14,7 @@ export async function deleteProjectHandler(request: Request, env: Env) {
 		await projectDeleteUsecase.deleteProject({ projectId: validInput.id, env });
 
 		const apiResponse: ApiResponse<null> = {
+			status: 202,
 			response: 'Project deleted successfully',
 			data: null,
 		};

@@ -1,9 +1,9 @@
 import { z } from 'zod';
 import extractErrorInfo from '../../../utils/extract_from_error_info';
 import { Env } from '../../..';
-import { ApiResponse } from '../../response';
 import { updateUserUsecase } from '../graph';
 import { File as ApiFile, UpdateUserBody, User } from '../../generated';
+import { ApiResponse } from '../../shared/models/api_response';
 
 export async function updateUserHandler(request: Request, env: Env) {
 	try {
@@ -30,6 +30,7 @@ export async function updateUserHandler(request: Request, env: Env) {
 			});
 
 			const apiResponse: ApiResponse<User> = {
+				status: 201,
 				response: 'User info updated successfully',
 				data: user,
 			};

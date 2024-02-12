@@ -1,6 +1,6 @@
 import extractErrorInfo from '../../../../utils/extract_from_error_info';
 import { User } from '../../../generated';
-import { AuthUsecases } from '../../shared/user.usecases';
+import { AuthUsecases } from '../../shared/auth.usecases';
 import { CreateUserPorts } from './create_user.ports';
 import { CreateUserUsecasesTypes } from './create_user.types';
 

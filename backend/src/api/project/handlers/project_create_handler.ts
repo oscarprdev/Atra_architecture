@@ -2,9 +2,9 @@ import { z } from 'zod';
 import convertToBoolean from '../../../utils/convert_to_bool';
 import extractErrorInfo from '../../../utils/extract_from_error_info';
 import { Env } from '../../..';
-import { ApiResponse } from '../../response';
 import { projectCreateUsecase } from '../graph';
 import { CreateProjectBody, File as ApiFile, Project } from '../../generated';
+import { ApiResponse } from '../../shared/models/api_response';
 
 export async function createProjectHandler(request: Request, env: Env) {
 	try {
@@ -22,6 +22,7 @@ export async function createProjectHandler(request: Request, env: Env) {
 		const projectOutput = await projectCreateUsecase.createProject({ projectBody: validInput, env });
 
 		const apiResponse: ApiResponse<Project> = {
+			status: 201,
 			response: 'Project uploaded successfully',
 			data: projectOutput,
 		};
