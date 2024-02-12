@@ -79,10 +79,6 @@ export class Bucket {
 	}
 
 	async deleteItemByKey(key: string) {
-		try {
-			return await this.S3.send(new DeleteObjectCommand({ Bucket: this.BucketName, Key: key }));
-		} catch (error) {
-			console.log(error);
-		}
+		return await this.S3.send(new DeleteObjectCommand({ Bucket: this.BucketName, Key: key }));
 	}
 }

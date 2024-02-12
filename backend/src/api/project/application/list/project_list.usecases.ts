@@ -27,7 +27,6 @@ export class DefaultProjectListUsecases implements ProjectListUsecases {
 				})
 			);
 		} catch (error) {
-			console.log(error);
 			const { status, message } = extractErrorInfo(error);
 
 			throw new Error(
