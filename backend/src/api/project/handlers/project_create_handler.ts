@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import convertToBoolean from '../../../utils/convert_to_bool';
-import extractErrorInfo from '../../../utils/extract_from_error_info';
+import convertToBoolean from '../../shared/utils/convert_to_bool';
+import extractErrorInfo from '../../shared/utils/extract_from_error_info';
 import { Env } from '../../..';
 import { projectCreateUsecase } from '../graph';
 import { CreateProjectBody, File as ApiFile, Project } from '../../generated';

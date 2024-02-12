@@ -1,4 +1,4 @@
-import extractErrorInfo from '../../../../utils/extract_from_error_info';
+import extractErrorInfo from '../../../shared/utils/extract_from_error_info';
 import { Project } from '../../../generated';
 import { ProjectUsecases } from '../../shared/project.usecases';
 import { ProjectCreatePorts } from './project_create.ports';

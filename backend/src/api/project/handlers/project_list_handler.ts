@@ -1,4 +1,4 @@
-import extractErrorInfo from '../../../utils/extract_from_error_info';
+import extractErrorInfo from '../../shared/utils/extract_from_error_info';
 import { Env } from '../../..';
 import { projectListUsecase } from '../graph';
 import { Project } from '../../generated';

@@ -1,4 +1,4 @@
-import extractErrorInfo from '../../../utils/extract_from_error_info';
+import extractErrorInfo from '../../shared/utils/extract_from_error_info';
 import { Env } from '../../..';
 import { RequestParams } from '../../../types';
 import { z } from 'zod';

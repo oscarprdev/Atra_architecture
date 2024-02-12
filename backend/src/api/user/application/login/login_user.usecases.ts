@@ -1,4 +1,4 @@
-import extractErrorInfo from '../../../../utils/extract_from_error_info';
+import extractErrorInfo from '../../../shared/utils/extract_from_error_info';
 import { AuthUsecases } from '../../shared/auth.usecases';
 import { LoginUserPorts } from './login_user.ports';
 import { LoginUserUsecasesTypes } from './login_user.types';

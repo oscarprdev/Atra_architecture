@@ -1,5 +1,5 @@
 import { Env } from '../../../..';
-import extractErrorInfo from '../../../../utils/extract_from_error_info';
+import extractErrorInfo from '../../../shared/utils/extract_from_error_info';
 import { Project } from '../../../generated';
 import { ProjectDescribePorts } from './project_describe.ports';
 import { DescribeProjectUsecasesTypes } from './project_describe.types';

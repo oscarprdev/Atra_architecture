@@ -1,4 +1,4 @@
-import extractErrorInfo from '../../../../utils/extract_from_error_info';
+import extractErrorInfo from '../../../shared/utils/extract_from_error_info';
 import { User } from '../../../generated';
 import { AuthUsecases } from '../../shared/auth.usecases';
 import { CreateUserPorts } from './create_user.ports';

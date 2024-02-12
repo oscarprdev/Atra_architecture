@@ -1,7 +1,7 @@
 import { DescribeProjectInfra } from './models/describe_project';
 import { ProjectDb } from '../shared/project_types';
 import buildLibsqlClient from '../../../database';
-import extractErrorInfo from '../../../utils/extract_from_error_info';
+import extractErrorInfo from '../../shared/utils/extract_from_error_info';
 import { CreateProjectInfra } from './models/create_project';
 import { InsertImageInfra } from './models/insert_image';
 import { ListProjectInfra } from './models/list_project';

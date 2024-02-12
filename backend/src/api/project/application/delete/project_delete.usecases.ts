@@ -1,4 +1,4 @@
-import extractErrorInfo from '../../../../utils/extract_from_error_info';
+import extractErrorInfo from '../../../shared/utils/extract_from_error_info';
 import { DeleteProjectPorts } from './project_delete.ports';
 import { ProjectDeleteUsecasesTypes } from './project_delete.types';
 

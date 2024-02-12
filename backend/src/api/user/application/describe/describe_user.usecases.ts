@@ -1,4 +1,4 @@
-import extractErrorInfo from '../../../../utils/extract_from_error_info';
+import extractErrorInfo from '../../../shared/utils/extract_from_error_info';
 import { DescribeUserPorts } from './describe_user.ports';
 import { DescribeUserUsecaseTypes } from './describe_user.types';
 

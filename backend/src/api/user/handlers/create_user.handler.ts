@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import extractErrorInfo from '../../../utils/extract_from_error_info';
+import extractErrorInfo from '../../shared/utils/extract_from_error_info';
 import { Env } from '../../..';
 import { File as ApiFile, CreateUserBody, User } from '../../generated';
 import { createUserUsecase } from '../graph';
