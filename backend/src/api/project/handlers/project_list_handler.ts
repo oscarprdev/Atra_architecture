@@ -8,8 +8,9 @@ export async function listProjectsHandler(request: Request, env: Env) {
 	try {
 		const { searchParams } = new URL(request.url);
 		const page = Number(searchParams.get('page'));
+		const search = searchParams.get('search')?.toString();
 
-		const projectsOutput = await projectListUsecase.listProjects({ page, env });
+		const projectsOutput = await projectListUsecase.listProjects({ search, page, env });
 
 		const apiResponse: ApiResponse<Project[]> = {
 			status: 200,

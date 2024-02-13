@@ -9,6 +9,7 @@ export interface ProjectListPorts {
 
 export namespace ProjectListPortsTypes {
 	export type Input = {
+		search?: string;
 		offset: number;
 		limit: number;
 		env: Env;

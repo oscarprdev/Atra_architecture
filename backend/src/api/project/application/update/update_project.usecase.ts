@@ -66,7 +66,7 @@ export class DefaultUpdateProjectUsecase implements UpdateProjectUsecase {
 					this.ports.insertImageOnDb({
 						imageKey: img.Key,
 						projectId: projectResponse.project.id,
-						isMain: updateProjectBody.mainImage.Key === img.Key,
+						isMain: Boolean(img.Key.match(updateProjectBody.mainImage.name || '')),
 						env,
 					})
 				)

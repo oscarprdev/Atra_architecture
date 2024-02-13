@@ -45,7 +45,6 @@ export class ImageBucketAdapter implements ImagesPorts {
 	}
 
 	async deleteImageByKey({ key, env }: DeleteImageByKeyPorts.Input): Promise<void> {
-		console.log(key, 'delete item by key');
 		await this.bucket.deleteItemByKey(key, env);
 	}
 }
