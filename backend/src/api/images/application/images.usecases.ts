@@ -18,7 +18,12 @@ export class DefaultImagesUsecases implements ImagesUsecases {
 	constructor(private readonly ports: ImagesPorts) {}
 
 	async getImageByKey({ key, env }: ImagesUsecasesTypes.GetImageByKeyInput): Promise<ImagesUsecasesTypes.GetImageByKeyOutput> {
-		return await this.ports.getImageByKey({ key, env });
+		const imageResponse = await this.ports.getImageByKey({ key, env });
+		const type = imageResponse.image.Key.split('.')[1].split('-')[0];
+
+		return {
+			image: { ...imageResponse.image, Type: `image/${type}` },
+		};
 	}
 
 	async getImagesByEntity({
