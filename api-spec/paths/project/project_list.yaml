@@ -4,6 +4,7 @@ get:
   description: Get projects list
   parameters:
     - $ref: 'components/_index.yaml#/parameters/Page'
+    - $ref: 'components/_index.yaml#/parameters/Search'
   responses:
     '200':
       $ref: 'components/_index.yaml#/responses/DescribeProjectsListResponse'

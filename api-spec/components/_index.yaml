@@ -3,6 +3,8 @@ parameters:
     $ref: 'components/parameters/Id.yaml'
   Page:
     $ref: 'components/parameters/Page.yaml'
+  Search:
+    $ref: 'components/parameters/Search.yaml'
 
 responses:
   # Common
