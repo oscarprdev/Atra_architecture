@@ -40,8 +40,6 @@ export class DefaultUpdateProjectUsecase implements UpdateProjectUsecase {
 				(img) => !images.map((img) => img.Key).some((val) => val.match(img.name || img.Key))
 			);
 
-			console.log(imagesToRemove);
-
 			if (imagesToRemove.length > 0) {
 				await Promise.all([
 					this.ports.removeImagesFromBucket({ images: imagesToRemove, env }),
@@ -74,8 +72,16 @@ export class DefaultUpdateProjectUsecase implements UpdateProjectUsecase {
 				)
 			);
 
+			const mainImage = imagesUploaded.images.find((img) =>
+				img.Key.match(updateProjectBody.mainImage.name || updateProjectBody.mainImage.Key)
+			);
+
+			const restOfImages = mainImage
+				? imagesUploaded.images.filter((img) => !img.Key.match(mainImage.name || mainImage.Key))
+				: imagesUploaded.images;
+
 			return {
-				project: { ...projectResponse.project, images: updateProjectBody.images, mainImage: updateProjectBody.mainImage },
+				project: { ...projectResponse.project, images: restOfImages, mainImage: mainImage || updateProjectBody.mainImage },
 			};
 		} catch (error) {
 			const { status, message } = extractErrorInfo(error);

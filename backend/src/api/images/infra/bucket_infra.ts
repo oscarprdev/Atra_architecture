@@ -68,8 +68,6 @@ export class DefaultBucketInfra implements BucketInfra {
 			const bucket = this.useBucket(env);
 
 			await bucket.deleteItemByKey(key);
-
-			console.log('image deleted');
 		} catch (error) {
 			console.log(error);
 			throw new Error(
