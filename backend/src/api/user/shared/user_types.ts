@@ -4,6 +4,7 @@ export interface UserResponse {
 	name: string;
 	phone: number;
 	direction: string;
+	description: string;
 	imageKey: string;
 	createdAt: string;
 }
@@ -15,6 +16,7 @@ export interface UserDb {
 	name: string;
 	phone: number;
 	direction: string;
+	description: string;
 	key_image: string;
 	created_at: string;
 }

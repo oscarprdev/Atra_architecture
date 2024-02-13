@@ -3,6 +3,7 @@ required:
   - email
   - name
   - direction
+  - description
   - phone
   - image
 properties:
@@ -21,6 +22,11 @@ properties:
     description: 'Direction.'
     nullable: false
     example: 'C/ San benito N 10-B'
+  description:
+    type: string
+    description: 'Description.'
+    nullable: false
+    example: 'Description'
   phone:
     type: number
     description: 'Phone number.'

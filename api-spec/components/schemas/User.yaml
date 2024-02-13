@@ -6,6 +6,7 @@ required:
   - phone
   - image
   - direction
+  - description
   - createdAt
 properties:
   id:
@@ -29,6 +30,11 @@ properties:
     description: "The user's phone number."
     nullable: false
     example: 678120351
+  description:
+    type: string
+    description: 'Description.'
+    nullable: false
+    example: 'Description'
   direction:
     type: string
     description: "The user's direction."

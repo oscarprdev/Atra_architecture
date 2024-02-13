@@ -14,6 +14,7 @@ export namespace CreateUserPortsTypes {
 		passwordHashed: string;
 		phone: number;
 		direction: string;
+		description: string;
 		imageKey: string;
 		env: Env;
 	};

@@ -10,7 +10,10 @@ export interface UpdateUserUsecases {
 export class DefaultUpdateUserUsecases implements UpdateUserUsecases {
 	constructor(private readonly ports: UpdateUserPorts) {}
 
-	async updateUser({ userBody: { email, image, name, phone, direction }, env }: UpdateUserUsecasesTypes.UpdateUserInput): Promise<User> {
+	async updateUser({
+		userBody: { email, image, name, phone, direction, description },
+		env,
+	}: UpdateUserUsecasesTypes.UpdateUserInput): Promise<User> {
 		try {
 			const {
 				user: { imageKey, id },
@@ -21,7 +24,16 @@ export class DefaultUpdateUserUsecases implements UpdateUserUsecases {
 				this.ports.uploadImage({ file: image, project: 'personal', env }),
 			]);
 
-			const { user } = await this.ports.updateUser({ id, email, name, phone, direction, imageKey: imageUploaded.image.Key, env });
+			const { user } = await this.ports.updateUser({
+				id,
+				email,
+				name,
+				phone,
+				direction,
+				description,
+				imageKey: imageUploaded.image.Key,
+				env,
+			});
 
 			return {
 				...user,

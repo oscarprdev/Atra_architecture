@@ -45,6 +45,7 @@ export namespace UpdateUserPortsTypes {
 		name: string;
 		phone: number;
 		direction: string;
+		description: string;
 		imageKey: string;
 		env: Env;
 	};

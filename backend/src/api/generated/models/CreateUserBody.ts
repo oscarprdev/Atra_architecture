@@ -20,6 +20,10 @@ export type CreateUserBody = {
      */
     direction: string;
     /**
+     * Description.
+     */
+    description: string;
+    /**
      * Phone number.
      */
     phone: number;

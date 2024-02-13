@@ -12,17 +12,19 @@ export async function updateUserHandler(request: Request, env: Env) {
 		const email = formData.get('email')?.toString();
 		const name = formData.get('name')?.toString();
 		const direction = formData.get('direction')?.toString();
+		const description = formData.get('description')?.toString();
 		const phone = Number(formData.get('phone'));
 		const image = formData.get('image') as unknown as ApiFile;
 
-		if (email && name && direction && phone && image) {
-			const validInput = checkInputValidations({ email, name, direction, phone, image });
+		if (email && name && direction && phone && image && description) {
+			const validInput = checkInputValidations({ email, name, direction, description, phone, image });
 
 			const user = await updateUserUsecase.updateUser({
 				userBody: {
 					email: validInput.email,
 					name: validInput.name,
 					direction: validInput.direction,
+					description: validInput.description,
 					phone: validInput.phone,
 					image: validInput.image,
 				},
@@ -50,16 +52,17 @@ export async function updateUserHandler(request: Request, env: Env) {
 	}
 }
 
-function checkInputValidations({ email, name, direction, phone, image }: UpdateUserBody): UpdateUserBody {
+function checkInputValidations({ email, name, direction, description, phone, image }: UpdateUserBody): UpdateUserBody {
 	const UserPayloadSchema = z.object({
 		email: z.string().email(),
 		name: z.string(),
 		direction: z.string(),
+		description: z.string(),
 		phone: z.number(),
 		image: z.instanceof(File),
 	});
 
-	const result = UserPayloadSchema.safeParse({ email, name, direction, phone, image });
+	const result = UserPayloadSchema.safeParse({ email, name, direction, description, phone, image });
 
 	if (!result.success) {
 		throw new Error(JSON.stringify({ status: 400, message: result.error.format() }));
@@ -69,6 +72,7 @@ function checkInputValidations({ email, name, direction, phone, image }: UpdateU
 		email,
 		name,
 		direction,
+		description,
 		phone,
 		image,
 	};

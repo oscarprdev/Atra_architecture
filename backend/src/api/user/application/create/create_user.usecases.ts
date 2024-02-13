@@ -14,7 +14,7 @@ export class DefaultCreateUserUsecases extends AuthUsecases implements CreateUse
 	}
 
 	async createUser({
-		userBody: { email, image, name, phone, direction, password },
+		userBody: { email, image, name, phone, direction, description, password },
 		env,
 	}: CreateUserUsecasesTypes.Input): Promise<CreateUserUsecasesTypes.Output> {
 		try {
@@ -26,6 +26,7 @@ export class DefaultCreateUserUsecases extends AuthUsecases implements CreateUse
 				name,
 				phone,
 				direction,
+				description,
 				passwordHashed,
 				imageKey: userImage.image.Key,
 				env,

@@ -37,7 +37,16 @@ export class DefaultUserInfra implements UserInfra {
 		}
 	}
 
-	async updateUser({ email, name, phone, direction, imageKey, id, env }: UpdateUserInfra.Input): Promise<UpdateUserInfra.Output> {
+	async updateUser({
+		email,
+		name,
+		phone,
+		direction,
+		description,
+		imageKey,
+		id,
+		env,
+	}: UpdateUserInfra.Input): Promise<UpdateUserInfra.Output> {
 		try {
 			const client = buildLibsqlClient(env);
 
@@ -48,10 +57,11 @@ export class DefaultUserInfra implements UserInfra {
 							name = ?,
 							phone = ?,
 							direction = ?,
+							description = ?,
 							key_image = ?
 						WHERE user_id = ?;
 					`,
-				args: [email, name, phone, direction, imageKey, id],
+				args: [email, name, phone, direction, description, imageKey, id],
 			});
 
 			const userDb = await client.execute({
@@ -78,6 +88,7 @@ export class DefaultUserInfra implements UserInfra {
 		name,
 		phone,
 		direction,
+		description,
 		imageKey,
 		env,
 	}: InsertUserInfra.Input): Promise<InsertUserInfra.Output> {
@@ -93,10 +104,11 @@ export class DefaultUserInfra implements UserInfra {
 					name, 
 					phone, 
 					direction, 
+					description,
 					key_image
 					)
-				VALUES (?, ?, ?, ?, ?, ?, ?);`,
-				args: [userId, email, passwordHashed, name, phone, direction, imageKey],
+				VALUES (?, ?, ?, ?, ?, ?, ?, ?);`,
+				args: [userId, email, passwordHashed, name, phone, direction, description, imageKey],
 			});
 
 			const userDb = await client.execute({

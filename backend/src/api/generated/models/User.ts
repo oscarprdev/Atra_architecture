@@ -20,6 +20,10 @@ export type User = {
      */
     phone: number;
     /**
+     * Description.
+     */
+    description: string;
+    /**
      * The user's direction.
      */
     direction: string;

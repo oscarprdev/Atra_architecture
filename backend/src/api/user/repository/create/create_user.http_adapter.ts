@@ -16,10 +16,11 @@ export class CreateUserHttpAdapter implements CreateUserPorts {
 		name,
 		phone,
 		direction,
+		description,
 		imageKey,
 		env,
 	}: CreateUserPortsTypes.Input): Promise<CreateUserPortsTypes.Output> {
-		const userResponse = await this.client.insertUser({ email, passwordHashed, name, phone, direction, imageKey, env });
+		const userResponse = await this.client.insertUser({ email, passwordHashed, name, phone, direction, description, imageKey, env });
 
 		return {
 			user: mapUserDbToApp(userResponse.user),

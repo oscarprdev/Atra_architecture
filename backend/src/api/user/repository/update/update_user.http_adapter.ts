@@ -28,8 +28,17 @@ export class UpdateUserHttpAdapter implements UpdateUserPorts {
 		await this.imagesUsecases.deleteImageByKey({ key, env });
 	}
 
-	async updateUser({ id, name, direction, phone, email, imageKey, env }: UpdateUserPortsTypes.Input): Promise<UpdateUserPortsTypes.Output> {
-		const { user } = await this.client.updateUser({ id, name, direction, phone, email, imageKey, env });
+	async updateUser({
+		id,
+		name,
+		direction,
+		description,
+		phone,
+		email,
+		imageKey,
+		env,
+	}: UpdateUserPortsTypes.Input): Promise<UpdateUserPortsTypes.Output> {
+		const { user } = await this.client.updateUser({ id, name, direction, description, phone, email, imageKey, env });
 
 		return {
 			user: mapUserDbToApp(user),

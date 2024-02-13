@@ -5,6 +5,7 @@ CREATE TABLE users (
     name VARCHAR(255) NOT NULL,
     phone INT NOT NULL,
     direction VARCHAR(255) NOT NULL,
+    description VARCHAR(255) NOT NULL,
     key_image VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

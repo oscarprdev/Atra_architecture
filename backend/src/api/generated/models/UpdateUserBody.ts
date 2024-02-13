@@ -16,6 +16,10 @@ export type UpdateUserBody = {
      */
     direction: string;
     /**
+     * Description.
+     */
+    description: string;
+    /**
      * Phone number.
      */
     phone: number;
