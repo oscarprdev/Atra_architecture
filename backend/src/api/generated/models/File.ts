@@ -27,5 +27,9 @@ export type File = {
      * Image type
      */
     Type?: string;
+    /**
+     * Image name
+     */
+    name?: string;
 };
 

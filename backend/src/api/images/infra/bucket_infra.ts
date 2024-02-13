@@ -4,6 +4,7 @@ import { Bucket } from './s3_bucket';
 
 export interface BucketInfra {
 	getItemByKey(key: string, env: Env): Promise<_Object | undefined>;
+	getItemsByEntity(entity: string, env: Env): Promise<_Object[] | undefined>;
 	uploadImage(uint8Array: Uint8Array, key: string, type: string, env: Env): Promise<_Object | undefined>;
 	deleteItemByKey(key: string, env: Env): Promise<void>;
 }
@@ -25,6 +26,21 @@ export class DefaultBucketInfra implements BucketInfra {
 				JSON.stringify({
 					status: 500,
 					message: `Error S3: ${error instanceof Error ? error.message : 'Error retrieving item form S3 by key'}`,
+				})
+			);
+		}
+	}
+
+	async getItemsByEntity(entity: string, env: Env): Promise<_Object[] | undefined> {
+		try {
+			const bucket = this.useBucket(env);
+
+			return await bucket.getItemsByEntity(entity);
+		} catch (error) {
+			throw new Error(
+				JSON.stringify({
+					status: 500,
+					message: `Error S3: ${error instanceof Error ? error.message : 'Error retrieving items form S3 by entity'}`,
 				})
 			);
 		}
@@ -52,7 +68,10 @@ export class DefaultBucketInfra implements BucketInfra {
 			const bucket = this.useBucket(env);
 
 			await bucket.deleteItemByKey(key);
+
+			console.log('image deleted');
 		} catch (error) {
+			console.log(error);
 			throw new Error(
 				JSON.stringify({
 					status: 500,

@@ -1,9 +1,29 @@
-import { DeleteImageByKeyPorts, GetImageByKeyPorts, ImagesPorts, UploadImagePorts } from '../application/images.ports';
+import {
+	DeleteImageByKeyPorts,
+	GetImageByKeyPorts,
+	GetImagesByEntityPorts,
+	ImagesPorts,
+	UploadImagePorts,
+} from '../application/images.ports';
 import { BucketInfra } from '../infra/bucket_infra';
 import { mapBucketImageToApp } from './mapper/mapBucketImagetoApp';
 
 export class ImageBucketAdapter implements ImagesPorts {
 	constructor(protected readonly bucket: BucketInfra) {}
+
+	async getImagesByEntity({ entity, env }: GetImagesByEntityPorts.Input): Promise<GetImagesByEntityPorts.Output> {
+		const bucketObjectList = await this.bucket.getItemsByEntity(entity, env);
+
+		if (bucketObjectList) {
+			return {
+				images: bucketObjectList.map((obj) => mapBucketImageToApp(obj)),
+			};
+		} else {
+			return {
+				images: [],
+			};
+		}
+	}
 
 	async getImageByKey({ key, env }: GetImageByKeyPorts.Input): Promise<GetImageByKeyPorts.Output> {
 		const bucketObject = await this.bucket.getItemByKey(key, env);
@@ -25,6 +45,7 @@ export class ImageBucketAdapter implements ImagesPorts {
 	}
 
 	async deleteImageByKey({ key, env }: DeleteImageByKeyPorts.Input): Promise<void> {
+		console.log(key, 'delete item by key');
 		await this.bucket.deleteItemByKey(key, env);
 	}
 }

@@ -1,5 +1,6 @@
 UPDATE projects
-SET title = ?, 
+SET project_id = ?,
+    title = ?, 
     description = ?, 
     year = ?, 
     is_top = ?,

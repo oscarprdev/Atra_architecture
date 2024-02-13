@@ -11,6 +11,15 @@ export namespace ImagesUsecasesTypes {
 		image: File;
 	};
 
+	export type GetImagesByEntityInput = {
+		entity: string;
+		env: Env;
+	};
+
+	export type GetImagesByEntityOutput = {
+		images: File[];
+	};
+
 	export type UploadMainImageInput = {
 		file: File;
 		project: string;

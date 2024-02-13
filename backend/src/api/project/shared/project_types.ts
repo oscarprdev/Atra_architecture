@@ -23,3 +23,9 @@ export type ProjectResponse = {
 	mainImage: string;
 	images: string;
 };
+
+export type ImageDb = {
+	image_id: string;
+	key: string;
+	is_main: number;
+};

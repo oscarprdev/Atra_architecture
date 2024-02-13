@@ -48,6 +48,10 @@ export type User = {
          * Image type
          */
         Type?: string;
+        /**
+         * Image name
+         */
+        name?: string;
     };
     /**
      * The timestamp when the user was created.

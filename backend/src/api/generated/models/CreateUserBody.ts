@@ -48,6 +48,10 @@ export type CreateUserBody = {
          * Image type
          */
         Type?: string;
+        /**
+         * Image name
+         */
+        name?: string;
     };
 };
 

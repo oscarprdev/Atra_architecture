@@ -1,18 +1,26 @@
 import { DescribeProjectInfra } from './models/describe_project';
-import { ProjectDb } from '../shared/project_types';
+import { ImageDb, ProjectDb } from '../shared/project_types';
 import buildLibsqlClient from '../../../database';
 import extractErrorInfo from '../../shared/utils/extract_from_error_info';
 import { CreateProjectInfra } from './models/create_project';
 import { InsertImageInfra } from './models/insert_image';
 import { ListProjectInfra } from './models/list_project';
 import { DeleteProjectInfra } from './models/delete_project';
+import { DeleteImageInfra } from './models/delete_image';
+import { UpdateProjectInfra } from './models/update_project';
 
 export interface ProjectInfra {
 	describeProject(input: DescribeProjectInfra.Input): Promise<DescribeProjectInfra.Output>;
+
 	createProject(input: CreateProjectInfra.Input): Promise<CreateProjectInfra.Output>;
-	insertImage(input: InsertImageInfra.Input): Promise<InsertImageInfra.Output>;
+	updateProject(input: UpdateProjectInfra.Input): Promise<UpdateProjectInfra.Output>;
+
+	insertImage(input: InsertImageInfra.Input): Promise<void>;
+
 	listProject(input: ListProjectInfra.Input): Promise<ListProjectInfra.Output>;
+
 	deleteProject(input: DeleteProjectInfra.Input): Promise<DeleteProjectInfra.Output>;
+	deleteImage(input: DeleteImageInfra.Input): Promise<void>;
 }
 
 export class DefaultProjectInfra implements ProjectInfra {
@@ -73,7 +81,7 @@ export class DefaultProjectInfra implements ProjectInfra {
 		}
 	}
 
-	async createProject({ projectId, title, description, year, isTop, env }: CreateProjectInfra.Input): Promise<DescribeProjectInfra.Output> {
+	async createProject({ projectId, title, description, year, isTop, env }: CreateProjectInfra.Input): Promise<CreateProjectInfra.Output> {
 		try {
 			const client = buildLibsqlClient(env);
 
@@ -101,7 +109,40 @@ export class DefaultProjectInfra implements ProjectInfra {
 		}
 	}
 
-	async insertImage({ key, projectId, isMain, env }: InsertImageInfra.Input): Promise<InsertImageInfra.Output> {
+	async updateProject({ projectId, title, description, year, isTop, env }: UpdateProjectInfra.Input): Promise<UpdateProjectInfra.Output> {
+		try {
+			const client = buildLibsqlClient(env);
+
+			await client.execute({
+				sql: `UPDATE projects
+				SET title = ?, 
+					description = ?, 
+					year = ?, 
+					is_top = ?,
+					updated_at = CURRENT_TIMESTAMP
+				WHERE project_id = ?;`,
+				args: [title, description, year, isTop, projectId],
+			});
+
+			const dbProject = await client.execute({
+				sql: `SELECT * FROM projects WHERE project_id = ?;`,
+				args: [projectId],
+			});
+
+			return {
+				project: dbProject.rows[0] as unknown as ProjectDb,
+			};
+		} catch (error) {
+			throw new Error(
+				JSON.stringify({
+					status: 500,
+					message: `Error SQL: ${error instanceof Error ? error.message : 'Error updating project to DB'}`,
+				})
+			);
+		}
+	}
+
+	async insertImage({ key, projectId, isMain, env }: InsertImageInfra.Input): Promise<void> {
 		try {
 			const client = buildLibsqlClient(env);
 			const imageId = crypto.randomUUID().toString();
@@ -112,20 +153,11 @@ export class DefaultProjectInfra implements ProjectInfra {
 				args: [imageId, key, isMain],
 			});
 
-			const dbImage = await client.execute({
-				sql: `SELECT * FROM images WHERE image_id = ?;`,
-				args: [imageId],
-			});
-
 			await client.execute({
 				sql: `INSERT INTO project_image (project_id, image_id)
 				VALUES (?, ?)`,
 				args: [projectId, imageId],
 			});
-
-			return {
-				project: dbImage.rows[0] as unknown as ProjectDb,
-			};
 		} catch (error) {
 			throw new Error(
 				JSON.stringify({
@@ -183,9 +215,9 @@ export class DefaultProjectInfra implements ProjectInfra {
 	}
 
 	async deleteProject({ projectId, env }: DeleteProjectInfra.Input): Promise<DeleteProjectInfra.Output> {
-		try {
-			const client = buildLibsqlClient(env);
+		const client = buildLibsqlClient(env);
 
+		try {
 			const dbProject = await this.describeProject({ projectId, env });
 
 			await client.execute({
@@ -218,6 +250,39 @@ export class DefaultProjectInfra implements ProjectInfra {
 				JSON.stringify({
 					status: 500,
 					message: `Error SQL: ${error instanceof Error ? error.message : 'Error deleting project by id from db'}`,
+				})
+			);
+		}
+	}
+
+	async deleteImage({ imageKey, env }: DeleteImageInfra.Input): Promise<void> {
+		const client = buildLibsqlClient(env);
+
+		try {
+			const { rows } = await client.execute({
+				sql: `SELECT * FROM images
+						WHERE key = ?;`,
+				args: [imageKey],
+			});
+
+			const image = rows[0] as unknown as ImageDb;
+
+			await client.execute({
+				sql: `DELETE FROM images
+						WHERE image_id = ?;`,
+				args: [image.image_id],
+			});
+
+			await client.execute({
+				sql: `DELETE FROM project_image
+						WHERE image_id = ?;`,
+				args: [image.image_id],
+			});
+		} catch (error: unknown) {
+			throw new Error(
+				JSON.stringify({
+					status: 500,
+					message: `Error SQL: ${error instanceof Error ? error.message : 'Error deleting image from db'}`,
 				})
 			);
 		}

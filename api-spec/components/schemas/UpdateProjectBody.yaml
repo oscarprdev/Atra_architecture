@@ -2,6 +2,7 @@ type: object
 required:
   - id
   - title
+  - oldTitle
   - description
   - year
   - isTop
@@ -18,6 +19,11 @@ properties:
     description: "The project's title."
     nullable: false
     example: 'Project title'
+  oldTitle:
+    type: string
+    description: "The project's old title."
+    nullable: false
+    example: 'Project old title'
   description:
     type: string
     description: "The project's description."

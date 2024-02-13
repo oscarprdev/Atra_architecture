@@ -10,6 +10,7 @@ import { updateUserHandler } from '../api/user/handlers/update_user.handler';
 import { uploadUserHandler } from '../api/user/handlers/create_user.handler';
 import { describeUserHandler } from '../api/user/handlers/describe_user_handler';
 import { updatePasswordUserHandler } from '../api/user/handlers/update_password.handler';
+import { updateProjectHandler } from '../api/project/handlers/project_update_handler';
 
 function buildRouter(env: Env): RouterType {
 	const router = Router();
@@ -19,6 +20,7 @@ function buildRouter(env: Env): RouterType {
 	router.get('/project/describe/:id', corsMiddleware(describeProjectHandler));
 	router.post('/project/create', corsMiddleware(createProjectHandler));
 	router.delete('/project/delete/:id', corsMiddleware(deleteProjectHandler));
+	router.put('/project/update', corsMiddleware(updateProjectHandler));
 
 	// User handlers
 	router.get('/user/describe', corsMiddleware(describeUserHandler));

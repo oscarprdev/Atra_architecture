@@ -9,6 +9,4 @@ export namespace InsertImageInfra {
 		projectId: Value;
 		env: Env;
 	};
-
-	export type Output = { project: ProjectDb };
 }

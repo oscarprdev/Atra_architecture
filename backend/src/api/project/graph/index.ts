@@ -8,6 +8,8 @@ import { DefaultProjectDescribeUsecases } from '../application/describe/project_
 import { DefaultProjectListUsecases } from '../application/list/project_list.usecases';
 import { DefaultProjectInfra } from '../infra/project_infra';
 import { imagesUsecases } from '../../images/graph';
+import { UpdateProjectHttpAdapter } from '../repository/update/update_project.http_adapter';
+import { DefaultUpdateProjectUsecase } from '../application/update/update_project.usecase';
 
 const projectInfra = new DefaultProjectInfra();
 
@@ -26,3 +28,7 @@ export const projectListUsecase = new DefaultProjectListUsecases(projectListAdap
 // Delete project usecase dependency injection
 const projectDeleteAdapter = new DeleteProjectHttpAdapter(projectInfra, imagesUsecases);
 export const projectDeleteUsecase = new DefaultProjectDeleteUsecases(projectDeleteAdapter);
+
+// Update project usecase dependency injection
+const projectUpdateAdapter = new UpdateProjectHttpAdapter(projectInfra, imagesUsecases);
+export const projectUpdateUsecase = new DefaultUpdateProjectUsecase(projectUpdateAdapter);

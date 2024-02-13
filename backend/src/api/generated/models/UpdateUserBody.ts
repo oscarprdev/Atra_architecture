@@ -44,6 +44,10 @@ export type UpdateUserBody = {
          * Image type
          */
         Type?: string;
+        /**
+         * Image name
+         */
+        name?: string;
     };
 };
 

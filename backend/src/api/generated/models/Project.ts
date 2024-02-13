@@ -56,6 +56,10 @@ export type Project = {
          * Image type
          */
         Type?: string;
+        /**
+         * Image name
+         */
+        name?: string;
     };
     images: Array<{
         /**
@@ -82,6 +86,10 @@ export type Project = {
          * Image type
          */
         Type?: string;
+        /**
+         * Image name
+         */
+        name?: string;
     }>;
 };
 
