@@ -1,0 +1,60 @@
+---
+import { IMAGE_URL } from '../constants/index'
+import type {Project} from '../api/index'
+import ArrowRightUp from './icons/ArrowRightUp.astro'
+
+const {projects}: Record<string, Project[]> = Astro.props
+---
+
+<ul>
+    {projects.map(pr => 
+        <li class="show">
+            <picture>
+                <img src={`${IMAGE_URL}/${pr.mainImage.Key}`} alt={pr.title}/>
+            </picture>
+            <a href={`/projecte/${pr.id}`}>{pr.title.toLocaleLowerCase()}<ArrowRightUp/></a>
+        </li>
+    )}
+</ul>
+
+<style>
+    ul {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+        justify-content: center;
+
+        width: 100%;
+        margin: 10rem -2rem;
+    }
+
+    li {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    li:nth-child(odd) {
+        margin-top: -4rem;
+    }
+
+    picture {
+        height: 350px;
+        overflow: hidden;
+    }
+
+    a {
+        text-transform: capitalize;
+        font-size: 20px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        color: rgb(76, 76, 76);
+        transition: color .3s ease;
+    }
+
+    a:hover {
+        color: rgb(0, 0, 0);
+    }
+
+</style>

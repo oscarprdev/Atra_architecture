@@ -44,11 +44,33 @@ a {
 	text-decoration: none;
 }
 
+.show {
+	view-timeline-name: --show;
+	view-timeline-axis: block;
+
+	animation-timeline: --show;
+	animation-name: show;
+	animation-range: entry 20% cover 60%;
+	animation-fill-mode: both;
+}
+
 @keyframes slide-right {
 	from {
 		left: -100%;
 	}
 	to {
 		left: 0;
+	}
+}
+
+@keyframes show {
+	from {
+		opacity: 0;
+		transform: translateY(55%);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0%);
 	}
 }

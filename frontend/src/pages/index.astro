@@ -1,10 +1,11 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { API_URL } from '../constants/index'
+import { API_URL, IMAGE_URL } from '../constants/index'
 import MainImage from '../components/MainImage.vue';
 import type {ApiResponse} from '../api/api_response'
 import type {Project} from '../api/index'
 import Header from '../components/Header.astro';
+import HomeProjectList from '../components/HomeProjectList.astro';
 
 const response = await fetch(`${API_URL}/project/list`);
 const data: ApiResponse<Project[]> = await response.json();
@@ -15,45 +16,17 @@ const mainImages = data.data.map(p => p.mainImage)
 
 <Layout title="ATRA - Asistència tècnica en rehabilitació i arquitectura">
 	<main>
+        <Header />
         <section class="main-image-container">
             <MainImage images={mainImages} client:visible/>
         </section>
-        <section class="home-projects">
-            <Header />
+        <aside class="home-projects">
             <div class="home-title">
                 <h1>ATRA</h1>
                 <p>Asistència tècnica en rehabilitació i arquitectura</p>
             </div>
-            <ul>
-                <li>
-                    <p>{data.data[0].title}</p>
-                </li>
-                <li>
-                    <p>{data.data[1].title}</p>
-                </li>
-                <li>
-                    <p>{data.data[2].title}</p>
-                </li>
-                <li>
-                    <p>{data.data[0].title}</p>
-                </li>
-                <li>
-                    <p>{data.data[1].title}</p>
-                </li>
-                <li>
-                    <p>{data.data[2].title}</p>
-                </li>
-                <li>
-                    <p>{data.data[0].title}</p>
-                </li>
-                <li>
-                    <p>{data.data[1].title}</p>
-                </li>
-                <li>
-                    <p>{data.data[2].title}</p>
-                </li>
-            </ul>
-        </section>
+            <HomeProjectList projects={data.data}/>
+        </aside>
     </main>
 </Layout>
 
@@ -81,7 +54,7 @@ const mainImages = data.data.map(p => p.mainImage)
 
         display: flex;
         flex-direction: column;
-        gap: 5rem;
+        gap: 10rem;
     }
 
     .home-title {
@@ -98,13 +71,6 @@ const mainImages = data.data.map(p => p.mainImage)
     p {
         margin-top: -8rem;
         font-size: 1.5rem;
-    }
-
-    ul {
-        margin-top: 8rem;
-        display: flex;
-        flex-direction: column;
-        gap: 4rem;
     }
 </style>
 

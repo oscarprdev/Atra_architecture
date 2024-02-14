@@ -26,8 +26,11 @@
 			<img
 				class="animated"
 				:key="animatedIndex"
-				:src="`${IMAGE_URL}/${props.images[animatedIndex].Key}`" />
-			<img :src="`${IMAGE_URL}/${props.images[fixedIndex].Key}`" />
+				:alt="images[animatedIndex].Key"
+				:src="`${IMAGE_URL}/${images[animatedIndex].Key}`" />
+			<img
+				:alt="images[fixedIndex].Key"
+				:src="`${IMAGE_URL}/${images[fixedIndex].Key}`" />
 		</picture>
 	</div>
 </template>
