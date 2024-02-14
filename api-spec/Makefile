@@ -8,7 +8,8 @@ serve:
 generate:
 	make compile && \
 	npx openapi-typescript-codegen \
-	--input ./compiled.yaml --output ../backend/src/api/generated --exportCore false --exportServices false
+	--input ./compiled.yaml --output ../backend/src/api/generated --exportCore false --exportServices false \
+	--input ./compiled.yaml --output ../frontend/src/api --exportCore false --exportServices false
 
 compile:
 	multi-file-swagger -o yaml index.yaml > compiled_tmp1.yaml && \

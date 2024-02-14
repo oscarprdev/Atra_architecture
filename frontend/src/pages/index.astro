@@ -1,42 +1,112 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { API_URL } from '../constants/index'
+import MainImage from '../components/MainImage.vue';
+import type {ApiResponse} from '../api/api_response'
+import type {Project} from '../api/index'
+import Header from '../components/Header.astro';
+
+const response = await fetch(`${API_URL}/project/list`);
+const data: ApiResponse<Project[]> = await response.json();
+
+const mainImages = data.data.map(p => p.mainImage)
+
 ---
 
-<Layout title="Welcome to Astro.">
-	<main id="main">
-		<input id="input" type="file" placeholder="file"/>
-	</main>
+<Layout title="ATRA - Asistència tècnica en rehabilitació i arquitectura">
+	<main>
+        <section class="main-image-container">
+            <MainImage images={mainImages} client:visible/>
+        </section>
+        <section class="home-projects">
+            <Header />
+            <div class="home-title">
+                <h1>ATRA</h1>
+                <p>Asistència tècnica en rehabilitació i arquitectura</p>
+            </div>
+            <ul>
+                <li>
+                    <p>{data.data[0].title}</p>
+                </li>
+                <li>
+                    <p>{data.data[1].title}</p>
+                </li>
+                <li>
+                    <p>{data.data[2].title}</p>
+                </li>
+                <li>
+                    <p>{data.data[0].title}</p>
+                </li>
+                <li>
+                    <p>{data.data[1].title}</p>
+                </li>
+                <li>
+                    <p>{data.data[2].title}</p>
+                </li>
+                <li>
+                    <p>{data.data[0].title}</p>
+                </li>
+                <li>
+                    <p>{data.data[1].title}</p>
+                </li>
+                <li>
+                    <p>{data.data[2].title}</p>
+                </li>
+            </ul>
+        </section>
+    </main>
 </Layout>
 
-<script>
+<style>
+    main {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 100vh;
+    }
 
-	const input = document.getElementById('input')
-	const main = document.getElementById('main')
+    .main-image-container {
+        padding: 2rem;
+        width: 50%;
+        position: fixed;
+        height: 100vh;
+        border-right: 1px solid black
+    }
 
-	input?.addEventListener('change', async (e) => {
-        // Remove e.preventDefault()
-		console.log('ready')
-        const formData = new FormData();
+    .home-projects {
+        overflow-y: auto;
+        height: 100%;
+        width: 100%;
+        padding-left: calc(50% + 2rem);
 
-        // Loop through files and append each one
-        for (let i = 0; i < e.target.files.length; i++) {
-            formData.append('image', e.target.files[i]);
-        }
+        display: flex;
+        flex-direction: column;
+        gap: 5rem;
+    }
 
-        const response = await fetch('http://localhost:8787/project/upload', {
-            method: 'POST',
-            body: formData
-        });
+    .home-title {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        margin-top: 35vh;
+    }
 
-        const jsonResponse = await response.json();
+    h1 {
+        font-size: 10rem;
+    }
 
-		console.log(jsonResponse, 'hello')
+    p {
+        margin-top: -8rem;
+        font-size: 1.5rem;
+    }
 
-        const image = document.createElement('img');
-        image.src = `data:image/jpg;base64,${jsonResponse.image}`;
+    ul {
+        margin-top: 8rem;
+        display: flex;
+        flex-direction: column;
+        gap: 4rem;
+    }
+</style>
 
-        main?.appendChild(image);
-    });
-</script>
 
 
