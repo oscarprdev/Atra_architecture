@@ -43,15 +43,14 @@ onMounted(() => {
 <style>
 .main-image-container {
     padding-top: 5rem;
-    width: 90vw;
-    max-width: var(--max-width);
+    width: 100%;
     height: 100vh;
 }
 
 .slider-container {
     overflow: hidden;
-    width: 100%;
-    height: 100%;
+    width: 80%;
+    height: 70%;
 }
 
 .picture-container {
@@ -60,15 +59,15 @@ onMounted(() => {
     display: flex;
     width: 100%;
     height: 100%;
-    border-top-left-radius: 7rem;
+    border-top-right-radius: 5rem;
 }
 
 .animated {
     position: absolute;
     top: 0;
     left: -100%;
-    animation: slide-right 1.3s ease-in-out forwards;
-    animation-delay: 2s;
+    animation: slide-right 2s ease-in-out forwards;
+    animation-delay: 1s;
 }
 
 @media (width < 650px) {

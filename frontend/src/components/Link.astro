@@ -1,7 +1,12 @@
 ---
 import ArrowRightUp from './icons/ArrowRightUp.astro';
 
-const { href, text }: Record<string, string> = Astro.props;
+interface Props {
+    href: string;
+    text: string;
+}
+
+const { href, text }: Props = Astro.props;
 const linkText = text[0].toUpperCase() + text.substring(1, text.length).toLowerCase();
 ---
 

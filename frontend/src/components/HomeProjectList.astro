@@ -3,7 +3,11 @@ import { IMAGE_URL } from '../constants/index';
 import type { Project } from '../api/index';
 import Link from './Link.astro';
 
-const { projects }: Record<string, Project[]> = Astro.props;
+interface Props {
+    projects: Project[];
+}
+
+const { projects }: Props = Astro.props;
 ---
 
 <section class="home-projects">
