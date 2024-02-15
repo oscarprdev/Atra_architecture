@@ -1,0 +1,12 @@
+---
+import { API_URL } from '../../constants/index';
+import type { Project } from '../../api/index';
+import type { ApiResponse } from '../../api/api_response';
+
+const { id }: Record<string, string | undefined> = Astro.params;
+
+const response = await fetch(`${API_URL}/project/describe/${id}`);
+const data: ApiResponse<Project> = await response.json();
+
+console.log(data);
+---

@@ -1,31 +1,55 @@
 ---
-import { IMAGE_URL } from '../constants/index'
-import type {Project} from '../api/index'
-import ArrowRightUp from './icons/ArrowRightUp.astro'
+import { IMAGE_URL } from '../constants/index';
+import type { Project } from '../api/index';
+import Link from './Link.astro';
 
-const {projects}: Record<string, Project[]> = Astro.props
+const { projects }: Record<string, Project[]> = Astro.props;
 ---
 
-<ul>
-    {projects.map(pr => 
-        <li class="show">
-            <picture>
-                <img src={`${IMAGE_URL}/${pr.mainImage.Key}`} alt={pr.title}/>
-            </picture>
-            <a href={`/projecte/${pr.id}`}>{pr.title.toLocaleLowerCase()}<ArrowRightUp/></a>
-        </li>
-    )}
-</ul>
+<section class="home-projects">
+    <ul>
+        {
+            projects.map((pr) => (
+                <li
+                    id="list-item"
+                    class="show"
+                >
+                    <picture>
+                        <img
+                            src={`${IMAGE_URL}/${pr.mainImage.Key}`}
+                            alt={pr.title}
+                        />
+                    </picture>
+                    <Link
+                        href={`/project/${pr.id}`}
+                        text={pr.title}
+                    />
+                </li>
+            ))
+        }
+    </ul>
+</section>
 
 <style>
+    .home-projects {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+
+        gap: 10rem;
+
+        height: 100%;
+        width: 100%;
+        max-width: var(--max-width);
+    }
+
     ul {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
         gap: 3rem;
         justify-content: center;
-
-        width: 100%;
-        margin: 10rem -2rem;
+        width: 80vw;
+        max-width: var(--max-width);
     }
 
     li {
@@ -34,27 +58,37 @@ const {projects}: Record<string, Project[]> = Astro.props
         gap: 0.5rem;
     }
 
-    li:nth-child(odd) {
-        margin-top: -4rem;
+    li:nth-child(even) {
+        margin-top: 4rem;
     }
 
     picture {
         height: 350px;
         overflow: hidden;
+        box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
     }
 
-    a {
-        text-transform: capitalize;
-        font-size: 20px;
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        color: rgb(76, 76, 76);
-        transition: color .3s ease;
+    li:hover a::after {
+        transform: scaleX(1);
     }
 
-    a:hover {
-        color: rgb(0, 0, 0);
+    li:hover .icon,
+    li:hover .icon-2 {
+        transform: translateY(-55%) translateX(50%);
     }
 
+    @media (width < 650px) {
+        ul {
+            gap: 1rem;
+            place-content: center;
+            padding: 0;
+        }
+    }
+
+    @media (width < 850px) {
+        ul {
+            place-content: center;
+            padding: 0;
+        }
+    }
 </style>
