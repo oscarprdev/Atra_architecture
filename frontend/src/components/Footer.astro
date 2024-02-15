@@ -1,0 +1,51 @@
+---
+import type { User } from '../api';
+import type { ApiResponse } from '../api/api_response';
+import { API_URL } from '../constants';
+
+const response = await fetch(`${API_URL}/user/describe`);
+const {
+    data: { name, direction, email }
+}: ApiResponse<User> = await response.json();
+---
+
+<footer>
+    <div class="user-info">
+        <p>{name}</p>
+        <p class="email">{email}</p>
+        <p>{direction}</p>
+    </div>
+    <div class="brand">
+        <p>ATRA arquitectura</p>
+        <p>© 2024 ALL RIGHTS RESERVED</p>
+    </div>
+</footer>
+
+<style>
+    footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        width: 100%;
+        border-top: 1px solid black;
+        padding: 1rem 3rem;
+        margin-top: 5rem;
+    }
+
+    .user-info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .brand {
+        display: flex;
+        flex-direction: column;
+        align-items: end;
+    }
+
+    p {
+        font-size: 1rem;
+        text-transform: uppercase;
+    }
+</style>
