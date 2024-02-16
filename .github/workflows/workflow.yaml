@@ -39,15 +39,10 @@ jobs:
 
       - name: Install PNPM
         shell: bash
-        run: cd backend && pnpm install
-
-      - name: Deploy
-        uses: ./
-        with:
-          workingDirectory: './backend'
+        run: cd backend && pnpm install && pnpm install wrangler && pnpm run deploy
+        env:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pnpm install wrangler && pnpm run deploy
 
   frontend_build:
     runs-on: ubuntu-22.04
