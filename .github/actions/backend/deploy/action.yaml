@@ -7,4 +7,4 @@ runs:
 
     - name: Deploy worker
       shell: bash
-      run: cd backend && npx wrangler deploy
+      run: cd backend && npx wrangler deploy src/index.ts
