@@ -3,7 +3,6 @@ description: 'Deploy backend cloudflare worker'
 runs:
   using: composite
   steps:
-    - uses: cloudflare/wrangler-action@v3
     - uses: pnpm/action-setup@v3
 
     - name: Install PNPM
