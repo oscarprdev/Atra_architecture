@@ -22,14 +22,12 @@ jobs:
 
   backend_build:
     runs-on: ubuntu-22.04
-
     steps:
       - name: Deploy workers
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          workingDirectory: 'backend/src'
 
   frontend_build:
     runs-on: ubuntu-22.04
