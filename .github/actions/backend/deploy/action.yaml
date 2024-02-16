@@ -3,10 +3,14 @@ description: 'Deploy backend cloudflare worker'
 runs:
   using: composite
   steps:
-    - name: Install Node.js
+    - name: Checkout Repo
+      uses: actions/checkout@v3
+
+    - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: 18
+        node-version: 'latest'
+        cache: 'npm'
 
     - uses: pnpm/action-setup@v3
       name: Install pnpm
@@ -18,6 +22,10 @@ runs:
       shell: bash
       run: cd backend && pnpm install
 
-    - name: Deploy worker
-      shell: bash
-      run: cd backend && pnpm install wrangler && pnpm run deploy
+    - name: Deploy
+      uses: ./
+      with:
+        workingDirectory: './backend'
+        apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        command: pnpm install wrangler && pnpm run deploy
