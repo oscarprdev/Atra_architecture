@@ -4,7 +4,12 @@ runs:
   using: composite
   steps:
     - uses: cloudflare/wrangler-action@v3
+    - uses: pnpm/action-setup@v3
+
+    - name: Install PNPM
+      shell: bash
+      run: cd backend && pnpm install
 
     - name: Deploy worker
       shell: bash
-      run: cd backend && npx wrangler deploy src/index.ts
+      run: cd backend && pnpm run deploy
