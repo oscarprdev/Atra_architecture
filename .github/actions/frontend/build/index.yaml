@@ -1,0 +1,14 @@
+name: Frontend build
+description: 'Build frontend app'
+runs:
+  using: composite
+  steps:
+    - uses: pnpm/action-setup@v3
+
+    - name: Install PNPM
+      shell: bash
+      run: cd frontend && pnpm install
+
+    - name: Run build
+      shell: bash
+      run: cd frontend && pnpm run build

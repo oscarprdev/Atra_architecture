@@ -1,0 +1,10 @@
+name: Backend deploy
+description: 'Deploy backend cloudflare worker'
+runs:
+  using: composite
+  steps:
+    - uses: cloudflare/wrangler-action@v3
+
+    - name: Deploy worker
+      shell: bash
+      run: cd backend && pnpm run deploy
