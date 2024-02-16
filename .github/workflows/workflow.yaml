@@ -20,30 +20,6 @@ jobs:
           all_but_latest: true
           access_token: ${{ github.token }}
 
-  backend_build:
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-
-      - uses: pnpm/action-setup@v3
-        name: Install pnpm
-        with:
-          version: 8
-          run_install: false
-
-      - name: Install PNPM
-        shell: bash
-        run: cd backend && pnpm install && pnpm install wrangler && pnpm run deploy
-        env:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-
   frontend_build:
     runs-on: ubuntu-22.04
     steps:
