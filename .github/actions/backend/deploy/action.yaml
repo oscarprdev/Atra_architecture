@@ -18,9 +18,6 @@ runs:
       shell: bash
       run: cd backend && pnpm install
 
-    - uses: cloudflare/wrangler-action@v3
-      working-directory: backend
-
     - name: Deploy worker
       shell: bash
-      run: cd backend && pnpm install
+      run: cd backend && pnpm install wrangler && pnpm run deploy
