@@ -23,8 +23,9 @@ jobs:
   backend_build:
     runs-on: ubuntu-22.04
     steps:
+      - uses: actions/checkout@v4
       - name: Deploy workers
-        uses: cloudflare/wrangler-action@v3
+        uses: ./.github/actions/backend/build
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}

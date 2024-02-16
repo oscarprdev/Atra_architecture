@@ -3,7 +3,18 @@ description: 'Deploy backend cloudflare worker'
 runs:
   using: composite
   steps:
+    - uses: cloudflare/wrangler-action@v3
+
+    - name: Install Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+
     - uses: pnpm/action-setup@v3
+      name: Install pnpm
+      with:
+        version: 8
+        run_install: false
 
     - name: Install PNPM
       shell: bash
