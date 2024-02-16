@@ -20,7 +20,7 @@ runs:
 
     - name: Deploy worker
       shell: bash
-      with:
+      run: cd backend && pnpm install wrangler && pnpm run deploy
+      env:
         apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-      run: cd backend && pnpm install wrangler && pnpm run deploy
