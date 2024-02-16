@@ -5,14 +5,14 @@
         >ATRA</a
     >
     <ul>
-        <li>
+        <li class:list={[{ selected: Astro.url.pathname === '/' }]}>
             <a href="/">Inici</a>
         </li>
-        <li>
+        <li class:list={[{ selected: Astro.url.pathname === '/gallery' }]}>
             <a href="/gallery">Galeria</a>
         </li>
-        <li>
-            <a href="/">Qui som</a>
+        <li class:list={[{ selected: Astro.url.pathname === '/about' }]}>
+            <a href="/about">Qui som</a>
         </li>
     </ul>
 </header>
@@ -68,6 +68,10 @@
     }
 
     li:hover::after {
+        transform: scaleX(1);
+    }
+
+    .selected::after {
         transform: scaleX(1);
     }
 

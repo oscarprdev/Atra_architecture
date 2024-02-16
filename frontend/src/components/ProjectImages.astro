@@ -9,7 +9,7 @@ interface Props {
 const { images } = Astro.props;
 ---
 
-<ul>
+<ul class:list={[{ bento: images.length > 3 }, { common: images.length <= 3 }]}>
     {
         images.map((image, i) => (
             <li
@@ -28,13 +28,14 @@ const { images } = Astro.props;
 </ul>
 
 <style>
-    ul {
+    .bento {
         position: relative;
         margin-top: 3rem;
         width: 80vw;
         margin: 0;
         padding: 0;
         display: grid;
+
         justify-content: center;
         gap: 1rem;
         grid-template-areas:
@@ -43,6 +44,47 @@ const { images } = Astro.props;
             'e d f'
             'e g f'
             'h h h';
+
+        .item-0 {
+            grid-area: a;
+        }
+
+        .item-1 {
+            grid-area: b;
+        }
+
+        .item-2 {
+            grid-area: c;
+        }
+
+        .item-3 {
+            grid-area: d;
+        }
+
+        .item-4 {
+            grid-area: e;
+        }
+
+        .item-5 {
+            grid-area: f;
+        }
+
+        .item-6 {
+            grid-area: g;
+        }
+
+        .item-7 {
+            grid-area: h;
+        }
+    }
+
+    .common {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 1rem;
+        justify-content: center;
+        width: 80vw;
+        max-width: var(--max-width);
     }
 
     li {
@@ -57,45 +99,8 @@ const { images } = Astro.props;
         transform: scale(1.1);
     }
 
-    .large {
-        position: absolute;
-        width: 80vw;
-    }
-
-    .item-0 {
-        grid-area: a;
-    }
-
-    .item-1 {
-        grid-area: b;
-    }
-
-    .item-2 {
-        grid-area: c;
-    }
-
-    .item-3 {
-        grid-area: d;
-    }
-
-    .item-4 {
-        grid-area: e;
-    }
-
-    .item-5 {
-        grid-area: f;
-    }
-
-    .item-6 {
-        grid-area: g;
-    }
-
-    .item-7 {
-        grid-area: h;
-    }
-
     @media (width < 800px) {
-        ul {
+        .bento {
             grid-template-areas:
                 'a b'
                 'c d'
@@ -106,7 +111,7 @@ const { images } = Astro.props;
     }
 
     @media (width < 600px) {
-        ul {
+        .bento {
             display: flex;
             flex-direction: column;
             align-items: center;
