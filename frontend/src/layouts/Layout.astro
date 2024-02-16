@@ -1,6 +1,7 @@
 ---
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
+import { ViewTransitions } from 'astro:transitions';
 
 interface Props {
     title: string;
@@ -12,6 +13,7 @@ const { title } = Astro.props;
 <!doctype html>
 <html lang="en">
     <head>
+        <ViewTransitions fallback="none" />
         <meta charset="UTF-8" />
         <meta
             name="description"
@@ -42,14 +44,12 @@ const { title } = Astro.props;
             <slot />
         </main>
         <Footer />
+        <style>
+            main {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+        </style>
     </body>
 </html>
-
-<style>
-    main {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 5rem;
-    }
-</style>

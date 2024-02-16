@@ -29,6 +29,7 @@ const { images } = Astro.props;
 
 <style>
     ul {
+        position: relative;
         margin-top: 3rem;
         width: 80vw;
         margin: 0;
@@ -46,7 +47,6 @@ const { images } = Astro.props;
 
     li {
         overflow: hidden;
-        cursor: pointer;
     }
 
     img {
@@ -55,6 +55,11 @@ const { images } = Astro.props;
 
     li:hover img {
         transform: scale(1.1);
+    }
+
+    .large {
+        position: absolute;
+        width: 80vw;
     }
 
     .item-0 {

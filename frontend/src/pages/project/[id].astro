@@ -11,12 +11,13 @@ const { id }: Record<string, string | undefined> = Astro.params;
 
 const response = await fetch(`${API_URL}/project/describe/${id}`);
 const {
-    data: { title, description, year, mainImage, images }
+    data: { id: projectId, title, description, year, mainImage, images }
 }: ApiResponse<Project> = await response.json();
 ---
 
 <Layout title={`ATRA - ${strCapitalized(title)}`}>
     <ProjectHero
+        id={projectId}
         title={title}
         description={description}
         year={year}

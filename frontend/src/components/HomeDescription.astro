@@ -3,6 +3,7 @@ import type { User } from '../api';
 import type { ApiResponse } from '../api/api_response';
 import { API_URL } from '../constants';
 import Link from './Link.astro';
+import TextWithIcon from './TextWithIcon.astro';
 
 const response = await fetch(`${API_URL}/user/describe`);
 const data: ApiResponse<User> = await response.json();
@@ -16,10 +17,9 @@ const data: ApiResponse<User> = await response.json();
     <div class="description">
         {data.data.description.split('. ').map((text) => <p>{text}.</p>)}
     </div>
-    <Link
-        href="/about"
-        text="Saber-ne més"
-    />
+    <Link href="/about">
+        <TextWithIcon text="Saber-ne mes" />
+    </Link>
 </section>
 
 <style>
@@ -27,7 +27,7 @@ const data: ApiResponse<User> = await response.json();
         display: grid;
         place-content: center;
         width: 100%;
-        margin-top: -10rem;
+        margin-top: -5rem;
         padding-bottom: 5rem;
         border-bottom: 1px solid black;
     }

@@ -4,7 +4,7 @@ import { API_URL } from '../constants/index';
 import MainImage from '../components/MainImage.vue';
 import type { ApiResponse } from '../api/api_response';
 import type { Project } from '../api/index';
-import HomeProjectList from '../components/HomeProjectList.astro';
+import ProjectList from '../components/ProjectList.astro';
 import HomeDescription from '../components/HomeDescription.astro';
 
 const response = await fetch(`${API_URL}/project/list`);
@@ -19,5 +19,5 @@ const mainImages = data.data.map((p) => p.mainImage);
         client:visible
     />
     <HomeDescription />
-    <HomeProjectList projects={data.data} />
+    <ProjectList projects={data.data} />
 </Layout>

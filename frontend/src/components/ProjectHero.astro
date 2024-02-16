@@ -8,9 +8,10 @@ interface Props {
     description: string;
     year: number;
     mainImage: File;
+    id: string;
 }
 
-const { title, description, year, mainImage }: Props = Astro.props;
+const { id, title, description, year, mainImage }: Props = Astro.props;
 ---
 
 <section>
@@ -37,6 +38,7 @@ const { title, description, year, mainImage }: Props = Astro.props;
 
         width: 80vw;
         max-width: var(--max-width);
+        margin-bottom: 8rem;
     }
 
     .project-info {
@@ -63,6 +65,7 @@ const { title, description, year, mainImage }: Props = Astro.props;
         width: 100%;
         height: 60vh;
         border-top-right-radius: 4rem;
+        aspect-ratio: 100/100;
     }
 
     @media (width < 350px) {
