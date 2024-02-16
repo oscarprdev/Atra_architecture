@@ -53,7 +53,7 @@ a {
 
     animation-timeline: --show;
     animation-name: show;
-    animation-range: entry 20% cover 60%;
+    animation-range: entry 18% cover 50%;
     animation-fill-mode: both;
 }
 

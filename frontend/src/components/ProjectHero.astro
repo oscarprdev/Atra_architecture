@@ -8,26 +8,21 @@ interface Props {
     description: string;
     year: number;
     mainImage: File;
-    id: string;
 }
 
-const { id, title, description, year, mainImage }: Props = Astro.props;
+const { title, description, year, mainImage }: Props = Astro.props;
 ---
 
 <section>
-    <div class="project-info">
-        <div class="project-title">
-            <h2>{strCapitalized(title)}</h2>
-            <h2>{year}</h2>
-        </div>
-        <h2>{strCapitalized(description)}</h2>
+    <div class="project-description">
+        <h2>{year}</h2>
+        <p>{strCapitalized(description)}</p>
     </div>
-    <picture>
-        <img
-            src={`${IMAGE_URL}/${mainImage.Key}`}
-            alt={`Main image of ${title} project`}
-        />
-    </picture>
+    <figure style={`background-image: url(${IMAGE_URL}/${mainImage.Key})`}>
+        <div class="project-title">
+            <h1>{strCapitalized(title)}</h1>
+        </div>
+    </figure>
 </section>
 
 <style>
@@ -36,35 +31,58 @@ const { id, title, description, year, mainImage }: Props = Astro.props;
         flex-direction: column;
         align-items: start;
 
-        width: 80vw;
-        max-width: var(--max-width);
+        width: 100vw;
         margin-bottom: 8rem;
     }
 
-    .project-info {
-        display: flex;
-        flex-direction: column;
-        align-items: start;
-    }
-
-    .project-title {
+    .project-description {
         display: flex;
         align-items: center;
         gap: 1rem;
-        margin-bottom: -2rem;
+        margin-left: 12.5vw;
     }
 
-    h2 {
+    .project-title {
+        margin-bottom: -2rem;
+        color: white;
+        z-index: 10;
+    }
+
+    h1 {
+        font-weight: 200;
+        font-size: 1.8rem;
+    }
+
+    h2,
+    p {
         font-weight: 200;
         font-size: 1.3rem;
     }
 
-    picture {
+    figure {
+        position: relative;
         overflow: hidden;
-        display: flex;
+        display: grid;
+        place-items: center;
         width: 100%;
-        height: 60vh;
-        border-top-right-radius: 4rem;
+        height: 70vh;
+        margin: 0;
+
+        background-attachment: fixed;
+        background-position: bottom;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    figure::before {
+        content: '';
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.1);
     }
 
     @media (width < 350px) {
@@ -72,8 +90,8 @@ const { id, title, description, year, mainImage }: Props = Astro.props;
             margin-bottom: -1rem;
         }
 
-        h2 {
-            font-weight: 200;
+        h2,
+        p {
             font-size: 1rem;
         }
     }

@@ -59,7 +59,6 @@ onMounted(() => {
     display: flex;
     width: 100%;
     height: 100%;
-    border-top-right-radius: 5rem;
 }
 
 .animated {
