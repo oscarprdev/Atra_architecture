@@ -19,6 +19,8 @@ runs:
       run: cd backend && pnpm install
 
     - uses: cloudflare/wrangler-action@v3
+      working-directory: backend
+
     - name: Deploy worker
       shell: bash
-      run: cd backend && pnpm install -g wrangler && wrangler login && wrangler init --from-dash atra-architecture
+      run: cd backend && pnpm install
