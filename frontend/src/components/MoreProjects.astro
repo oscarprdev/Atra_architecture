@@ -1,0 +1,116 @@
+---
+import type { Project } from '../api';
+import type { ApiResponse } from '../api/api_response';
+import { API_URL, IMAGE_URL } from '../constants';
+import Link from './Link.astro';
+
+interface Props {
+    id: string;
+}
+const { id }: Props = Astro.props;
+
+const response = await fetch(`${API_URL}/project/list`);
+const { data }: ApiResponse<Project[]> = await response.json();
+
+const projectIndex = data.findIndex((pr) => pr.id === id);
+
+const firstIndex = projectIndex === data.length - 1 ? 0 : projectIndex;
+const projectsToShow = data.slice(firstIndex, firstIndex + 3);
+---
+
+<section class="show">
+    <h3>Altres projectes</h3>
+    <ul>
+        {
+            projectsToShow.map((pr) => (
+                <li>
+                    <Link href={`/project/${pr.id}`}>
+                        <picture>
+                            <img
+                                src={`${IMAGE_URL}/${pr.mainImage.Key}`}
+                                alt={pr.mainImage.name || pr.mainImage.Key}
+                            />
+                        </picture>
+                        <div class="project-info">
+                            <p>{pr.title}</p>
+                            <p>{pr.year}</p>
+                        </div>
+                    </Link>
+                </li>
+            ))
+        }
+    </ul>
+</section>
+
+<style>
+    section {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+
+        width: 100vw;
+        height: 60vh;
+        margin: 0;
+        padding: 0;
+        margin: 5rem auto;
+
+        border-top: 1px solid black;
+    }
+
+    h3 {
+        font-weight: 200;
+        margin-left: 10vw;
+        text-transform: uppercase;
+    }
+
+    ul {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    li {
+        overflow: hidden;
+    }
+
+    picture {
+        height: 100%;
+        overflow: hidden;
+    }
+
+    img {
+        transition: transform 0.5s ease;
+    }
+
+    li:hover img {
+        transform: scale(1.1);
+    }
+
+    li:hover .project-info {
+        transform: translateY(-100%);
+    }
+
+    .project-info {
+        display: flex;
+        flex-direction: column;
+        align-items: end;
+
+        transform: translateY(0%);
+        width: 100%;
+        z-index: 10;
+        background-color: rgb(255, 255, 255);
+        transition: transform 0.3s ease;
+        padding: 1rem 0;
+
+        & p {
+            padding: 0.2rem 3rem;
+            line-height: 0%;
+            text-transform: uppercase;
+        }
+    }
+</style>

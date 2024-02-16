@@ -1,0 +1,14 @@
+---
+import type { User } from '../api';
+import type { ApiResponse } from '../api/api_response';
+import { API_URL } from '../constants';
+import Layout from '../layouts/Layout.astro';
+const response = await fetch(`${API_URL}/user/describe`);
+const {
+    data: { name, email, description, image }
+}: ApiResponse<User> = await response.json();
+---
+
+<Layout title="ATRA - Qui som">
+    <p>{name}</p>
+</Layout>

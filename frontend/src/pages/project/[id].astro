@@ -6,6 +6,7 @@ import Layout from '../../layouts/Layout.astro';
 import { strCapitalized } from '../../utils/strCapitalized';
 import ProjectHero from '../../components/ProjectHero.astro';
 import ProjectImages from '../../components/ProjectImages.astro';
+import MoreProjects from '../../components/MoreProjects.astro';
 
 const { id }: Record<string, string | undefined> = Astro.params;
 
@@ -24,4 +25,5 @@ const {
         mainImage={mainImage}
     />
     <ProjectImages images={images} />
+    <MoreProjects id={projectId} />
 </Layout>
