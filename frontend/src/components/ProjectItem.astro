@@ -15,6 +15,7 @@ const { project }: Props = Astro.props;
     <Link href={`/project/${project.id}`}>
         <picture>
             <img
+                data-testid="project-image"
                 src={`${IMAGE_URL}/${project.mainImage.Key}`}
                 alt={project.title}
             />
