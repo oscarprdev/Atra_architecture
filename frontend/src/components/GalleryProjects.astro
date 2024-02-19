@@ -1,7 +1,6 @@
 ---
 import type { Project } from '../api/index';
 import GalleryItem from './GalleryItem.astro';
-import ProjectItem from './ProjectItem.astro';
 
 interface Props {
     projects: Project[];
@@ -10,7 +9,7 @@ interface Props {
 const { projects }: Props = Astro.props;
 ---
 
-<section class="gallery-projects show">
+<section class="gallery-projects">
     <ul>
         {projects.map((pr) => <GalleryItem project={pr} />)}
     </ul>
