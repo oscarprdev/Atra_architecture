@@ -1,20 +1,14 @@
+---
+import Nav from './Nav.astro';
+---
+
 <header>
     <a
         class="title"
         href="/"
         >ATRA</a
     >
-    <ul>
-        <li class:list={[{ selected: Astro.url.pathname === '/' }]}>
-            <a href="/">Inici</a>
-        </li>
-        <li class:list={[{ selected: Astro.url.pathname === '/gallery' }]}>
-            <a href="/gallery">Galeria</a>
-        </li>
-        <li class:list={[{ selected: Astro.url.pathname === '/about' }]}>
-            <a href="/about">Qui som</a>
-        </li>
-    </ul>
+    <Nav />
 </header>
 
 <style>
@@ -34,50 +28,5 @@
 
     .title {
         font-size: 1.5rem;
-    }
-
-    ul {
-        display: flex;
-        align-items: center;
-        justify-content: end;
-        padding: 1rem;
-        gap: 5rem;
-    }
-
-    li {
-        position: relative;
-    }
-
-    a {
-        color: inherit;
-        font-size: 20px;
-        position: relative;
-    }
-
-    li::after {
-        content: '';
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: -2px;
-        height: 1px;
-        background-color: #191919;
-        transform: scaleX(0);
-        transition: transform 0.3s ease;
-        transform-origin: left;
-    }
-
-    li:hover::after {
-        transform: scaleX(1);
-    }
-
-    .selected::after {
-        transform: scaleX(1);
-    }
-
-    @media (width < 650px) {
-        ul {
-            gap: 0.5rem;
-        }
     }
 </style>
