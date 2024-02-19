@@ -1,0 +1,17 @@
+post:
+  tags:
+    - Auth
+  description: Login user
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: 'components/_index.yaml#/schemas/LoginUserBody'
+  responses:
+    '201':
+      $ref: 'components/_index.yaml#/responses/LoginResponse'
+    '400':
+      $ref: 'components/_index.yaml#/responses/BadRequestResponse'
+    '500':
+      $ref: 'components/_index.yaml#/responses/InternalErrorResponse'

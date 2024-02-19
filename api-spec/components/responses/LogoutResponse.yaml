@@ -1,0 +1,19 @@
+description: Logout user
+content:
+  application/json:
+    schema:
+      type: object
+      required:
+        - status
+        - response
+        - data
+      properties:
+        status:
+          type: integer
+          example: 201
+        response:
+          type: string
+          example: 'User logged out successfully'
+        data:
+          type: string
+          example: ''

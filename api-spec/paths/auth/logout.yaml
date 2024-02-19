@@ -1,0 +1,11 @@
+post:
+  tags:
+    - Auth
+  description: Logout user
+  responses:
+    '200':
+      $ref: 'components/_index.yaml#/responses/LogoutResponse'
+    '400':
+      $ref: 'components/_index.yaml#/responses/BadRequestResponse'
+    '500':
+      $ref: 'components/_index.yaml#/responses/InternalErrorResponse'

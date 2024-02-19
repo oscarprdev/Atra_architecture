@@ -27,9 +27,6 @@ responses:
   UpdateUserPasswordResponse:
     $ref: 'components/responses/UpdateUserPasswordResponse.yaml'
 
-  LoginUserResponse:
-    $ref: 'components/responses/LoginUserResponse.yaml'
-
   # Projects
   DescribeProjectsListResponse:
     $ref: 'components/responses/DescribeProjectsListResponse.yaml'
@@ -45,6 +42,13 @@ responses:
 
   UpdateProjectResponse:
     $ref: 'components/responses/UpdateProjectResponse.yaml'
+
+  # Auth
+  LoginResponse:
+    $ref: 'components/responses/LoginResponse.yaml'
+
+  LogoutResponse:
+    $ref: 'components/responses/LogoutResponse.yaml'
 
 schemas:
   # Common

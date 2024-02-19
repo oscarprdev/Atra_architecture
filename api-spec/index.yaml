@@ -13,6 +13,9 @@ tags:
   - name: Projects
     description: Projects API
 
+  - name: Auth
+    description: Auth API
+
 paths:
   $ref: './paths/_index.yaml'
 

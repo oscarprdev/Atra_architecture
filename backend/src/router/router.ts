@@ -25,9 +25,11 @@ function buildRouter(env: Env): RouterType {
 	// User handlers
 	router.get('/user/describe', corsMiddleware(describeUserHandler));
 	router.post('/user/create', corsMiddleware(uploadUserHandler));
-	router.post('/user/login', corsMiddleware(userLoginHandler));
 	router.put('/user/update', corsMiddleware(updateUserHandler));
 	router.put('/user/update/password', corsMiddleware(updatePasswordUserHandler));
+
+	// Auth handler
+	router.post('/auth/login', corsMiddleware(userLoginHandler));
 
 	router.all('*', () => new Response('Request not found', { status: 404 }));
 
