@@ -1,0 +1,56 @@
+---
+import type { Project } from '../api/index';
+import GalleryItem from './GalleryItem.astro';
+import ProjectItem from './ProjectItem.astro';
+
+interface Props {
+    projects: Project[];
+}
+
+const { projects }: Props = Astro.props;
+---
+
+<section class="gallery-projects show">
+    <ul>
+        {projects.map((pr) => <GalleryItem project={pr} />)}
+    </ul>
+</section>
+
+<style>
+    .gallery-projects {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+
+        margin-top: 5rem;
+        gap: 10rem;
+
+        height: 100%;
+        width: 90vw;
+        max-width: var(--max-width);
+    }
+
+    ul {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 0.5rem;
+        justify-content: center;
+        width: 100%;
+        max-width: var(--max-width);
+    }
+
+    @media (width < 650px) {
+        ul {
+            gap: 1rem;
+            place-content: center;
+            padding: 0;
+        }
+    }
+
+    @media (width < 850px) {
+        ul {
+            place-content: center;
+            padding: 0;
+        }
+    }
+</style>

@@ -1,7 +1,7 @@
 ---
 import type { Project } from '../api';
 import type { ApiResponse } from '../api/api_response';
-import ProjectList from '../components/ProjectList.astro';
+import GalleryProjects from '../components/GalleryProjects.astro';
 import { API_URL } from '../constants';
 import Layout from '../layouts/Layout.astro';
 
@@ -10,5 +10,5 @@ const data: ApiResponse<Project[]> = await response.json();
 ---
 
 <Layout title="ATRA - Galeria">
-    <ProjectList projects={data.data} />
+    <GalleryProjects projects={data.data} />
 </Layout>

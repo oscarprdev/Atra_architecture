@@ -37,6 +37,7 @@ if (projectsToShow.length < 3) {
                         </picture>
                         <div class="project-info">
                             <p>{pr.title}</p>
+                            <span class="dot" />
                             <p>{pr.year}</p>
                         </div>
                     </Link>
@@ -104,8 +105,9 @@ if (projectsToShow.length < 3) {
 
     .project-info {
         display: flex;
-        flex-direction: column;
-        align-items: end;
+        align-items: center;
+        justify-content: end;
+        gap: 0;
 
         transform: translateY(0%);
         width: 100%;
@@ -113,12 +115,19 @@ if (projectsToShow.length < 3) {
         background-color: rgb(255, 255, 255);
         transition: transform 0.3s ease;
         padding: 1rem 0;
+    }
 
-        & p {
-            padding: 0.2rem 3rem;
-            line-height: 0%;
-            text-transform: uppercase;
-        }
+    p {
+        padding: 0.2rem 0.5rem;
+        line-height: 0%;
+        text-transform: uppercase;
+    }
+
+    .dot {
+        width: 0.2rem;
+        height: 0.2rem;
+        background-color: rgb(130, 130, 130);
+        border-radius: 50%;
     }
 
     @media (width < 650px) {

@@ -1,0 +1,90 @@
+---
+import type { Project } from '../api';
+import { IMAGE_URL } from '../constants';
+import Link from './Link.astro';
+
+interface Props {
+    project: Project;
+}
+
+const { project }: Props = Astro.props;
+---
+
+<li>
+    <Link href={`/project/${project.id}`}>
+        <picture>
+            <img
+                data-testid="project-image"
+                src={`${IMAGE_URL}/${project.mainImage.Key}`}
+                alt={project.title}
+            />
+        </picture>
+        <div class="project-info">
+            <p>{project.title}</p>
+            <span class="dot"></span>
+            <p>{project.year}</p>
+        </div>
+    </Link>
+</li>
+
+<style>
+    li {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: center;
+        gap: 0.5rem;
+        height: fit-content;
+        overflow: hidden;
+    }
+
+    picture {
+        width: 100%;
+        height: 350px;
+        overflow: hidden;
+        box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+    }
+
+    img {
+        transition: transform 0.5s ease;
+    }
+
+    p {
+        padding: 0.2rem 0.5rem;
+        line-height: 0%;
+        text-transform: uppercase;
+    }
+
+    .project-info {
+        position: absolute;
+        right: 0;
+        bottom: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: end;
+        gap: 0;
+
+        transform: translateX(100%);
+        width: fit-content;
+        z-index: 10;
+        background-color: rgb(255, 255, 255);
+        transition: transform 0.3s ease;
+        padding: 0.1rem 3rem;
+    }
+
+    .dot {
+        width: 0.2rem;
+        height: 0.2rem;
+        background-color: rgb(130, 130, 130);
+        border-radius: 50%;
+    }
+
+    li:hover img {
+        transform: scale(1.1);
+    }
+
+    li:hover .project-info {
+        transform: translateX(0%);
+    }
+</style>
