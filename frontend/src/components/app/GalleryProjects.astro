@@ -1,6 +1,6 @@
 ---
-import type { Project } from '../api/index';
-import ProjectItem from './ProjectItem.astro';
+import type { Project } from '../../api/index';
+import GalleryItem from './GalleryItem.astro';
 
 interface Props {
     projects: Project[];
@@ -9,14 +9,14 @@ interface Props {
 const { projects }: Props = Astro.props;
 ---
 
-<section class="home-projects">
+<section class="gallery-projects">
     <ul>
-        {projects.map((pr) => <ProjectItem project={pr} />)}
+        {projects.map((pr) => <GalleryItem project={pr} />)}
     </ul>
 </section>
 
 <style>
-    .home-projects {
+    .gallery-projects {
         display: flex;
         align-items: center;
         flex-direction: column;
@@ -25,17 +25,17 @@ const { projects }: Props = Astro.props;
         gap: 10rem;
 
         height: 100%;
-        width: 100%;
+        width: 90vw;
         max-width: var(--max-width);
     }
 
     ul {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 3rem;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 0.5rem;
         padding: 0;
         justify-content: center;
-        width: 80vw;
+        width: 100%;
         max-width: var(--max-width);
     }
 
@@ -44,7 +44,6 @@ const { projects }: Props = Astro.props;
             gap: 1rem;
             place-content: center;
             padding: 0;
-            width: 90vw;
         }
     }
 

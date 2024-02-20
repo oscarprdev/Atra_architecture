@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { File } from '../api';
+import type { File } from '../../api';
 import { defineProps, onMounted, ref } from 'vue';
-import { IMAGE_URL } from '../constants';
+import { IMAGE_URL } from '../../constants';
 
 const props = defineProps<{
     images: File[];

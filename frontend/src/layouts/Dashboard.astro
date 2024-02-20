@@ -1,6 +1,5 @@
 ---
-import Footer from '../components/app/Footer.astro';
-import Header from '../components/app/Header.astro';
+import Nav from '../components/dashboard/NavDashboard.astro';
 
 interface Props {
     title: string;
@@ -33,30 +32,45 @@ const { title } = Astro.props;
         <title>{title}</title>
     </head>
     <body>
-        <Header />
+        <Nav />
         <main>
             <slot />
         </main>
-        <Footer />
     </body>
 </html>
 
 <style is:global>
     @font-face {
-        font-family: 'Inter';
-        src: url('/fonts/Inter.ttf') format('truetype');
+        font-family: 'Arimo';
+        src: url('/fonts/Arimo.ttf') format('ttf');
         font-display: swap;
     }
 
     :root {
-        --background-color: white;
-        --max-width: 1100px;
-        --color: rgb(135, 135, 135);
+        --bg-color: #f4f4f4;
+        --card-color: #fcfcfc;
+        --card-hover-color: #eeeeee;
+
+        --contrast: #2984fe;
+
+        --text-color: #010306;
+        --text-light: #5d646d;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --bg-color: #778089;
+            --card-color: #1b1d1f;
+            --card-hover-color: #272b31;
+
+            --text-color: #ffffff;
+            --text-light: #787f88;
+        }
     }
 
     html {
-        font-family: 'Inter', system-ui, sans-serif;
-        background: var(--background-color);
+        font-family: 'Arimo', system-ui, sans-serif;
+        background: var(--bg-color);
         font-weight: 200;
     }
 
@@ -68,12 +82,17 @@ const { title } = Astro.props;
 
     body {
         margin: 0 auto;
+        height: 100vh;
+        scroll-behavior: hidden;
+
+        display: flex;
     }
 
     main {
         display: flex;
         flex-direction: column;
         align-items: center;
+        height: 100vh;
     }
 
     ol,
@@ -94,36 +113,5 @@ const { title } = Astro.props;
 
     p {
         font-weight: 300;
-    }
-
-    .show {
-        view-timeline-name: --show;
-        view-timeline-axis: block;
-
-        animation-timeline: --show;
-        animation-name: show;
-        animation-range: entry 18% cover 50%;
-        animation-fill-mode: both;
-    }
-
-    @keyframes slide-right {
-        from {
-            left: -100%;
-        }
-        to {
-            left: 0;
-        }
-    }
-
-    @keyframes show {
-        from {
-            opacity: 0;
-            transform: translateY(55%);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0%);
-        }
     }
 </style>

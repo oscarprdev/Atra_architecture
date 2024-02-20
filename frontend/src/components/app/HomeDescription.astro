@@ -1,7 +1,7 @@
 ---
-import type { User } from '../api';
-import type { ApiResponse } from '../api/api_response';
-import { API_URL } from '../constants';
+import type { User } from '../../api';
+import type { ApiResponse } from '../../api/api_response';
+import { API_URL } from '../../constants';
 import Link from './Link.astro';
 import TextWithIcon from './TextWithIcon.astro';
 
@@ -59,11 +59,12 @@ const data: ApiResponse<User> = await response.json();
 
     p {
         font-size: 1.2rem;
+        font-weight: 200;
     }
 
     .description {
         width: 80vw;
-        max-width: var(--max-width);
+        max-width: calc(var(--max-width) - 20%);
         text-wrap: pretty;
         font-size: 1rem;
         line-height: auto;

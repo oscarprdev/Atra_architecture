@@ -1,7 +1,7 @@
 ---
-import type { User } from '../api';
-import type { ApiResponse } from '../api/api_response';
-import { API_URL } from '../constants';
+import type { User } from '../../api';
+import type { ApiResponse } from '../../api/api_response';
+import { API_URL } from '../../constants';
 
 const response = await fetch(`${API_URL}/user/describe`);
 const {

@@ -4,9 +4,9 @@ import type { Project } from '../../api/index';
 import type { ApiResponse } from '../../api/api_response';
 import Layout from '../../layouts/Layout.astro';
 import { strCapitalized } from '../../utils/strCapitalized';
-import ProjectHero from '../../components/ProjectHero.astro';
-import ProjectImages from '../../components/ProjectImages.astro';
-import MoreProjects from '../../components/MoreProjects.astro';
+import ProjectHero from '../../components/app/ProjectHero.astro';
+import ProjectImages from '../../components/app/ProjectImages.astro';
+import MoreProjects from '../../components/app/MoreProjects.astro';
 
 const { id }: Record<string, string | undefined> = Astro.params;
 

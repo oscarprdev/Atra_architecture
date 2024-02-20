@@ -1,11 +1,11 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { API_URL } from '../constants/index';
-import MainImage from '../components/MainImage.vue';
+import MainImage from '../components/app/MainImage.vue';
 import type { ApiResponse } from '../api/api_response';
 import type { Project } from '../api/index';
-import ProjectList from '../components/ProjectList.astro';
-import HomeDescription from '../components/HomeDescription.astro';
+import ProjectList from '../components/app/ProjectList.astro';
+import HomeDescription from '../components/app/HomeDescription.astro';
 
 const response = await fetch(`${API_URL}/project/list`);
 const data: ApiResponse<Project[]> = await response.json();
