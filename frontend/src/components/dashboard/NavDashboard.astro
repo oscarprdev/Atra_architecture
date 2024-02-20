@@ -31,13 +31,13 @@ const user = jsonResponse.data as User;
             <li class:list={[{ selected: Astro.url.pathname.includes('info') }]}>
                 <a href="/auth/dashboard/info">
                     <DescriptionIcon />
-                    <p>Informacio</p>
+                    <p>Informació</p>
                 </a>
             </li>
             <li class:list={[{ selected: Astro.url.pathname.includes('user') }]}>
                 <a href="/auth/dashboard/user">
                     <UserIcon />
-                    <p>Personal</p>
+                    <p>Dades personals</p>
                 </a>
             </li>
             <li class:list={[{ selected: Astro.url.pathname.includes('account') }]}>
@@ -51,7 +51,7 @@ const user = jsonResponse.data as User;
     <div class="nav-bottom">
         <button>
             <LogoutIcon />
-            <p>Tancar sessio</p>
+            <p>Tancar sessió</p>
         </button>
         <ThemeSelector />
     </div>
@@ -164,6 +164,9 @@ const user = jsonResponse.data as User;
         align-items: center;
         gap: 1rem;
         width: 100%;
+
+        border-top: 2px solid var(--card-hover-color);
+        padding-top: 1.5rem;
     }
 
     button {
