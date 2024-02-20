@@ -39,6 +39,32 @@ const { title } = Astro.props;
     </body>
 </html>
 
+<script is:inline>
+    const DARK = 'dark';
+    const LIGHT = 'light';
+    const THEME = 'theme';
+
+    const theme = (() => {
+        if (typeof localStorage !== 'undefined' && localStorage.getItem(THEME)) {
+            return localStorage.getItem(THEME);
+        }
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            return DARK;
+        }
+        return LIGHT;
+    })();
+
+    if (theme === LIGHT) {
+        document.documentElement.classList.remove(DARK);
+        document.documentElement.classList.add(DARK);
+    } else {
+        document.documentElement.classList.remove(DARK);
+        document.documentElement.classList.add(DARK);
+    }
+
+    window.localStorage.setItem(THEME, theme);
+</script>
+
 <style is:global>
     @font-face {
         font-family: 'Arimo';
@@ -47,31 +73,32 @@ const { title } = Astro.props;
     }
 
     :root {
-        --bg-color: #f4f4f4;
-        --card-color: #fcfcfc;
-        --card-hover-color: #eeeeee;
-
         --contrast: #2984fe;
-
-        --text-color: #010306;
-        --text-light: #5d646d;
-    }
-
-    @media (prefers-color-scheme: dark) {
-        :root {
-            --bg-color: #778089;
-            --card-color: #1b1d1f;
-            --card-hover-color: #272b31;
-
-            --text-color: #ffffff;
-            --text-light: #787f88;
-        }
+        --contrast-dark: #0052bd;
     }
 
     html {
         font-family: 'Arimo', system-ui, sans-serif;
         background: var(--bg-color);
         font-weight: 200;
+    }
+
+    html.dark {
+        --bg-color: #778089;
+        --card-color: #1b1d1f;
+        --card-hover-color: #272b31;
+
+        --text-color: #ffffff;
+        --text-light: #787f88;
+    }
+
+    html.light {
+        --bg-color: #f4f4f4;
+        --card-color: #fcfcfc;
+        --card-hover-color: #eeeeee;
+
+        --text-color: #010306;
+        --text-light: #5d646d;
     }
 
     *,

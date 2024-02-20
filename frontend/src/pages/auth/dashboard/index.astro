@@ -1,7 +1,8 @@
 ---
-import Layout from '../../../layouts/Layout.astro';
+import Projects from '../../../components/dashboard/Projects.vue';
+import Layout from '../../../layouts/Dashboard.astro';
 ---
 
 <Layout title="ATRA - Dashboard">
-    <h1>Dashboard</h1>
+    <Projects client:only />
 </Layout>

@@ -1,0 +1,191 @@
+---
+import type { User } from '../../api';
+import { API_URL, IMAGE_URL } from '../../constants';
+import ThemeSelector from './ThemeSelector.astro';
+import DescriptionIcon from './icons/DescriptionIcon.astro';
+import ListIcon from './icons/ListIcon.astro';
+import LogoutIcon from './icons/LogoutIcon.astro';
+import SettingsIcon from './icons/SettingsIcon.astro';
+import UserIcon from './icons/UserIcon.astro';
+
+const response = await fetch(`${API_URL}/user/describe`);
+const jsonResponse = await response.json();
+
+const user = jsonResponse.data as User;
+---
+
+<nav>
+    <ul class="nav-top">
+        <header>
+            <picture>
+                <img src={`${IMAGE_URL}/${user.image.Key}`} />
+            </picture>
+        </header>
+        <ul>
+            <li class:list={[{ selected: Astro.url.pathname === '/auth/dashboard' }]}>
+                <a href="/auth/dashboard">
+                    <ListIcon />
+                    <p>Projectes</p>
+                </a>
+            </li>
+            <li class:list={[{ selected: Astro.url.pathname.includes('info') }]}>
+                <a href="/auth/dashboard/info">
+                    <DescriptionIcon />
+                    <p>Informacio</p>
+                </a>
+            </li>
+            <li class:list={[{ selected: Astro.url.pathname.includes('user') }]}>
+                <a href="/auth/dashboard/user">
+                    <UserIcon />
+                    <p>Personal</p>
+                </a>
+            </li>
+            <li class:list={[{ selected: Astro.url.pathname.includes('account') }]}>
+                <a href="/auth/dashboard/account">
+                    <SettingsIcon />
+                    <p>Compte</p>
+                </a>
+            </li>
+        </ul>
+    </ul>
+    <div class="nav-bottom">
+        <button>
+            <LogoutIcon />
+            <p>Tancar sessio</p>
+        </button>
+        <ThemeSelector />
+    </div>
+</nav>
+
+<style>
+    nav {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 2rem;
+
+        width: 18vw;
+        max-width: 300px;
+
+        height: 100%;
+        padding: 1rem 1.5rem;
+
+        background-color: var(--card-color);
+        color: var(--text-color);
+    }
+
+    header {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        width: 100%;
+    }
+
+    picture {
+        width: 3rem;
+        height: 3rem;
+        border-radius: 50%;
+        overflow: hidden;
+
+        border: 1px solid var(--text-color);
+    }
+
+    img {
+        object-position: left;
+    }
+
+    h1 {
+        font-size: 1rem;
+        font-weight: 200;
+    }
+
+    ul {
+        display: flex;
+        align-items: start;
+        flex-direction: column;
+        width: 100%;
+        gap: 1rem;
+        margin-left: -0.5rem;
+        padding-left: 0;
+        color: var(--text-light);
+    }
+
+    li {
+        width: 100%;
+        padding: 0.5rem 1rem;
+        border-radius: 3rem;
+        cursor: pointer;
+
+        transition: all 0.2s ease;
+    }
+
+    li:hover {
+        color: var(--text-color);
+        background-color: var(--card-hover-color);
+        box-shadow:
+            rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+            rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+    }
+
+    a {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    p {
+        margin: 0;
+        margin-bottom: 0.1rem;
+    }
+
+    .selected {
+        color: var(--text-color);
+        cursor: pointer;
+        background-color: var(--card-hover-color);
+        box-shadow:
+            rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
+            rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+    }
+
+    .nav-top {
+        width: 100%;
+
+        display: flex;
+        align-items: start;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .nav-bottom {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        width: 100%;
+    }
+
+    button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+
+        padding: 0.7rem 1.2rem;
+        font-size: 1rem;
+        border-radius: 0.7rem;
+        color: var(--text-light);
+        background-color: transparent;
+        border: 1px solid var(--text-light);
+        cursor: pointer;
+
+        transition: all 0.2s ease;
+    }
+
+    button:hover {
+        background-color: var(--contrast);
+        color: white;
+        border: 1px solid var(--contrast-dark);
+    }
+</style>
