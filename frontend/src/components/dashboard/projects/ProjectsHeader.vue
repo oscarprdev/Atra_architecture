@@ -7,7 +7,7 @@ import InputSearch from './InputSearch.vue';
 <template>
 	<header>
 		<InputSearch />
-		<ActionButton text="Crear">
+		<ActionButton text="Nou projecte">
 			<template #icon>
 				<IconPlus />
 			</template>
@@ -24,5 +24,6 @@ header {
 	background-color: var(--card-color);
 	width: 100%;
 	border-radius: var(--border-radius);
+	border-top-right-radius: 0;
 }
 </style>

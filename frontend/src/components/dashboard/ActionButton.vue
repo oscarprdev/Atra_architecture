@@ -24,7 +24,7 @@ button {
 	justify-content: center;
 	gap: 0.5rem;
 
-	padding: 0.8rem 1.2rem;
+	padding: 0.6rem 1.3rem;
 	font-size: 1rem;
 	border-radius: var(--border-radius);
 

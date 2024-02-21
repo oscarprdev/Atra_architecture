@@ -1,23 +1,12 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import { API_URL } from '../../../constants';
-import type { User } from '../../../api';
 import ProjectsHeader from './ProjectsHeader.vue';
-
-const user = ref<User | null>(null);
-
-onMounted(async () => {
-	const response = await fetch(`${API_URL}/user/describe`);
-	const jsonResponse = await response.json();
-
-	user.value = jsonResponse.data;
-});
+import ProjectsTable from './ProjectsTable.vue';
 </script>
 
 <template>
 	<ProjectsHeader />
 	<section>
-		<h1>Projects</h1>
+		<ProjectsTable />
 	</section>
 </template>
 
@@ -28,5 +17,6 @@ section {
 	height: 100%;
 	width: 100%;
 	background-color: var(--card-color);
+	overflow: hidden;
 }
 </style>
