@@ -14,9 +14,18 @@ dependencies:
   '@astrojs/vue':
     specifier: ^4.0.8
     version: 4.0.8(@babel/core@7.23.9)(astro@4.3.1)(vite@5.0.12)(vue@3.4.19)
+  '@tabler/icons-vue':
+    specifier: ^2.47.0
+    version: 2.47.0(vue@3.4.19)
   astro:
     specifier: ^4.3.1
     version: 4.3.1(@types/node@20.11.19)(typescript@5.3.3)
+  install:
+    specifier: ^0.13.0
+    version: 0.13.0
+  mitt:
+    specifier: ^3.0.1
+    version: 3.0.1
   typescript:
     specifier: ^5.3.3
     version: 5.3.3
@@ -900,6 +909,19 @@ packages:
     requiresBuild: true
     dev: false
     optional: true
+
+  /@tabler/icons-vue@2.47.0(vue@3.4.19):
+    resolution: {integrity: sha512-huEDak5xouwsRjbTUZlYZny9kC8ez61vdx/KwhR2Uc5HcUpxpFy+7p+IKH/ZZ48IcTHmCbdBJgbFRUI1mePJog==}
+    peerDependencies:
+      vue: '>=3.0.1'
+    dependencies:
+      '@tabler/icons': 2.47.0
+      vue: 3.4.19(typescript@5.3.3)
+    dev: false
+
+  /@tabler/icons@2.47.0:
+    resolution: {integrity: sha512-4w5evLh+7FUUiA1GucvGj2ReX2TvOjEr4ejXdwL/bsjoSkof6r1gQmzqI+VHrE2CpJpB3al7bCTulOkFa/RcyA==}
+    dev: false
 
   /@types/babel__core@7.20.5:
     resolution: {integrity: sha512-qoQprZvz5wQFJwMDqeseRXWv3rqMvhgpbXFfVyWhbx9X47POIA6i/+dXefEmZKoAgOaTdaIgNSMqMIU61yRyzA==}
@@ -2314,6 +2336,11 @@ packages:
     dev: false
     optional: true
 
+  /install@0.13.0:
+    resolution: {integrity: sha512-zDml/jzr2PKU9I8J/xyZBQn8rPCAY//UOYNmR01XwNwyfhEWObo2SWfSl1+0tm1u6PhxLwDnfsT/6jB7OUxqFA==}
+    engines: {node: '>= 0.10'}
+    dev: false
+
   /is-arrayish@0.3.2:
     resolution: {integrity: sha512-eVRqCvVlZbuw3GrM63ovNSNAeA1K16kaR/LRY/92w0zxQ5/1YzwblUX652i4Xs9RwAGjW9d9y6X88t8OaAJfWQ==}
     requiresBuild: true
@@ -2992,6 +3019,10 @@ packages:
     dependencies:
       minipass: 3.3.6
       yallist: 4.0.0
+    dev: false
+
+  /mitt@3.0.1:
+    resolution: {integrity: sha512-vKivATfr97l2/QBCYAkXYDbrIWPM2IIKEl7YPhjCvKlG3kE2gm+uBo6nEXK3M5/Ffh/FLpKExzOQ3JJoJGFKBw==}
     dev: false
 
   /mkdirp-classic@0.5.3:

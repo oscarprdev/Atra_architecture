@@ -14,7 +14,10 @@
         "@astrojs/check": "^0.4.1",
         "@astrojs/vercel": "^7.3.1",
         "@astrojs/vue": "^4.0.8",
+        "@tabler/icons-vue": "^2.47.0",
         "astro": "^4.3.1",
+        "install": "^0.13.0",
+        "mitt": "^3.0.1",
         "typescript": "^5.3.3",
         "vue": "^3.4.19"
     },
