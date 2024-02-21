@@ -1,159 +1,159 @@
 <nav>
-    <input
-        class="menu-btn"
-        type="checkbox"
-        id="menu-btn"
-    />
-    <label
-        class="menu-icon"
-        for="menu-btn"
-        ><span class="navicon"></span></label
-    >
-    <ul class="menu">
-        <span></span>
-        <li class:list={[{ selected: Astro.url.pathname === '/' }]}>
-            <a href="/">Inici</a>
-        </li>
-        <li class:list={[{ selected: Astro.url.pathname === '/gallery' }]}>
-            <a href="/gallery">Galeria</a>
-        </li>
-        <li class:list={[{ selected: Astro.url.pathname === '/about' }]}>
-            <a href="/about">Qui som</a>
-        </li>
-    </ul>
+	<input
+		class="menu-btn"
+		type="checkbox"
+		id="menu-btn"
+	/>
+	<label
+		class="menu-icon"
+		for="menu-btn"
+		><span class="navicon"></span></label
+	>
+	<ul class="menu">
+		<span></span>
+		<li class:list={[{ selected: Astro.url.pathname === '/' }]}>
+			<a href="/">Inici</a>
+		</li>
+		<li class:list={[{ selected: Astro.url.pathname === '/gallery' }]}>
+			<a href="/gallery">Galeria</a>
+		</li>
+		<li class:list={[{ selected: Astro.url.pathname === '/about' }]}>
+			<a href="/about">Qui som</a>
+		</li>
+	</ul>
 </nav>
 
 <style>
-    li {
-        position: relative;
-        width: fit-content;
-    }
+	li {
+		position: relative;
+		width: fit-content;
+	}
 
-    a {
-        color: inherit;
-        font-size: 20px;
-        position: relative;
-    }
+	a {
+		color: inherit;
+		font-size: 20px;
+		position: relative;
+	}
 
-    nav .menu {
-        display: flex;
-        align-items: center;
-        justify-content: end;
-        padding: 1rem;
-        gap: 5rem;
-    }
+	nav .menu {
+		display: flex;
+		align-items: center;
+		justify-content: end;
+		padding: 1rem;
+		gap: 5rem;
+	}
 
-    li::after {
-        content: '';
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: -2px;
-        height: 1px;
-        background-color: #191919;
-        transform: scaleX(0);
-        transition: transform 0.3s ease;
-        transform-origin: left;
-    }
+	li::after {
+		content: '';
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: -2px;
+		height: 1px;
+		background-color: #191919;
+		transform: scaleX(0);
+		transition: transform 0.3s ease;
+		transform-origin: left;
+	}
 
-    li:hover::after {
-        transform: scaleX(1);
-    }
+	li:hover::after {
+		transform: scaleX(1);
+	}
 
-    .selected::after {
-        transform: scaleX(1);
-    }
+	.selected::after {
+		transform: scaleX(1);
+	}
 
-    nav .menu-icon {
-        cursor: pointer;
-        float: right;
-        padding: 28px 20px;
-        position: relative;
-        user-select: none;
+	nav .menu-icon {
+		cursor: pointer;
+		float: right;
+		padding: 28px 20px;
+		position: relative;
+		user-select: none;
 
-        display: none;
+		display: none;
 
-        z-index: 15;
-    }
+		z-index: 15;
+	}
 
-    nav .menu-icon .navicon {
-        background: #333;
-        display: block;
-        height: 2px;
-        position: relative;
-        transition: background 0.2s ease-out;
-        width: 18px;
-    }
+	nav .menu-icon .navicon {
+		background: #333;
+		display: block;
+		height: 2px;
+		position: relative;
+		transition: background 0.2s ease-out;
+		width: 18px;
+	}
 
-    nav .menu-icon .navicon:before,
-    nav .menu-icon .navicon:after {
-        background: #333;
-        content: '';
-        display: block;
-        height: 100%;
-        position: absolute;
-        transition: all 0.2s ease-out;
-        width: 100%;
-    }
+	nav .menu-icon .navicon:before,
+	nav .menu-icon .navicon:after {
+		background: #333;
+		content: '';
+		display: block;
+		height: 100%;
+		position: absolute;
+		transition: all 0.2s ease-out;
+		width: 100%;
+	}
 
-    nav .menu-icon .navicon:before {
-        top: 5px;
-    }
+	nav .menu-icon .navicon:before {
+		top: 5px;
+	}
 
-    nav .menu-icon .navicon:after {
-        top: -5px;
-    }
+	nav .menu-icon .navicon:after {
+		top: -5px;
+	}
 
-    nav .menu-btn {
-        display: none;
-    }
+	nav .menu-btn {
+		display: none;
+	}
 
-    nav .menu-btn:checked ~ .menu-icon .navicon {
-        background: transparent;
-    }
+	nav .menu-btn:checked ~ .menu-icon .navicon {
+		background: transparent;
+	}
 
-    nav .menu-btn:checked ~ .menu-icon .navicon:before {
-        transform: rotate(-45deg);
-    }
+	nav .menu-btn:checked ~ .menu-icon .navicon:before {
+		transform: rotate(-45deg);
+	}
 
-    nav .menu-btn:checked ~ .menu-icon .navicon:after {
-        transform: rotate(45deg);
-    }
+	nav .menu-btn:checked ~ .menu-icon .navicon:after {
+		transform: rotate(45deg);
+	}
 
-    nav .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:before,
-    nav .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:after {
-        top: 0;
-    }
+	nav .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:before,
+	nav .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:after {
+		top: 0;
+	}
 
-    @media (width <= 650px) {
-        nav .menu {
-            display: flex;
-            justify-content: start;
-            align-items: center;
-            flex-direction: column;
-            gap: 1.4rem;
+	@media (width <= 650px) {
+		nav .menu {
+			display: flex;
+			justify-content: start;
+			align-items: center;
+			flex-direction: column;
+			gap: 1.4rem;
 
-            position: fixed;
-            top: 3rem;
-            left: 0;
+			position: fixed;
+			top: 3rem;
+			left: 0;
 
-            height: 100vh;
-            width: 100vw;
+			height: 100vh;
+			width: 100vw;
 
-            z-index: 15;
+			z-index: 15;
 
-            transform: translateX(100%);
-            transition: transform 0.3s ease;
+			transform: translateX(100%);
+			transition: transform 0.3s ease;
 
-            background-color: var(--background-color);
-        }
+			background-color: var(--background-color);
+		}
 
-        nav .menu-icon {
-            display: inline-block;
-        }
+		nav .menu-icon {
+			display: inline-block;
+		}
 
-        .menu-btn:checked ~ .menu {
-            transform: translateX(0%);
-        }
-    }
+		.menu-btn:checked ~ .menu {
+			transform: translateX(0%);
+		}
+	}
 </style>

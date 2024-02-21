@@ -1,29 +1,30 @@
 {
-    "name": "frontend",
-    "type": "module",
-    "version": "0.0.1",
-    "scripts": {
-        "dev": "astro dev",
-        "start": "astro dev",
-        "build": "astro check && astro build",
-        "preview": "astro preview",
-        "astro": "astro",
-        "e2e:tests": "npx playwright test --trace on"
-    },
-    "dependencies": {
-        "@astrojs/check": "^0.4.1",
-        "@astrojs/vercel": "^7.3.1",
-        "@astrojs/vue": "^4.0.8",
-        "@tabler/icons-vue": "^2.47.0",
-        "astro": "^4.3.1",
-        "install": "^0.13.0",
-        "mitt": "^3.0.1",
-        "typescript": "^5.3.3",
-        "vue": "^3.4.19"
-    },
-    "devDependencies": {
-        "@playwright/test": "^1.41.2",
-        "@types/node": "^20.11.19",
-        "prettier-plugin-astro": "^0.13.0"
-    }
+	"name": "frontend",
+	"type": "module",
+	"version": "0.0.1",
+	"scripts": {
+		"dev": "astro dev",
+		"start": "astro dev",
+		"build": "astro check && astro build",
+		"preview": "astro preview",
+		"astro": "astro",
+		"e2e:tests": "npx playwright test --trace on",
+		"format": "prettier --write ."
+	},
+	"dependencies": {
+		"@astrojs/check": "^0.4.1",
+		"@astrojs/vercel": "^7.3.1",
+		"@astrojs/vue": "^4.0.8",
+		"@tabler/icons-vue": "^2.47.0",
+		"astro": "^4.3.1",
+		"install": "^0.13.0",
+		"mitt": "^3.0.1",
+		"typescript": "^5.3.3",
+		"vue": "^3.4.19"
+	},
+	"devDependencies": {
+		"@playwright/test": "^1.41.2",
+		"@types/node": "^20.11.19",
+		"prettier-plugin-astro": "^0.13.0"
+	}
 }

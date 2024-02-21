@@ -1,141 +1,140 @@
 ---
 interface Props {
-    description: string;
-    direction: string;
-    name: string;
-    email: string;
-    phone: number;
+	description: string;
+	direction: string;
+	name: string;
+	email: string;
+	phone: number;
 }
 
 const { description, direction, name, email, phone }: Props = Astro.props;
 ---
 
 <article class="about-container">
-    <div class="about-title">
-        <h1>ATRA</h1>
-        <h3>Asistència tècnica en rehabilitació i arquitectura</h3>
-    </div>
-    <div class="about-content">
-        <div class="description">
-            {description.split('. ').map((text) => <p>{text}.</p>)}
-        </div>
-        <div class="user-info">
-            <h3><span>Arquitecte</span> {name}</h3>
-            <h3><span>Correu</span> {email}</h3>
-            <h3><span>Telèfon</span> {phone}</h3>
-            <a
-                href="https://opr-short-url.vercel.app/f253f3fb"
-                target="_blank"
-            >
-                <span>Direcció</span>
-                <p>{direction}</p>
-            </a>
-        </div>
-    </div>
+	<div class="about-title">
+		<h1>ATRA</h1>
+		<h3>Asistència tècnica en rehabilitació i arquitectura</h3>
+	</div>
+	<div class="about-content">
+		<div class="description">
+			{description.split('. ').map(text => <p>{text}.</p>)}
+		</div>
+		<div class="user-info">
+			<h3><span>Arquitecte</span> {name}</h3>
+			<h3><span>Correu</span> {email}</h3>
+			<h3><span>Telèfon</span> {phone}</h3>
+			<a
+				href="https://opr-short-url.vercel.app/f253f3fb"
+				target="_blank">
+				<span>Direcció</span>
+				<p>{direction}</p>
+			</a>
+		</div>
+	</div>
 </article>
 
 <style>
-    h1,
-    h3 {
-        font-weight: 300;
-    }
+	h1,
+	h3 {
+		font-weight: 300;
+	}
 
-    h1 {
-        font-size: 2rem;
-    }
+	h1 {
+		font-size: 2rem;
+	}
 
-    .about-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 0 3rem;
-    }
+	.about-container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		padding: 0 3rem;
+	}
 
-    p {
-        font-size: 1rem;
-        color: rgb(82, 82, 82);
-        text-wrap: pretty;
-    }
+	p {
+		font-size: 1rem;
+		color: rgb(82, 82, 82);
+		text-wrap: pretty;
+	}
 
-    .about-title {
-        align-self: flex-start;
+	.about-title {
+		align-self: flex-start;
 
-        h3 {
-            margin-top: -1rem;
-        }
-    }
+		h3 {
+			margin-top: -1rem;
+		}
+	}
 
-    .about-content {
-        display: flex;
-        align-items: center;
-        gap: 2rem;
-    }
+	.about-content {
+		display: flex;
+		align-items: center;
+		gap: 2rem;
+	}
 
-    .description {
-        width: 50%;
-    }
+	.description {
+		width: 50%;
+	}
 
-    .user-info {
-        display: flex;
-        flex-direction: column;
-        margin-left: 4rem;
+	.user-info {
+		display: flex;
+		flex-direction: column;
+		margin-left: 4rem;
 
-        span {
-            font-size: 1rem;
-            font-weight: 500;
-            text-transform: uppercase;
-            margin-right: 1rem;
-            color: black;
-        }
+		span {
+			font-size: 1rem;
+			font-weight: 500;
+			text-transform: uppercase;
+			margin-right: 1rem;
+			color: black;
+		}
 
-        h3,
-        p {
-            font-size: 1rem;
-            color: rgb(108, 108, 108);
-        }
+		h3,
+		p {
+			font-size: 1rem;
+			color: rgb(108, 108, 108);
+		}
 
-        a {
-            display: flex;
-            align-items: center;
-            color: inherit;
-            width: fit-content;
-            padding-right: 1rem;
-        }
-    }
+		a {
+			display: flex;
+			align-items: center;
+			color: inherit;
+			width: fit-content;
+			padding-right: 1rem;
+		}
+	}
 
-    @media (width < 850px) {
-        .about-content {
-            display: flex;
-            flex-direction: column;
-        }
+	@media (width < 850px) {
+		.about-content {
+			display: flex;
+			flex-direction: column;
+		}
 
-        .description {
-            width: 100%;
-        }
+		.description {
+			width: 100%;
+		}
 
-        .about-container {
-            margin-bottom: 0;
-        }
-    }
+		.about-container {
+			margin-bottom: 0;
+		}
+	}
 
-    @media (width < 430px) {
-        .user-info span {
-            display: block;
-            margin-bottom: 0.5rem;
-        }
+	@media (width < 430px) {
+		.user-info span {
+			display: block;
+			margin-bottom: 0.5rem;
+		}
 
-        .user-info a {
-            display: flex;
-            flex-direction: column;
-            align-items: start;
-        }
+		.user-info a {
+			display: flex;
+			flex-direction: column;
+			align-items: start;
+		}
 
-        .user-info a span {
-            margin-top: 1rem;
-        }
+		.user-info a span {
+			margin-top: 1rem;
+		}
 
-        .user-info a p {
-            margin-top: -0.1rem;
-        }
-    }
+		.user-info a p {
+			margin-top: -0.1rem;
+		}
+	}
 </style>

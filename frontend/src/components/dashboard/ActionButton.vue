@@ -4,44 +4,43 @@ import { EMITTER_NAMES, emitter } from '../../utils/emitter';
 defineProps<{ text: string }>();
 
 const onActionButtonClick = () => {
-    emitter.emit(EMITTER_NAMES.toggleCreateProjectSection, true);
+	emitter.emit(EMITTER_NAMES.toggleCreateProjectSection, true);
 };
 </script>
 
 <template>
-    <button
-        type="button"
-        @click="onActionButtonClick"
-    >
-        <slot name="icon" />
-        <p>{{ text }}</p>
-    </button>
+	<button
+		type="button"
+		@click="onActionButtonClick">
+		<slot name="icon" />
+		<p>{{ text }}</p>
+	</button>
 </template>
 
 <style scoped>
 button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
 
-    padding: 0.8rem 1.2rem;
-    font-size: 1rem;
-    border-radius: var(--border-radius);
+	padding: 0.8rem 1.2rem;
+	font-size: 1rem;
+	border-radius: var(--border-radius);
 
-    color: white;
-    background-color: var(--contrast);
-    border: 1px solid var(--contrast-dark);
+	color: white;
+	background-color: var(--contrast);
+	border: 1px solid var(--contrast-dark);
 
-    cursor: pointer;
-    transition: all 0.2s ease;
+	cursor: pointer;
+	transition: all 0.2s ease;
 }
 
 button:hover {
-    background-color: var(--contrast-dark);
+	background-color: var(--contrast-dark);
 }
 
 p {
-    margin: 0;
+	margin: 0;
 }
 </style>

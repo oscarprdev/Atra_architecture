@@ -4,95 +4,95 @@ import { IMAGE_URL } from '../../constants';
 import { strCapitalized } from '../../utils/strCapitalized';
 
 interface Props {
-    title: string;
-    description: string;
-    year: number;
-    mainImage: File;
+	title: string;
+	description: string;
+	year: number;
+	mainImage: File;
 }
 
 const { title, description, year, mainImage }: Props = Astro.props;
 ---
 
 <section>
-    <div class="project-description">
-        <h2>{year}</h2>
-        <p>{strCapitalized(description)}</p>
-    </div>
-    <figure style={`background-image: url(${IMAGE_URL}/${mainImage.Key})`}>
-        <div class="project-title">
-            <h1>{strCapitalized(title)}</h1>
-        </div>
-    </figure>
+	<div class="project-description">
+		<h2>{year}</h2>
+		<p>{strCapitalized(description)}</p>
+	</div>
+	<figure style={`background-image: url(${IMAGE_URL}/${mainImage.Key})`}>
+		<div class="project-title">
+			<h1>{strCapitalized(title)}</h1>
+		</div>
+	</figure>
 </section>
 
 <style>
-    section {
-        display: flex;
-        flex-direction: column;
-        align-items: start;
+	section {
+		display: flex;
+		flex-direction: column;
+		align-items: start;
 
-        width: 100vw;
-        margin-bottom: 8rem;
-    }
+		width: 100vw;
+		margin-bottom: 8rem;
+	}
 
-    .project-description {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        margin-left: 12.5vw;
-    }
+	.project-description {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		margin-left: 12.5vw;
+	}
 
-    .project-title {
-        margin-bottom: -2rem;
-        color: white;
-        z-index: 10;
-    }
+	.project-title {
+		margin-bottom: -2rem;
+		color: white;
+		z-index: 10;
+	}
 
-    h1 {
-        font-weight: 200;
-        font-size: 1.8rem;
-    }
+	h1 {
+		font-weight: 200;
+		font-size: 1.8rem;
+	}
 
-    h2,
-    p {
-        font-weight: 200;
-        font-size: 1.3rem;
-    }
+	h2,
+	p {
+		font-weight: 200;
+		font-size: 1.3rem;
+	}
 
-    figure {
-        position: relative;
-        overflow: hidden;
-        display: grid;
-        place-items: center;
-        width: 100%;
-        height: 70vh;
-        margin: 0;
+	figure {
+		position: relative;
+		overflow: hidden;
+		display: grid;
+		place-items: center;
+		width: 100%;
+		height: 70vh;
+		margin: 0;
 
-        background-attachment: fixed;
-        background-position: bottom;
-        background-repeat: no-repeat;
-        background-size: cover;
-    }
+		background-attachment: fixed;
+		background-position: bottom;
+		background-repeat: no-repeat;
+		background-size: cover;
+	}
 
-    figure::before {
-        content: '';
-        position: absolute;
-        z-index: 1;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.1);
-    }
+	figure::before {
+		content: '';
+		position: absolute;
+		z-index: 1;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.1);
+	}
 
-    @media (width < 450px) {
-        .project-title {
-            margin-bottom: -1rem;
-        }
+	@media (width < 450px) {
+		.project-title {
+			margin-bottom: -1rem;
+		}
 
-        h2,
-        p {
-            font-size: 1rem;
-        }
-    }
+		h2,
+		p {
+			font-size: 1rem;
+		}
+	}
 </style>

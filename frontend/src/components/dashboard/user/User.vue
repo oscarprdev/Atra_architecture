@@ -6,22 +6,22 @@ import type { User } from '../../../api';
 const user = ref<User | null>(null);
 
 onMounted(async () => {
-    const response = await fetch(`${API_URL}/user/describe`);
-    const jsonResponse = await response.json();
+	const response = await fetch(`${API_URL}/user/describe`);
+	const jsonResponse = await response.json();
 
-    user.value = jsonResponse.data;
+	user.value = jsonResponse.data;
 });
 </script>
 
 <template>
-    <section>
-        <h1>User</h1>
-    </section>
+	<section>
+		<h1>User</h1>
+	</section>
 </template>
 
 <style>
 section {
-    box-sizing: border-box;
-    height: 100vh;
+	box-sizing: border-box;
+	height: 100vh;
 }
 </style>

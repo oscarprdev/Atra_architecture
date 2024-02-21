@@ -3,55 +3,55 @@ import type { Project } from '../../api/index';
 import ProjectItem from './ProjectItem.astro';
 
 interface Props {
-    projects: Project[];
+	projects: Project[];
 }
 
 const { projects }: Props = Astro.props;
 ---
 
 <section class="home-projects">
-    <ul>
-        {projects.map((pr) => <ProjectItem project={pr} />)}
-    </ul>
+	<ul>
+		{projects.map(pr => <ProjectItem project={pr} />)}
+	</ul>
 </section>
 
 <style>
-    .home-projects {
-        display: flex;
-        align-items: center;
-        flex-direction: column;
+	.home-projects {
+		display: flex;
+		align-items: center;
+		flex-direction: column;
 
-        margin-top: 5rem;
-        gap: 10rem;
+		margin-top: 5rem;
+		gap: 10rem;
 
-        height: 100%;
-        width: 100%;
-        max-width: var(--max-width);
-    }
+		height: 100%;
+		width: 100%;
+		max-width: var(--max-width);
+	}
 
-    ul {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 3rem;
-        padding: 0;
-        justify-content: center;
-        width: 80vw;
-        max-width: var(--max-width);
-    }
+	ul {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+		gap: 3rem;
+		padding: 0;
+		justify-content: center;
+		width: 80vw;
+		max-width: var(--max-width);
+	}
 
-    @media (width < 650px) {
-        ul {
-            gap: 1rem;
-            place-content: center;
-            padding: 0;
-            width: 90vw;
-        }
-    }
+	@media (width < 650px) {
+		ul {
+			gap: 1rem;
+			place-content: center;
+			padding: 0;
+			width: 90vw;
+		}
+	}
 
-    @media (width < 850px) {
-        ul {
-            place-content: center;
-            padding: 0;
-        }
-    }
+	@media (width < 850px) {
+		ul {
+			place-content: center;
+			padding: 0;
+		}
+	}
 </style>

@@ -4,107 +4,105 @@ import SunIcon from './icons/SunIcon.astro';
 ---
 
 <div class="theme-selector">
-    <span class="switch"></span>
-    <button
-        class="light"
-        type="button"
-        id="theme-button-light"
-    >
-        <SunIcon />
-        <p>Light</p>
-    </button>
-    <button
-        class="dark"
-        type="button"
-        id="theme-button-dark"
->
-        <MoonIcon />
-        <p>Dark</p>
-    </button>
+	<span class="switch"></span>
+	<button
+		class="light"
+		type="button"
+		id="theme-button-light">
+		<SunIcon />
+		<p>Light</p>
+	</button>
+	<button
+		class="dark"
+		type="button"
+		id="theme-button-dark">
+		<MoonIcon />
+		<p>Dark</p>
+	</button>
 </div>
 
 <script is:inline>
-    const darkButton = document.getElementById('theme-button-dark');
-    const lightButton = document.getElementById('theme-button-light');
+	const darkButton = document.getElementById('theme-button-dark');
+	const lightButton = document.getElementById('theme-button-light');
 
-    darkButton.addEventListener('click', () => {
-        const element = document.documentElement;
-        element.classList.remove(LIGHT);
-        element.classList.add(DARK);
+	darkButton.addEventListener('click', () => {
+		const element = document.documentElement;
+		element.classList.remove(LIGHT);
+		element.classList.add(DARK);
 
-        localStorage.setItem(THEME, DARK);
-    });
+		localStorage.setItem(THEME, DARK);
+	});
 
-    lightButton.addEventListener('click', () => {
-        const element = document.documentElement;
-        element.classList.remove(DARK);
-        element.classList.add(LIGHT);
+	lightButton.addEventListener('click', () => {
+		const element = document.documentElement;
+		element.classList.remove(DARK);
+		element.classList.add(LIGHT);
 
-        localStorage.setItem(THEME, LIGHT);
-    });
+		localStorage.setItem(THEME, LIGHT);
+	});
 </script>
 
 <style>
-    .theme-selector {
-        position: relative;
+	.theme-selector {
+		position: relative;
 
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 1.1rem;
-        width: 80%;
-        padding: 0.5rem;
-        border-radius: 3rem;
-        background-color: var(--card-hover-color);
-    }
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 1.1rem;
+		width: 80%;
+		padding: 0.5rem;
+		border-radius: 3rem;
+		background-color: var(--card-hover-color);
+	}
 
-    .switch {
-        position: absolute;
-        border-radius: 3rem;
+	.switch {
+		position: absolute;
+		border-radius: 3rem;
 
-        z-index: 1;
-        height: 2.2rem;
-        width: 45%;
-        left: 0.3rem;
-        transition: transform 0.3s ease;
-    }
+		z-index: 1;
+		height: 2.2rem;
+		width: 45%;
+		left: 0.3rem;
+		transition: transform 0.3s ease;
+	}
 
-    button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.2rem;
-        background-color: transparent;
-        z-index: 2;
+	button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.2rem;
+		background-color: transparent;
+		z-index: 2;
 
-        color: var(--text-light);
-        border: none;
+		color: var(--text-light);
+		border: none;
 
-        border-radius: 3rem;
-        cursor: pointer;
+		border-radius: 3rem;
+		cursor: pointer;
 
-        transition: all 0.2s ease;
-    }
+		transition: all 0.2s ease;
+	}
 
-    button:hover {
-        color: var(--text-color);
-    }
+	button:hover {
+		color: var(--text-color);
+	}
 
-    p {
-        margin: 0;
-    }
+	p {
+		margin: 0;
+	}
 
-    :global(.dark) .dark:hover {
-        color: black;
-    }
+	:global(.dark) .dark:hover {
+		color: black;
+	}
 
-    :global(.dark) .switch {
-        transform: translateX(110%);
-        background-color: white;
-    }
+	:global(.dark) .switch {
+		transform: translateX(110%);
+		background-color: white;
+	}
 
-    :global(.light) .switch {
-        transform: translateX(0%);
-        background-color: white;
-    }
+	:global(.light) .switch {
+		transform: translateX(0%);
+		background-color: white;
+	}
 </style>

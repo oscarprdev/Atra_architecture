@@ -7,40 +7,40 @@ import Layout from '../layouts/Layout.astro';
 
 const response = await fetch(`${API_URL}/user/describe`);
 const {
-    data: { name, email, phone, direction, image, description }
+	data: { name, email, phone, direction, image, description },
 }: ApiResponse<User> = await response.json();
 ---
 
 <Layout title="ATRA - Qui som">
-    <section>
-        <picture>
-            <img
-                src={`${IMAGE_URL}/${image.Key}`}
-                alt={image.name || image.Key}
-            />
-        </picture>
-        <AboutInfo
-            description={description}
-            direction={direction}
-            name={name}
-            phone={phone}
-            email={email}
-        />
-    </section>
+	<section>
+		<picture>
+			<img
+				src={`${IMAGE_URL}/${image.Key}`}
+				alt={image.name || image.Key}
+			/>
+		</picture>
+		<AboutInfo
+			description={description}
+			direction={direction}
+			name={name}
+			phone={phone}
+			email={email}
+		/>
+	</section>
 </Layout>
 
 <style>
-    section {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100vw;
-        max-width: var(--max-width);
-        margin-bottom: 3rem;
-    }
+	section {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		width: 100vw;
+		max-width: var(--max-width);
+		margin-bottom: 3rem;
+	}
 
-    picture {
-        margin-top: 2rem;
-        width: 100%;
-    }
+	picture {
+		margin-top: 2rem;
+		width: 100%;
+	}
 </style>

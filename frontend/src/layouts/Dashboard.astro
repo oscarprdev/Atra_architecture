@@ -2,7 +2,7 @@
 import Nav from '../components/dashboard/NavDashboard.astro';
 
 interface Props {
-    title: string;
+	title: string;
 }
 
 const { title } = Astro.props;
@@ -10,140 +10,140 @@ const { title } = Astro.props;
 
 <!doctype html>
 <html lang="es">
-    <head>
-        <meta charset="UTF-8" />
-        <meta
-            name="description"
-            content="ATRA arquitectura - Estudi de arquitectura de Jaume Perez Llopis"
-        />
-        <meta
-            name="viewport"
-            content="width=device-width"
-        />
-        <link
-            rel="icon"
-            type="image/svg+xml"
-            href="/favicon.svg"
-        />
-        <meta
-            name="generator"
-            content={Astro.generator}
-        />
-        <title>{title}</title>
-    </head>
-    <body>
-        <Nav />
-        <main>
-            <slot />
-        </main>
-    </body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="description"
+			content="ATRA arquitectura - Estudi de arquitectura de Jaume Perez Llopis"
+		/>
+		<meta
+			name="viewport"
+			content="width=device-width"
+		/>
+		<link
+			rel="icon"
+			type="image/svg+xml"
+			href="/favicon.svg"
+		/>
+		<meta
+			name="generator"
+			content={Astro.generator}
+		/>
+		<title>{title}</title>
+	</head>
+	<body>
+		<Nav />
+		<main>
+			<slot />
+		</main>
+	</body>
 </html>
 
 <script is:inline>
-    const DARK = 'dark';
-    const LIGHT = 'light';
-    const THEME = 'theme';
+	const DARK = 'dark';
+	const LIGHT = 'light';
+	const THEME = 'theme';
 
-    const theme = (() => {
-        if (typeof localStorage !== 'undefined' && localStorage.getItem(THEME)) {
-            return localStorage.getItem(THEME);
-        }
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            return DARK;
-        }
-        return LIGHT;
-    })();
+	const theme = (() => {
+		if (typeof localStorage !== 'undefined' && localStorage.getItem(THEME)) {
+			return localStorage.getItem(THEME);
+		}
+		if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+			return DARK;
+		}
+		return LIGHT;
+	})();
 
-    if (theme === LIGHT) {
-        document.documentElement.classList.remove(DARK);
-        document.documentElement.classList.add(LIGHT);
-    } else {
-        document.documentElement.classList.remove(LIGHT);
-        document.documentElement.classList.add(DARK);
-    }
+	if (theme === LIGHT) {
+		document.documentElement.classList.remove(DARK);
+		document.documentElement.classList.add(LIGHT);
+	} else {
+		document.documentElement.classList.remove(LIGHT);
+		document.documentElement.classList.add(DARK);
+	}
 
-    window.localStorage.setItem(THEME, theme);
+	window.localStorage.setItem(THEME, theme);
 </script>
 
 <style is:global>
-    @font-face {
-        font-family: 'Arimo';
-        src: url('/fonts/Arimo.ttf') format('ttf');
-        font-display: swap;
-    }
+	@font-face {
+		font-family: 'Arimo';
+		src: url('/fonts/Arimo.ttf') format('ttf');
+		font-display: swap;
+	}
 
-    :root {
-        --contrast: #2984fe;
-        --contrast-dark: #0052bd;
+	:root {
+		--contrast: #2984fe;
+		--contrast-dark: #0052bd;
 
-        --border-radius: 0.7rem;
-    }
+		--border-radius: 0.7rem;
+	}
 
-    html {
-        font-family: 'Arimo', system-ui, sans-serif;
-        background: var(--bg-color);
-        font-weight: 200;
-    }
+	html {
+		font-family: 'Arimo', system-ui, sans-serif;
+		background: var(--bg-color);
+		font-weight: 200;
+	}
 
-    html.dark {
-        --bg-color: #778089;
-        --card-color: #1b1d1f;
-        --card-hover-color: #272b31;
+	html.dark {
+		--bg-color: #778089;
+		--card-color: #1b1d1f;
+		--card-hover-color: #272b31;
 
-        --text-color: #ffffff;
-        --text-light: #787f88;
-    }
+		--text-color: #ffffff;
+		--text-light: #787f88;
+	}
 
-    html.light {
-        --bg-color: #f4f4f4;
-        --card-color: #fcfcfc;
-        --card-hover-color: #eeeeee;
+	html.light {
+		--bg-color: #f4f4f4;
+		--card-color: #fcfcfc;
+		--card-hover-color: #eeeeee;
 
-        --text-color: #010306;
-        --text-light: #5d646d;
-    }
+		--text-color: #010306;
+		--text-light: #5d646d;
+	}
 
-    *,
-    *::before,
-    *::after {
-        box-sizing: border-box;
-    }
+	*,
+	*::before,
+	*::after {
+		box-sizing: border-box;
+	}
 
-    body {
-        margin: 0 auto;
-        height: 100vh;
-        scroll-behavior: hidden;
+	body {
+		margin: 0 auto;
+		height: 100vh;
+		scroll-behavior: hidden;
 
-        display: flex;
-        gap: 1rem;
-    }
+		display: flex;
+		gap: 1rem;
+	}
 
-    main {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 1rem;
-        height: 100vh;
-        width: 100%;
-    }
+	main {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1rem;
+		height: 100vh;
+		width: 100%;
+	}
 
-    ol,
-    ul {
-        list-style: none;
-    }
+	ol,
+	ul {
+		list-style: none;
+	}
 
-    img {
-        object-fit: cover;
-        width: 100%;
-        height: 100%;
-    }
+	img {
+		object-fit: cover;
+		width: 100%;
+		height: 100%;
+	}
 
-    a {
-        text-decoration: none;
-        color: inherit;
-    }
+	a {
+		text-decoration: none;
+		color: inherit;
+	}
 
-    p {
-        font-weight: 300;
-    }
+	p {
+		font-weight: 300;
+	}
 </style>

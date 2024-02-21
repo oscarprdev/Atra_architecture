@@ -10,63 +10,63 @@ const data: ApiResponse<User> = await response.json();
 ---
 
 <section class="home-description">
-    <div class="title">
-        <h1 data-testid="home-title">ATRA</h1>
-        <h3>Asistència tècnica en rehabilitació i arquitectura</h3>
-    </div>
-    <div class="description">
-        {
-            data.data.description
-                .split('. ')
-                .slice(0, 1)
-                .map((text) => <p>{text}.</p>)
-        }
-    </div>
-    <Link href="/about">
-        <TextWithIcon text="Saber-ne mes" />
-    </Link>
+	<div class="title">
+		<h1 data-testid="home-title">ATRA</h1>
+		<h3>Asistència tècnica en rehabilitació i arquitectura</h3>
+	</div>
+	<div class="description">
+		{
+			data.data.description
+				.split('. ')
+				.slice(0, 1)
+				.map(text => <p>{text}.</p>)
+		}
+	</div>
+	<Link href="/about">
+		<TextWithIcon text="Saber-ne mes" />
+	</Link>
 </section>
 
 <style>
-    .home-description {
-        display: grid;
-        place-content: center;
-        width: 100%;
-        margin-top: -5rem;
-        padding-bottom: 5rem;
-        border-bottom: 1px solid black;
-    }
+	.home-description {
+		display: grid;
+		place-content: center;
+		width: 100%;
+		margin-top: -5rem;
+		padding-bottom: 5rem;
+		border-bottom: 1px solid black;
+	}
 
-    .title {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        width: 80vw;
-        max-width: var(--max-width);
-    }
+	.title {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+		width: 80vw;
+		max-width: var(--max-width);
+	}
 
-    h1 {
-        font-size: 5rem;
-        font-weight: 300;
-        line-height: 0;
-    }
+	h1 {
+		font-size: 5rem;
+		font-weight: 300;
+		line-height: 0;
+	}
 
-    h3 {
-        font-weight: 200;
-        font-size: 1.5rem;
-        margin-top: -1rem;
-    }
+	h3 {
+		font-weight: 200;
+		font-size: 1.5rem;
+		margin-top: -1rem;
+	}
 
-    p {
-        font-size: 1.2rem;
-        font-weight: 200;
-    }
+	p {
+		font-size: 1.2rem;
+		font-weight: 200;
+	}
 
-    .description {
-        width: 80vw;
-        max-width: calc(var(--max-width) - 20%);
-        text-wrap: pretty;
-        font-size: 1rem;
-        line-height: auto;
-    }
+	.description {
+		width: 80vw;
+		max-width: calc(var(--max-width) - 20%);
+		text-wrap: pretty;
+		font-size: 1rem;
+		line-height: auto;
+	}
 </style>

@@ -3,120 +3,119 @@ import type { File } from '../../api/index';
 import { IMAGE_URL } from '../../constants';
 
 interface Props {
-    images: File[];
+	images: File[];
 }
 
 const { images } = Astro.props;
 ---
 
 <ul class:list={[{ bento: images.length > 3 }, { common: images.length <= 3 }]}>
-    {
-        images.map((image, i) => (
-            <li
-                id={`item-${i}`}
-                class={`show item-${i}`}
-            >
-                <picture>
-                    <img
-                        src={`${IMAGE_URL}/${image.Key}`}
-                        alt={image.name || image.Key}
-                    />
-                </picture>
-            </li>
-        ))
-    }
+	{
+		images.map((image, i) => (
+			<li
+				id={`item-${i}`}
+				class={`show item-${i}`}>
+				<picture>
+					<img
+						src={`${IMAGE_URL}/${image.Key}`}
+						alt={image.name || image.Key}
+					/>
+				</picture>
+			</li>
+		))
+	}
 </ul>
 
 <style>
-    .bento {
-        position: relative;
-        margin-top: 3rem;
-        width: 80vw;
-        margin: 0;
-        padding: 0;
-        display: grid;
+	.bento {
+		position: relative;
+		margin-top: 3rem;
+		width: 80vw;
+		margin: 0;
+		padding: 0;
+		display: grid;
 
-        justify-content: center;
-        gap: 1rem;
-        padding: 0;
-        grid-template-areas:
-            'a b c'
-            'a d c'
-            'e d f'
-            'e g f'
-            'h h h';
-    }
+		justify-content: center;
+		gap: 1rem;
+		padding: 0;
+		grid-template-areas:
+			'a b c'
+			'a d c'
+			'e d f'
+			'e g f'
+			'h h h';
+	}
 
-    .item-0 {
-        grid-area: a;
-    }
+	.item-0 {
+		grid-area: a;
+	}
 
-    .item-1 {
-        grid-area: b;
-    }
+	.item-1 {
+		grid-area: b;
+	}
 
-    .item-2 {
-        grid-area: c;
-    }
+	.item-2 {
+		grid-area: c;
+	}
 
-    .item-3 {
-        grid-area: d;
-    }
+	.item-3 {
+		grid-area: d;
+	}
 
-    .item-4 {
-        grid-area: e;
-    }
+	.item-4 {
+		grid-area: e;
+	}
 
-    .item-5 {
-        grid-area: f;
-    }
+	.item-5 {
+		grid-area: f;
+	}
 
-    .item-6 {
-        grid-area: g;
-    }
+	.item-6 {
+		grid-area: g;
+	}
 
-    .item-7 {
-        grid-area: h;
-    }
+	.item-7 {
+		grid-area: h;
+	}
 
-    .common {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-        gap: 1rem;
-        justify-content: center;
-        width: 80vw;
-        max-width: var(--max-width);
-    }
+	.common {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+		gap: 1rem;
+		justify-content: center;
+		width: 80vw;
+		max-width: var(--max-width);
+	}
 
-    li {
-        overflow: hidden;
-    }
+	li {
+		overflow: hidden;
+	}
 
-    img {
-        transition: transform 0.5s ease;
-    }
+	img {
+		transition: transform 0.5s ease;
+	}
 
-    li:hover img {
-        transform: scale(1.1);
-    }
+	li:hover img {
+		transform: scale(1.1);
+	}
 
-    @media (width < 800px) {
-        .bento {
-            grid-template-areas:
-                'a b'
-                'c d'
-                'e f'
-                'g g'
-                'h h';
-        }
-    }
+	@media (width < 800px) {
+		.bento {
+			grid-template-areas:
+				'a b'
+				'c d'
+				'e f'
+				'g g'
+				'h h';
+		}
+	}
 
-    @media (width < 600px) {
-        .bento {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 95vw;
-        }
-    }
+	@media (width < 600px) {
+		.bento {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			width: 95vw;
+		}
+	}
 </style>

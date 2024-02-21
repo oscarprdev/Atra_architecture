@@ -10,14 +10,14 @@ import HomeDescription from '../components/app/HomeDescription.astro';
 const response = await fetch(`${API_URL}/project/list`);
 const data: ApiResponse<Project[]> = await response.json();
 
-const mainImages = data.data.map((p) => p.mainImage);
+const mainImages = data.data.map(p => p.mainImage);
 ---
 
 <Layout title="ATRA - Asistència tècnica en rehabilitació i arquitectura">
-    <MainImage
-        images={mainImages}
-        client:visible
-    />
-    <HomeDescription />
-    <ProjectList projects={data.data} />
+	<MainImage
+		images={mainImages}
+		client:visible
+	/>
+	<HomeDescription />
+	<ProjectList projects={data.data} />
 </Layout>
