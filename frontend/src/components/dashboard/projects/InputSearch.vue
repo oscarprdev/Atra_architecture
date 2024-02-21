@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { IconSearch } from '@tabler/icons-vue';
-import { EMITTER_NAMES, emitter } from '../../utils/emitter';
+import { EMITTER_NAMES, emitter } from '../../../utils/emitter';
 import { ref } from 'vue';
 
 const inputValue = ref();

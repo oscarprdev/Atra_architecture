@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { IconPlus } from '@tabler/icons-vue';
-import ActionButton from './ActionButton.vue';
+import ActionButton from '../ActionButton.vue';
 import InputSearch from './InputSearch.vue';
 </script>
 

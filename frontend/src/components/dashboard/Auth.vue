@@ -7,11 +7,13 @@ interface FormFields {
     password: string;
 }
 
+const DASHBOARD_URL = '/auth/dashboard';
+const LOCALSTORAGE_ITEM = 'jwt';
+
 const formFields = reactive({
     email: '',
     password: ''
 });
-
 const erroMessage = ref(null);
 
 const onInputChange = (e: Event) => {
@@ -20,7 +22,6 @@ const onInputChange = (e: Event) => {
         formFields[target.name as keyof FormFields] = target.value;
     }
 };
-
 const onSubmit = async (e: Event) => {
     e.preventDefault();
 
@@ -34,16 +35,16 @@ const onSubmit = async (e: Event) => {
     if (jsonResponse.status !== 201) {
         erroMessage.value = jsonResponse;
     } else {
-        localStorage.setItem('jwt', jsonResponse.data);
-        window.location.replace('/auth/dashboard');
+        localStorage.setItem(LOCALSTORAGE_ITEM, jsonResponse.data);
+        window.location.replace(DASHBOARD_URL);
     }
 };
 
 onMounted(() => {
-    const jwt = localStorage.getItem('jwt');
+    const jwt = localStorage.getItem(LOCALSTORAGE_ITEM);
 
     if (jwt) {
-        window.location.replace('/auth/dashboard');
+        window.location.replace(DASHBOARD_URL);
     }
 });
 </script>

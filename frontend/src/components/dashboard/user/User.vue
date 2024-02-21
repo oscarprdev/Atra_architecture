@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { API_URL } from '../../constants';
-import type { User } from '../../api';
+import { API_URL } from '../../../constants';
+import type { User } from '../../../api';
 
 const user = ref<User | null>(null);
 
@@ -15,7 +15,7 @@ onMounted(async () => {
 
 <template>
     <section>
-        <h1>Account</h1>
+        <h1>User</h1>
     </section>
 </template>
 
