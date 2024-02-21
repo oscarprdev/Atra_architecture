@@ -5,7 +5,9 @@ import InputCheckbox from './InputCheckbox.vue';
 import { EMITTER_NAMES, emitter } from '../../../utils/emitter';
 import { getProjectList } from '../../../api/projects/get-projects-list';
 import ProjectRow from './ProjectRow.vue';
+import ProjectsSkeleton from './ProjectsSkeleton.vue';
 
+const isLoading = ref(false);
 const projects = ref<Project[]>([]);
 const isAllChecked = ref(false);
 const checkedProjects = ref<{ [key: string]: boolean }>({});
@@ -27,7 +29,7 @@ const filterProjectsBySearchValue = async (searchValue: string) => {
 			project.title.toLowerCase().includes(searchValue.toLowerCase())
 		);
 	} else {
-		projects.value = (await getProjectList()) || [];
+		mountProjectList();
 	}
 };
 
@@ -37,9 +39,14 @@ emitter.on(EMITTER_NAMES.searchProject, async searchValue =>
 		: emitter.off(EMITTER_NAMES.searchProject)
 );
 
-onMounted(async () => {
-	projects.value = (await getProjectList()) || [];
-});
+const mountProjectList = async () => {
+	isLoading.value = true;
+	const response = (await getProjectList()) || [];
+	isLoading.value = false;
+	projects.value = response;
+};
+
+onMounted(async () => mountProjectList());
 </script>
 
 <template>
@@ -63,6 +70,9 @@ onMounted(async () => {
 				:is-project-checked="!!checkedProjects[project.id]"
 				:project="project"
 				@toggle-checked-project="onToggleCheckedProject" />
+			<ProjectsSkeleton
+				v-if="isLoading"
+				v-for="i in new Array(6).fill('')" />
 		</tbody>
 	</table>
 </template>

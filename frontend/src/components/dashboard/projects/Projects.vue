@@ -17,6 +17,6 @@ section {
 	height: 100%;
 	width: 100%;
 	background-color: var(--card-color);
-	overflow: hidden;
+	overflow-y: scroll;
 }
 </style>
