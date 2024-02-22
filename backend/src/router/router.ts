@@ -21,6 +21,7 @@ function buildRouter(env: Env): RouterType {
 	router.post('/project/create', corsMiddleware(createProjectHandler));
 	router.delete('/project/delete/:id', corsMiddleware(deleteProjectHandler));
 	router.put('/project/update', corsMiddleware(updateProjectHandler));
+	router.options('/project/update', corsMiddleware(updateProjectHandler));
 
 	// User handlers
 	router.get('/user/describe', corsMiddleware(describeUserHandler));

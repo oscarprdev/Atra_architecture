@@ -47,17 +47,15 @@ export async function updateProjectHandler(request: Request, env: Env) {
 
 function checkInputValidations({ id, title, oldTitle, description, year, isTop, mainImage, images }: UpdateProjectBody): UpdateProjectBody {
 	const ProjectPayloadSchema = z.object({
-		id: z.string().uuid(),
+		id: z.string(),
 		title: z.string(),
 		oldTitle: z.string(),
 		year: z.number(),
 		description: z.string(),
 		isTop: z.boolean(),
-		mainImage: z.instanceof(File),
-		images: z.array(z.instanceof(File)),
 	});
 
-	const result = ProjectPayloadSchema.safeParse({ id, title, oldTitle, year, description, isTop, mainImage, images });
+	const result = ProjectPayloadSchema.safeParse({ id, title, oldTitle, year, description, isTop });
 
 	if (!result.success) {
 		throw new Error(JSON.stringify({ status: 400, message: result.error.format() }));
