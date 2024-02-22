@@ -62,6 +62,7 @@ onMounted(async () => mountProjectList());
 				<th class="table-description">Descripcio</th>
 				<th class="table-year">Any</th>
 				<th class="table-date">Actualitzat</th>
+				<th class="table-dropdown">Accions</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -139,10 +140,11 @@ tbody > tr:hover {
 }
 
 .table-description {
-	width: 300px;
+	width: 370px;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	margin-left: -1.8rem;
 }
 
 .table-year {
@@ -151,5 +153,9 @@ tbody > tr:hover {
 
 .table-date {
 	width: fit-content;
+}
+
+.table-dropdown {
+	margin-left: 3.2rem;
 }
 </style>

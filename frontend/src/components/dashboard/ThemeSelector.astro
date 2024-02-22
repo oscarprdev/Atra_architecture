@@ -9,14 +9,14 @@ import SunIcon from './icons/SunIcon.astro';
 		class="light"
 		type="button"
 		id="theme-button-light">
-		<SunIcon />
+		<span class="icon"><SunIcon /></span>
 		<p>Light</p>
 	</button>
 	<button
 		class="dark"
 		type="button"
 		id="theme-button-dark">
-		<MoonIcon />
+		<span class="icon"><MoonIcon /></span>
 		<p>Dark</p>
 	</button>
 </div>
@@ -49,7 +49,7 @@ import SunIcon from './icons/SunIcon.astro';
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		gap: 1.1rem;
+		gap: 1.2rem;
 		width: 80%;
 		padding: 0.5rem;
 		border-radius: 3rem;
@@ -86,6 +86,10 @@ import SunIcon from './icons/SunIcon.astro';
 
 	button:hover {
 		color: var(--text-color);
+	}
+
+	.icon {
+		margin-top: 0.2rem;
 	}
 
 

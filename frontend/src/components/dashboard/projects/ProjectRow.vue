@@ -5,15 +5,24 @@ import { strDate } from '../../../utils/strDate';
 import { IMAGE_URL } from '../../../constants';
 import InputCheckbox from './InputCheckbox.vue';
 import 'cooltipz-css';
+import Dropdown from '../Dropdown.vue';
+import type { Option } from '../Dropdown.types';
 
-defineProps<{
+const props = defineProps<{
 	project: Project;
 	isProjectChecked: boolean;
 }>();
 
 const emits = defineEmits<{
 	(e: 'toggleCheckedProject', id: string): void;
+	(e: 'editProject', id: string): void;
+	(e: 'removeProject', id: string): void;
 }>();
+
+const actionDropdownOptions: Option[] = [
+	{ label: 'Editar', cb: () => emits('editProject', props.project.id) },
+	{ label: 'Eliminar', cb: () => emits('removeProject', props.project.id) },
+];
 </script>
 <template>
 	<tr :key="project.id">
@@ -38,6 +47,11 @@ const emits = defineEmits<{
 		<td class="table-year">{{ project.year }}</td>
 		<td class="table-date">
 			{{ strDate(project.updatedAt) }}
+		</td>
+		<td class="table-dropdown">
+			<Dropdown
+				:options="actionDropdownOptions"
+				default-text="Accions" />
 		</td>
 	</tr>
 </template>
@@ -65,5 +79,9 @@ img {
 
 .table-date {
 	width: fit-content;
+}
+
+.table-dropdown {
+	margin-left: 0;
 }
 </style>
