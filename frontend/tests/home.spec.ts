@@ -9,7 +9,7 @@ test.describe('Home', () => {
 	test('Should display an image on hero section', async ({ homePage }) => {
 		const image = await homePage.getHeroImage();
 
-		await expect(image.getAttribute('src')).not.toBeNull();
+		expect(image.getAttribute('src')).not.toBeNull();
 	});
 
 	test('Should display project title and description', async ({ homePage }) => {
