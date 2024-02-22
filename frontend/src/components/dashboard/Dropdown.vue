@@ -92,6 +92,7 @@ button {
 	background-color: var(--dropdown-bg-color);
 	color: var(--dropdown-text-color);
 
+	border: 1px solid var(--loading-dark);
 	border-radius: 0.3rem;
 	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
 
@@ -119,6 +120,10 @@ button {
 	font-size: var(--font-small);
 
 	cursor: pointer;
+}
+
+.dropdown-menu li:first-child {
+	border-bottom: 1px solid var(--loading-dark);
 }
 
 .dropdown-menu li:hover {
