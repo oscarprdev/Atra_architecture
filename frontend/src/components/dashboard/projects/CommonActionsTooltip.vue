@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import { IconDotsVertical, IconTrashX, IconCrown } from '@tabler/icons-vue';
 import { ref, computed } from 'vue';
-import type { CheckedProjects } from './ProjectsTable.types';
+import type { Project } from '../../../api';
 
 const props = defineProps<{
-	checkedProjects: CheckedProjects;
+	checkedProjects: Project[];
+}>();
+
+const emits = defineEmits<{
+	(e: 'updateTopProjects', projects: Project[]): void;
 }>();
 
 const isProjectsActionsTooltipVisible = ref(false);

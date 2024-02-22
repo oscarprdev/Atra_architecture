@@ -1,1 +1,1 @@
-export type CheckedProjects = { [key: string]: boolean };
+export type CheckedProjectsState = { [key: string]: boolean };

@@ -1,32 +1,42 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue';
+import { onMounted, ref } from 'vue';
 import type { Project } from '../../../api';
 import InputCheckbox from './InputCheckbox.vue';
 import { EMITTER_NAMES, emitter } from '../../../utils/emitter';
 import { getProjectList } from '../../../api/projects/get-projects-list';
 import ProjectRow from './ProjectRow.vue';
 import ProjectsSkeleton from './ProjectsSkeleton.vue';
-import type { CheckedProjects } from './ProjectsTable.types';
 import CommonActionsTooltip from './CommonActionsTooltip.vue';
 
 const isLoading = ref(false);
 const projects = ref<Project[]>([]);
-const isAllChecked = ref(false);
-const checkedProjects = ref<CheckedProjects>({});
+const checkedProjects = ref<Project[]>([]);
+const areAllProjectsChecked = ref(false);
 
 const onToggleAllCheckboxes = () => {
-	isAllChecked.value = !isAllChecked.value;
-	projects.value.forEach(project => {
-		checkedProjects.value[project.id] = isAllChecked.value;
-	});
-
-	emitter.emit(EMITTER_NAMES.showHeaderActionButtons, isAllChecked.value);
+	areAllProjectsChecked.value = !areAllProjectsChecked.value;
+	if (areAllProjectsChecked.value) {
+		projects.value.forEach(project => {
+			checkedProjects.value.push(project);
+		});
+	} else {
+		checkedProjects.value = [];
+	}
 };
 
 const onToggleCheckedProject = (id: string) => {
-	checkedProjects.value[id] = !checkedProjects.value[id];
+	const indexOfProjectChecked = checkedProjects.value.findIndex(pr => pr.id === id);
 
-	emitter.emit(EMITTER_NAMES.showHeaderActionButtons, checkedProjects.value[id]);
+	if (indexOfProjectChecked >= 0) {
+		checkedProjects.value.splice(indexOfProjectChecked, 1);
+		return;
+	}
+
+	const project = projects.value.find(pr => pr.id === id);
+
+	if (project) {
+		checkedProjects.value.push(project);
+	}
 };
 
 const filterProjectsBySearchValue = async (searchValue: string) => {
@@ -62,7 +72,7 @@ onMounted(async () => mountProjectList());
 				<CommonActionsTooltip :checked-projects="checkedProjects" />
 				<InputCheckbox
 					:id="'checkbox-head'"
-					:checked="isAllChecked"
+					:checked="areAllProjectsChecked"
 					@on-click="onToggleAllCheckboxes" />
 				<th class="table-main-image">Image</th>
 				<th class="table-name">Nom</th>
@@ -75,7 +85,7 @@ onMounted(async () => mountProjectList());
 		<tbody>
 			<ProjectRow
 				v-for="project in projects"
-				:is-project-checked="!!checkedProjects[project.id]"
+				:is-project-checked="checkedProjects.some(pr => pr.id === project.id)"
 				:project="project"
 				@toggle-checked-project="onToggleCheckedProject" />
 			<ProjectsSkeleton
