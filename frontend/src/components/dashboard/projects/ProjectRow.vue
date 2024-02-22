@@ -7,6 +7,7 @@ import InputCheckbox from './InputCheckbox.vue';
 import 'cooltipz-css';
 import Dropdown from '../Dropdown.vue';
 import type { Option } from '../Dropdown.types';
+import { EMITTER_NAMES, emitter } from '../../../utils/emitter';
 
 const props = defineProps<{
 	project: Project;
@@ -15,13 +16,11 @@ const props = defineProps<{
 
 const emits = defineEmits<{
 	(e: 'toggleCheckedProject', id: string): void;
-	(e: 'editProject', id: string): void;
-	(e: 'removeProject', id: string): void;
 }>();
 
 const actionDropdownOptions: Option[] = [
-	{ label: 'Editar', cb: () => emits('editProject', props.project.id) },
-	{ label: 'Eliminar', cb: () => emits('removeProject', props.project.id) },
+	{ label: 'Editar', cb: () => emitter.emit(EMITTER_NAMES.showCreateProjectSection, props.project.id) },
+	{ label: 'Eliminar', cb: () => emitter.emit(EMITTER_NAMES.showRemoveProjectModal, props.project.id) },
 ];
 </script>
 <template>
@@ -34,6 +33,7 @@ const actionDropdownOptions: Option[] = [
 			<img
 				:src="`${IMAGE_URL}/${project.mainImage.Key}`"
 				:alt="`Main image of ${project.title}`" />
+
 			<div
 				v-if="project.isTop"
 				aria-label="Projecte destacat"

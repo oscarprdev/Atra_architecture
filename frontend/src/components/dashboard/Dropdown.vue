@@ -31,7 +31,7 @@ const selectOption = (option: Option) => {
 			<p>{{ selectedOption || props.defaultText }}</p>
 			<IconChevronUp
 				class="icon"
-				:class="{ rotate: isOpen }" />
+				:class="{ rotate: !isOpen }" />
 		</button>
 		<ul
 			:aria-checked="isOpen"
@@ -86,7 +86,7 @@ button {
 	align-items: center;
 
 	padding: 0.5rem;
-	margin-top: 0.5rem;
+	margin-top: 0.75rem;
 	min-width: 120px;
 
 	background-color: var(--dropdown-bg-color);

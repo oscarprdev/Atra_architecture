@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import type { Project } from '../../../api';
 import InputCheckbox from './InputCheckbox.vue';
 import { EMITTER_NAMES, emitter } from '../../../utils/emitter';
@@ -7,20 +7,41 @@ import { getProjectList } from '../../../api/projects/get-projects-list';
 import ProjectRow from './ProjectRow.vue';
 import ProjectsSkeleton from './ProjectsSkeleton.vue';
 
+import { IconDotsVertical, IconTrashX, IconCrown } from '@tabler/icons-vue';
+
 const isLoading = ref(false);
 const projects = ref<Project[]>([]);
 const isAllChecked = ref(false);
 const checkedProjects = ref<{ [key: string]: boolean }>({});
+
+const isProjectsActionsDotsVisible = ref(false);
+const isProjectsActionsTooltipVisible = ref(false);
+
+watch(checkedProjects.value, projects => {
+	if (Object.values(projects).some(project => project)) {
+		isProjectsActionsDotsVisible.value = true;
+	} else {
+		isProjectsActionsDotsVisible.value = false;
+	}
+});
+
+const onProjectsActionsDotsClick = () => {
+	isProjectsActionsTooltipVisible.value = !isProjectsActionsTooltipVisible.value;
+};
 
 const onToggleAllCheckboxes = () => {
 	isAllChecked.value = !isAllChecked.value;
 	projects.value.forEach(project => {
 		checkedProjects.value[project.id] = isAllChecked.value;
 	});
+
+	emitter.emit(EMITTER_NAMES.showHeaderActionButtons, isAllChecked.value);
 };
 
 const onToggleCheckedProject = (id: string) => {
 	checkedProjects.value[id] = !checkedProjects.value[id];
+
+	emitter.emit(EMITTER_NAMES.showHeaderActionButtons, checkedProjects.value[id]);
 };
 
 const filterProjectsBySearchValue = async (searchValue: string) => {
@@ -53,6 +74,25 @@ onMounted(async () => mountProjectList());
 	<table>
 		<thead>
 			<tr>
+				<div
+					v-if="isProjectsActionsDotsVisible"
+					class="projects-actions">
+					<span
+						class="projects-actions-tooltip"
+						:aria-checked="isProjectsActionsTooltipVisible">
+						<p>
+							Projectes seleccionats:
+							{{ Object.values(checkedProjects).filter(project => project).length }}
+						</p>
+						<div class="actions">
+							<button class="icon-btn"><IconCrown width="16" />Destacar</button>
+							<button class="icon-btn"><IconTrashX width="16" /> Eliminar</button>
+						</div>
+					</span>
+					<IconDotsVertical
+						class="icon"
+						@click="onProjectsActionsDotsClick" />
+				</div>
 				<InputCheckbox
 					:id="'checkbox-head'"
 					:checked="isAllChecked"
@@ -114,6 +154,7 @@ th {
 }
 
 tr {
+	position: relative;
 	display: flex;
 	align-items: center;
 	margin: 0 2rem;
@@ -123,6 +164,72 @@ tr {
 
 tbody > tr:hover {
 	background-color: var(--card-hover-color);
+}
+
+.projects-actions {
+	position: absolute;
+	left: -2rem;
+	padding: 1rem;
+}
+
+.projects-actions .icon {
+	cursor: pointer;
+}
+
+.projects-actions-tooltip {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	gap: 0.5rem;
+	position: absolute;
+	top: 0.5rem;
+	left: 3rem;
+	z-index: 99999;
+	padding: 1rem;
+
+	transform: translateX(-10%);
+	visibility: hidden;
+	opacity: 0;
+	transition: all 0.2s ease;
+
+	border-radius: var(--border-radius);
+	background-color: var(--dropdown-bg-color);
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+}
+
+.projects-actions-tooltip p {
+	font-size: var(--font-small);
+	color: var(--dropdown-text-color);
+}
+
+.projects-actions-tooltip .actions {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.projects-actions-tooltip .actions button {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	font-size: var(--font-small);
+	padding: 0.5rem 1.2rem;
+	border-radius: 0.3rem;
+	cursor: pointer;
+
+	border: 1px solid var(--dropdown-text-color);
+	background-color: var(--dropdown-bg-color);
+	color: var(--dropdown-text-color);
+}
+
+.projects-actions-tooltip .actions button:hover {
+	color: var(--text-color);
+}
+
+.projects-actions-tooltip[aria-checked='true'] {
+	visibility: visible;
+	transform: translateX(0%);
+	opacity: 1;
 }
 
 .table-main-image {

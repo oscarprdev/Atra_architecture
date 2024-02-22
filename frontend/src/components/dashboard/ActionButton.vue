@@ -1,17 +1,15 @@
 <script setup lang="ts">
-import { EMITTER_NAMES, emitter } from '../../utils/emitter';
-
 defineProps<{ text: string }>();
 
-const onActionButtonClick = () => {
-	emitter.emit(EMITTER_NAMES.toggleCreateProjectSection, true);
-};
+const emits = defineEmits<{
+	(e: 'on-action-click'): void;
+}>();
 </script>
 
 <template>
 	<button
 		type="button"
-		@click="onActionButtonClick">
+		@click="emits('on-action-click')">
 		<slot name="icon" />
 		<p>{{ text }}</p>
 	</button>
