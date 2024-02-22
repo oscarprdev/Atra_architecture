@@ -8,7 +8,7 @@ const props = defineProps<{
 }>();
 
 const emits = defineEmits<{
-	(e: 'updateTopProjects', projects: Project[]): void;
+	(e: 'updateTopProjects'): void;
 }>();
 
 const isProjectsActionsTooltipVisible = ref(false);
@@ -19,6 +19,11 @@ const onProjectsActionsDotsClick = () => {
 	if (numOfProjectsChecked.value > 0) {
 		isProjectsActionsTooltipVisible.value = !isProjectsActionsTooltipVisible.value;
 	}
+};
+
+const onEmitUpdateTopProject = () => {
+	isProjectsActionsTooltipVisible.value = false;
+	emits('updateTopProjects');
 };
 </script>
 
@@ -34,7 +39,11 @@ const onProjectsActionsDotsClick = () => {
 				{{ numOfProjectsChecked }}
 			</p>
 			<div class="actions">
-				<button class="icon-btn"><IconCrown width="16" />Destacar</button>
+				<button
+					class="icon-btn"
+					@click="onEmitUpdateTopProject">
+					<IconCrown width="16" />Destacar
+				</button>
 				<button class="icon-btn"><IconTrashX width="16" />Eliminar</button>
 			</div>
 		</span>

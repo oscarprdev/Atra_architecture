@@ -7,6 +7,7 @@ import { getProjectList } from '../../../api/projects/get-projects-list';
 import ProjectRow from './ProjectRow.vue';
 import ProjectsSkeleton from './ProjectsSkeleton.vue';
 import CommonActionsTooltip from './CommonActionsTooltip.vue';
+import { updateProject } from '../../../api/projects/update-project';
 
 const isLoading = ref(false);
 const projects = ref<Project[]>([]);
@@ -20,7 +21,7 @@ const onToggleAllCheckboxes = () => {
 			checkedProjects.value.push(project);
 		});
 	} else {
-		checkedProjects.value = [];
+		cleanCheckedProjects();
 	}
 };
 
@@ -39,6 +40,16 @@ const onToggleCheckedProject = (id: string) => {
 	}
 };
 
+const onUpdateTopProjects = async () => {
+	const updatedProjects = checkedProjects.value.map(pr => ({ ...pr, isTop: !pr.isTop }));
+
+	await Promise.all(updatedProjects.map(pr => updateProject(pr)));
+
+	await mountProjectList();
+
+	cleanCheckedProjects();
+};
+
 const filterProjectsBySearchValue = async (searchValue: string) => {
 	if (searchValue.length > 0) {
 		projects.value = projects.value.filter(project =>
@@ -48,6 +59,8 @@ const filterProjectsBySearchValue = async (searchValue: string) => {
 		mountProjectList();
 	}
 };
+
+const cleanCheckedProjects = () => (checkedProjects.value = []);
 
 emitter.on(EMITTER_NAMES.searchProject, async searchValue =>
 	typeof searchValue === 'string'
@@ -69,7 +82,9 @@ onMounted(async () => mountProjectList());
 	<table>
 		<thead>
 			<tr>
-				<CommonActionsTooltip :checked-projects="checkedProjects" />
+				<CommonActionsTooltip
+					:checked-projects="checkedProjects"
+					@update-top-projects="onUpdateTopProjects" />
 				<InputCheckbox
 					:id="'checkbox-head'"
 					:checked="areAllProjectsChecked"
@@ -136,6 +151,7 @@ tr {
 	align-items: center;
 	margin: 0 2rem;
 	gap: 1rem;
+	height: 95px;
 	border-bottom: 1px solid var(--card-hover-color);
 }
 

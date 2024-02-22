@@ -68,8 +68,9 @@ img {
 }
 
 .is-top {
-	top: -3.2rem;
-	left: 2.8rem;
+	position: absolute;
+	top: 1rem;
+	right: 0.8rem;
 	width: 0.6rem;
 	height: 0.6rem;
 
