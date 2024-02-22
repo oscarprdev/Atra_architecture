@@ -1,6 +1,6 @@
 <template>
 	<tr class="row-skeleton">
-		<span></span>
+		<span aria-hidden="true"></span>
 		<td class="row-image-skeleton"></td>
 		<td></td>
 		<td class="row-description-skeleton"></td>
@@ -11,15 +11,11 @@
 
 <style scoped>
 span {
-	background-color: var(--card-hover-color);
-	border-radius: 4px;
-
 	width: 1.3rem;
 	height: 1.3rem;
 	margin-left: 2rem;
-	width: 1.3rem;
-	height: 1.3rem;
 }
+
 tr {
 	display: flex;
 	align-items: center;
@@ -48,5 +44,27 @@ tr:hover {
 
 .row-description-skeleton {
 	width: 250px;
+}
+
+span,
+td {
+	background-image: linear-gradient(
+		90deg,
+		var(--loading-dark) 25%,
+		var(--loading-light) 50%,
+		var(--loading-dark) 75%
+	);
+	background-size: 300px 100%;
+	animation: loading 4s infinite linear;
+	border-radius: 0.5rem;
+}
+
+@keyframes loading {
+	0% {
+		background-position: -300px 0;
+	}
+	100% {
+		background-position: 300px 0;
+	}
 }
 </style>

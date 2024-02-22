@@ -77,6 +77,15 @@ const { title } = Astro.props;
 		--contrast-dark: #0052bd;
 
 		--border-radius: 0.7rem;
+
+		--font-small: 14px;
+		--font-medium: 16px;
+		--font-big: 20px;
+
+		--is-top: #2984fe;
+
+		--cooltipz-border-radius: 1rem !important;
+
 	}
 
 	html {
@@ -92,6 +101,13 @@ const { title } = Astro.props;
 
 		--text-color: #ffffff;
 		--text-light: #787f88;
+
+		--loading-dark: #36363690;
+		--loading-light: rgba(96, 96, 96, 0.385);
+
+		--cooltipz-bg-color: #ffffff !important;
+		--cooltipz-text-color: #1b1d1f !important;
+		--cooltipz-border-color: #ffffff !important;
 	}
 
 	html.light {
@@ -101,6 +117,9 @@ const { title } = Astro.props;
 
 		--text-color: #010306;
 		--text-light: #5d646d;
+
+		--loading-dark: rgba(203, 203, 203, 0.2);
+		--loading-light: rgba(249, 249, 249, 0.3);
 	}
 
 	*,
@@ -143,7 +162,10 @@ const { title } = Astro.props;
 		color: inherit;
 	}
 
+
 	p {
 		font-weight: 300;
+		margin: 0;
+		font-size: var(--font-small);
 	}
 </style>

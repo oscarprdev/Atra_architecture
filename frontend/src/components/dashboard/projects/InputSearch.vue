@@ -20,8 +20,8 @@ const onInputChange = (e: Event) => {
 		<input
 			class="input-search"
 			type="search"
-			placeholder="Busca un projecte..."
 			@input="onInputChange"
+			placeholder="Busca un projecte..."
 			:value="inputValue" />
 	</label>
 </template>
@@ -56,8 +56,9 @@ const onInputChange = (e: Event) => {
 	background-color: transparent;
 	font-size: 1rem;
 	caret-color: var(--contrast);
-	text-transform: capitalize;
 	font-weight: 100;
+
+	font-size: var(--font-small);
 }
 
 .input-search::placeholder {

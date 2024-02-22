@@ -39,8 +39,4 @@ button {
 button:hover {
 	background-color: var(--contrast-dark);
 }
-
-p {
-	margin: 0;
-}
 </style>

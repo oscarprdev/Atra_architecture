@@ -58,10 +58,10 @@ onMounted(async () => mountProjectList());
 					:checked="isAllChecked"
 					@on-click="onToggleAllCheckboxes" />
 				<th class="table-main-image">Image</th>
-				<th>Nom</th>
+				<th class="table-name">Nom</th>
 				<th class="table-description">Descripcio</th>
-				<th>Any</th>
-				<th>Actualitzacio</th>
+				<th class="table-year">Any</th>
+				<th class="table-date">Actualitzat</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -99,12 +99,17 @@ tr {
 th,
 td {
 	text-align: left;
-	padding: 1rem 1.5rem;
+	padding: 1rem;
 
 	width: 130px;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
+}
+
+td {
+	font-size: var(--font-small);
+}
+
+th {
+	font-size: var(--font-medium);
 }
 
 tr {
@@ -122,9 +127,29 @@ tbody > tr:hover {
 .table-main-image {
 	width: fit-content;
 	min-width: 40px;
+	margin-left: 0.5rem;
+}
+
+.table-name {
+	margin-left: -0.5rem;
+	width: 160px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .table-description {
 	width: 300px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.table-year {
+	width: fit-content;
+}
+
+.table-date {
+	width: fit-content;
 }
 </style>
