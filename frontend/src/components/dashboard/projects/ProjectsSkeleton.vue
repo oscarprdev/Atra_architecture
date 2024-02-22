@@ -6,6 +6,7 @@
 		<td class="row-description-skeleton"></td>
 		<td></td>
 		<td></td>
+		<td class="row-action-skeleton"></td>
 	</tr>
 </template>
 
@@ -44,6 +45,10 @@ tr:hover {
 
 .row-description-skeleton {
 	width: 250px;
+}
+
+.row-action-skeleton {
+	height: 40px;
 }
 
 span,
