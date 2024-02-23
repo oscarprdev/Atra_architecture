@@ -16,7 +16,6 @@ export const MODAL_ACTIONS = {
 interface CreateProjectPayload {
 	componentName: string;
 	action: ModalActions.CREATE;
-	id: string;
 }
 
 interface RemoveProjectsPayload {

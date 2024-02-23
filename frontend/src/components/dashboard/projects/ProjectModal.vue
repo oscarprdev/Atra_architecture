@@ -11,14 +11,24 @@ const projects = ref<Project[]>([]);
 
 const asyncComponents: Record<string, any> = {
 	RemoveProjectModal: defineAsyncComponent(() => import('./RemoveProjectModal.vue')),
+	CreateProjectModal: defineAsyncComponent(() => import('./CreateProjectModal.vue')),
 };
 
 emitter.on(EMITTER_NAMES.modal, payload => {
 	isOpened.value = true;
 
-	if (typeof payload === 'object' && payload.action === MODAL_ACTIONS.REMOVE) {
-		modalComponent.value = payload.componentName;
-		projects.value = payload.projects;
+	if (typeof payload === 'object') {
+		switch (payload.action) {
+			case MODAL_ACTIONS.REMOVE:
+				modalComponent.value = payload.componentName;
+				projects.value = payload.projects;
+				break;
+			case MODAL_ACTIONS.CREATE:
+				modalComponent.value = payload.componentName;
+				break;
+			default:
+				break;
+		}
 	}
 });
 
