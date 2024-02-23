@@ -1,5 +1,5 @@
 import { Router, RouterType } from 'itty-router';
-import corsMiddleware from '../middlewares/cors';
+import { corsHeaders, corsMiddleware } from '../middlewares/cors';
 import { Env } from '..';
 import { describeProjectHandler } from '../api/project/handlers/project_describe_handler';
 import { createProjectHandler } from '../api/project/handlers/project_create_handler';
@@ -21,7 +21,6 @@ function buildRouter(env: Env): RouterType {
 	router.post('/project/create', corsMiddleware(createProjectHandler));
 	router.delete('/project/delete/:id', corsMiddleware(deleteProjectHandler));
 	router.put('/project/update', corsMiddleware(updateProjectHandler));
-	router.options('/project/update', corsMiddleware(updateProjectHandler));
 
 	// User handlers
 	router.get('/user/describe', corsMiddleware(describeUserHandler));
@@ -32,7 +31,16 @@ function buildRouter(env: Env): RouterType {
 	// Auth handler
 	router.post('/auth/login', corsMiddleware(userLoginHandler));
 
-	router.all('*', () => new Response('Request not found', { status: 404 }));
+	router.all('*', (request) => {
+		if (request.method === 'OPTIONS') {
+			return new Response(null, {
+				status: 204,
+				headers: corsHeaders,
+			});
+		}
+
+		new Response('Request not found', { status: 404 });
+	});
 
 	return router;
 }

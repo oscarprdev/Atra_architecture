@@ -2,7 +2,7 @@
 import { onMounted, ref, watch } from 'vue';
 import type { Project } from '../../../api';
 import InputCheckbox from './InputCheckbox.vue';
-import { EMITTER_NAMES, emitter } from '../../../utils/emitter';
+import { EMITTER_NAMES, MODAL_EMITTER_NAMES, emitter, modalEmitter } from '../../../utils/emitter';
 import { getProjectList } from '../../../api/endpoints/get-projects-list';
 import ProjectRow from './ProjectRow.vue';
 import ProjectsSkeleton from './ProjectsSkeleton.vue';
@@ -73,6 +73,8 @@ emitter.on(EMITTER_NAMES.searchProject, async searchValue =>
 		: emitter.off(EMITTER_NAMES.searchProject)
 );
 
+modalEmitter.on(MODAL_EMITTER_NAMES.closeRemoveProjectModal, async () => await mountProjectList());
+
 const mountProjectList = async () => {
 	isLoading.value = true;
 	const response = (await getProjectList()) || [];
@@ -109,7 +111,7 @@ onMounted(async () => mountProjectList());
 				:project="project"
 				@toggle-checked-project="onToggleCheckedProject" />
 			<ProjectsSkeleton
-				v-if="isLoading"
+				v-if="projects.length === 0 && isLoading"
 				v-for="i in new Array(5).fill('')" />
 		</tbody>
 	</table>

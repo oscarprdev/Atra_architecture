@@ -29,4 +29,4 @@ const corsMiddleware = (handler: (request: Request, env: Env) => Promise<Respons
 	};
 };
 
-export default corsMiddleware;
+export { corsMiddleware, corsHeaders };

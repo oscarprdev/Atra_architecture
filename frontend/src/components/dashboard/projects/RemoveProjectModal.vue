@@ -1,23 +1,59 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import type { Project } from '../../../api';
 import { BUTTON_KINDS } from '../ActionButton.types';
 import ActionButton from '../ActionButton.vue';
+import { removeProject } from '../../../api/endpoints/remove-project';
+import { IconRotateClockwise } from '@tabler/icons-vue';
+import { emitter, EMITTER_NAMES, MODAL_ACTIONS, MODAL_EMITTER_NAMES, modalEmitter } from '../../../utils/emitter';
+import { strCapitalized } from '../../../utils/strCapitalized';
 
-defineProps<{
+const props = defineProps<{
 	projects: Project[];
 }>();
+
+const isRemoving = ref(false);
+
+const emits = defineEmits<{
+	(e: 'close-modal'): void;
+}>();
+
+const onRemoveProjectClick = async () => {
+	isRemoving.value = true;
+	await Promise.all(props.projects.map(pr => removeProject(pr.id)));
+	isRemoving.value = false;
+
+	modalEmitter.emit(MODAL_EMITTER_NAMES.closeRemoveProjectModal, { action: MODAL_ACTIONS.CLOSE });
+
+	emits('close-modal');
+};
 </script>
 
 <template>
 	<div class="remove-project-modal">
-		<h2>Estas segur que vols eliminar els projectes seleccionats?</h2>
+		<h2 v-if="projects.length > 1">Estas segur que vols eliminar els projectes seleccionats?</h2>
+		<h2 v-else="projects.length === 1">
+			Estas segur que vols eliminar el project de
+			<span class="project-title">{{ strCapitalized(projects[0].title) }}</span
+			>?
+		</h2>
 		<div class="modal-actions">
 			<ActionButton
 				:kind="BUTTON_KINDS.SECONDARY"
-				text="Cancelar"></ActionButton>
+				:disabled="isRemoving"
+				@on-action-click="emits('close-modal')"
+				text="Cancelar" />
 			<ActionButton
 				:kind="BUTTON_KINDS.SECONDARY"
-				text="Eliminar"></ActionButton>
+				:disabled="isRemoving"
+				text="Eliminar"
+				@on-action-click="onRemoveProjectClick">
+				<template
+					#icon
+					v-if="isRemoving">
+					<IconRotateClockwise class="spinner" />
+				</template>
+			</ActionButton>
 		</div>
 	</div>
 </template>
@@ -77,6 +113,10 @@ img {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
+}
+
+.project-title {
+	font-weight: bold;
 }
 
 .modal-actions {

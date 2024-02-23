@@ -9,7 +9,6 @@ const props = defineProps<{
 }>();
 
 const isOpen = ref(false);
-const selectedOption = ref<string | null>(null);
 const options = ref<Option[]>(props.options);
 
 const toggleDropdown = () => {
@@ -17,7 +16,6 @@ const toggleDropdown = () => {
 };
 
 const selectOption = (option: Option) => {
-	selectedOption.value = option.label;
 	isOpen.value = false;
 
 	const optionToPerform = options.value.find(op => op.label === option.label);
@@ -30,7 +28,7 @@ const selectOption = (option: Option) => {
 		<button
 			:class="{ opened: isOpen }"
 			@click="toggleDropdown">
-			<p>{{ selectedOption || props.defaultText }}</p>
+			<p>{{ props.defaultText }}</p>
 			<IconChevronUp
 				class="icon"
 				:class="{ rotate: !isOpen }" />

@@ -2,7 +2,7 @@
 import { IconDotsVertical, IconRotateClockwise } from '@tabler/icons-vue';
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import type { Project } from '../../../api';
-import { MODAL_EMITTER_NAMES, modalEmitter } from '../../../utils/emitter';
+import { MODAL_ACTIONS, MODAL_EMITTER_NAMES, modalEmitter } from '../../../utils/emitter';
 import { updateProject } from '../../../api/endpoints/update-project';
 import ActionButton from '../ActionButton.vue';
 import { BUTTON_KINDS } from '../ActionButton.types';
@@ -42,7 +42,7 @@ const onRemoveProjects = () => {
 	modalEmitter.emit(MODAL_EMITTER_NAMES.showRemoveProjectModal, {
 		componentName: 'RemoveProjectModal',
 		projects: props.checkedProjects,
-		kind: 'remove',
+		action: MODAL_ACTIONS.REMOVE,
 	});
 	closeTooltip();
 };
