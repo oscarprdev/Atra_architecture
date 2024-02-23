@@ -16,7 +16,7 @@ const onCreateProjectClick = () => {
 			text="Nou projecte"
 			@on-action-click="onCreateProjectClick">
 			<template #icon>
-				<IconPlus />
+				<IconPlus width="18" />
 			</template>
 		</ActionButton>
 	</header>

@@ -4,11 +4,10 @@ import { strCapitalized } from '../../../utils/strCapitalized';
 import { strDate } from '../../../utils/strDate';
 import { IMAGE_URL } from '../../../constants';
 import InputCheckbox from './InputCheckbox.vue';
-import 'cooltipz-css';
 import Dropdown from '../Dropdown.vue';
 import type { Option } from '../Dropdown.types';
 
-const props = defineProps<{
+defineProps<{
 	project: Project;
 	isProjectChecked: boolean;
 }>();
@@ -23,7 +22,9 @@ const actionDropdownOptions: Option[] = [
 ];
 </script>
 <template>
-	<tr :key="project.id">
+	<tr
+		:class="{ isTop: project.isTop }"
+		:key="project.id">
 		<InputCheckbox
 			:id="'checkbox-' + project.id"
 			:checked="isProjectChecked"
@@ -32,12 +33,6 @@ const actionDropdownOptions: Option[] = [
 			<img
 				:src="`${IMAGE_URL}/${project.mainImage.Key}`"
 				:alt="`Main image of ${project.title}`" />
-
-			<div
-				v-if="project.isTop"
-				aria-label="Projecte destacat"
-				data-cooltipz-dir="top"
-				class="is-top"></div>
 		</td>
 		<td class="table-name">{{ strCapitalized(project.title) }}</td>
 		<td class="table-description">
@@ -62,19 +57,12 @@ img {
 	border-radius: 50%;
 }
 
-.table-main-image {
-	position: relative;
+.isTop {
+	border-left: 2px solid var(--contrast);
 }
 
-.is-top {
-	position: absolute;
-	top: 1rem;
-	right: 0.8rem;
-	width: 0.6rem;
-	height: 0.6rem;
-
-	background-color: var(--contrast);
-	border-radius: 50%;
+.table-main-image {
+	position: relative;
 }
 
 .table-date {

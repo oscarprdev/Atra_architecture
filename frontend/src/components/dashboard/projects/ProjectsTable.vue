@@ -3,7 +3,7 @@ import { onMounted, ref, watch } from 'vue';
 import type { Project } from '../../../api';
 import InputCheckbox from './InputCheckbox.vue';
 import { EMITTER_NAMES, emitter } from '../../../utils/emitter';
-import { getProjectList } from '../../../api/projects/get-projects-list';
+import { getProjectList } from '../../../api/endpoints/get-projects-list';
 import ProjectRow from './ProjectRow.vue';
 import ProjectsSkeleton from './ProjectsSkeleton.vue';
 import CommonActionsTooltip from './CommonActionsTooltip.vue';
@@ -30,6 +30,10 @@ const onToggleCheckedProject = (id: string) => {
 
 	if (indexOfProjectChecked >= 0) {
 		checkedProjects.value.splice(indexOfProjectChecked, 1);
+
+		if (checkedProjects.value.length === 0) {
+			areAllProjectsChecked.value = false;
+		}
 		return;
 	}
 

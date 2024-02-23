@@ -27,7 +27,9 @@ const selectOption = (option: Option) => {
 
 <template>
 	<div class="dropdown">
-		<button @click="toggleDropdown">
+		<button
+			:class="{ opened: isOpen }"
+			@click="toggleDropdown">
 			<p>{{ selectedOption || props.defaultText }}</p>
 			<IconChevronUp
 				class="icon"
@@ -68,6 +70,7 @@ button {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	cursor: pointer;
 
 	gap: 0.5rem;
 	padding: 0.5rem 1.2rem;
@@ -77,6 +80,11 @@ button {
 	border: none;
 	background-color: var(--primary-light);
 	color: var(--text-color);
+}
+
+.opened {
+	background-color: var(--contrast-light);
+	border: 1px solid var(--contrast-dark);
 }
 
 .dropdown-menu {
@@ -89,10 +97,10 @@ button {
 	margin-top: 0.75rem;
 	min-width: 120px;
 
-	background-color: var(--primary-light);
+	background-color: var(--bg-dropdown);
 	color: var(--text-color);
 
-	border: 1px solid var(--primary-light);
+	border: 1px solid var(--border-dropdown);
 	border-radius: var(--border-radius);
 	box-shadow: var(--box-shadow);
 
@@ -120,10 +128,6 @@ button {
 	font-size: var(--font-small);
 	transition: all 0.2s ease;
 	cursor: pointer;
-}
-
-.dropdown-menu li:first-child {
-	border-bottom: 1px solid var(--primary-light);
 }
 
 .dropdown-menu li:hover {

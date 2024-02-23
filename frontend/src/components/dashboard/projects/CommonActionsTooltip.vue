@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { IconDotsVertical, IconTrashX, IconCrown, IconRotateClockwise } from '@tabler/icons-vue';
+import { IconDotsVertical, IconRotateClockwise } from '@tabler/icons-vue';
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import type { Project } from '../../../api';
 import { MODAL_EMITTER_NAMES, modalEmitter } from '../../../utils/emitter';
-import { updateProject } from '../../../api/projects/update-project';
+import { updateProject } from '../../../api/endpoints/update-project';
 
 const props = defineProps<{
 	checkedProjects: Project[];
@@ -76,14 +76,13 @@ onUnmounted(() => {
 			</p>
 			<div class="actions">
 				<button
-					class="icon-btn"
+					:class="{ updating: isUpdatePending }"
 					:disabled="isUpdatePending"
 					@click="onUpdateTopProjects">
 					<template v-if="!isUpdatePending">Destacar</template>
 					<template v-else><IconRotateClockwise class="spinner" /></template>
 				</button>
 				<button
-					class="icon-btn"
 					:disabled="isUpdatePending"
 					@click="onRemoveProjects">
 					Eliminar
@@ -129,8 +128,9 @@ onUnmounted(() => {
 	opacity: 0;
 	transition: all 0.2s ease;
 
+	border: 1px solid var(--border-dropdown);
 	border-radius: var(--border-radius);
-	background-color: var(--primary-light);
+	background-color: var(--bg-dropdown);
 	box-shadow: var(--box-shadow);
 }
 
@@ -151,14 +151,15 @@ onUnmounted(() => {
 	justify-content: center;
 	gap: 0.5rem;
 	font-size: var(--font-small);
-	padding: 0.5rem 1.2rem;
+	padding: auto 1.2rem;
 	border-radius: 0.3rem;
 	cursor: pointer;
 
-	min-width: 80px;
+	height: 40px;
+	min-width: 100px;
 
-	border: 1px solid var(--primary-hover);
-	background-color: var(--primary-light);
+	border: 1px solid var(--border-dropdown);
+	background-color: var(--bg-dropdown);
 	color: var(--text-color);
 
 	transition: all 0.2s ease;
@@ -172,5 +173,9 @@ onUnmounted(() => {
 	visibility: visible;
 	transform: translateX(0%);
 	opacity: 1;
+}
+
+.updating {
+	padding: 0.25rem 1.2rem !important;
 }
 </style>
