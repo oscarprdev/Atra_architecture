@@ -1,5 +1,11 @@
 <script setup lang="ts">
-defineProps<{ text: string }>();
+import { ButtonKinds, BUTTON_KINDS } from './ActionButton.types';
+
+defineProps<{
+	text: string;
+	disabled?: boolean;
+	kind: ButtonKinds.PRIMARY | ButtonKinds.SECONDARY;
+}>();
 
 const emits = defineEmits<{
 	(e: 'on-action-click'): void;
@@ -8,6 +14,8 @@ const emits = defineEmits<{
 
 <template>
 	<button
+		:disabled="disabled"
+		:class="{ primary: kind === BUTTON_KINDS.PRIMARY, secondary: kind === BUTTON_KINDS.SECONDARY }"
 		type="button"
 		@click="emits('on-action-click')">
 		<slot name="icon" />
@@ -21,20 +29,42 @@ button {
 	align-items: center;
 	justify-content: center;
 	gap: 0.5rem;
+	min-width: 100px;
 
-	padding: 0.6rem 1.3rem;
-	font-size: 1rem;
 	border-radius: var(--border-radius);
-
-	color: white;
-	background-color: var(--contrast);
-	border: 1px solid var(--contrast-dark);
+	font-size: var(--font-small);
 
 	cursor: pointer;
 	transition: all 0.2s ease;
 }
 
-button:hover {
+.primary {
+	padding: 0.6rem 1.3rem;
+	font-size: 1rem;
+	color: white;
+	background-color: var(--contrast);
+	border: 1px solid var(--contrast-dark);
+}
+
+.secondary {
+	padding: auto 1.2rem;
+
+	height: 40px;
+
+	border: 1px solid var(--border-dropdown);
+	background-color: var(--bg-dropdown);
+	color: var(--text-color);
+}
+
+.primary:hover {
 	background-color: var(--contrast-dark);
+}
+
+.secondary:hover {
+	background-color: var(--primary-hover);
+}
+
+button:disabled {
+	color: var(--text-color-disabled);
 }
 </style>

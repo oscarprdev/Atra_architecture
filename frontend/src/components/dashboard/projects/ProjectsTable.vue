@@ -109,7 +109,7 @@ onMounted(async () => mountProjectList());
 				:project="project"
 				@toggle-checked-project="onToggleCheckedProject" />
 			<ProjectsSkeleton
-				v-if="projects.length < 1 && isLoading"
+				v-if="isLoading"
 				v-for="i in new Array(5).fill('')" />
 		</tbody>
 	</table>

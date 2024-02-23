@@ -4,6 +4,8 @@ import { ref, computed, onMounted, onUnmounted } from 'vue';
 import type { Project } from '../../../api';
 import { MODAL_EMITTER_NAMES, modalEmitter } from '../../../utils/emitter';
 import { updateProject } from '../../../api/endpoints/update-project';
+import ActionButton from '../ActionButton.vue';
+import { BUTTON_KINDS } from '../ActionButton.types';
 
 const props = defineProps<{
 	checkedProjects: Project[];
@@ -75,18 +77,22 @@ onUnmounted(() => {
 				{{ numOfProjectsChecked }}
 			</p>
 			<div class="actions">
-				<button
-					:class="{ updating: isUpdatePending }"
+				<ActionButton
+					:text="isUpdatePending ? '' : 'Destacar'"
+					:kind="BUTTON_KINDS.SECONDARY"
 					:disabled="isUpdatePending"
-					@click="onUpdateTopProjects">
-					<template v-if="!isUpdatePending">Destacar</template>
-					<template v-else><IconRotateClockwise class="spinner" /></template>
-				</button>
-				<button
+					@on-action-click="onUpdateTopProjects">
+					<template
+						#icon
+						v-if="isUpdatePending">
+						<IconRotateClockwise class="spinner" />
+					</template>
+				</ActionButton>
+				<ActionButton
+					text="Eliminar"
+					:kind="BUTTON_KINDS.SECONDARY"
 					:disabled="isUpdatePending"
-					@click="onRemoveProjects">
-					Eliminar
-				</button>
+					@on-action-click="onRemoveProjects" />
 			</div>
 		</span>
 		<IconDotsVertical
@@ -145,26 +151,6 @@ onUnmounted(() => {
 	gap: 0.5rem;
 }
 
-.projects-actions-tooltip .actions button {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: 0.5rem;
-	font-size: var(--font-small);
-	padding: auto 1.2rem;
-	border-radius: 0.3rem;
-	cursor: pointer;
-
-	height: 40px;
-	min-width: 100px;
-
-	border: 1px solid var(--border-dropdown);
-	background-color: var(--bg-dropdown);
-	color: var(--text-color);
-
-	transition: all 0.2s ease;
-}
-
 .projects-actions-tooltip .actions button:not(:disabled):hover {
 	background-color: var(--primary-hover);
 }
@@ -173,9 +159,5 @@ onUnmounted(() => {
 	visibility: visible;
 	transform: translateX(0%);
 	opacity: 1;
-}
-
-.updating {
-	padding: 0.25rem 1.2rem !important;
 }
 </style>

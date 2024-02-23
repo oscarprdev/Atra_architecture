@@ -2,6 +2,7 @@
 import { IconPlus } from '@tabler/icons-vue';
 import ActionButton from '../ActionButton.vue';
 import InputSearch from './InputSearch.vue';
+import { BUTTON_KINDS } from '../ActionButton.types';
 import { EMITTER_NAMES, emitter } from '../../../utils/emitter';
 
 const onCreateProjectClick = () => {
@@ -13,6 +14,7 @@ const onCreateProjectClick = () => {
 	<header>
 		<InputSearch />
 		<ActionButton
+			:kind="BUTTON_KINDS.PRIMARY"
 			text="Nou projecte"
 			@on-action-click="onCreateProjectClick">
 			<template #icon>

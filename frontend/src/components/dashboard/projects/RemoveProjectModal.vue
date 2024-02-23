@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import type { Project } from '../../../api';
+import { BUTTON_KINDS } from '../ActionButton.types';
+import ActionButton from '../ActionButton.vue';
 
 defineProps<{
 	projects: Project[];
@@ -10,8 +12,12 @@ defineProps<{
 	<div class="remove-project-modal">
 		<h2>Estas segur que vols eliminar els projectes seleccionats?</h2>
 		<div class="modal-actions">
-			<button>Cancelar</button>
-			<button>Eliminar</button>
+			<ActionButton
+				:kind="BUTTON_KINDS.SECONDARY"
+				text="Cancelar"></ActionButton>
+			<ActionButton
+				:kind="BUTTON_KINDS.SECONDARY"
+				text="Eliminar"></ActionButton>
 		</div>
 	</div>
 </template>

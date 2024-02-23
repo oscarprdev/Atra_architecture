@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { IconX } from '@tabler/icons-vue';
-import { defineAsyncComponent, ref, onMounted, onUnmounted, watch } from 'vue';
+import { defineAsyncComponent, ref, onUnmounted, watch } from 'vue';
 import { MODAL_EMITTER_NAMES, modalEmitter } from '../../../utils/emitter';
 import type { Project } from '../../../api';
 
-const modal = ref<HTMLElement>();
 const isOpened = ref(false);
+const modal = ref<HTMLElement>();
 const modalComponent = ref<string | null>(null);
-
 const projects = ref<Project[]>([]);
 
 const asyncComponents: Record<string, any> = {
@@ -23,16 +22,17 @@ modalEmitter.on(MODAL_EMITTER_NAMES.showRemoveProjectModal, data => {
 	}
 });
 
-const onClickOutside = (event: MouseEvent) => {
-	if (modal.value && !modal.value.contains(event.target as Node)) {
-		console.log('here');
+const closeModal = () => {
+	modal.value?.classList.add('fadedown');
+
+	setTimeout(() => {
 		isOpened.value = false;
-	}
+	}, 200);
 };
 
 const onPressEscKey = (e: KeyboardEvent) => {
 	if (e.key === 'Escape') {
-		isOpened.value = false;
+		closeModal();
 	}
 };
 
@@ -40,16 +40,13 @@ watch(
 	() => isOpened.value,
 	isOpened => {
 		if (isOpened) {
-			console.log('helo');
 			window.addEventListener('keyup', onPressEscKey);
-			window.addEventListener('click', onClickOutside);
 		}
 	}
 );
 
 onUnmounted(() => {
 	window.removeEventListener('keyup', onPressEscKey);
-	window.removeEventListener('click', onClickOutside);
 });
 </script>
 
@@ -58,11 +55,12 @@ onUnmounted(() => {
 		class="backdrop"
 		v-if="isOpened">
 		<div
+			ref="modal"
 			class="modal"
-			ref="modal">
+			:class="{ fadeUp: isOpened }">
 			<IconX
 				class="icon-x"
-				@click="isOpened = false" />
+				@click="closeModal" />
 			<component
 				v-if="modalComponent"
 				:is="asyncComponents[modalComponent]"
@@ -86,23 +84,26 @@ onUnmounted(() => {
 	background-color: rgba(0, 0, 0, 0.264);
 }
 
-.open {
-	visibility: visible;
-}
-
 .modal {
 	position: relative;
 	padding: 2rem;
-	background-color: var(--dropdown-bg-color);
+	background-color: var(--bg-dropdown);
 	box-shadow: var(--box-shadow);
 	border-radius: var(--border-radius);
+
+	animation: fadeup 0.2s ease forwards;
+}
+
+.fadedown {
+	animation: fadedown 0.2s ease forwards;
 }
 
 .icon-x {
 	position: absolute;
-	left: 1rem;
-	top: 1rem;
-	color: var(--text-light);
+	left: 0.7rem;
+	top: 0.7rem;
+	color: var(--text-color);
 	cursor: pointer;
+	width: 1rem;
 }
 </style>

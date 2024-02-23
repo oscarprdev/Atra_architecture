@@ -51,9 +51,9 @@ span,
 td {
 	background-image: linear-gradient(
 		90deg,
-		var(--loading-dark) 25%,
-		var(--loading-light) 50%,
-		var(--loading-dark) 75%
+		var(--primary-hover) 25%,
+		var(--primary-light) 50%,
+		var(--primary-hover) 75%
 	);
 	background-size: 300px 100%;
 	animation: loading 4s infinite linear;
