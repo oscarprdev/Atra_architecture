@@ -20,8 +20,8 @@ span {
 tr {
 	display: flex;
 	align-items: center;
-	margin: 1.2rem 2rem;
-	padding-bottom: 1.2rem;
+	margin: 0 2rem;
+	height: 95px;
 	gap: 2.4rem;
 	border-bottom: 1px solid var(--card-hover-color);
 }

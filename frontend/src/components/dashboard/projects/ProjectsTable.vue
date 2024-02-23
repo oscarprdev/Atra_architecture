@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import type { Project } from '../../../api';
 import InputCheckbox from './InputCheckbox.vue';
 import { EMITTER_NAMES, emitter } from '../../../utils/emitter';
@@ -7,7 +7,6 @@ import { getProjectList } from '../../../api/projects/get-projects-list';
 import ProjectRow from './ProjectRow.vue';
 import ProjectsSkeleton from './ProjectsSkeleton.vue';
 import CommonActionsTooltip from './CommonActionsTooltip.vue';
-import { updateProject } from '../../../api/projects/update-project';
 
 const isLoading = ref(false);
 const projects = ref<Project[]>([]);
@@ -17,6 +16,7 @@ const areAllProjectsChecked = ref(false);
 const onToggleAllCheckboxes = () => {
 	areAllProjectsChecked.value = !areAllProjectsChecked.value;
 	if (areAllProjectsChecked.value) {
+		checkedProjects.value = [];
 		projects.value.forEach(project => {
 			checkedProjects.value.push(project);
 		});
@@ -40,16 +40,6 @@ const onToggleCheckedProject = (id: string) => {
 	}
 };
 
-const onUpdateTopProjects = async () => {
-	const updatedProjects = checkedProjects.value.map(pr => ({ ...pr, isTop: !pr.isTop }));
-
-	await Promise.all(updatedProjects.map(pr => updateProject(pr)));
-
-	await mountProjectList();
-
-	cleanCheckedProjects();
-};
-
 const filterProjectsBySearchValue = async (searchValue: string) => {
 	if (searchValue.length > 0) {
 		projects.value = projects.value.filter(project =>
@@ -60,7 +50,18 @@ const filterProjectsBySearchValue = async (searchValue: string) => {
 	}
 };
 
-const cleanCheckedProjects = () => (checkedProjects.value = []);
+const onProjectsUpdated = async (updatedProjects: Project[]) => {
+	cleanCheckedProjects();
+
+	projects.value = projects.value.map(
+		pr => updatedProjects.find(updatedProject => updatedProject.id === pr.id) || pr
+	);
+};
+
+const cleanCheckedProjects = () => {
+	checkedProjects.value = [];
+	areAllProjectsChecked.value = false;
+};
 
 emitter.on(EMITTER_NAMES.searchProject, async searchValue =>
 	typeof searchValue === 'string'
@@ -84,7 +85,7 @@ onMounted(async () => mountProjectList());
 			<tr>
 				<CommonActionsTooltip
 					:checked-projects="checkedProjects"
-					@update-top-projects="onUpdateTopProjects" />
+					@on-projects-updated="onProjectsUpdated" />
 				<InputCheckbox
 					:id="'checkbox-head'"
 					:checked="areAllProjectsChecked"
@@ -92,7 +93,7 @@ onMounted(async () => mountProjectList());
 				<th class="table-main-image">Image</th>
 				<th class="table-name">Nom</th>
 				<th class="table-description">Descripció</th>
-				<th class="table-year">Any</th>
+				<th class="table-year table-year--title">Any</th>
 				<th class="table-date">Actualitzat</th>
 				<th class="table-dropdown">Accions</th>
 			</tr>
@@ -104,8 +105,8 @@ onMounted(async () => mountProjectList());
 				:project="project"
 				@toggle-checked-project="onToggleCheckedProject" />
 			<ProjectsSkeleton
-				v-if="isLoading"
-				v-for="i in new Array(6).fill('')" />
+				v-if="projects.length < 1 && isLoading"
+				v-for="i in new Array(5).fill('')" />
 		</tbody>
 	</table>
 </template>
@@ -166,7 +167,6 @@ tbody > tr:hover {
 }
 
 .table-name {
-	margin-left: -0.5rem;
 	width: 160px;
 	white-space: nowrap;
 	overflow: hidden;
@@ -174,15 +174,20 @@ tbody > tr:hover {
 }
 
 .table-description {
-	width: 370px;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	margin-left: -1.8rem;
+	margin-right: auto;
+	width: 100%;
+	max-width: 300px;
 }
 
 .table-year {
 	width: fit-content;
+}
+
+.table-year--title {
+	margin-left: -3rem;
 }
 
 .table-date {
@@ -190,6 +195,7 @@ tbody > tr:hover {
 }
 
 .table-dropdown {
-	margin-left: 3.2rem;
+	margin-left: auto;
+	margin-right: 1rem;
 }
 </style>

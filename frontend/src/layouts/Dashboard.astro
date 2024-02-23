@@ -76,7 +76,7 @@ const { title } = Astro.props;
 		--contrast: #2984fe;
 		--contrast-dark: #0052bd;
 
-		--border-radius: 0.7rem;
+		--border-radius: 0.3rem;
 
 		--font-small: 14px;
 		--font-medium: 16px;
@@ -85,6 +85,8 @@ const { title } = Astro.props;
 		--is-top: #2984fe;
 
 		--cooltipz-border-radius: 1rem !important;
+
+		--box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
 	}
 
 	html {
@@ -171,5 +173,15 @@ const { title } = Astro.props;
 		font-weight: 300;
 		margin: 0;
 		font-size: var(--font-small);
+	}
+
+	.spinner {
+		animation: rotation 1s linear infinite;
+	}
+
+	@keyframes rotation {
+		to {
+			transform: rotate(360deg);
+		}
 	}
 </style>

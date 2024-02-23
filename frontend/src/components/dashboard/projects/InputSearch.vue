@@ -31,7 +31,7 @@ const onInputChange = (e: Event) => {
 	position: relative;
 	padding: 0.2rem;
 	padding-right: 1rem;
-	border-radius: 0.5rem;
+	border-radius: var(--border-radius);
 	background-color: var(--card-hover-color);
 	display: flex;
 	align-items: center;

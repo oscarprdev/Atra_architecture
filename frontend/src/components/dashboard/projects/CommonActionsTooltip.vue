@@ -1,16 +1,20 @@
 <script setup lang="ts">
-import { IconDotsVertical, IconTrashX, IconCrown } from '@tabler/icons-vue';
-import { ref, computed } from 'vue';
+import { IconDotsVertical, IconTrashX, IconCrown, IconRotateClockwise } from '@tabler/icons-vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import type { Project } from '../../../api';
+import { MODAL_EMITTER_NAMES, modalEmitter } from '../../../utils/emitter';
+import { updateProject } from '../../../api/projects/update-project';
 
 const props = defineProps<{
 	checkedProjects: Project[];
 }>();
 
 const emits = defineEmits<{
-	(e: 'updateTopProjects'): void;
+	(e: 'onProjectsUpdated', projects: Project[]): void;
 }>();
 
+const isUpdatePending = ref(false);
+const tooltipContainer = ref<HTMLElement>();
 const isProjectsActionsTooltipVisible = ref(false);
 
 const numOfProjectsChecked = computed(() => Object.values(props.checkedProjects).filter(project => project).length);
@@ -21,14 +25,46 @@ const onProjectsActionsDotsClick = () => {
 	}
 };
 
-const onEmitUpdateTopProject = () => {
-	isProjectsActionsTooltipVisible.value = false;
-	emits('updateTopProjects');
+const onUpdateTopProjects = async () => {
+	const updatedProjects = props.checkedProjects.map(pr => ({ ...pr, isTop: !pr.isTop }));
+
+	isUpdatePending.value = true;
+	await Promise.all(updatedProjects.map(pr => updateProject(pr)));
+	isUpdatePending.value = false;
+
+	emits('onProjectsUpdated', updatedProjects);
+	closeTooltip();
 };
+
+const onRemoveProjects = () => {
+	modalEmitter.emit(MODAL_EMITTER_NAMES.showRemoveProjectModal, {
+		componentName: 'RemoveProjectModal',
+		projects: props.checkedProjects,
+		kind: 'remove',
+	});
+	closeTooltip();
+};
+
+const closeTooltip = () => (isProjectsActionsTooltipVisible.value = false);
+
+const onClickOutside = (event: MouseEvent) => {
+	if (tooltipContainer.value && !tooltipContainer.value.contains(event.target as Node)) {
+		closeTooltip();
+	}
+};
+
+onMounted(() => {
+	window.addEventListener('click', onClickOutside);
+});
+
+onUnmounted(() => {
+	window.removeEventListener('click', onClickOutside);
+});
 </script>
 
 <template>
 	<div
+		ref="tooltipContainer"
 		class="projects-actions"
 		:class="{ tooltipAvailable: numOfProjectsChecked > 0 }">
 		<span
@@ -41,10 +77,17 @@ const onEmitUpdateTopProject = () => {
 			<div class="actions">
 				<button
 					class="icon-btn"
-					@click="onEmitUpdateTopProject">
-					<IconCrown width="16" />Destacar
+					:disabled="isUpdatePending"
+					@click="onUpdateTopProjects">
+					<template v-if="!isUpdatePending"> <IconCrown width="16" />Destacar</template>
+					<template v-else><IconRotateClockwise class="spinner" /></template>
 				</button>
-				<button class="icon-btn"><IconTrashX width="16" />Eliminar</button>
+				<button
+					class="icon-btn"
+					:disabled="isUpdatePending"
+					@click="onRemoveProjects">
+					<IconTrashX width="16" />Eliminar
+				</button>
 			</div>
 		</span>
 		<IconDotsVertical
@@ -88,7 +131,7 @@ const onEmitUpdateTopProject = () => {
 
 	border-radius: var(--border-radius);
 	background-color: var(--dropdown-bg-color);
-	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+	box-shadow: var(--box-shadow);
 }
 
 .projects-actions-tooltip p {
@@ -105,18 +148,21 @@ const onEmitUpdateTopProject = () => {
 .projects-actions-tooltip .actions button {
 	display: flex;
 	align-items: center;
+	justify-content: center;
 	gap: 0.5rem;
 	font-size: var(--font-small);
 	padding: 0.5rem 1.2rem;
 	border-radius: 0.3rem;
 	cursor: pointer;
 
+	min-width: 80px;
+
 	border: 1px solid var(--dropdown-text-color);
 	background-color: var(--dropdown-bg-color);
 	color: var(--dropdown-text-color);
 }
 
-.projects-actions-tooltip .actions button:hover {
+.projects-actions-tooltip .actions button:not(:disabled):hover {
 	color: var(--text-color);
 }
 

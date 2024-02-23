@@ -71,7 +71,7 @@ button {
 
 	gap: 0.5rem;
 	padding: 0.5rem 1.2rem;
-	border-radius: 0.3rem;
+	border-radius: var(--border-radius);
 	min-width: 120px;
 
 	border: none;
@@ -93,8 +93,8 @@ button {
 	color: var(--dropdown-text-color);
 
 	border: 1px solid var(--loading-dark);
-	border-radius: 0.3rem;
-	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+	border-radius: var(--border-radius);
+	box-shadow: var(--box-shadow);
 
 	z-index: 1;
 

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import ProjectModal from './ProjectModal.vue';
 import ProjectsHeader from './ProjectsHeader.vue';
 import ProjectsTable from './ProjectsTable.vue';
 </script>
@@ -8,6 +9,7 @@ import ProjectsTable from './ProjectsTable.vue';
 	<section>
 		<ProjectsTable />
 	</section>
+	<ProjectModal />
 </template>
 
 <style>
@@ -17,6 +19,6 @@ section {
 	height: 100%;
 	width: 100%;
 	background-color: var(--card-color);
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 </style>

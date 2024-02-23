@@ -7,7 +7,6 @@ import InputCheckbox from './InputCheckbox.vue';
 import 'cooltipz-css';
 import Dropdown from '../Dropdown.vue';
 import type { Option } from '../Dropdown.types';
-import { EMITTER_NAMES, emitter } from '../../../utils/emitter';
 
 const props = defineProps<{
 	project: Project;
@@ -19,8 +18,8 @@ const emits = defineEmits<{
 }>();
 
 const actionDropdownOptions: Option[] = [
-	{ label: 'Editar', cb: () => emitter.emit(EMITTER_NAMES.showCreateProjectSection, props.project.id) },
-	{ label: 'Eliminar', cb: () => emitter.emit(EMITTER_NAMES.showRemoveProjectModal, props.project.id) },
+	{ label: 'Editar', cb: () => {} },
+	{ label: 'Eliminar', cb: () => {} },
 ];
 </script>
 <template>
@@ -80,9 +79,5 @@ img {
 
 .table-date {
 	width: fit-content;
-}
-
-.table-dropdown {
-	margin-left: 0;
 }
 </style>
