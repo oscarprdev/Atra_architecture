@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, ref } from 'vue';
 import type { Project } from '../../../api';
 import InputCheckbox from './InputCheckbox.vue';
-import { EMITTER_NAMES, MODAL_EMITTER_NAMES, emitter, modalEmitter } from '../../../utils/emitter';
+import { EMITTER_NAMES, MODAL_ACTIONS, emitter } from '../../../utils/emitter';
 import { getProjectList } from '../../../api/endpoints/get-projects-list';
 import ProjectRow from './ProjectRow.vue';
 import ProjectsSkeleton from './ProjectsSkeleton.vue';
@@ -73,7 +73,11 @@ emitter.on(EMITTER_NAMES.searchProject, async searchValue =>
 		: emitter.off(EMITTER_NAMES.searchProject)
 );
 
-modalEmitter.on(MODAL_EMITTER_NAMES.closeRemoveProjectModal, async () => await mountProjectList());
+emitter.on(EMITTER_NAMES.modal, async payload => {
+	if (typeof payload === 'object' && payload.action === MODAL_ACTIONS.CLOSE) {
+		await mountProjectList();
+	}
+});
 
 const mountProjectList = async () => {
 	isLoading.value = true;

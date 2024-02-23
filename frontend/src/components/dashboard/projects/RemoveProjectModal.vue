@@ -5,7 +5,7 @@ import { BUTTON_KINDS } from '../ActionButton.types';
 import ActionButton from '../ActionButton.vue';
 import { removeProject } from '../../../api/endpoints/remove-project';
 import { IconRotateClockwise } from '@tabler/icons-vue';
-import { emitter, EMITTER_NAMES, MODAL_ACTIONS, MODAL_EMITTER_NAMES, modalEmitter } from '../../../utils/emitter';
+import { emitter, EMITTER_NAMES, MODAL_ACTIONS } from '../../../utils/emitter';
 import { strCapitalized } from '../../../utils/strCapitalized';
 
 const props = defineProps<{
@@ -23,7 +23,7 @@ const onRemoveProjectClick = async () => {
 	await Promise.all(props.projects.map(pr => removeProject(pr.id)));
 	isRemoving.value = false;
 
-	modalEmitter.emit(MODAL_EMITTER_NAMES.closeRemoveProjectModal, { action: MODAL_ACTIONS.CLOSE });
+	emitter.emit(EMITTER_NAMES.modal, { action: MODAL_ACTIONS.CLOSE });
 
 	emits('close-modal');
 };
@@ -33,7 +33,7 @@ const onRemoveProjectClick = async () => {
 	<div class="remove-project-modal">
 		<h2 v-if="projects.length > 1">Estas segur que vols eliminar els projectes seleccionats?</h2>
 		<h2 v-else="projects.length === 1">
-			Estas segur que vols eliminar el project de
+			Estas segur que vols eliminar el projecte de
 			<span class="project-title">{{ strCapitalized(projects[0].title) }}</span
 			>?
 		</h2>

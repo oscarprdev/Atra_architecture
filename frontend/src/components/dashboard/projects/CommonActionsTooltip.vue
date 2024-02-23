@@ -2,7 +2,7 @@
 import { IconDotsVertical, IconRotateClockwise } from '@tabler/icons-vue';
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import type { Project } from '../../../api';
-import { MODAL_ACTIONS, MODAL_EMITTER_NAMES, modalEmitter } from '../../../utils/emitter';
+import { EMITTER_NAMES, MODAL_ACTIONS, emitter } from '../../../utils/emitter';
 import { updateProject } from '../../../api/endpoints/update-project';
 import ActionButton from '../ActionButton.vue';
 import { BUTTON_KINDS } from '../ActionButton.types';
@@ -39,7 +39,7 @@ const onUpdateTopProjects = async () => {
 };
 
 const onRemoveProjects = () => {
-	modalEmitter.emit(MODAL_EMITTER_NAMES.showRemoveProjectModal, {
+	emitter.emit(EMITTER_NAMES.modal, {
 		componentName: 'RemoveProjectModal',
 		projects: props.checkedProjects,
 		action: MODAL_ACTIONS.REMOVE,
