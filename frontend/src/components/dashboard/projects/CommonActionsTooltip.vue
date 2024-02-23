@@ -79,14 +79,14 @@ onUnmounted(() => {
 					class="icon-btn"
 					:disabled="isUpdatePending"
 					@click="onUpdateTopProjects">
-					<template v-if="!isUpdatePending"> <IconCrown width="16" />Destacar</template>
+					<template v-if="!isUpdatePending">Destacar</template>
 					<template v-else><IconRotateClockwise class="spinner" /></template>
 				</button>
 				<button
 					class="icon-btn"
 					:disabled="isUpdatePending"
 					@click="onRemoveProjects">
-					<IconTrashX width="16" />Eliminar
+					Eliminar
 				</button>
 			</div>
 		</span>
@@ -105,12 +105,12 @@ onUnmounted(() => {
 
 .projects-actions .icon {
 	cursor: not-allowed;
-	color: var(--dropdown-bg-color);
+	color: var(--primary-light);
 }
 
 .tooltipAvailable .icon {
 	cursor: pointer;
-	color: var(--text-light);
+	color: var(--text-color);
 }
 
 .projects-actions-tooltip {
@@ -130,13 +130,13 @@ onUnmounted(() => {
 	transition: all 0.2s ease;
 
 	border-radius: var(--border-radius);
-	background-color: var(--dropdown-bg-color);
+	background-color: var(--primary-light);
 	box-shadow: var(--box-shadow);
 }
 
 .projects-actions-tooltip p {
 	font-size: var(--font-small);
-	color: var(--dropdown-text-color);
+	color: var(--text-color);
 }
 
 .projects-actions-tooltip .actions {
@@ -157,13 +157,15 @@ onUnmounted(() => {
 
 	min-width: 80px;
 
-	border: 1px solid var(--dropdown-text-color);
-	background-color: var(--dropdown-bg-color);
-	color: var(--dropdown-text-color);
+	border: 1px solid var(--primary-hover);
+	background-color: var(--primary-light);
+	color: var(--text-color);
+
+	transition: all 0.2s ease;
 }
 
 .projects-actions-tooltip .actions button:not(:disabled):hover {
-	color: var(--text-color);
+	background-color: var(--primary-hover);
 }
 
 .projects-actions-tooltip[aria-checked='true'] {

@@ -73,7 +73,7 @@ img {
 	width: 0.6rem;
 	height: 0.6rem;
 
-	background-color: var(--is-top);
+	background-color: var(--contrast);
 	border-radius: 50%;
 }
 

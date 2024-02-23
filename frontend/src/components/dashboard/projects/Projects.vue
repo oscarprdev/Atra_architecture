@@ -18,7 +18,7 @@ section {
 	box-sizing: border-box;
 	height: 100%;
 	width: 100%;
-	background-color: var(--card-color);
+	background-color: var(--primary);
 	overflow-y: auto;
 }
 </style>

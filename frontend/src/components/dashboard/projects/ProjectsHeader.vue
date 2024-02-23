@@ -5,7 +5,7 @@ import InputSearch from './InputSearch.vue';
 import { EMITTER_NAMES, emitter } from '../../../utils/emitter';
 
 const onCreateProjectClick = () => {
-	emitter.emit(EMITTER_NAMES.showCreateProjectSection, true);
+	// emitter.emit(EMITTER_NAMES.showCreateProjectSection, true);
 };
 </script>
 
@@ -28,7 +28,7 @@ header {
 	align-items: center;
 	justify-content: space-between;
 	padding: 1rem 2rem;
-	background-color: var(--card-color);
+	background-color: var(--primary);
 	width: 100%;
 	border-radius: var(--border-radius);
 	border-top-right-radius: 0;

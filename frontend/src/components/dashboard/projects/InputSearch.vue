@@ -32,9 +32,18 @@ const onInputChange = (e: Event) => {
 	padding: 0.2rem;
 	padding-right: 1rem;
 	border-radius: var(--border-radius);
-	background-color: var(--card-hover-color);
+	background-color: var(--primary);
 	display: flex;
 	align-items: center;
+	border: 1px solid var(--primary-light);
+}
+
+.search-container:focus-within {
+	border: 1px solid var(--contrast);
+	background-color: var(--primary-hover);
+}
+.search-container:hover {
+	background-color: var(--primary-hover);
 }
 
 .icon-search {
@@ -42,7 +51,7 @@ const onInputChange = (e: Event) => {
 	top: 50%;
 	left: 1rem;
 	transform: translateY(-50%);
-	color: var(--text-light);
+	color: var(--text-color);
 	z-index: 10;
 }
 
@@ -52,7 +61,7 @@ const onInputChange = (e: Event) => {
 	width: 100%;
 	border: none;
 	outline: none;
-	color: var(--text-light);
+	color: var(--text-color);
 	background-color: transparent;
 	font-size: 1rem;
 	caret-color: var(--contrast);
@@ -62,7 +71,7 @@ const onInputChange = (e: Event) => {
 }
 
 .input-search::placeholder {
-	color: var(--text-light);
+	color: var(--text-color);
 	font-weight: 100;
 }
 

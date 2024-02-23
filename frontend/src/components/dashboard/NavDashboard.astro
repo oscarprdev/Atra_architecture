@@ -70,7 +70,7 @@ const user = jsonResponse.data as User;
 
 		border-top-right-radius: var(--border-radius);
 		border-bottom-right-radius: var(--border-radius);
-		background-color: var(--card-color);
+		background-color: var(--primary);
 		color: var(--text-color);
 	}
 
@@ -108,7 +108,7 @@ const user = jsonResponse.data as User;
 		width: 13rem;
 		gap: 1rem;
 		padding-left: 0;
-		color: var(--text-light);
+		color: var(--text-color);
 	}
 
 	li {
@@ -122,7 +122,7 @@ const user = jsonResponse.data as User;
 
 	li:hover {
 		color: var(--text-color);
-		background-color: var(--card-hover-color);
+		background-color: var(--contrast-light);
 	}
 
 	a {
@@ -139,9 +139,15 @@ const user = jsonResponse.data as User;
 	}
 
 	.selected {
-		color: var(--text-color);
+		color: var(--contrast);
 		cursor: pointer;
-		background-color: var(--card-hover-color);
+		background-color: var(--contrast-light);
+	}
+	
+	.selected:hover {
+		color: var(--contrast);
+		cursor: pointer;
+		background-color: var(--contrast-light);
 	}
 
 	.nav-top {
@@ -160,7 +166,7 @@ const user = jsonResponse.data as User;
 		gap: 1rem;
 		width: 100%;
 
-		border-top: 2px solid var(--card-hover-color);
+		border-top: 2px solid var(--primary-light);
 		padding-top: 1.5rem;
 	}
 
@@ -173,17 +179,16 @@ const user = jsonResponse.data as User;
 		padding: 0.7rem 1.2rem;
 		font-size: 1rem;
 		border-radius: var(--border-radius);
-		color: var(--text-light);
+		color: var(--text-color);
 		background-color: transparent;
-		border: 1px solid var(--text-light);
+		border: 1px solid var(--text-color);
 		cursor: pointer;
 
 		transition: all 0.2s ease;
 	}
 
 	button:hover {
-		background-color: var(--contrast);
-		color: white;
+		background-color: var(--contrast-light);
 		border: 1px solid var(--contrast-dark);
 	}
 </style>

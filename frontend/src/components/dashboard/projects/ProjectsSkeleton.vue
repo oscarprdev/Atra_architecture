@@ -23,18 +23,14 @@ tr {
 	margin: 0 2rem;
 	height: 95px;
 	gap: 2.4rem;
-	border-bottom: 1px solid var(--card-hover-color);
+	border-bottom: 1px solid var(--primary-light);
 }
 
 td {
 	padding: 0.8rem 1.5rem;
 	width: 130px;
-	background-color: var(--card-hover-color);
+	background-color: var(--primary);
 	border-radius: 0.5rem;
-}
-
-tr:hover {
-	background-color: transparent;
 }
 
 .row-image-skeleton {

@@ -53,7 +53,7 @@ import SunIcon from './icons/SunIcon.astro';
 		width: 80%;
 		padding: 0.5rem;
 		border-radius: 3rem;
-		background-color: var(--card-hover-color);
+		background-color: var(--primary-light);
 	}
 
 	.switch {
@@ -75,7 +75,7 @@ import SunIcon from './icons/SunIcon.astro';
 		background-color: transparent;
 		z-index: 2;
 
-		color: var(--text-light);
+		color: var(--text-color);
 		border: none;
 
 		border-radius: 3rem;
@@ -84,16 +84,13 @@ import SunIcon from './icons/SunIcon.astro';
 		transition: all 0.2s ease;
 	}
 
-	button:hover {
-		color: var(--text-color);
-	}
-
+	
 	.icon {
 		margin-top: 0.2rem;
 	}
 
 	:global(.dark) .dark:hover {
-		color: black;
+		color: rgb(37, 37, 37);
 	}
 
 	:global(.dark) .switch {

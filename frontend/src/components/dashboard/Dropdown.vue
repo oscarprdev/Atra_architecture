@@ -75,8 +75,8 @@ button {
 	min-width: 120px;
 
 	border: none;
-	background-color: var(--dropdown-bg-color);
-	color: var(--dropdown-text-color);
+	background-color: var(--primary-light);
+	color: var(--text-color);
 }
 
 .dropdown-menu {
@@ -84,15 +84,15 @@ button {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	padding: 0.5rem 0;
 
-	padding: 0.5rem;
 	margin-top: 0.75rem;
 	min-width: 120px;
 
-	background-color: var(--dropdown-bg-color);
-	color: var(--dropdown-text-color);
+	background-color: var(--primary-light);
+	color: var(--text-color);
 
-	border: 1px solid var(--loading-dark);
+	border: 1px solid var(--primary-light);
 	border-radius: var(--border-radius);
 	box-shadow: var(--box-shadow);
 
@@ -118,15 +118,15 @@ button {
 	white-space: nowrap;
 
 	font-size: var(--font-small);
-
+	transition: all 0.2s ease;
 	cursor: pointer;
 }
 
 .dropdown-menu li:first-child {
-	border-bottom: 1px solid var(--loading-dark);
+	border-bottom: 1px solid var(--primary-light);
 }
 
 .dropdown-menu li:hover {
-	color: var(--text-color);
+	background-color: var(--primary-hover);
 }
 </style>

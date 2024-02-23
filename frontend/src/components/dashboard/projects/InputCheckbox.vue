@@ -36,8 +36,8 @@ const emit = defineEmits<{
 	position: absolute;
 	top: 0;
 	left: 0;
-	background-color: var(--bg-card);
-	border: 1px solid var(--text-light);
+	background-color: var(--primary);
+	border: 1px solid var(--primary-light);
 	border-radius: 4px;
 }
 .custom-checkbox label:after {
@@ -47,7 +47,7 @@ const emit = defineEmits<{
 	position: absolute;
 	top: calc(50% - 2.5px);
 	left: calc(50% - 4.5px);
-	border: 3px solid var(--text-light);
+	border: 3px solid var(--text-color);
 	border-top: none;
 	border-right: none;
 	background-color: transparent;

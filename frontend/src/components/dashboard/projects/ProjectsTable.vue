@@ -118,7 +118,7 @@ tbody {
 	text-align: left;
 	box-sizing: border-box;
 	width: 100%;
-	color: var(--text-light);
+	color: var(--text-color);
 }
 
 tbody {
@@ -153,11 +153,11 @@ tr {
 	margin: 0 2rem;
 	gap: 1rem;
 	height: 95px;
-	border-bottom: 1px solid var(--card-hover-color);
+	border-bottom: 1px solid var(--primary-light);
 }
 
 tbody > tr:hover {
-	background-color: var(--card-hover-color);
+	background-color: var(--primary-hover);
 }
 
 .table-main-image {
