@@ -92,7 +92,7 @@ onUnmounted(() => {
 	place-items: center;
 	z-index: 10;
 
-	background-color: rgba(0, 0, 0, 0.264);
+	background-color: var(----backdrop);
 }
 
 .modal {
