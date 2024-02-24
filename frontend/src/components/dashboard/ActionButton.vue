@@ -4,6 +4,7 @@ import { ButtonKinds, BUTTON_KINDS } from './ActionButton.types';
 defineProps<{
 	text: string;
 	disabled?: boolean;
+	type?: 'button' | 'submit';
 	kind: ButtonKinds.PRIMARY | ButtonKinds.SECONDARY;
 }>();
 
@@ -16,7 +17,7 @@ const emits = defineEmits<{
 	<button
 		:disabled="disabled"
 		:class="{ primary: kind === BUTTON_KINDS.PRIMARY, secondary: kind === BUTTON_KINDS.SECONDARY }"
-		type="button"
+		:type="type || 'button'"
 		@click="emits('on-action-click')">
 		<slot name="icon" />
 		<p>{{ text }}</p>
