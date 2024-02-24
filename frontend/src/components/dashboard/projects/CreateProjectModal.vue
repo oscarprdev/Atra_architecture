@@ -3,7 +3,7 @@ import ActionButton from '../ActionButton.vue';
 import { BUTTON_KINDS } from '../ActionButton.types';
 import CreateProjectForm from './CreateProjectForm.vue';
 import type { CreateProjectFormControl } from './CreateProjectForm.types';
-import { ref } from 'vue';
+import { onUnmounted, ref } from 'vue';
 import { createProject } from '../../../api/endpoints/create-project';
 import { EMITTER_NAMES, MODAL_ACTIONS, emitter } from '../../../utils/emitter';
 import { IconRotateClockwise } from '@tabler/icons-vue';
@@ -32,7 +32,6 @@ const onSubmit = async (values: CreateProjectFormControl) => {
 
 		emits('close-modal');
 		emitter.emit(EMITTER_NAMES.modal, { action: MODAL_ACTIONS.CLOSE });
-		modalLoading.value = false;
 	} else {
 		formRequiredMessage.value = 'El projecte deu tindre 2 imatges mínim';
 
@@ -41,6 +40,10 @@ const onSubmit = async (values: CreateProjectFormControl) => {
 		}, 3000);
 	}
 };
+
+onUnmounted(() => {
+	modalLoading.value = false;
+});
 </script>
 
 <template>
