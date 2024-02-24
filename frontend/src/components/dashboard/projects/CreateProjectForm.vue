@@ -5,6 +5,16 @@ import InputForm from '../InputForm.vue';
 import TextareaForm from '../TextareaForm.vue';
 import MainImageForm from './MainImageForm.vue';
 import ImagesListForm from './ImagesListForm.vue';
+import type { CreateProjectFormControl } from './CreateProjectForm.types';
+import { IconExclamationMark } from '@tabler/icons-vue';
+
+defineProps<{
+	requiredMessage?: string | null;
+}>();
+
+const emits = defineEmits<{
+	(e: 'submit', values: CreateProjectFormControl): void;
+}>();
 
 const FORM_NAMES = {
 	NAME: 'name',
@@ -17,20 +27,7 @@ const FORM_NAMES = {
 const VALID_IMAGE_TYPES = ['image/png', 'image/jpg', 'image/jpeg', 'image/webp'];
 const MAX_NUM_IMAGES = 12;
 
-type FormControlField<T> = {
-	value: T;
-	error: string | null;
-};
-
-interface CreateProjectForm {
-	name: FormControlField<string>;
-	description: FormControlField<string>;
-	year: FormControlField<number>;
-	mainImage: FormControlField<File | null>;
-	images: FormControlField<File[]>;
-}
-
-const formValues = reactive<CreateProjectForm>({
+const formValues = reactive<CreateProjectFormControl>({
 	name: {
 		value: '',
 		error: null,
@@ -52,7 +49,6 @@ const formValues = reactive<CreateProjectForm>({
 		error: null,
 	},
 });
-
 const imagePreviews = reactive({
 	mainImagePreview: '',
 	imagesPreviews: [] as string[] | null,
@@ -120,7 +116,8 @@ const onRemoveImageClick = (index: number) => {
 
 const onSubmit = (e: Event) => {
 	e.preventDefault();
-	console.log(formValues);
+
+	emits('submit', formValues);
 };
 </script>
 
@@ -165,11 +162,25 @@ const onSubmit = (e: Event) => {
 				@remove="onRemoveImageClick" />
 		</div>
 		<slot name="actions" />
+		<div
+			v-if="requiredMessage"
+			class="required-message">
+			<div class="required-container">
+				<span class="required-icon">
+					<IconExclamationMark
+						stroke-width="3"
+						height="20" />
+				</span>
+				<p>{{ requiredMessage }}</p>
+				<span class="triangle-up"></span>
+			</div>
+		</div>
 	</form>
 </template>
 
 <style scoped>
 form {
+	position: relative;
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
@@ -182,5 +193,53 @@ form {
 	align-items: start;
 	gap: 0.5rem;
 	width: 100%;
+}
+
+.required-message {
+	position: absolute;
+	bottom: 8rem;
+	left: 2rem;
+	width: fit-content;
+	padding: 0.5rem;
+	background-color: white;
+	border-radius: 0.2rem;
+	opacity: 0;
+	visibility: hidden;
+
+	animation: fadeup-down 3s linear forwards;
+}
+
+.required-container {
+	position: relative;
+	width: 100%;
+	height: 100%;
+
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+}
+
+.required-container p {
+	font-weight: 500;
+	color: black;
+}
+
+.required-icon {
+	padding: 1;
+	display: grid;
+	place-items: center;
+	background-color: #ff8c00;
+	color: white;
+}
+
+.triangle-up {
+	position: absolute;
+	top: -1rem;
+
+	width: 0;
+	height: 0;
+	border-left: 10px solid transparent; /* Left side of the triangle */
+	border-right: 10px solid transparent; /* Right side of the triangle */
+	border-bottom: 10px solid rgb(255, 255, 255); /* Base of the triangle (and the color) */
 }
 </style>

@@ -1,141 +1,84 @@
 <script setup lang="ts">
-import { currentYear } from '../../../utils/currentYear';
 import ActionButton from '../ActionButton.vue';
 import { BUTTON_KINDS } from '../ActionButton.types';
-import { reactive } from 'vue';
-import InputForm from '../InputForm.vue';
-import TextareaForm from '../TextareaForm.vue';
-import MainImageForm from './MainImageForm.vue';
-import ImagesListForm from './ImagesListForm.vue';
 import CreateProjectForm from './CreateProjectForm.vue';
+import type { CreateProjectFormControl } from './CreateProjectForm.types';
+import { ref } from 'vue';
+import { createProject } from '../../../api/endpoints/create-project';
+import { EMITTER_NAMES, MODAL_ACTIONS, emitter } from '../../../utils/emitter';
+import { IconRotateClockwise } from '@tabler/icons-vue';
+import type { CreateProjectBody } from '../../../api/endpoints/create-project';
 
-const FORM_NAMES = {
-	NAME: 'name',
-	DESCRIPTION: 'description',
-	YEAR: 'year',
-	MAINIMAGE: 'mainImage',
-	IMAGES: 'images',
-};
+const emits = defineEmits<{
+	(e: 'close-modal'): void;
+}>();
 
-const VALID_IMAGE_TYPES = ['image/png', 'image/jpg', 'image/jpeg', 'image/webp'];
-const MAX_NUM_IMAGES = 12;
+const modalLoading = ref(false);
+const formRequiredMessage = ref<string>();
 
-type FormControlField<T> = {
-	value: T;
-	error: string | null;
-};
+const onSubmit = async (values: CreateProjectFormControl) => {
+	if (values.mainImage.value && values.images.value.length > 0) {
+		const payload = {
+			title: values.name.value,
+			description: values.description.value,
+			year: values.year.value,
+			mainImage: values.mainImage.value,
+			images: values.images.value,
+			isTop: false,
+		} satisfies CreateProjectBody;
 
-interface CreateProjectForm {
-	name: FormControlField<string>;
-	description: FormControlField<string>;
-	year: FormControlField<number>;
-	mainImage: FormControlField<File | null>;
-	images: FormControlField<File[]>;
-}
+		modalLoading.value = true;
+		await createProject(payload);
 
-const formValues = reactive<CreateProjectForm>({
-	name: {
-		value: '',
-		error: null,
-	},
-	description: {
-		value: '',
-		error: null,
-	},
-	year: {
-		value: currentYear(),
-		error: null,
-	},
-	mainImage: {
-		value: null,
-		error: null,
-	},
-	images: {
-		value: [],
-		error: null,
-	},
-});
+		emits('close-modal');
+		emitter.emit(EMITTER_NAMES.modal, { action: MODAL_ACTIONS.CLOSE });
+		modalLoading.value = false;
+	} else {
+		formRequiredMessage.value = 'El projecte deu tindre 2 imatges mínim';
 
-const imagePreviews = reactive({
-	mainImagePreview: '',
-	imagesPreviews: [] as string[] | null,
-});
-
-const onInputChange = (e: Event) => {
-	const target = e.target;
-	if (target instanceof HTMLInputElement && target.name in formValues) {
-		switch (target.name) {
-			case FORM_NAMES.NAME:
-				formValues.name.value = target.value;
-				break;
-			case FORM_NAMES.DESCRIPTION:
-				formValues.description.value = target.value;
-				break;
-			case FORM_NAMES.YEAR:
-				formValues.year.value = Number(target.value);
-				break;
-			case FORM_NAMES.MAINIMAGE:
-				const file = target.files && target.files[0];
-
-				if (file && VALID_IMAGE_TYPES.includes(file.type)) {
-					formValues.mainImage.value = file;
-					imagePreviews.mainImagePreview = URL.createObjectURL(file);
-				}
-				break;
-			case FORM_NAMES.IMAGES:
-				const files = target.files;
-				if (files) {
-					if (Array.from(files).length + formValues.images.value.length > MAX_NUM_IMAGES) {
-						formValues.images.error = `Màxim ${MAX_NUM_IMAGES} imatges per projecte`;
-						return;
-					}
-
-					Array.from(files).forEach(file => {
-						if (VALID_IMAGE_TYPES.includes(file.type)) {
-							formValues.images.value = formValues.images.value.concat(file);
-						}
-					});
-
-					imagePreviews.imagesPreviews =
-						formValues.images.value?.map(file => URL.createObjectURL(file)) || null;
-				}
-				break;
-			default:
-				break;
-		}
+		setTimeout(() => {
+			formRequiredMessage.value = undefined;
+		}, 3000);
 	}
-};
-
-const onSubmit = (e: Event) => {
-	e.preventDefault();
-	console.log(formValues);
 };
 </script>
 
 <template>
-	<div class="create-project-modal">
-		<h2>Crear un nou projecte</h2>
-		<CreateProjectForm>
-			<template #actions>
-				<div class="action-buttons">
-					<ActionButton
-						text="Cancelar"
-						:kind="BUTTON_KINDS.SECONDARY" />
-					<ActionButton
-						text="Crear projecte"
-						:type="'submit'"
-						:kind="BUTTON_KINDS.PRIMARY" />
-				</div>
-			</template>
-		</CreateProjectForm>
+	<div
+		class="create-project-modal"
+		:class="{ default: !modalLoading, loading: modalLoading }">
+		<template v-if="!modalLoading">
+			<h2>Crear un nou projecte</h2>
+			<CreateProjectForm
+				:required-message="formRequiredMessage"
+				@submit="onSubmit">
+				<template #actions>
+					<div class="action-buttons">
+						<ActionButton
+							text="Cancelar"
+							:kind="BUTTON_KINDS.SECONDARY"
+							@on-action-click="emits('close-modal')" />
+						<ActionButton
+							text="Crear projecte"
+							:type="'submit'"
+							:kind="BUTTON_KINDS.PRIMARY" />
+					</div>
+				</template>
+			</CreateProjectForm>
+		</template>
+		<template v-if="modalLoading">
+			<h2>Creant projecte...</h2>
+			<IconRotateClockwise
+				width="40"
+				height="40"
+				stroke-width="1"
+				class="spinner" />
+		</template>
 	</div>
 </template>
 
 <style scoped>
 .create-project-modal {
-	width: 90vw;
-	max-width: 500px;
-
 	height: fit-content;
 
 	display: grid;
@@ -145,6 +88,16 @@ const onSubmit = (e: Event) => {
 	border-radius: var(--border-radius);
 
 	text-align: center;
+}
+
+.default {
+	width: 90vw;
+	max-width: 500px;
+}
+
+.loading {
+	width: 70vw;
+	max-width: 250px;
 }
 
 h2 {

@@ -26,6 +26,9 @@ emitter.on(EMITTER_NAMES.modal, payload => {
 			case MODAL_ACTIONS.CREATE:
 				modalComponent.value = payload.componentName;
 				break;
+			case MODAL_ACTIONS.CLOSE:
+				closeModal();
+				break;
 			default:
 				break;
 		}
@@ -92,7 +95,7 @@ onUnmounted(() => {
 	place-items: center;
 	z-index: 10;
 
-	background-color: var(----backdrop);
+	background-color: var(--backdrop);
 }
 
 .modal {

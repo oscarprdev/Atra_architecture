@@ -190,7 +190,6 @@ const { title } = Astro.props;
 	}
 
 	.spinner {
-		width: 1.3rem;
 		animation: rotation 1s linear infinite;
 	}
 
@@ -218,6 +217,32 @@ const { title } = Astro.props;
 		}
 		to {
 			opacity: 0;
+			transform: translateY(10%);
+		}
+	}
+
+	@keyframes fadeup-down {
+		0% {
+			opacity: 0;
+			visibility: visible;
+			transform: translateY(10%);
+		}
+
+		20% {
+			opacity: 1;
+			visibility: visible;
+			transform: translateY(0%);
+		}
+
+		80% {
+			opacity: 1;
+			visibility: visible;
+			transform: translateY(0%);
+		}
+
+		0% {
+			opacity: 0;
+			visibility: visible;
 			transform: translateY(10%);
 		}
 	}

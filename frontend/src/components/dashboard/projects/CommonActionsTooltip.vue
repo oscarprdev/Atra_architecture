@@ -85,7 +85,9 @@ onUnmounted(() => {
 					<template
 						#icon
 						v-if="isUpdatePending">
-						<IconRotateClockwise class="spinner" />
+						<IconRotateClockwise
+							width="20"
+							class="spinner" />
 					</template>
 				</ActionButton>
 				<ActionButton
