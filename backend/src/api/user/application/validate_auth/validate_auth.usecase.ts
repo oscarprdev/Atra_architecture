@@ -17,7 +17,7 @@ export class ValidateAuthUsecase implements ValidateAuth {
 				throw new Error(
 					JSON.stringify({
 						status: 500,
-						message: 'Error creating JWT',
+						message: 'Autoritzacio caducada',
 					})
 				);
 			}
@@ -26,12 +26,12 @@ export class ValidateAuthUsecase implements ValidateAuth {
 				token: input.token,
 			};
 		} catch (error) {
-			const { status, message } = extractErrorInfo(error);
+			const { status } = extractErrorInfo(error);
 
 			throw new Error(
 				JSON.stringify({
 					status: status || 500,
-					message: `${error instanceof Error ? message : 'Error authenticating user'}`,
+					message: `Autenticacio erronea`,
 				})
 			);
 		}

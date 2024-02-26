@@ -41,7 +41,9 @@ onMounted(async () => {
 	if (jwt) {
 		const response = await validateAuth(jwt);
 
-		jwt === response.data && window.location.replace(DASHBOARD_URL);
+		jwt === response.data ? window.location.replace(DASHBOARD_URL) : localStorage.removeItem(LOCALSTORAGE_ITEM);
+	} else {
+		localStorage.removeItem(LOCALSTORAGE_ITEM);
 	}
 });
 </script>

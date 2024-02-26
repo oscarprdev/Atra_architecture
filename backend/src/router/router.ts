@@ -12,6 +12,7 @@ import { describeUserHandler } from '../api/user/handlers/describe_user_handler'
 import { updatePasswordUserHandler } from '../api/user/handlers/update_password.handler';
 import { updateProjectHandler } from '../api/project/handlers/project_update_handler';
 import { validateAuthHandler } from '../api/user/handlers/validate_auth.handler';
+import { authMiddleware } from '../middlewares/auth';
 
 function buildRouter(env: Env): RouterType {
 	const router = Router();
@@ -19,15 +20,15 @@ function buildRouter(env: Env): RouterType {
 	// Project handlers
 	router.get('/project/list', corsMiddleware(listProjectsHandler));
 	router.get('/project/describe/:id', corsMiddleware(describeProjectHandler));
-	router.post('/project/create', corsMiddleware(createProjectHandler));
-	router.delete('/project/delete/:id', corsMiddleware(deleteProjectHandler));
-	router.put('/project/update', corsMiddleware(updateProjectHandler));
+	router.post('/project/create', corsMiddleware(authMiddleware(createProjectHandler)));
+	router.delete('/project/delete/:id', corsMiddleware(authMiddleware(deleteProjectHandler)));
+	router.put('/project/update', corsMiddleware(authMiddleware(updateProjectHandler)));
 
 	// User handlers
 	router.get('/user/describe', corsMiddleware(describeUserHandler));
-	router.post('/user/create', corsMiddleware(uploadUserHandler));
-	router.put('/user/update', corsMiddleware(updateUserHandler));
-	router.put('/user/update/password', corsMiddleware(updatePasswordUserHandler));
+	router.post('/user/create', corsMiddleware(authMiddleware(uploadUserHandler)));
+	router.put('/user/update', corsMiddleware(authMiddleware(updateUserHandler)));
+	router.put('/user/update/password', corsMiddleware(authMiddleware(updatePasswordUserHandler)));
 
 	// Auth handler
 	router.post('/auth/login', corsMiddleware(userLoginHandler));

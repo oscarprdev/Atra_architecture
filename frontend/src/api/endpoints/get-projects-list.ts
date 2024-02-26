@@ -1,6 +1,6 @@
 import type { Project } from '..';
 import { API_URL } from '../../constants';
-import { EMITTER_NAMES, emitter } from '../../utils/emitter';
+import { EMITTER_NAMES, EmittActions, emitter } from '../../utils/emitter';
 
 export const getProjectList = async (): Promise<Project[] | null> => {
 	try {
@@ -9,7 +9,10 @@ export const getProjectList = async (): Promise<Project[] | null> => {
 
 		return jsonResponse.data;
 	} catch (error) {
-		emitter.emit(EMITTER_NAMES.error, 'error.details');
+		emitter.emit(EMITTER_NAMES.error, {
+			action: EmittActions.ERROR,
+			message: error as string,
+		});
 
 		return null;
 	}

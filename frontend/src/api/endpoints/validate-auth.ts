@@ -1,5 +1,4 @@
 import { API_URL } from '../../constants';
-import { EMITTER_NAMES, EmittActions, emitter } from '../../utils/emitter';
 
 export const validateAuth = async (jwt: string) => {
 	try {
@@ -18,9 +17,6 @@ export const validateAuth = async (jwt: string) => {
 
 		return jsonResponse;
 	} catch (error) {
-		emitter.emit(EMITTER_NAMES.error, {
-			action: EmittActions.ERROR,
-			message: error as string,
-		});
+		localStorage.removeItem('jwt');
 	}
 };

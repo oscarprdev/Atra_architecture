@@ -35,10 +35,14 @@ const createFormData = (payload: Project) => {
 export const updateProject = async (project: Project) => {
 	try {
 		const formData = createFormData(project);
+		const jwt = localStorage.getItem('jwt');
 
 		const response = await fetch(`${API_URL}/project/update`, {
 			method: 'PUT',
 			body: formData,
+			headers: {
+				Authorization: `Bearer ${jwt}`,
+			},
 		});
 
 		const jsonResponse = await response.json();
