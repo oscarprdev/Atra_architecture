@@ -43,9 +43,12 @@ export const updateProject = async (project: Project) => {
 
 		const jsonResponse = await response.json();
 
+		if (jsonResponse.status !== 201) {
+			throw new Error(jsonResponse);
+		}
+
 		return jsonResponse.data;
 	} catch (error) {
-		console.log(error);
 		emitter.emit(EMITTER_NAMES.error, 'error.details');
 
 		return null;
