@@ -1,5 +1,4 @@
 import { Env } from '../../..';
-import { File } from '../../generated';
 
 export interface ImagesPorts {
 	uploadImage(input: UploadImagePorts.Input): Promise<UploadImagePorts.Output>;

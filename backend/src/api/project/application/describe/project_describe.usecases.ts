@@ -28,7 +28,11 @@ export class DefaultProjectDescribeUsecases implements ProjectDescribeUsecases {
 		try {
 			const response = await this.ports.describeProject({ projectId: id, nextRequest: this.nextRequest.bind(this), env });
 
-			return response.project;
+			return {
+				...response.project,
+				mainImage: response.project.mainImage,
+				images: response.project.images,
+			};
 		} catch (error) {
 			const { status, message } = extractErrorInfo(error);
 

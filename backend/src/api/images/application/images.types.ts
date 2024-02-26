@@ -1,5 +1,4 @@
 import { Env } from '../../..';
-import { File } from '../../generated';
 
 export namespace ImagesUsecasesTypes {
 	export type GetImageByKeyInput = {

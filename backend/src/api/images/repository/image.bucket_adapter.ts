@@ -6,7 +6,6 @@ import {
 	UploadImagePorts,
 } from '../application/images.ports';
 import { BucketInfra } from '../infra/bucket_infra';
-import { mapBucketImageToApp } from './mapper/mapBucketImagetoApp';
 
 export class ImageBucketAdapter implements ImagesPorts {
 	constructor(protected readonly bucket: BucketInfra) {}
@@ -14,9 +13,9 @@ export class ImageBucketAdapter implements ImagesPorts {
 	async getImagesByEntity({ entity, env }: GetImagesByEntityPorts.Input): Promise<GetImagesByEntityPorts.Output> {
 		const bucketObjectList = await this.bucket.getItemsByEntity(entity, env);
 
-		if (bucketObjectList) {
+		if (bucketObjectList.every((item) => item instanceof File)) {
 			return {
-				images: bucketObjectList.map((obj) => mapBucketImageToApp(obj)),
+				images: bucketObjectList.map((obj) => obj as File),
 			};
 		} else {
 			return {
@@ -28,9 +27,13 @@ export class ImageBucketAdapter implements ImagesPorts {
 	async getImageByKey({ key, env }: GetImageByKeyPorts.Input): Promise<GetImageByKeyPorts.Output> {
 		const bucketObject = await this.bucket.getItemByKey(key, env);
 
-		return {
-			image: mapBucketImageToApp(bucketObject),
-		};
+		if (bucketObject instanceof File) {
+			return {
+				image: bucketObject as File,
+			};
+		}
+
+		throw new Error('No valid File');
 	}
 
 	async uploadImage({ file, key, type, env }: UploadImagePorts.Input): Promise<UploadImagePorts.Output> {
@@ -39,14 +42,16 @@ export class ImageBucketAdapter implements ImagesPorts {
 
 		const imagedb = await this.bucket.uploadImage(uint8Array, key, type, env);
 
-		return {
-			image: mapBucketImageToApp(imagedb),
-		};
+		if (imagedb instanceof File) {
+			return {
+				image: imagedb as File,
+			};
+		}
+
+		throw new Error('No valid File');
 	}
 
 	async deleteImageByKey({ key, env }: DeleteImageByKeyPorts.Input): Promise<void> {
-		const response = await this.bucket.deleteItemByKey(key, env);
-
-		console.log(response);
+		await this.bucket.deleteItemByKey(key, env);
 	}
 }

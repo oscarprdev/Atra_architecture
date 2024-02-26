@@ -12,10 +12,6 @@ export type UpdateProjectBody = {
      */
     title: string;
     /**
-     * The project's old title.
-     */
-    oldTitle: string;
-    /**
      * The project's description.
      */
     description: string;

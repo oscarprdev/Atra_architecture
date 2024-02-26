@@ -36,8 +36,8 @@ export class DefaultProjectCreateUsecases extends ProjectUsecases implements Pro
 			await this.checkProjectWithSameTitle(env, projectBody.title);
 
 			const [{ image }, { images }, projectResponse] = await Promise.all([
-				this.ports.uploadImage({ file: projectBody.mainImage, project: projectBody.title, env }),
-				this.ports.uploadImages({ files: projectBody.images, project: projectBody.title, env }),
+				this.ports.uploadImage({ file: projectBody.mainImage as File, project: projectBody.title, env }),
+				this.ports.uploadImages({ files: projectBody.images as File[], project: projectBody.title, env }),
 				this.ports.insertProject({
 					projectBody: {
 						projectId: crypto.randomUUID().toString(),
@@ -50,17 +50,20 @@ export class DefaultProjectCreateUsecases extends ProjectUsecases implements Pro
 				}),
 			]);
 
+			const mainImageKey = `${projectResponse.project.title.replaceAll(' ', '_')}/${image.name}`;
+			const imagesKeys = images.map((img) => `${projectResponse.project.title.replaceAll(' ', '_')}/${img.name}`);
+
 			await this.insertImages({
-				mainImageKey: image.Key,
-				imagesKeys: images.map((img) => img.Key),
+				mainImageKey,
+				imagesKeys,
 				projectId: projectResponse.project.id,
 				env,
 			});
 
 			return {
 				...projectResponse.project,
-				mainImage: image,
-				images,
+				mainImage: mainImageKey,
+				images: imagesKeys,
 			};
 		} catch (error) {
 			const { status, message } = extractErrorInfo(error);

@@ -1,5 +1,5 @@
 import { Env } from '../../../..';
-import { File, Project } from '../../../generated';
+import { Project } from '../../../generated';
 
 export interface ProjectDescribePorts {
 	describeProject(input: DescribeProjectPorts.Input): Promise<DescribeProjectPorts.Output>;

@@ -1,11 +1,10 @@
-import { _Object } from '@aws-sdk/client-s3';
 import { Env } from '../../..';
 import { Bucket } from './s3_bucket';
 
 export interface BucketInfra {
-	getItemByKey(key: string, env: Env): Promise<_Object | undefined>;
-	getItemsByEntity(entity: string, env: Env): Promise<_Object[] | undefined>;
-	uploadImage(uint8Array: Uint8Array, key: string, type: string, env: Env): Promise<_Object | undefined>;
+	getItemByKey(key: string, env: Env): Promise<File | undefined>;
+	getItemsByEntity(entity: string, env: Env): Promise<(File | undefined)[]>;
+	uploadImage(uint8Array: Uint8Array, key: string, type: string, env: Env): Promise<File | undefined>;
 	deleteItemByKey(key: string, env: Env): Promise<void>;
 }
 
@@ -16,7 +15,7 @@ export class DefaultBucketInfra implements BucketInfra {
 		return new Bucket(env.BUCKET, env.S3_API_URL, env.S3_ACCESS_KEY_ID, env.S3_SECRET_ACCESS_KEY);
 	}
 
-	async getItemByKey(key: string, env: Env): Promise<_Object | undefined> {
+	async getItemByKey(key: string, env: Env): Promise<File | undefined> {
 		try {
 			const bucket = this.useBucket(env);
 
@@ -31,7 +30,7 @@ export class DefaultBucketInfra implements BucketInfra {
 		}
 	}
 
-	async getItemsByEntity(entity: string, env: Env): Promise<_Object[] | undefined> {
+	async getItemsByEntity(entity: string, env: Env): Promise<(File | undefined)[]> {
 		try {
 			const bucket = this.useBucket(env);
 
@@ -46,7 +45,7 @@ export class DefaultBucketInfra implements BucketInfra {
 		}
 	}
 
-	async uploadImage(uint8Array: Uint8Array, key: string, type: string, env: Env): Promise<_Object | undefined> {
+	async uploadImage(uint8Array: Uint8Array, key: string, type: string, env: Env): Promise<File | undefined> {
 		try {
 			const bucket = this.useBucket(env);
 

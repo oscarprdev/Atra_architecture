@@ -27,7 +27,6 @@ const createFormData = (payload: Project) => {
 	formData.append('year', payload.year.toString());
 	formData.append('isTop', payload.isTop.toString());
 	formData.append('id', payload.id);
-	formData.append('oldTitle', payload.title);
 
 	return formData;
 };

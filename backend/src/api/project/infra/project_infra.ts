@@ -263,13 +263,8 @@ export class DefaultProjectInfra implements ProjectInfra {
 			});
 
 			await client.execute({
-				sql: `DELETE FROM images
-				WHERE image_id IN (
-					SELECT image_id
-					FROM project_image
-					WHERE project_id = ?
-				);`,
-				args: [projectId],
+				sql: `DELETE FROM images WHERE key LIKE ?;`,
+				args: [`%${dbProject.project.title}%`],
 			});
 
 			await client.execute({

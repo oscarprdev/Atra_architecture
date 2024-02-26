@@ -2,6 +2,7 @@ import { ImagesUsecases } from '../../../images/application/images.usecases';
 import {
 	InsertImageOnDbPorts,
 	ListProjectsTitles,
+	ProvideCurrentProject,
 	RemoveImagesFromBucketPorts,
 	RemoveImagesFromDbPorts,
 	SelectImagesByProjectFromBucketPorts,
@@ -22,7 +23,7 @@ export class UpdateProjectHttpAdapter implements UpdateProjectPorts {
 	}
 
 	async removeImagesFromBucket({ images, env }: RemoveImagesFromBucketPorts.Input): Promise<void> {
-		await Promise.all(images.map((img) => this.imageUsecases.deleteImageByKey({ key: img.Key, env })));
+		await Promise.all(images.map((key) => this.imageUsecases.deleteImageByKey({ key, env })));
 	}
 
 	async uploadImagesOnBucket({ images, project, env }: UploadImagesOnBucketPorts.Input): Promise<UploadImagesOnBucketPorts.Output> {
@@ -52,11 +53,19 @@ export class UpdateProjectHttpAdapter implements UpdateProjectPorts {
 		};
 	}
 
-	async listProjectsTitles({ env , id}: ListProjectsTitles.Input): Promise<ListProjectsTitles.Output> {
+	async listProjectsTitles({ env, id }: ListProjectsTitles.Input): Promise<ListProjectsTitles.Output> {
 		const projects = await this.client.listProject({ offset: 0, limit: 100, env });
 
 		return {
-			titles: projects.projects.filter(pr => pr.project_id !== id).map((pr) => pr.title),
+			titles: projects.projects.filter((pr) => pr.project_id !== id).map((pr) => pr.title),
+		};
+	}
+
+	async provideCurrentProject({ id, env }: ProvideCurrentProject.Input): Promise<ProvideCurrentProject.Output> {
+		const { project } = await this.client.describeProject({ projectId: id, env });
+
+		return {
+			project: mapProjectDbToApp(project),
 		};
 	}
 }

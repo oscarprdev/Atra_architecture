@@ -28,8 +28,8 @@ export class DefaultProjectListUsecases implements ProjectListUsecases {
 
 					return {
 						...project,
-						mainImage: image,
-						images: images.map((img) => img.image),
+						mainImage: image.name,
+						images: images.map((img) => img.image.name),
 					};
 				})
 			);

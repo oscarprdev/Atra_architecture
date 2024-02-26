@@ -27,35 +27,6 @@ export type CreateUserBody = {
      * Phone number.
      */
     phone: number;
-    image: {
-        /**
-         * Image key
-         */
-        Key: string;
-        /**
-         * The timestamp when the iamge was modified.
-         */
-        LastModified: string;
-        /**
-         * Image etag
-         */
-        ETag: string;
-        /**
-         * Image size
-         */
-        Size: number;
-        /**
-         * Image storage class
-         */
-        StorageClass: string;
-        /**
-         * Image type
-         */
-        Type?: string;
-        /**
-         * Image name
-         */
-        name?: string;
-    };
+    image: Blob;
 };
 

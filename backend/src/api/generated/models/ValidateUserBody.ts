@@ -2,4 +2,10 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type File = Blob;
+export type ValidateUserBody = {
+    /**
+     * Auth jwt
+     */
+    jwt: string;
+};
+

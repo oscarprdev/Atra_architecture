@@ -26,7 +26,7 @@ function buildRouter(env: Env): RouterType {
 
 	// User handlers
 	router.get('/user/describe', corsMiddleware(describeUserHandler));
-	router.post('/user/create', corsMiddleware(authMiddleware(uploadUserHandler)));
+	router.post('/user/create', corsMiddleware(uploadUserHandler));
 	router.put('/user/update', corsMiddleware(authMiddleware(updateUserHandler)));
 	router.put('/user/update/password', corsMiddleware(authMiddleware(updatePasswordUserHandler)));
 

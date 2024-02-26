@@ -1,5 +1,4 @@
 import { Env } from '../../../..';
-import { File } from '../../../generated';
 import { ProjectResponse } from '../../shared/project_types';
 
 export interface ProjectListPorts {

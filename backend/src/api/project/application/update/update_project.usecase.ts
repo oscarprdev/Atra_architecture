@@ -1,4 +1,5 @@
 import { Env } from '../../../..';
+import { UpdateProjectBody } from '../../../generated';
 import extractErrorInfo from '../../../shared/utils/extract_from_error_info';
 import { UpdateProjectPorts } from './update_project.ports';
 import { UpdateProjectUsecasesTypes } from './update_project.types';
@@ -14,8 +15,8 @@ export class DefaultUpdateProjectUsecase implements UpdateProjectUsecase {
 		const { images } = await this.ports.selectImagesByProjectFromBucket({ project: oldTitle, env });
 
 		await Promise.all([
-			this.ports.removeImagesFromBucket({ images: images, env }),
-			this.ports.removeImagesFromDb({ imageKeys: images.map((img) => img.Key), env }),
+			this.ports.removeImagesFromBucket({ images: images.map((img) => `${oldTitle}/${img.name}`), env }),
+			this.ports.removeImagesFromDb({ imageKeys: images.map((img) => img.name), env }),
 		]);
 	}
 
@@ -36,30 +37,35 @@ export class DefaultUpdateProjectUsecase implements UpdateProjectUsecase {
 		try {
 			await this.checkProjectWithSameTitle(env, updateProjectBody.title, updateProjectBody.id);
 
-			if (updateProjectBody.title !== updateProjectBody.oldTitle) {
-				await this.removeOldProjectImages(updateProjectBody.oldTitle, env);
-			}
+			const { project } = await this.ports.provideCurrentProject({ env, id: updateProjectBody.id });
 
 			const titleFormatted = updateProjectBody.title.replaceAll(' ', '_');
 			const { images } = await this.ports.selectImagesByProjectFromBucket({ project: titleFormatted, env });
 
 			const allImagesFromInput = updateProjectBody.images.concat(updateProjectBody.mainImage);
+			const inputImgString = allImagesFromInput.filter((input) => !(input instanceof File)) as unknown as string[];
 
-			const imagesToRemove = images.filter((img) => {
-				const inputImgKeys = allImagesFromInput
-					.filter((inputImg) => !Boolean(inputImg instanceof File))
-					.map((inputImg) => JSON.parse(inputImg.toString()).Key);
+			if (updateProjectBody.title !== project.title) {
+				await this.removeOldProjectImages(project.title, env);
+			} else {
+				const imagesToRemove = images.filter((img) => !inputImgString.includes(`${project.title}/${img.name}`));
 
-				return !inputImgKeys.includes(img.Key);
-			});
-			const imagesToUpload = allImagesFromInput.filter((img) => img instanceof File);
+				console.log('images to remove', imagesToRemove);
 
-			if (imagesToRemove.length > 0) {
-				await Promise.all([
-					this.ports.removeImagesFromBucket({ images: imagesToRemove, env }),
-					this.ports.removeImagesFromDb({ imageKeys: imagesToRemove.map((img) => img.Key), env }),
-				]);
+				const imagesToRemoveKeys = imagesToRemove.map((img) => `${titleFormatted}/${img.name}`);
+
+				if (imagesToRemove.length > 0) {
+					await Promise.all([
+						this.ports.removeImagesFromBucket({ images: imagesToRemoveKeys, env }),
+						this.ports.removeImagesFromDb({ imageKeys: imagesToRemoveKeys, env }),
+					]);
+				}
 			}
+
+			const imagesAlreadyStored = images.filter((img) => inputImgString.includes(`${titleFormatted}/${img.name}`));
+			const imagesToUpload = [...allImagesFromInput.filter((img) => img instanceof File), ...imagesAlreadyStored];
+
+			console.log('images to upload', imagesToUpload);
 
 			const [projectResponse, imagesUploaded] = await Promise.all([
 				this.ports.updateProject({
@@ -72,30 +78,30 @@ export class DefaultUpdateProjectUsecase implements UpdateProjectUsecase {
 					},
 					env,
 				}),
-				this.ports.uploadImagesOnBucket({ images: imagesToUpload, project: updateProjectBody.title, env }),
+				this.ports.uploadImagesOnBucket({ images: imagesToUpload as File[], project: updateProjectBody.title, env }),
 			]);
 
 			await Promise.all(
 				imagesUploaded.images.map((img) =>
 					this.ports.insertImageOnDb({
-						imageKey: img.Key,
+						imageKey: img.name,
 						projectId: projectResponse.project.id,
-						isMain: Boolean(updateProjectBody.mainImage.name && img.Key.includes(updateProjectBody.mainImage.name)),
+						isMain: Boolean((updateProjectBody.mainImage as File).name && img.name.includes((updateProjectBody.mainImage as File).name)),
 						env,
 					})
 				)
 			);
 
-			const mainImage = imagesUploaded.images.find((img) =>
-				img.Key.match(updateProjectBody.mainImage.name || updateProjectBody.mainImage.Key)
-			);
+			const mainImage = imagesUploaded.images.find((img) => img.name.match((updateProjectBody.mainImage as File).name));
 
-			const restOfImages = mainImage
-				? imagesUploaded.images.filter((img) => !img.Key.match(mainImage.name || mainImage.Key))
-				: imagesUploaded.images;
+			const restOfImages = mainImage ? imagesUploaded.images.filter((img) => !img.name.match(mainImage.name)) : imagesUploaded.images;
 
 			return {
-				project: { ...projectResponse.project, images: restOfImages, mainImage: mainImage || updateProjectBody.mainImage },
+				project: {
+					...projectResponse.project,
+					images: restOfImages.map((img) => `${titleFormatted}/${img.name}`),
+					mainImage: `${titleFormatted}/${mainImage?.name}`,
+				},
 			};
 		} catch (error) {
 			const { status, message } = extractErrorInfo(error);

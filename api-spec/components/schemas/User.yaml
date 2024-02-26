@@ -41,7 +41,10 @@ properties:
     nullable: false
     example: 'C/ Street Name, 123, City'
   image:
-    $ref: 'components/_index.yaml#/schemas/File'
+    type: string
+    description: 'The image url.'
+    nullable: false
+    example: 'user/1.webp-5bab0fbc-93ac-4bda-be69-af67fc9c2a54'
   createdAt:
     type: string
     format: date-time
