@@ -26,10 +26,12 @@ export class DefaultProjectListUsecases implements ProjectListUsecases {
 					const { image } = await this.ports.getImageByKey({ key: project.mainImage, env });
 					const images = await Promise.all(project.images.split(',').map((image) => this.ports.getImageByKey({ key: image, env })));
 
+					const title = project.title.replaceAll(' ', '_');
+
 					return {
 						...project,
-						mainImage: image.name,
-						images: images.map((img) => img.image.name),
+						mainImage: `${title}/${image.name}`,
+						images: images.map((img) => `${title}/${img.image.name}`),
 					};
 				})
 			);
