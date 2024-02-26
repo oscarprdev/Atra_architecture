@@ -2,14 +2,10 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type LoginUserBody = {
+export type ValidateUserBody = {
     /**
-     * Password.
+     * Auth jwt
      */
-    password: string;
-    /**
-     * Email.
-     */
-    email: string;
+    jwt: string;
 };
 

@@ -18,6 +18,7 @@ export class DefaultLoginUserUsecases extends AuthUsecases implements LoginUserU
 			const { name, passwordDb, emailDb } = await this.ports.selectUserAuthInfo({ env });
 
 			const isPasswordValid = await this.verifyPassword(password, env.SALT, passwordDb);
+
 			const isEmailValid = emailDb === email;
 
 			if (!isPasswordValid || !isEmailValid) {

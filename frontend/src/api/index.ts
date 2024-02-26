@@ -16,3 +16,4 @@ export type { UpdateProjectBody } from './models/UpdateProjectBody';
 export type { UpdateUserBody } from './models/UpdateUserBody';
 export type { UpdateUserPasswordBody } from './models/UpdateUserPasswordBody';
 export type { User } from './models/User';
+export type { ValidateUserBody } from './models/ValidateUserBody';

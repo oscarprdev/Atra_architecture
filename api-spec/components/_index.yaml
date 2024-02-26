@@ -50,6 +50,9 @@ responses:
   LogoutResponse:
     $ref: 'components/responses/LogoutResponse.yaml'
 
+  ValidateUserResponse:
+    $ref: 'components/responses/ValidateUserResponse.yaml'
+
 schemas:
   # Common
   Error:
@@ -73,6 +76,9 @@ schemas:
 
   LoginUserBody:
     $ref: 'components/schemas/LoginUserBody.yaml'
+
+  ValidateUserBody:
+    $ref: 'components/schemas/ValidateUserBody.yaml'
 
   # Projects
   Project:

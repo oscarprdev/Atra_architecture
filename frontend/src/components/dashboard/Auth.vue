@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue';
-import { API_URL } from '../../constants';
+import { loginUser } from '../../api/endpoints/login-user';
+import { validateAuth } from '../../api/endpoints/validate-auth';
+import { IconRotateClockwise } from '@tabler/icons-vue';
 
 interface FormFields {
 	email: string;
@@ -14,7 +16,8 @@ const formFields = reactive({
 	email: '',
 	password: '',
 });
-const erroMessage = ref(null);
+
+const isLoading = ref(false);
 
 const onInputChange = (e: Event) => {
 	const target = e.target;
@@ -25,26 +28,20 @@ const onInputChange = (e: Event) => {
 const onSubmit = async (e: Event) => {
 	e.preventDefault();
 
-	const response = await fetch(`${API_URL}/user/login`, {
-		method: 'POST',
-		body: JSON.stringify(formFields),
-	});
+	isLoading.value = true;
+	const response = await loginUser(formFields);
 
-	const jsonResponse = await response.json();
-
-	if (jsonResponse.status !== 201) {
-		erroMessage.value = jsonResponse;
-	} else {
-		localStorage.setItem(LOCALSTORAGE_ITEM, jsonResponse.data);
-		window.location.replace(DASHBOARD_URL);
-	}
+	localStorage.setItem(LOCALSTORAGE_ITEM, response.data);
+	window.location.replace(DASHBOARD_URL);
 };
 
-onMounted(() => {
+onMounted(async () => {
 	const jwt = localStorage.getItem(LOCALSTORAGE_ITEM);
 
 	if (jwt) {
-		window.location.replace(DASHBOARD_URL);
+		const response = await validateAuth(jwt);
+
+		jwt === response.data && window.location.replace(DASHBOARD_URL);
 	}
 });
 </script>
@@ -73,12 +70,13 @@ onMounted(() => {
 					@change="onInputChange"
 					placeholder="Contrasenya" />
 			</label>
-			<button type="submit">Login</button>
-			<p
-				class="error-message"
-				v-if="erroMessage">
-				{{ erroMessage }}
-			</p>
+			<button type="submit">
+				<p v-if="!isLoading">Login</p>
+				<IconRotateClockwise
+					v-else
+					width="20"
+					class="spinner" />
+			</button>
 		</form>
 	</section>
 </template>
@@ -100,6 +98,7 @@ form {
 	gap: 0.8rem;
 	width: 100%;
 	max-width: 350px;
+	margin-top: -4rem;
 }
 
 label {
@@ -129,6 +128,11 @@ button {
 	cursor: pointer;
 	color: azure;
 	transition: all 0.2s ease;
+}
+
+button p {
+	padding: 0;
+	margin: 0;
 }
 
 button:hover {

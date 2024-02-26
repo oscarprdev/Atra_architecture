@@ -3,12 +3,13 @@
 /* tslint:disable */
 /* eslint-disable */
 export type UpdateUserPasswordBody = {
-	/**
-	 * Old Password.
-	 */
-	oldPassword: string;
-	/**
-	 * New Password.
-	 */
-	newPassword: string;
+    /**
+     * Old Password.
+     */
+    oldPassword: string;
+    /**
+     * New Password.
+     */
+    newPassword: string;
 };
+
