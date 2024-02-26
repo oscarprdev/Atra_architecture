@@ -5,7 +5,7 @@ import CreateProjectForm from './CreateProjectForm.vue';
 import type { ProjectFormState } from './CreateProjectForm.types';
 import { onUnmounted, ref } from 'vue';
 import { createProject } from '../../../api/endpoints/create-project';
-import { EMITTER_NAMES, MODAL_ACTIONS, emitter } from '../../../utils/emitter';
+import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../../utils/emitter';
 import { IconRotateClockwise } from '@tabler/icons-vue';
 import type { CreateProjectBody } from '../../../api/endpoints/create-project';
 
@@ -31,7 +31,7 @@ const onSubmit = async (values: ProjectFormState) => {
 		await createProject(payload);
 
 		emits('close-modal');
-		emitter.emit(EMITTER_NAMES.modal, { action: MODAL_ACTIONS.CLOSE });
+		emitter.emit(EMITTER_NAMES.modal, { action: EMITT_ACTIONS.CLOSE });
 	} else {
 		formRequiredMessage.value = 'El projecte deu tindre 2 imatges mínim';
 

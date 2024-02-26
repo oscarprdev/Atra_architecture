@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { IconX } from '@tabler/icons-vue';
 import { defineAsyncComponent, ref, onUnmounted, watch } from 'vue';
-import { EMITTER_NAMES, MODAL_ACTIONS, emitter } from '../../../utils/emitter';
+import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../../utils/emitter';
 import type { Project } from '../../../api';
 
 const isOpened = ref(false);
@@ -21,18 +21,18 @@ emitter.on(EMITTER_NAMES.modal, payload => {
 
 	if (typeof payload === 'object') {
 		switch (payload.action) {
-			case MODAL_ACTIONS.REMOVE:
+			case EMITT_ACTIONS.REMOVE:
 				modalComponent.value = payload.componentName;
 				projects.value = payload.projects;
 				break;
-			case MODAL_ACTIONS.CREATE:
+			case EMITT_ACTIONS.CREATE:
 				modalComponent.value = payload.componentName;
 				break;
-			case MODAL_ACTIONS.EDIT:
+			case EMITT_ACTIONS.EDIT:
 				modalComponent.value = payload.componentName;
 				project.value = payload.project;
 				break;
-			case MODAL_ACTIONS.CLOSE:
+			case EMITT_ACTIONS.CLOSE:
 				closeModal();
 				break;
 			default:

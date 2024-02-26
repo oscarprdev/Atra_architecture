@@ -6,7 +6,7 @@ import { IMAGE_URL } from '../../../constants';
 import InputCheckbox from './InputCheckbox.vue';
 import Dropdown from '../Dropdown.vue';
 import type { Option } from '../Dropdown.types';
-import { EMITTER_NAMES, MODAL_ACTIONS, emitter } from '../../../utils/emitter';
+import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../../utils/emitter';
 
 const props = defineProps<{
 	project: Project;
@@ -24,7 +24,7 @@ const actionDropdownOptions: Option[] = [
 			emitter.emit(EMITTER_NAMES.modal, {
 				componentName: 'EditProjectModal',
 				project: props.project,
-				action: MODAL_ACTIONS.EDIT,
+				action: EMITT_ACTIONS.EDIT,
 			}),
 	},
 	{
@@ -33,7 +33,7 @@ const actionDropdownOptions: Option[] = [
 			emitter.emit(EMITTER_NAMES.modal, {
 				componentName: 'RemoveProjectModal',
 				projects: [props.project],
-				action: MODAL_ACTIONS.REMOVE,
+				action: EMITT_ACTIONS.REMOVE,
 			}),
 	},
 ];

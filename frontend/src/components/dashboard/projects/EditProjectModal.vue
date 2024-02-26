@@ -3,7 +3,7 @@ import ActionButton from '../ActionButton.vue';
 import { BUTTON_KINDS } from '../ActionButton.types';
 import type { ProjectFormState } from './CreateProjectForm.types';
 import { onUnmounted, ref } from 'vue';
-import { EMITTER_NAMES, MODAL_ACTIONS, emitter } from '../../../utils/emitter';
+import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../../utils/emitter';
 import { IconRotateClockwise } from '@tabler/icons-vue';
 import type { Project, File as ApiFile } from '../../../api';
 import { strCapitalized } from '../../../utils/strCapitalized';
@@ -37,7 +37,7 @@ const onSubmit = async (values: ProjectFormState) => {
 		await updateProject(payload);
 
 		emits('close-modal');
-		emitter.emit(EMITTER_NAMES.modal, { action: MODAL_ACTIONS.CLOSE });
+		emitter.emit(EMITTER_NAMES.modal, { action: EMITT_ACTIONS.CLOSE });
 	} else {
 		formRequiredMessage.value = 'El projecte deu tindre 2 imatges mínim';
 

@@ -2,7 +2,7 @@
 import { onMounted, ref } from 'vue';
 import type { Project } from '../../../api';
 import InputCheckbox from './InputCheckbox.vue';
-import { EMITTER_NAMES, MODAL_ACTIONS, emitter } from '../../../utils/emitter';
+import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../../utils/emitter';
 import { getProjectList } from '../../../api/endpoints/get-projects-list';
 import ProjectRow from './ProjectRow.vue';
 import ProjectsSkeleton from './ProjectsSkeleton.vue';
@@ -74,7 +74,7 @@ emitter.on(EMITTER_NAMES.searchProject, async searchValue =>
 );
 
 emitter.on(EMITTER_NAMES.modal, async payload => {
-	if (typeof payload === 'object' && payload.action === MODAL_ACTIONS.CLOSE) {
+	if (typeof payload === 'object' && payload.action === EMITT_ACTIONS.CLOSE) {
 		await mountProjectList();
 	}
 });

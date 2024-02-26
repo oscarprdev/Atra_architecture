@@ -1,46 +1,53 @@
 import mitt from 'mitt';
 import type { Project } from '../api';
 
-export enum ModalActions {
+export enum EmittActions {
 	CREATE = 'CREATE',
 	REMOVE = 'REMOVE',
 	EDIT = 'EDIT',
 	CLOSE = 'CLOSE',
+	ERROR = 'ERROR',
 }
 
-export const MODAL_ACTIONS = {
-	CREATE: 'CREATE' as ModalActions.CREATE,
-	REMOVE: 'REMOVE' as ModalActions.REMOVE,
-	EDIT: 'EDIT' as ModalActions.EDIT,
-	CLOSE: 'CLOSE' as ModalActions.CLOSE,
+export const EMITT_ACTIONS = {
+	CREATE: 'CREATE' as EmittActions.CREATE,
+	REMOVE: 'REMOVE' as EmittActions.REMOVE,
+	EDIT: 'EDIT' as EmittActions.EDIT,
+	CLOSE: 'CLOSE' as EmittActions.CLOSE,
+	ERROR: 'ERROR' as EmittActions.ERROR,
 };
 
 interface CreateProjectPayload {
 	componentName: string;
-	action: ModalActions.CREATE;
+	action: EmittActions.CREATE;
 }
 
 interface RemoveProjectsPayload {
 	componentName: string;
 	projects: Project[];
-	action: ModalActions.REMOVE;
+	action: EmittActions.REMOVE;
 }
 
 interface EditProjectPayload {
 	componentName: string;
 	project: Project;
-	action: ModalActions.EDIT;
+	action: EmittActions.EDIT;
 }
 
 interface CloseRemoveProjectModal {
-	action: ModalActions.CLOSE;
+	action: EmittActions.CLOSE;
+}
+
+interface Error {
+	action: EmittActions.ERROR;
+	message: string;
 }
 
 type Events = {
 	searchProject: string;
 	getProjects: boolean;
 	modal: CreateProjectPayload | RemoveProjectsPayload | CloseRemoveProjectModal | EditProjectPayload;
-	error: string;
+	error: Error;
 };
 
 export const emitter = mitt<Events>();

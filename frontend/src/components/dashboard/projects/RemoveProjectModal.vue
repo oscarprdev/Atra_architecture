@@ -5,7 +5,7 @@ import { BUTTON_KINDS } from '../ActionButton.types';
 import ActionButton from '../ActionButton.vue';
 import { removeProject } from '../../../api/endpoints/remove-project';
 import { IconRotateClockwise } from '@tabler/icons-vue';
-import { emitter, EMITTER_NAMES, MODAL_ACTIONS } from '../../../utils/emitter';
+import { emitter, EMITTER_NAMES, EMITT_ACTIONS } from '../../../utils/emitter';
 import { strCapitalized } from '../../../utils/strCapitalized';
 
 const props = defineProps<{
@@ -23,7 +23,7 @@ const onRemoveProjectClick = async () => {
 	await Promise.all(props.projects.map(pr => removeProject(pr.id)));
 	isRemoving.value = false;
 
-	emitter.emit(EMITTER_NAMES.modal, { action: MODAL_ACTIONS.CLOSE });
+	emitter.emit(EMITTER_NAMES.modal, { action: EMITT_ACTIONS.CLOSE });
 
 	emits('close-modal');
 };

@@ -1,20 +1,11 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue';
 import { API_URL } from '../../constants';
-import ErrorToast from './ErrorToast.vue';
-import { EMITTER_NAMES, emitter } from '../../utils/emitter';
 
 interface FormFields {
 	email: string;
 	password: string;
 }
-
-const error = ref(false);
-
-emitter.on(EMITTER_NAMES.error, () => {
-	console.log('error from auth');
-	error.value = true;
-});
 
 const DASHBOARD_URL = '/auth/dashboard';
 const LOCALSTORAGE_ITEM = 'jwt';
@@ -90,7 +81,6 @@ onMounted(() => {
 			</p>
 		</form>
 	</section>
-	<ErrorToast v-if="error" />
 </template>
 
 <style>

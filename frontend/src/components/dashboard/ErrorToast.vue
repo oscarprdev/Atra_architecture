@@ -1,6 +1,12 @@
+<script setup lang="ts">
+defineProps<{
+	error: string;
+}>();
+</script>
+
 <template>
 	<div class="toast">
-		<p>Error toast</p>
+		<p>{{ error }}</p>
 	</div>
 </template>
 
@@ -14,5 +20,36 @@
 	padding: 1rem;
 	background-color: red;
 	color: white;
+
+	opacity: 0;
+
+	border-radius: var(--border-radius);
+	animation: fadeup-down-toast 5s linear forwards;
+}
+
+@keyframes fadeup-down-toast {
+	0% {
+		opacity: 0;
+		visibility: visible;
+		transform: translateY(30%);
+	}
+
+	20% {
+		opacity: 1;
+		visibility: visible;
+		transform: translateY(0%);
+	}
+
+	80% {
+		opacity: 1;
+		visibility: visible;
+		transform: translateY(0%);
+	}
+
+	100% {
+		opacity: 0;
+		visibility: visible;
+		transform: translateY(30%);
+	}
 }
 </style>

@@ -3,10 +3,10 @@ import { IconPlus } from '@tabler/icons-vue';
 import ActionButton from '../ActionButton.vue';
 import InputSearch from './InputSearch.vue';
 import { BUTTON_KINDS } from '../ActionButton.types';
-import { EMITTER_NAMES, MODAL_ACTIONS, emitter } from '../../../utils/emitter';
+import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../../utils/emitter';
 
 const onCreateProjectClick = () => {
-	emitter.emit(EMITTER_NAMES.modal, { action: MODAL_ACTIONS.CREATE, componentName: 'CreateProjectModal' });
+	emitter.emit(EMITTER_NAMES.modal, { action: EMITT_ACTIONS.CREATE, componentName: 'CreateProjectModal' });
 };
 </script>
 
