@@ -263,8 +263,8 @@ export class DefaultProjectInfra implements ProjectInfra {
 			});
 
 			await client.execute({
-				sql: `DELETE FROM images WHERE key LIKE ?;`,
-				args: [`%${dbProject.project.title}%`],
+				sql: `DELETE FROM images WHERE key LIKE CONCAT('%', ?, '%');`,
+				args: [dbProject.project.title.replaceAll(' ', '_')],
 			});
 
 			await client.execute({

@@ -1,5 +1,4 @@
 import { Env } from '../../../..';
-import { UpdateProjectBody } from '../../../generated';
 import extractErrorInfo from '../../../shared/utils/extract_from_error_info';
 import { UpdateProjectPorts } from './update_project.ports';
 import { UpdateProjectUsecasesTypes } from './update_project.types';
@@ -16,7 +15,7 @@ export class DefaultUpdateProjectUsecase implements UpdateProjectUsecase {
 
 		await Promise.all([
 			this.ports.removeImagesFromBucket({ images: images.map((img) => `${oldTitle}/${img.name}`), env }),
-			this.ports.removeImagesFromDb({ imageKeys: images.map((img) => img.name), env }),
+			this.ports.removeImagesFromDb({ imageKeys: images.map((img) => `${oldTitle}/${img.name}`), env }),
 		]);
 	}
 
@@ -50,8 +49,6 @@ export class DefaultUpdateProjectUsecase implements UpdateProjectUsecase {
 			} else {
 				const imagesToRemove = images.filter((img) => !inputImgString.includes(`${project.title}/${img.name}`));
 
-				console.log('images to remove', imagesToRemove);
-
 				const imagesToRemoveKeys = imagesToRemove.map((img) => `${titleFormatted}/${img.name}`);
 
 				if (imagesToRemove.length > 0) {
@@ -64,8 +61,6 @@ export class DefaultUpdateProjectUsecase implements UpdateProjectUsecase {
 
 			const imagesAlreadyStored = images.filter((img) => inputImgString.includes(`${titleFormatted}/${img.name}`));
 			const imagesToUpload = [...allImagesFromInput.filter((img) => img instanceof File), ...imagesAlreadyStored];
-
-			console.log('images to upload', imagesToUpload);
 
 			const [projectResponse, imagesUploaded] = await Promise.all([
 				this.ports.updateProject({
@@ -84,7 +79,7 @@ export class DefaultUpdateProjectUsecase implements UpdateProjectUsecase {
 			await Promise.all(
 				imagesUploaded.images.map((img) =>
 					this.ports.insertImageOnDb({
-						imageKey: img.name,
+						imageKey: `${titleFormatted}/${img.name}`,
 						projectId: projectResponse.project.id,
 						isMain: Boolean((updateProjectBody.mainImage as File).name && img.name.includes((updateProjectBody.mainImage as File).name)),
 						env,

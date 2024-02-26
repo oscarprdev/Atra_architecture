@@ -68,7 +68,6 @@ export class DefaultBucketInfra implements BucketInfra {
 
 			await bucket.deleteItemByKey(key);
 		} catch (error) {
-			console.log(error);
 			throw new Error(
 				JSON.stringify({
 					status: 500,
