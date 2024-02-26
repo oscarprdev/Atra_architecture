@@ -17,7 +17,7 @@ export class DefaultDescribeUserUsecases implements DescribeUserUsecases {
 			return {
 				user: {
 					...userResponse.user,
-					image: userImage.image,
+					image: userImage.image.name,
 				},
 			};
 		} catch (error) {

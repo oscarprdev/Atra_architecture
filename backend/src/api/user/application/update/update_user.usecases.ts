@@ -3,6 +3,8 @@ import { User } from '../../../generated';
 import { UpdateUserPorts } from './update_user.ports';
 import { UpdateUserUsecasesTypes } from './update_user.types';
 
+const PROJECT = 'personal';
+
 export interface UpdateUserUsecases {
 	updateUser(input: UpdateUserUsecasesTypes.UpdateUserInput): Promise<User>;
 }
@@ -21,8 +23,10 @@ export class DefaultUpdateUserUsecases implements UpdateUserUsecases {
 
 			const [_, imageUploaded] = await Promise.all([
 				this.ports.deleteImage({ key: imageKey, env }),
-				this.ports.uploadImage({ file: image, project: 'personal', env }),
+				this.ports.uploadImage({ file: image as File, project: PROJECT, env }),
 			]);
+
+			const imgKey = `${PROJECT}/${imageUploaded.image.name}`;
 
 			const { user } = await this.ports.updateUser({
 				id,
@@ -31,13 +35,13 @@ export class DefaultUpdateUserUsecases implements UpdateUserUsecases {
 				phone,
 				direction,
 				description,
-				imageKey: imageUploaded.image.Key,
+				imageKey: imgKey,
 				env,
 			});
 
 			return {
 				...user,
-				image: imageUploaded.image,
+				image: imgKey,
 			} satisfies User;
 		} catch (error) {
 			const { status, message } = extractErrorInfo(error);

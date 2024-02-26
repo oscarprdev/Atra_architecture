@@ -4,6 +4,8 @@ import { AuthUsecases } from '../../shared/auth.usecases';
 import { CreateUserPorts } from './create_user.ports';
 import { CreateUserUsecasesTypes } from './create_user.types';
 
+const PROJECT = 'personal';
+
 export interface CreateUserUsecases {
 	createUser(input: CreateUserUsecasesTypes.Input): Promise<CreateUserUsecasesTypes.Output>;
 }
@@ -18,8 +20,10 @@ export class DefaultCreateUserUsecases extends AuthUsecases implements CreateUse
 		env,
 	}: CreateUserUsecasesTypes.Input): Promise<CreateUserUsecasesTypes.Output> {
 		try {
-			const userImage = await this.ports.uploadImage({ file: image, project: 'personal', env });
+			const userImage = await this.ports.uploadImage({ file: image as File, project: PROJECT, env });
 			const passwordHashed = await this.hashPassword(password, env.SALT);
+
+			const imgKey = `${PROJECT}/${userImage.image.name}`;
 
 			const { user } = await this.ports.insertUser({
 				email,
@@ -28,11 +32,11 @@ export class DefaultCreateUserUsecases extends AuthUsecases implements CreateUse
 				direction,
 				description,
 				passwordHashed,
-				imageKey: userImage.image.Key,
+				imageKey: imgKey,
 				env,
 			});
 
-			return { user: { ...user, image: userImage.image } satisfies User };
+			return { user: { ...user, image: imgKey } satisfies User };
 		} catch (error) {
 			const { status, message } = extractErrorInfo(error);
 
