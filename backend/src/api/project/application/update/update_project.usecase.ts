@@ -19,11 +19,23 @@ export class DefaultUpdateProjectUsecase implements UpdateProjectUsecase {
 		]);
 	}
 
+	private async checkProjectWithSameTitle(env: Env, projectBodyTitle: string, id: string) {
+		const { titles } = await this.ports.listProjectsTitles({ env, id });
+
+		const isTitleAlreadyCreated = titles.some((title) => title === projectBodyTitle);
+
+		if (isTitleAlreadyCreated) {
+			throw new Error('Title already created');
+		}
+	}
+
 	async updateProject({
 		updateProjectBody,
 		env,
 	}: UpdateProjectUsecasesTypes.UpdateProjectInput): Promise<UpdateProjectUsecasesTypes.UpdateProjectOutput> {
 		try {
+			await this.checkProjectWithSameTitle(env, updateProjectBody.title, updateProjectBody.id);
+
 			if (updateProjectBody.title !== updateProjectBody.oldTitle) {
 				await this.removeOldProjectImages(updateProjectBody.oldTitle, env);
 			}

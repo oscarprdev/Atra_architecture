@@ -4,11 +4,9 @@ function extractErrorInfo(error: unknown): { status?: number; message?: string }
 			const parsedError = JSON.parse(error.message);
 			return { status: parsedError.status, message: parsedError.message };
 		} catch (jsonParseError) {
-			return { status: 500, message: 'Internal Server Error' };
+			return { status: 500, message: error.toString() };
 		}
 	}
-
-	console.log(error instanceof Error, error);
 
 	return { status: 500, message: 'Internal Server Error' };
 }

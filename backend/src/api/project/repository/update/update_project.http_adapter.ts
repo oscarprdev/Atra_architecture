@@ -1,6 +1,7 @@
 import { ImagesUsecases } from '../../../images/application/images.usecases';
 import {
 	InsertImageOnDbPorts,
+	ListProjectsTitles,
 	RemoveImagesFromBucketPorts,
 	RemoveImagesFromDbPorts,
 	SelectImagesByProjectFromBucketPorts,
@@ -48,6 +49,14 @@ export class UpdateProjectHttpAdapter implements UpdateProjectPorts {
 
 		return {
 			project: mapProjectDbToApp(project),
+		};
+	}
+
+	async listProjectsTitles({ env , id}: ListProjectsTitles.Input): Promise<ListProjectsTitles.Output> {
+		const projects = await this.client.listProject({ offset: 0, limit: 100, env });
+
+		return {
+			titles: projects.projects.filter(pr => pr.project_id !== id).map((pr) => pr.title),
 		};
 	}
 }

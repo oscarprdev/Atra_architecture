@@ -11,6 +11,8 @@ export interface UpdateProjectPorts {
 	insertImageOnDb(input: InsertImageOnDbPorts.Input): Promise<void>;
 
 	updateProject(input: UpdateProjectPorts.Input): Promise<UpdateProjectPorts.Output>;
+
+	listProjectsTitles(input: ListProjectsTitles.Input): Promise<ListProjectsTitles.Output>;
 }
 
 export namespace SelectImagesByProjectFromBucketPorts {
@@ -75,5 +77,16 @@ export namespace UpdateProjectPorts {
 		year: number;
 		description: string;
 		isTop: boolean;
+	};
+}
+
+export namespace ListProjectsTitles {
+	export type Input = {
+		env: Env;
+		id: string;
+	};
+
+	export type Output = {
+		titles: string[];
 	};
 }

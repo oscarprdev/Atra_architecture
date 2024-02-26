@@ -1,3 +1,4 @@
+import { Env } from '../../../..';
 import { Project } from '../../../generated';
 import extractErrorInfo from '../../../shared/utils/extract_from_error_info';
 import { ProjectUsecases } from '../../shared/project.usecases';
@@ -20,8 +21,20 @@ export class DefaultProjectCreateUsecases extends ProjectUsecases implements Pro
 		]);
 	}
 
+	private async checkProjectWithSameTitle(env: Env, projectBodyTitle: string) {
+		const { titles } = await this.ports.listProjectsTitles({ env });
+
+		const isTitleAlreadyCreated = titles.some((title) => title === projectBodyTitle);
+
+		if (isTitleAlreadyCreated) {
+			throw new Error('Title already created');
+		}
+	}
+
 	async createProject({ projectBody, env }: ProjectCreateUsecasesTypes.CreateProjectInput): Promise<Project> {
 		try {
+			await this.checkProjectWithSameTitle(env, projectBody.title);
+
 			const [{ image }, { images }, projectResponse] = await Promise.all([
 				this.ports.uploadImage({ file: projectBody.mainImage, project: projectBody.title, env }),
 				this.ports.uploadImages({ files: projectBody.images, project: projectBody.title, env }),
