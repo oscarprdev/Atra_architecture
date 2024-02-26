@@ -19,8 +19,6 @@ export async function createProjectHandler(request: Request, env: Env) {
 
 		const validInput = checkInputValidations({ title, year, description, isTop, mainImage, images });
 
-		console.log(validInput);
-
 		const projectOutput = await projectCreateUsecase.createProject({ projectBody: validInput, env });
 
 		const apiResponse: ApiResponse<Project> = {

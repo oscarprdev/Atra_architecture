@@ -154,8 +154,6 @@ export class DefaultProjectInfra implements ProjectInfra {
 					args: [projectId, true],
 				});
 
-				console.log('current main image db', currentMainImageIdResult);
-
 				if (currentMainImageIdResult.rows.length > 0) {
 					const currentMainImageId = currentMainImageIdResult.rows[0].image_id;
 					await client.execute({

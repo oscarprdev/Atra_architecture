@@ -18,7 +18,6 @@ export class DefaultProjectDeleteUsecases implements ProjectDeleteUsecases {
 				...project.images.split(',').map((image) => this.ports.deleteImageByKey({ key: image, env })),
 			]);
 		} catch (error) {
-			console.log(error);
 			const { status, message } = extractErrorInfo(error);
 
 			throw new Error(
