@@ -18,7 +18,7 @@ const { title, description, year, mainImage }: Props = Astro.props;
 		<h2>{year}</h2>
 		<p>{strCapitalized(description)}</p>
 	</div>
-	<figure style={`background-image: url(${IMAGE_URL}/${mainImage.Key})`}>
+	<figure style={`background-image: url(${IMAGE_URL}/${mainImage})`}>
 		<div class="project-title">
 			<h1>{strCapitalized(title)}</h1>
 		</div>

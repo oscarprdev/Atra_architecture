@@ -8,7 +8,6 @@ import type { ProjectFormState, ImagePreviews } from './CreateProjectForm.types'
 import { IconExclamationMark } from '@tabler/icons-vue';
 import { FORM_NAMES, VALID_IMAGE_TYPES, MAX_NUM_IMAGES } from './ProjectForm.constants';
 import { IMAGE_URL } from '../../../constants';
-import type { File as ApiFile } from '../../../api';
 
 const props = defineProps<{
 	requiredMessage?: string | null;
@@ -61,7 +60,7 @@ const onInputChange = (e: Event) => {
 							if (img instanceof File) {
 								return URL.createObjectURL(img);
 							} else {
-								return `${IMAGE_URL}/${(img as ApiFile).Key}`;
+								return `${IMAGE_URL}/${img}`;
 							}
 						}) || null;
 				}
@@ -88,7 +87,7 @@ const onRemoveImageClick = (index: number) => {
 			if (img instanceof File) {
 				return URL.createObjectURL(img);
 			} else {
-				return `${IMAGE_URL}/${(img as ApiFile).Key}`;
+				return `${IMAGE_URL}/${img}`;
 			}
 		}) || null;
 };

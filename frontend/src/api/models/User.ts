@@ -27,36 +27,10 @@ export type User = {
      * The user's direction.
      */
     direction: string;
-    image: {
-        /**
-         * Image key
-         */
-        Key: string;
-        /**
-         * The timestamp when the iamge was modified.
-         */
-        LastModified: string;
-        /**
-         * Image etag
-         */
-        ETag: string;
-        /**
-         * Image size
-         */
-        Size: number;
-        /**
-         * Image storage class
-         */
-        StorageClass: string;
-        /**
-         * Image type
-         */
-        Type?: string;
-        /**
-         * Image name
-         */
-        name?: string;
-    };
+    /**
+     * The image url.
+     */
+    image: string;
     /**
      * The timestamp when the user was created.
      */

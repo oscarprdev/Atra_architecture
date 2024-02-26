@@ -39,18 +39,8 @@ const formState = reactive<ProjectFormState>({
 });
 
 const imagePreviews = reactive({
-	mainImagePreview: `${IMAGE_URL}/${props.project.mainImage.Key}`,
-	imagesPreviews: props.project.images.map(img => {
-		if (img instanceof File) {
-			return URL.createObjectURL(img);
-		} else {
-			return `${IMAGE_URL}/${img.Key}`;
-		}
-	}) as string[] | null,
-});
-
-watch(props.project, state => {
-	console.log(state);
+	mainImagePreview: `${IMAGE_URL}/${props.project.mainImage}`,
+	imagesPreviews: props.project.images.map(img => `${IMAGE_URL}/${img}`),
 });
 
 const onSubmit = (formState: ProjectFormState) => {

@@ -48,7 +48,7 @@ const actionDropdownOptions: Option[] = [
 			@on-click="emits('toggleCheckedProject', project.id)" />
 		<td class="table-main-image">
 			<img
-				:src="`${IMAGE_URL}/${project.mainImage.Key}`"
+				:src="`${IMAGE_URL}/${project.mainImage}`"
 				:alt="`Main image of ${project.title}`" />
 		</td>
 		<td class="table-name">{{ strCapitalized(project.title) }}</td>
