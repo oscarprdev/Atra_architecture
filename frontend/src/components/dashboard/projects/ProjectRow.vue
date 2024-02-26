@@ -18,7 +18,15 @@ const emits = defineEmits<{
 }>();
 
 const actionDropdownOptions: Option[] = [
-	{ label: 'Editar', cb: () => {} },
+	{
+		label: 'Editar',
+		cb: () =>
+			emitter.emit(EMITTER_NAMES.modal, {
+				componentName: 'EditProjectModal',
+				project: props.project,
+				action: MODAL_ACTIONS.EDIT,
+			}),
+	},
 	{
 		label: 'Eliminar',
 		cb: () =>

@@ -8,10 +8,12 @@ const isOpened = ref(false);
 const modal = ref<HTMLElement>();
 const modalComponent = ref<string | null>(null);
 const projects = ref<Project[]>([]);
+const project = ref<Project>();
 
 const asyncComponents: Record<string, any> = {
 	RemoveProjectModal: defineAsyncComponent(() => import('./RemoveProjectModal.vue')),
 	CreateProjectModal: defineAsyncComponent(() => import('./CreateProjectModal.vue')),
+	EditProjectModal: defineAsyncComponent(() => import('./EditProjectModal.vue')),
 };
 
 emitter.on(EMITTER_NAMES.modal, payload => {
@@ -25,6 +27,10 @@ emitter.on(EMITTER_NAMES.modal, payload => {
 				break;
 			case MODAL_ACTIONS.CREATE:
 				modalComponent.value = payload.componentName;
+				break;
+			case MODAL_ACTIONS.EDIT:
+				modalComponent.value = payload.componentName;
+				project.value = payload.project;
 				break;
 			case MODAL_ACTIONS.CLOSE:
 				closeModal();
@@ -78,6 +84,7 @@ onUnmounted(() => {
 				v-if="modalComponent"
 				:is="asyncComponents[modalComponent]"
 				:projects="projects"
+				:project="project"
 				@close-modal="closeModal" />
 		</div>
 	</div>

@@ -2,19 +2,39 @@ import type { Project } from '..';
 import { API_URL } from '../../constants';
 import { EMITTER_NAMES, emitter } from '../../utils/emitter';
 
-export const updateProject = async (project: Project) => {
-	try {
-		const formData = new FormData();
+const createFormData = (payload: Project) => {
+	const formData = new FormData();
 
-		Object.entries(project).forEach(([key, value]) => {
-			if (typeof value !== 'string') {
-				formData.append(key, JSON.stringify(value));
+	if (payload.mainImage instanceof File) {
+		formData.append('mainImage', payload.mainImage, payload.mainImage.name);
+	} else {
+		formData.append('mainImage', JSON.stringify(payload.mainImage));
+	}
+
+	const rawImages = payload.images;
+	if (Array.isArray(rawImages)) {
+		rawImages.forEach(file => {
+			if (file instanceof File) {
+				formData.append('images', file, file.name);
 			} else {
-				formData.append(key, value);
+				formData.append('images', JSON.stringify(file));
 			}
 		});
+	}
 
-		formData.append('oldTitle', project.title);
+	formData.append('title', payload.title);
+	formData.append('description', payload.description);
+	formData.append('year', payload.year.toString());
+	formData.append('isTop', payload.isTop.toString());
+	formData.append('id', payload.id);
+	formData.append('oldTitle', payload.title);
+
+	return formData;
+};
+
+export const updateProject = async (project: Project) => {
+	try {
+		const formData = createFormData(project);
 
 		const response = await fetch(`${API_URL}/project/update`, {
 			method: 'PUT',
@@ -25,6 +45,7 @@ export const updateProject = async (project: Project) => {
 
 		return jsonResponse.data;
 	} catch (error) {
+		console.log(error);
 		emitter.emit(EMITTER_NAMES.error, 'error.details');
 
 		return null;

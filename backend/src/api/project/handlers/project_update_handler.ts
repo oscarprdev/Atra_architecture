@@ -17,7 +17,7 @@ export async function updateProjectHandler(request: Request, env: Env) {
 		const description = formData.get('description')?.toString();
 		const isTop = convertToBoolean(formData.get('isTop'));
 		const mainImage = formData.get('mainImage') as unknown as ApiFile;
-		const images = formData.getAll('image') as unknown as ApiFile[];
+		const images = formData.getAll('images') as unknown as ApiFile[];
 
 		if (!id || !title || !year || !description || !oldTitle) {
 			throw new Error(JSON.stringify({ status: 400, message: 'Body not valid' }));

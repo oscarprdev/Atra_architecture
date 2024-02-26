@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import { currentYear } from '../../../utils/currentYear';
-import { computed, reactive } from 'vue';
+import { computed, onUnmounted, reactive, watch } from 'vue';
+import type { Project } from '../../../api';
 import type { ProjectFormState } from './CreateProjectForm.types';
+import { strCapitalized } from '../../../utils/strCapitalized';
+import { IMAGE_URL } from '../../../constants';
 import ProjectForm from './ProjectForm.vue';
 
-defineProps<{
+const props = defineProps<{
 	requiredMessage?: string | null;
+	project: Project;
 }>();
 
 const emits = defineEmits<{
@@ -14,30 +17,40 @@ const emits = defineEmits<{
 
 const formState = reactive<ProjectFormState>({
 	title: {
-		value: '',
+		value: props.project.title,
 		error: null,
 	},
 	description: {
-		value: '',
+		value: props.project.description,
 		error: null,
 	},
 	year: {
-		value: currentYear(),
+		value: props.project.year,
 		error: null,
 	},
 	mainImage: {
-		value: null,
+		value: props.project.mainImage as unknown as File,
 		error: null,
 	},
 	images: {
-		value: [],
+		value: props.project.images as unknown as File[],
 		error: null,
 	},
 });
 
 const imagePreviews = reactive({
-	mainImagePreview: '',
-	imagesPreviews: [] as string[] | null,
+	mainImagePreview: `${IMAGE_URL}/${props.project.mainImage.Key}`,
+	imagesPreviews: props.project.images.map(img => {
+		if (img instanceof File) {
+			return URL.createObjectURL(img);
+		} else {
+			return `${IMAGE_URL}/${img.Key}`;
+		}
+	}) as string[] | null,
+});
+
+watch(props.project, state => {
+	console.log(state);
 });
 
 const onSubmit = (formState: ProjectFormState) => {

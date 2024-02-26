@@ -33,12 +33,17 @@ export class DefaultUpdateProjectUsecase implements UpdateProjectUsecase {
 
 			const allImagesFromInput = updateProjectBody.images.concat(updateProjectBody.mainImage);
 
-			const imagesToRemove = images.filter(
-				(img) => !allImagesFromInput.map((img) => img.name || img.Key).some((val) => img.Key.match(val))
-			);
-			const imagesToUpload = allImagesFromInput.filter(
-				(img) => !images.map((img) => img.Key).some((val) => val.match(img.name || img.Key))
-			);
+			const imagesToRemove = images.filter((img) => {
+				const inputImgKeys = allImagesFromInput
+					.filter((inputImg) => !Boolean(inputImg instanceof File))
+					.map((inputImg) => JSON.parse(inputImg.toString()).Key);
+
+				return !inputImgKeys.includes(img.Key);
+			});
+			const imagesToUpload = allImagesFromInput.filter((img) => img instanceof File);
+
+			console.log('imagesToRemove', imagesToRemove);
+			console.log('imagesToUpload', imagesToUpload);
 
 			if (imagesToRemove.length > 0) {
 				await Promise.all([
@@ -66,7 +71,7 @@ export class DefaultUpdateProjectUsecase implements UpdateProjectUsecase {
 					this.ports.insertImageOnDb({
 						imageKey: img.Key,
 						projectId: projectResponse.project.id,
-						isMain: Boolean(img.Key.match(updateProjectBody.mainImage.name || '')),
+						isMain: Boolean(updateProjectBody.mainImage.name && img.Key.includes(updateProjectBody.mainImage.name)),
 						env,
 					})
 				)
@@ -75,6 +80,8 @@ export class DefaultUpdateProjectUsecase implements UpdateProjectUsecase {
 			const mainImage = imagesUploaded.images.find((img) =>
 				img.Key.match(updateProjectBody.mainImage.name || updateProjectBody.mainImage.Key)
 			);
+
+			console.log(mainImage);
 
 			const restOfImages = mainImage
 				? imagesUploaded.images.filter((img) => !img.Key.match(mainImage.name || mainImage.Key))
@@ -85,6 +92,8 @@ export class DefaultUpdateProjectUsecase implements UpdateProjectUsecase {
 			};
 		} catch (error) {
 			const { status, message } = extractErrorInfo(error);
+
+			console.log(status, message);
 
 			throw new Error(
 				JSON.stringify({

@@ -4,12 +4,14 @@ import type { Project } from '../api';
 export enum ModalActions {
 	CREATE = 'CREATE',
 	REMOVE = 'REMOVE',
+	EDIT = 'EDIT',
 	CLOSE = 'CLOSE',
 }
 
 export const MODAL_ACTIONS = {
 	CREATE: 'CREATE' as ModalActions.CREATE,
 	REMOVE: 'REMOVE' as ModalActions.REMOVE,
+	EDIT: 'EDIT' as ModalActions.EDIT,
 	CLOSE: 'CLOSE' as ModalActions.CLOSE,
 };
 
@@ -24,6 +26,12 @@ interface RemoveProjectsPayload {
 	action: ModalActions.REMOVE;
 }
 
+interface EditProjectPayload {
+	componentName: string;
+	project: Project;
+	action: ModalActions.EDIT;
+}
+
 interface CloseRemoveProjectModal {
 	action: ModalActions.CLOSE;
 }
@@ -31,7 +39,7 @@ interface CloseRemoveProjectModal {
 type Events = {
 	searchProject: string;
 	getProjects: boolean;
-	modal: CreateProjectPayload | RemoveProjectsPayload | CloseRemoveProjectModal;
+	modal: CreateProjectPayload | RemoveProjectsPayload | CloseRemoveProjectModal | EditProjectPayload;
 	error: string;
 };
 

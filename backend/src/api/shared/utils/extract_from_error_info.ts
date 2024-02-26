@@ -8,6 +8,8 @@ function extractErrorInfo(error: unknown): { status?: number; message?: string }
 		}
 	}
 
+	console.log(error instanceof Error, error);
+
 	return { status: 500, message: 'Internal Server Error' };
 }
 
