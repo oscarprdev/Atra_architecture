@@ -7,11 +7,15 @@ import { getProjectList } from '../../../api/endpoints/get-projects-list';
 import ProjectRow from './ProjectRow.vue';
 import ProjectsSkeleton from './ProjectsSkeleton.vue';
 import CommonActionsTooltip from './CommonActionsTooltip.vue';
+import Pagination from './Pagination.vue';
 
+const currentPage = ref(1);
 const isLoading = ref(false);
+
 const projects = ref<Project[]>([]);
 const checkedProjects = ref<Project[]>([]);
 const areAllProjectsChecked = ref(false);
+
 const sortedValues = reactive({
 	top: false,
 	year: false,
@@ -112,11 +116,24 @@ emitter.on(EMITTER_NAMES.success, async payload => {
 	emitter.emit(EMITTER_NAMES.modal, { action: EMITT_ACTIONS.CLOSE });
 });
 
-const mountProjectList = async () => {
+emitter.on(EMITTER_NAMES.pagination, async payload => {
+	if (typeof payload === 'object' && payload.action === EMITT_ACTIONS.PAGINATION) {
+		currentPage.value = payload.currentPage;
+		await mountProjectList(payload.currentPage);
+	}
+});
+
+const mountProjectList = async (page: number = 1) => {
 	isLoading.value = true;
-	const response = (await getProjectList()) || [];
+	const response = (await getProjectList(page)) || [];
 	isLoading.value = false;
 	projects.value = response;
+
+	emitter.emit(EMITTER_NAMES.pagination, {
+		currentPage: currentPage.value,
+		totalProject: projects.value.length,
+		action: EMITT_ACTIONS.NUM_PROJECTS,
+	});
 };
 
 onMounted(async () => mountProjectList());
@@ -143,14 +160,18 @@ onMounted(async () => mountProjectList());
 		</thead>
 		<tbody>
 			<ProjectRow
+				v-if="!isLoading"
 				v-for="project in projects"
 				:key="project.id"
 				:is-project-checked="checkedProjects.some(pr => pr.id === project.id)"
 				:project="project"
 				@toggle-checked-project="onToggleCheckedProject" />
 			<ProjectsSkeleton
-				v-if="projects.length === 0 && isLoading"
+				v-if="isLoading"
 				v-for="i in new Array(5).fill('')" />
+			<tr class="pagination">
+				<Pagination />
+			</tr>
 		</tbody>
 	</table>
 </template>
@@ -241,5 +262,16 @@ tbody > tr:hover {
 .table-dropdown {
 	margin-left: auto;
 	margin-right: 1rem;
+}
+
+.pagination {
+	display: flex;
+	justify-content: end;
+	padding-top: -3rem;
+	margin-right: 1.2rem;
+}
+
+.pagination:hover {
+	background-color: transparent;
 }
 </style>

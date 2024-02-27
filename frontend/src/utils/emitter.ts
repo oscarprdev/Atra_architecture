@@ -9,6 +9,8 @@ export enum EmittActions {
 	SUCCESS = 'SUCCESS',
 	ERROR = 'ERROR',
 	SORT = 'SORT',
+	PAGINATION = 'PAGINATION',
+	NUM_PROJECTS = 'NUM_PROJECTS',
 }
 
 export const EMITT_ACTIONS = {
@@ -19,6 +21,8 @@ export const EMITT_ACTIONS = {
 	SUCCESS: 'SUCCESS' as EmittActions.SUCCESS,
 	ERROR: 'ERROR' as EmittActions.ERROR,
 	SORT: 'SORT' as EmittActions.SORT,
+	PAGINATION: 'PAGINATION' as EmittActions.PAGINATION,
+	NUM_PROJECTS: 'NUM_PROJECTS' as EmittActions.NUM_PROJECTS,
 };
 
 interface CreateProjectPayload {
@@ -51,27 +55,35 @@ interface Error {
 	message: string;
 }
 
+export type SortKind = 'year' | 'top' | 'date';
+
 interface Sort {
 	action: EmittActions.SORT;
-	kind: 'year' | 'top' | 'date';
+	kind: SortKind;
+}
+
+interface Pagination {
+	totalProject: number;
+	currentPage: number;
+	action: EmittActions.PAGINATION | EmittActions.NUM_PROJECTS;
 }
 
 type Events = {
 	searchProject: string;
-	getProjects: boolean;
+	sort: Sort;
+	pagination: Pagination;
 	modal: CreateProjectPayload | RemoveProjectsPayload | EditProjectPayload | CloseModal;
 	success: Success;
 	error: Error;
-	sort: Sort;
 };
 
 export const emitter = mitt<Events>();
 
 export const EMITTER_NAMES: Record<keyof Events, keyof Events> = {
 	searchProject: 'searchProject',
-	getProjects: 'getProjects',
+	sort: 'sort',
+	pagination: 'pagination',
 	modal: 'modal',
 	success: 'success',
 	error: 'error',
-	sort: 'sort',
 };
