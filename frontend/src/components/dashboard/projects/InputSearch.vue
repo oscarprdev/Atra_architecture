@@ -2,16 +2,17 @@
 import { IconSearch } from '@tabler/icons-vue';
 import { EMITTER_NAMES, emitter } from '../../../utils/emitter';
 import { ref } from 'vue';
+import { debounce } from '../../../utils/debounce';
 
 const inputValue = ref();
 
-const onInputChange = (e: Event) => {
+const onInputChange = debounce(e => {
 	const target = e.target;
 	if (target instanceof HTMLInputElement) {
 		inputValue.value = target.value;
 		emitter.emit(EMITTER_NAMES.searchProject, target.value);
 	}
-};
+}, 500);
 </script>
 
 <template>

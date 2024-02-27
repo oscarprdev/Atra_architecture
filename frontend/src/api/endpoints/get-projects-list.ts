@@ -2,9 +2,19 @@ import type { Project } from '..';
 import { API_URL } from '../../constants';
 import { EMITTER_NAMES, EmittActions, emitter } from '../../utils/emitter';
 
-export const getProjectList = async (page: number = 1): Promise<Project[] | null> => {
+export const getProjectList = async (page: number = 1, search?: string): Promise<Project[] | null> => {
 	try {
-		const response = await fetch(`${API_URL}/project/list?page=${page}`);
+		const url = new URL(`${API_URL}/project/list`);
+
+		const params = new URLSearchParams({ page: page.toString() });
+
+		if (search) {
+			params.append('search', search);
+		}
+
+		url.search = params.toString();
+
+		const response = await fetch(url.toString());
 		const jsonResponse = await response.json();
 
 		return jsonResponse.data;

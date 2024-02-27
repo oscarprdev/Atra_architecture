@@ -52,16 +52,6 @@ const onToggleCheckedProject = (id: string) => {
 	}
 };
 
-const filterProjectsBySearchValue = async (searchValue: string) => {
-	if (searchValue.length > 0) {
-		projects.value = projects.value.filter(project =>
-			project.title.toLowerCase().includes(searchValue.toLowerCase())
-		);
-	} else {
-		mountProjectList();
-	}
-};
-
 const onProjectsUpdated = async (updatedProjects: Project[]) => {
 	cleanCheckedProjects();
 
@@ -75,11 +65,13 @@ const cleanCheckedProjects = () => {
 	areAllProjectsChecked.value = false;
 };
 
-emitter.on(EMITTER_NAMES.searchProject, async searchValue =>
-	typeof searchValue === 'string'
-		? await filterProjectsBySearchValue(searchValue)
-		: emitter.off(EMITTER_NAMES.searchProject)
-);
+emitter.on(EMITTER_NAMES.searchProject, async searchValue => {
+	if (typeof searchValue === 'string') {
+		await mountProjectList(currentPage.value, searchValue);
+	} else {
+		await mountProjectList(currentPage.value);
+	}
+});
 
 emitter.on(EMITTER_NAMES.sort, async payload => {
 	if (typeof payload === 'object' && payload.action === EMITT_ACTIONS.SORT) {
@@ -123,9 +115,9 @@ emitter.on(EMITTER_NAMES.pagination, async payload => {
 	}
 });
 
-const mountProjectList = async (page: number = 1) => {
+const mountProjectList = async (page: number = 1, search?: string) => {
 	isLoading.value = true;
-	const response = (await getProjectList(page)) || [];
+	const response = (await getProjectList(page, search)) || [];
 	isLoading.value = false;
 	projects.value = response;
 
@@ -167,8 +159,13 @@ onMounted(async () => mountProjectList());
 				:project="project"
 				@toggle-checked-project="onToggleCheckedProject" />
 			<ProjectsSkeleton
-				v-if="isLoading"
+				v-else-if="isLoading"
 				v-for="i in new Array(5).fill('')" />
+			<tr
+				v-else-if="!isLoading && projects.length === 0"
+				class="empty">
+				<p>Cap resultat</p>
+			</tr>
 			<tr class="pagination">
 				<Pagination />
 			</tr>
@@ -273,5 +270,11 @@ tbody > tr:hover {
 
 .pagination:hover {
 	background-color: transparent;
+}
+
+.empty {
+	display: flex;
+	justify-content: center;
+	text-align: center;
 }
 </style>

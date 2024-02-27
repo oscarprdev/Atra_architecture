@@ -209,13 +209,14 @@ export class DefaultProjectInfra implements ProjectInfra {
 
 			const args = [];
 
-			if (search && search.length > 0) {
+			const hasSearchFilter = search && search.length > 0;
+
+			if (hasSearchFilter) {
 				sqlQuery += `
 				WHERE
-				LOWER(title) LIKE CONCAT('%', LOWER(?), '%')
-				OR LOWER(description) LIKE CONCAT('%', LOWER(?), '%')
+				title LIKE CONCAT('%', ?, '%')
 				`;
-				args.push(search, search);
+				args.push(search);
 			}
 
 			sqlQuery += `
@@ -227,7 +228,7 @@ export class DefaultProjectInfra implements ProjectInfra {
 			OFFSET ?;
 			`;
 
-			args.push(limit, offset);
+			args.push(limit, hasSearchFilter ? 0 : offset);
 
 			const dbProjects = await client.execute({
 				sql: sqlQuery,
