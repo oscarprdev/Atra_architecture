@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import type { Project } from '../../../api';
 import InputCheckbox from './InputCheckbox.vue';
 import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../../utils/emitter';
@@ -12,6 +12,10 @@ const isLoading = ref(false);
 const projects = ref<Project[]>([]);
 const checkedProjects = ref<Project[]>([]);
 const areAllProjectsChecked = ref(false);
+const sortedValues = reactive({
+	top: false,
+	year: false,
+});
 
 const onToggleAllCheckboxes = () => {
 	areAllProjectsChecked.value = !areAllProjectsChecked.value;
@@ -72,6 +76,27 @@ emitter.on(EMITTER_NAMES.searchProject, async searchValue =>
 		? await filterProjectsBySearchValue(searchValue)
 		: emitter.off(EMITTER_NAMES.searchProject)
 );
+
+emitter.on(EMITTER_NAMES.sort, async payload => {
+	if (typeof payload === 'object' && payload.action === EMITT_ACTIONS.SORT) {
+		switch (payload.kind) {
+			case 'year':
+				projects.value = sortedValues.year
+					? projects.value.sort((a, b) => a.year - b.year)
+					: projects.value.sort((a, b) => b.year - a.year);
+				sortedValues.year = !sortedValues.year;
+				break;
+			case 'top':
+				projects.value = sortedValues.top
+					? projects.value.sort((a, b) => (a.isTop ? 0 : 1) - (b.isTop ? 0 : 1))
+					: projects.value.sort((a, b) => (b.isTop ? 0 : 1) - (a.isTop ? 0 : 1));
+				sortedValues.top = !sortedValues.top;
+				break;
+			default:
+				break;
+		}
+	}
+});
 
 emitter.on(EMITTER_NAMES.success, async payload => {
 	if (typeof payload === 'object' && payload.action === EMITT_ACTIONS.SUCCESS) {

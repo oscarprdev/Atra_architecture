@@ -8,6 +8,7 @@ export enum EmittActions {
 	CLOSE = 'CLOSE',
 	SUCCESS = 'SUCCESS',
 	ERROR = 'ERROR',
+	SORT = 'SORT',
 }
 
 export const EMITT_ACTIONS = {
@@ -17,6 +18,7 @@ export const EMITT_ACTIONS = {
 	CLOSE: 'CLOSE' as EmittActions.CLOSE,
 	SUCCESS: 'SUCCESS' as EmittActions.SUCCESS,
 	ERROR: 'ERROR' as EmittActions.ERROR,
+	SORT: 'SORT' as EmittActions.SORT,
 };
 
 interface CreateProjectPayload {
@@ -49,12 +51,18 @@ interface Error {
 	message: string;
 }
 
+interface Sort {
+	action: EmittActions.SORT;
+	kind: 'year' | 'top';
+}
+
 type Events = {
 	searchProject: string;
 	getProjects: boolean;
 	modal: CreateProjectPayload | RemoveProjectsPayload | EditProjectPayload | CloseModal;
 	success: Success;
 	error: Error;
+	sort: Sort;
 };
 
 export const emitter = mitt<Events>();
@@ -65,4 +73,5 @@ export const EMITTER_NAMES: Record<keyof Events, keyof Events> = {
 	modal: 'modal',
 	success: 'success',
 	error: 'error',
+	sort: 'sort',
 };
