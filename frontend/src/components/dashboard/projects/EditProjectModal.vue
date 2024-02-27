@@ -2,13 +2,13 @@
 import ActionButton from '../ActionButton.vue';
 import { BUTTON_KINDS } from '../ActionButton.types';
 import type { ProjectFormState } from './CreateProjectForm.types';
-import { onUnmounted, ref } from 'vue';
+import { ref } from 'vue';
 import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../../utils/emitter';
-import { IconRotateClockwise } from '@tabler/icons-vue';
-import type { Project, File as ApiFile } from '../../../api';
+import { IconRotateClockwise, IconCircleCheck } from '@tabler/icons-vue';
+import type { Project } from '../../../api';
 import { strCapitalized } from '../../../utils/strCapitalized';
 import EditProjectForm from './EditProjectForm.vue';
-import { updateProject } from '../../../api/endpoints/update-project';
+import { updateProject, type UpdateProjectPayload } from '../../../api/endpoints/update-project';
 
 const props = defineProps<{
 	project: Project;
@@ -17,7 +17,7 @@ const props = defineProps<{
 const emits = defineEmits<{
 	(e: 'close-modal'): void;
 }>();
-
+const isSuccess = ref(false);
 const modalLoading = ref(false);
 const formRequiredMessage = ref<string>();
 
@@ -28,16 +28,18 @@ const onSubmit = async (values: ProjectFormState) => {
 			title: values.title.value,
 			description: values.description.value,
 			year: values.year.value,
-			mainImage: values.mainImage.value as unknown as ApiFile,
-			images: values.images.value as unknown as ApiFile[],
+			mainImage: values.mainImage.value,
+			images: values.images.value,
 			isTop: props.project.isTop,
-		} as Project;
+		} satisfies UpdateProjectPayload;
 
 		modalLoading.value = true;
 		await updateProject(payload);
 
-		emits('close-modal');
-		emitter.emit(EMITTER_NAMES.modal, { action: EMITT_ACTIONS.CLOSE });
+		emitter.emit(EMITTER_NAMES.success, { action: EMITT_ACTIONS.SUCCESS });
+
+		modalLoading.value = false;
+		isSuccess.value = true;
 	} else {
 		formRequiredMessage.value = 'El projecte deu tindre 2 imatges mínim';
 
@@ -46,17 +48,13 @@ const onSubmit = async (values: ProjectFormState) => {
 		}, 3000);
 	}
 };
-
-onUnmounted(() => {
-	modalLoading.value = false;
-});
 </script>
 
 <template>
 	<div
 		class="edit-project-modal"
-		:class="{ default: !modalLoading, loading: modalLoading }">
-		<template v-if="!modalLoading">
+		:class="{ default: !modalLoading, loading: modalLoading, success: isSuccess }">
+		<template v-if="!modalLoading && !isSuccess">
 			<h2>
 				Editar projecte de <span class="project-title">{{ strCapitalized(project.title) }}</span>
 			</h2>
@@ -79,12 +77,23 @@ onUnmounted(() => {
 			</EditProjectForm>
 		</template>
 		<template v-if="modalLoading">
-			<h2>Editant projecte...</h2>
 			<IconRotateClockwise
 				width="40"
 				height="40"
 				stroke-width="1"
 				class="spinner" />
+			<h2>
+				Editant projecte de <span class="project-title">{{ strCapitalized(project.title) }}</span>
+			</h2>
+		</template>
+		<template v-if="isSuccess">
+			<IconCircleCheck
+				width="40"
+				height="40"
+				stroke-width="1" />
+			<h2>
+				Projecte de <span class="project-title">{{ strCapitalized(project.title) }}</span> editat correctament
+			</h2>
 		</template>
 	</div>
 </template>
@@ -112,6 +121,11 @@ onUnmounted(() => {
 	max-width: 250px;
 }
 
+.success {
+	width: 70vw;
+	max-width: 250px;
+}
+
 h2 {
 	font-size: var(--font-medium);
 }
@@ -129,4 +143,3 @@ h2 {
 	font-weight: bold;
 }
 </style>
-../../../api/endpoints/update-is-top-field

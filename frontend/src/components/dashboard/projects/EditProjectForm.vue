@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { computed, onUnmounted, reactive, watch } from 'vue';
+import { reactive } from 'vue';
 import type { Project } from '../../../api';
 import type { ProjectFormState } from './CreateProjectForm.types';
-import { strCapitalized } from '../../../utils/strCapitalized';
 import { IMAGE_URL } from '../../../constants';
 import ProjectForm from './ProjectForm.vue';
 

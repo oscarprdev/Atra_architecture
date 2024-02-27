@@ -73,8 +73,8 @@ emitter.on(EMITTER_NAMES.searchProject, async searchValue =>
 		: emitter.off(EMITTER_NAMES.searchProject)
 );
 
-emitter.on(EMITTER_NAMES.modal, async payload => {
-	if (typeof payload === 'object' && payload.action === EMITT_ACTIONS.CLOSE) {
+emitter.on(EMITTER_NAMES.success, async payload => {
+	if (typeof payload === 'object' && payload.action === EMITT_ACTIONS.SUCCESS) {
 		await mountProjectList();
 	}
 });

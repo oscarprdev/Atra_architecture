@@ -1,14 +1,12 @@
 import { API_URL, IMAGE_URL } from '../../constants';
 import { EMITTER_NAMES, EmittActions, emitter } from '../../utils/emitter';
 
-interface UpdateProjectPayload {
+export interface UpdateProjectPayload {
 	id: string;
 	title: string;
 	description: string;
 	year: number;
 	isTop: boolean;
-	createdAt: string;
-	updatedAt: string;
 	mainImage: string | File;
 	images: Array<string> | Array<File>;
 }

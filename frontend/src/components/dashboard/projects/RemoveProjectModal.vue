@@ -4,7 +4,7 @@ import type { Project } from '../../../api';
 import { BUTTON_KINDS } from '../ActionButton.types';
 import ActionButton from '../ActionButton.vue';
 import { removeProject } from '../../../api/endpoints/remove-project';
-import { IconRotateClockwise } from '@tabler/icons-vue';
+import { IconRotateClockwise, IconCircleCheck } from '@tabler/icons-vue';
 import { emitter, EMITTER_NAMES, EMITT_ACTIONS } from '../../../utils/emitter';
 import { strCapitalized } from '../../../utils/strCapitalized';
 
@@ -12,6 +12,7 @@ const props = defineProps<{
 	projects: Project[];
 }>();
 
+const isSuccess = ref(false);
 const isRemoving = ref(false);
 
 const emits = defineEmits<{
@@ -23,38 +24,62 @@ const onRemoveProjectClick = async () => {
 	await Promise.all(props.projects.map(pr => removeProject(pr.id)));
 	isRemoving.value = false;
 
-	emitter.emit(EMITTER_NAMES.modal, { action: EMITT_ACTIONS.CLOSE });
+	emitter.emit(EMITTER_NAMES.success, { action: EMITT_ACTIONS.SUCCESS });
 
-	emits('close-modal');
+	isSuccess.value = true;
+	isRemoving.value = false;
 };
 </script>
 
 <template>
 	<div class="remove-project-modal">
-		<h2 v-if="projects.length > 1">Estas segur que vols eliminar els projectes seleccionats?</h2>
-		<h2 v-else="projects.length === 1">
-			Estas segur que vols eliminar el projecte de
-			<span class="project-title">{{ strCapitalized(projects[0].title) }}</span
-			>?
-		</h2>
-		<div class="modal-actions">
-			<ActionButton
-				:kind="BUTTON_KINDS.SECONDARY"
-				:disabled="isRemoving"
-				@on-action-click="emits('close-modal')"
-				text="Cancelar" />
-			<ActionButton
-				:kind="BUTTON_KINDS.SECONDARY"
-				:disabled="isRemoving"
-				text="Eliminar"
-				@on-action-click="onRemoveProjectClick">
-				<template
-					#icon
-					v-if="isRemoving">
-					<IconRotateClockwise class="spinner" />
-				</template>
-			</ActionButton>
-		</div>
+		<template v-if="!isRemoving && !isSuccess">
+			<h2 v-if="projects.length > 1">Estas segur que vols eliminar els projectes seleccionats?</h2>
+			<h2 v-else="projects.length === 1">
+				Estas segur que vols eliminar el projecte de
+				<span class="project-title">{{ strCapitalized(projects[0].title) }}</span
+				>?
+			</h2>
+			<div class="modal-actions">
+				<ActionButton
+					:kind="BUTTON_KINDS.SECONDARY"
+					:disabled="isRemoving"
+					@on-action-click="emits('close-modal')"
+					text="Cancelar" />
+				<ActionButton
+					:kind="BUTTON_KINDS.SECONDARY"
+					:disabled="isRemoving"
+					text="Eliminar"
+					@on-action-click="onRemoveProjectClick">
+				</ActionButton>
+			</div>
+		</template>
+
+		<template v-if="isRemoving">
+			<IconRotateClockwise
+				width="40"
+				height="40"
+				class="spinner"
+				stroke-width="1" />
+			<h2 v-if="projects.length > 1">Eliminant projectes</h2>
+			<h2 v-else="projects.length === 1">
+				Eliminant projecte de
+				<span class="project-title">{{ strCapitalized(projects[0].title) }}</span>
+			</h2>
+		</template>
+
+		<template v-if="isSuccess">
+			<IconCircleCheck
+				width="40"
+				height="40"
+				stroke-width="1" />
+			<h2 v-if="projects.length > 1">Projectes eliminats correctament</h2>
+			<h2 v-else="projects.length === 1">
+				Projecte de
+				<span class="project-title">{{ strCapitalized(projects[0].title) }}</span>
+				eliminat correctament
+			</h2>
+		</template>
 	</div>
 </template>
 

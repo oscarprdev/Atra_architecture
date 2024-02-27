@@ -3,17 +3,18 @@ import ActionButton from '../ActionButton.vue';
 import { BUTTON_KINDS } from '../ActionButton.types';
 import CreateProjectForm from './CreateProjectForm.vue';
 import type { ProjectFormState } from './CreateProjectForm.types';
-import { onUnmounted, ref } from 'vue';
+import { ref } from 'vue';
 import { createProject } from '../../../api/endpoints/create-project';
-import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../../utils/emitter';
-import { IconRotateClockwise } from '@tabler/icons-vue';
+import { IconRotateClockwise, IconCircleCheck } from '@tabler/icons-vue';
 import type { CreateProjectBody } from '../../../api/endpoints/create-project';
+import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../../utils/emitter';
 
 const emits = defineEmits<{
 	(e: 'close-modal'): void;
 }>();
 
 const modalLoading = ref(false);
+const isSuccess = ref(false);
 const formRequiredMessage = ref<string>();
 
 const onSubmit = async (values: ProjectFormState) => {
@@ -30,8 +31,10 @@ const onSubmit = async (values: ProjectFormState) => {
 		modalLoading.value = true;
 		await createProject(payload);
 
-		emits('close-modal');
-		emitter.emit(EMITTER_NAMES.modal, { action: EMITT_ACTIONS.CLOSE });
+		emitter.emit(EMITTER_NAMES.success, { action: EMITT_ACTIONS.SUCCESS });
+
+		modalLoading.value = false;
+		isSuccess.value = true;
 	} else {
 		formRequiredMessage.value = 'El projecte deu tindre 2 imatges mínim';
 
@@ -40,17 +43,13 @@ const onSubmit = async (values: ProjectFormState) => {
 		}, 3000);
 	}
 };
-
-onUnmounted(() => {
-	modalLoading.value = false;
-});
 </script>
 
 <template>
 	<div
 		class="create-project-modal"
-		:class="{ default: !modalLoading, loading: modalLoading }">
-		<template v-if="!modalLoading">
+		:class="{ default: !modalLoading, loading: modalLoading, success: isSuccess }">
+		<template v-if="!modalLoading && !isSuccess">
 			<h2>Crear un nou projecte</h2>
 			<CreateProjectForm
 				:required-message="formRequiredMessage"
@@ -70,12 +69,19 @@ onUnmounted(() => {
 			</CreateProjectForm>
 		</template>
 		<template v-if="modalLoading">
-			<h2>Creant projecte...</h2>
 			<IconRotateClockwise
 				width="40"
 				height="40"
 				stroke-width="1"
 				class="spinner" />
+			<h2>Creant projecte...</h2>
+		</template>
+		<template v-if="isSuccess">
+			<IconCircleCheck
+				width="40"
+				height="40"
+				stroke-width="1" />
+			<h2>Projecte creat correctament</h2>
 		</template>
 	</div>
 </template>
@@ -99,6 +105,11 @@ onUnmounted(() => {
 }
 
 .loading {
+	width: 70vw;
+	max-width: 250px;
+}
+
+.success {
 	width: 70vw;
 	max-width: 250px;
 }

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { currentYear } from '../../../utils/currentYear';
-import { computed, reactive } from 'vue';
+import { reactive } from 'vue';
 import type { ProjectFormState } from './CreateProjectForm.types';
 import ProjectForm from './ProjectForm.vue';
 
