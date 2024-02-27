@@ -92,6 +92,12 @@ emitter.on(EMITTER_NAMES.sort, async payload => {
 					: projects.value.sort((a, b) => (b.isTop ? 0 : 1) - (a.isTop ? 0 : 1));
 				sortedValues.top = !sortedValues.top;
 				break;
+			case 'date':
+				projects.value = sortedValues.top
+					? projects.value.sort((a, b) => new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime())
+					: projects.value.sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime());
+				sortedValues.top = !sortedValues.top;
+				break;
 			default:
 				break;
 		}

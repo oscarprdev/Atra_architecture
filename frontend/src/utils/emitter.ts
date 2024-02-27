@@ -53,7 +53,7 @@ interface Error {
 
 interface Sort {
 	action: EmittActions.SORT;
-	kind: 'year' | 'top';
+	kind: 'year' | 'top' | 'date';
 }
 
 type Events = {

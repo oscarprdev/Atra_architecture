@@ -10,7 +10,7 @@ const onCreateProjectClick = () => {
 	emitter.emit(EMITTER_NAMES.modal, { action: EMITT_ACTIONS.CREATE, componentName: 'CreateProjectModal' });
 };
 
-const onSortClick = (kind: 'year' | 'top') => {
+const onSortClick = (kind: 'year' | 'top' | 'date') => {
 	emitter.emit(EMITTER_NAMES.sort, { action: EMITT_ACTIONS.SORT, kind });
 };
 </script>
@@ -29,6 +29,12 @@ const onSortClick = (kind: 'year' | 'top') => {
 				class="sort"
 				@click="onSortClick('year')">
 				<p>Any</p>
+				<IconArrowsSort width="17" />
+			</button>
+			<button
+				class="sort"
+				@click="onSortClick('date')">
+				<p>Actualizat</p>
 				<IconArrowsSort width="17" />
 			</button>
 		</div>
