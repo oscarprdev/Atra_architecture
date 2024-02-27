@@ -111,6 +111,7 @@ onMounted(async () => mountProjectList());
 		<tbody>
 			<ProjectRow
 				v-for="project in projects"
+				:key="project.id"
 				:is-project-checked="checkedProjects.some(pr => pr.id === project.id)"
 				:project="project"
 				@toggle-checked-project="onToggleCheckedProject" />

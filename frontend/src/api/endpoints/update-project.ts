@@ -11,17 +11,27 @@ export interface UpdateProjectPayload {
 	images: Array<string> | Array<File>;
 }
 
+const extractFilename = (imagekey: string) => {
+	const parts = imagekey.split('-');
+	const nonUuidParts = parts.splice(0, parts.length - 5);
+	return nonUuidParts.length > 0 ? nonUuidParts.join('-') : imagekey;
+};
+
 const createFileFromImageUrl = async (imageKey: string) => {
+	const filename = extractFilename(imageKey.split('/')[1]);
+
 	const response = await fetch(`${IMAGE_URL}/${imageKey}`);
+
 	const blob = await response.blob();
-	return new File([blob], 'image', { type: blob.type });
+
+	return new File([blob], filename, { type: blob.type });
 };
 
 const createFormData = async (payload: UpdateProjectPayload) => {
 	const formData = new FormData();
 
 	if (payload.mainImage instanceof File) {
-		formData.append('mainImage', payload.mainImage, payload.mainImage.name);
+		formData.append('mainImage', payload.mainImage, extractFilename(payload.mainImage.name));
 	} else {
 		const file = await createFileFromImageUrl(payload.mainImage);
 
@@ -32,7 +42,7 @@ const createFormData = async (payload: UpdateProjectPayload) => {
 	if (Array.isArray(rawImages)) {
 		for (const image of rawImages) {
 			if (image instanceof File) {
-				formData.append('images', image, image.name);
+				formData.append('images', image, extractFilename(image.name));
 			} else {
 				const file = await createFileFromImageUrl(image);
 

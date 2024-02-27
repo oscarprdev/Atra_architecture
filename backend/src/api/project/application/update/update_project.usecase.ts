@@ -36,59 +36,45 @@ export class DefaultUpdateProjectUsecase implements UpdateProjectUsecase {
 		try {
 			await this.checkProjectWithSameTitle(env, updateProjectBody.title, updateProjectBody.id);
 
+			// Remove all images already stored
 			const { project } = await this.ports.provideCurrentProject({ env, id: updateProjectBody.id });
+			await this.removeOldProjectImages(project.title, env);
 
-			const titleFormatted = updateProjectBody.title.replaceAll(' ', '_');
-			const { images } = await this.ports.selectImagesByProjectFromBucket({ project: titleFormatted, env });
-
+			// Upload images on bucket
 			const allImagesFromInput = updateProjectBody.images.concat(updateProjectBody.mainImage);
-			const inputImgString = allImagesFromInput.filter((input) => !(input instanceof File)) as unknown as string[];
+			const imagesUploaded = await this.ports.uploadImagesOnBucket({
+				images: allImagesFromInput as File[],
+				project: updateProjectBody.title,
+				env,
+			});
 
-			if (updateProjectBody.title !== project.title) {
-				await this.removeOldProjectImages(project.title, env);
-			} else {
-				const imagesToRemove = images.filter((img) => !inputImgString.includes(`${project.title}/${img.name}`));
-
-				const imagesToRemoveKeys = imagesToRemove.map((img) => `${titleFormatted}/${img.name}`);
-
-				if (imagesToRemove.length > 0) {
-					await Promise.all([
-						this.ports.removeImagesFromBucket({ images: imagesToRemoveKeys, env }),
-						this.ports.removeImagesFromDb({ imageKeys: imagesToRemoveKeys, env }),
-					]);
-				}
-			}
-
-			const imagesAlreadyStored = images.filter((img) => inputImgString.includes(`${titleFormatted}/${img.name}`));
-			const imagesToUpload = [...allImagesFromInput.filter((img) => img instanceof File), ...imagesAlreadyStored];
-
-			const [projectResponse, imagesUploaded] = await Promise.all([
-				this.ports.updateProject({
-					projectBody: {
-						projectId: updateProjectBody.id,
-						title: updateProjectBody.title,
-						description: updateProjectBody.description,
-						isTop: updateProjectBody.isTop,
-						year: updateProjectBody.year,
-					},
-					env,
-				}),
-				this.ports.uploadImagesOnBucket({ images: imagesToUpload as File[], project: updateProjectBody.title, env }),
-			]);
-
+			// Insert images on db
+			const titleFormatted = updateProjectBody.title.replaceAll(' ', '_');
 			await Promise.all(
 				imagesUploaded.images.map((img) =>
 					this.ports.insertImageOnDb({
 						imageKey: `${titleFormatted}/${img.name}`,
-						projectId: projectResponse.project.id,
+						projectId: updateProjectBody.id,
 						isMain: Boolean((updateProjectBody.mainImage as File).name && img.name.includes((updateProjectBody.mainImage as File).name)),
 						env,
 					})
 				)
 			);
 
-			const mainImage = imagesUploaded.images.find((img) => img.name.match((updateProjectBody.mainImage as File).name));
+			//Insert project on db
+			const projectResponse = await this.ports.updateProject({
+				projectBody: {
+					projectId: updateProjectBody.id,
+					title: updateProjectBody.title,
+					description: updateProjectBody.description,
+					isTop: updateProjectBody.isTop,
+					year: updateProjectBody.year,
+				},
+				env,
+			});
 
+			// Return project with images
+			const mainImage = imagesUploaded.images.find((img) => img.name.match((updateProjectBody.mainImage as File).name));
 			const restOfImages = mainImage ? imagesUploaded.images.filter((img) => !img.name.match(mainImage.name)) : imagesUploaded.images;
 
 			return {
@@ -105,6 +91,42 @@ export class DefaultUpdateProjectUsecase implements UpdateProjectUsecase {
 				JSON.stringify({
 					status: status || 500,
 					message: `${error instanceof Error ? message : 'Error updating project'}`,
+				})
+			);
+		}
+	}
+
+	async updateIsTop({
+		id,
+		isTop,
+		env,
+	}: UpdateProjectUsecasesTypes.UpdateIsTopInput): Promise<UpdateProjectUsecasesTypes.UpdateIsTopOutput> {
+		try {
+			const { project } = await this.ports.provideCurrentProject({ id, env });
+
+			const updatedProject = {
+				projectId: project.id,
+				title: project.title,
+				year: project.year,
+				description: project.description,
+				isTop,
+			};
+
+			const projectResponse = await this.ports.updateProject({ projectBody: updatedProject, env });
+
+			return {
+				project: {
+					...projectResponse.project,
+					images: projectResponse.project.images.split(','),
+				},
+			};
+		} catch (error) {
+			const { status, message } = extractErrorInfo(error);
+
+			throw new Error(
+				JSON.stringify({
+					status: status || 500,
+					message: `${error instanceof Error ? message : 'Error updating is top field'}`,
 				})
 			);
 		}

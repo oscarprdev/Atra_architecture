@@ -124,13 +124,10 @@ export class DefaultProjectInfra implements ProjectInfra {
 				args: [title, description, year, isTop, projectId],
 			});
 
-			const dbProject = await client.execute({
-				sql: `SELECT * FROM projects WHERE project_id = ?;`,
-				args: [projectId],
-			});
+			const dbProject = await this.describeProject({ projectId, env });
 
 			return {
-				project: dbProject.rows[0] as unknown as ProjectDb,
+				project: dbProject.project,
 			};
 		} catch (error) {
 			throw new Error(

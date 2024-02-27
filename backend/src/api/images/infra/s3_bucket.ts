@@ -129,7 +129,6 @@ export class Bucket {
 
 	async deleteItemByKey(key: string) {
 		try {
-			console.log('to delete from bucket', key);
 			const url = await getSignedUrl(this.S3, new DeleteObjectCommand({ Bucket: this.BucketName, Key: key }), { expiresIn: 3600 });
 
 			await fetch(url, {

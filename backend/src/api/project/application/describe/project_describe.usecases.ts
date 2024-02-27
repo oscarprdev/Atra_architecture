@@ -30,8 +30,8 @@ export class DefaultProjectDescribeUsecases implements ProjectDescribeUsecases {
 
 			return {
 				...response.project,
-				mainImage: response.project.mainImage,
-				images: response.project.images,
+				mainImage: `${response.project.title}/${response.project.mainImage}`,
+				images: response.project.images.map((img) => `${response.project.title}/${img}`),
 			};
 		} catch (error) {
 			const { status, message } = extractErrorInfo(error);

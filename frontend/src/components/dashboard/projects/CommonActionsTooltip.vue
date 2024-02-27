@@ -6,6 +6,7 @@ import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../../utils/emitter';
 import { updateProject } from '../../../api/endpoints/update-project';
 import ActionButton from '../ActionButton.vue';
 import { BUTTON_KINDS } from '../ActionButton.types';
+import { updateProjectIsTop } from '../../../api/endpoints/update-project-is-top';
 
 const props = defineProps<{
 	checkedProjects: Project[];
@@ -31,7 +32,7 @@ const onUpdateTopProjects = async () => {
 	const updatedProjects = props.checkedProjects.map(pr => ({ ...pr, isTop: !pr.isTop }));
 
 	isUpdatePending.value = true;
-	await Promise.all(updatedProjects.map(pr => updateProject(pr)));
+	await Promise.all(updatedProjects.map(pr => updateProjectIsTop(pr.id, pr.isTop)));
 	isUpdatePending.value = false;
 
 	emits('onProjectsUpdated', updatedProjects);

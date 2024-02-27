@@ -13,6 +13,7 @@ import { updatePasswordUserHandler } from '../api/user/handlers/update_password.
 import { updateProjectHandler } from '../api/project/handlers/project_update_handler';
 import { validateAuthHandler } from '../api/user/handlers/validate_auth.handler';
 import { authMiddleware } from '../middlewares/auth';
+import { updateProjectIsTopHandler } from '../api/project/handlers/project_update_is_top_handler';
 
 function buildRouter(env: Env): RouterType {
 	const router = Router();
@@ -23,6 +24,7 @@ function buildRouter(env: Env): RouterType {
 	router.post('/project/create', corsMiddleware(authMiddleware(createProjectHandler)));
 	router.delete('/project/delete/:id', corsMiddleware(authMiddleware(deleteProjectHandler)));
 	router.put('/project/update', corsMiddleware(authMiddleware(updateProjectHandler)));
+	router.put('/project/update/isTop', corsMiddleware(authMiddleware(updateProjectIsTopHandler)));
 
 	// User handlers
 	router.get('/user/describe', corsMiddleware(describeUserHandler));
