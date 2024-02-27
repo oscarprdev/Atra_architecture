@@ -32,9 +32,6 @@ emitter.on(EMITTER_NAMES.modal, payload => {
 				modalComponent.value = payload.componentName;
 				project.value = payload.project;
 				break;
-			case EMITT_ACTIONS.CLOSE:
-				closeModal();
-				break;
 			default:
 				break;
 		}

@@ -32,9 +32,6 @@ const onSubmit = async (values: ProjectFormState) => {
 		await createProject(payload);
 
 		emitter.emit(EMITTER_NAMES.success, { action: EMITT_ACTIONS.SUCCESS });
-
-		modalLoading.value = false;
-		isSuccess.value = true;
 	} else {
 		formRequiredMessage.value = 'El projecte deu tindre 2 imatges mínim';
 
@@ -43,6 +40,13 @@ const onSubmit = async (values: ProjectFormState) => {
 		}, 3000);
 	}
 };
+
+emitter.on(EMITTER_NAMES.modal, payload => {
+	if (typeof payload === 'object' && payload.action === EMITT_ACTIONS.CLOSE) {
+		modalLoading.value = false;
+		isSuccess.value = true;
+	}
+});
 </script>
 
 <template>
@@ -115,7 +119,9 @@ const onSubmit = async (values: ProjectFormState) => {
 }
 
 h2 {
-	font-size: var(--font-medium);
+	font-size: var(--font-small);
+	width: 100%;
+	font-weight: 200;
 }
 
 .action-buttons {

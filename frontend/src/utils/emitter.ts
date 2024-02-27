@@ -36,7 +36,7 @@ interface EditProjectPayload {
 	action: EmittActions.EDIT;
 }
 
-interface CloseRemoveProjectModal {
+interface CloseModal {
 	action: EmittActions.CLOSE;
 }
 
@@ -52,7 +52,7 @@ interface Error {
 type Events = {
 	searchProject: string;
 	getProjects: boolean;
-	modal: CreateProjectPayload | RemoveProjectsPayload | CloseRemoveProjectModal | EditProjectPayload;
+	modal: CreateProjectPayload | RemoveProjectsPayload | EditProjectPayload | CloseModal;
 	success: Success;
 	error: Error;
 };

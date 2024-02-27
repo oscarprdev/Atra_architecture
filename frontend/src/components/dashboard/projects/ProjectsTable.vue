@@ -77,6 +77,8 @@ emitter.on(EMITTER_NAMES.success, async payload => {
 	if (typeof payload === 'object' && payload.action === EMITT_ACTIONS.SUCCESS) {
 		await mountProjectList();
 	}
+
+	emitter.emit(EMITTER_NAMES.modal, { action: EMITT_ACTIONS.CLOSE });
 });
 
 const mountProjectList = async () => {

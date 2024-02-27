@@ -22,13 +22,16 @@ const emits = defineEmits<{
 const onRemoveProjectClick = async () => {
 	isRemoving.value = true;
 	await Promise.all(props.projects.map(pr => removeProject(pr.id)));
-	isRemoving.value = false;
 
 	emitter.emit(EMITTER_NAMES.success, { action: EMITT_ACTIONS.SUCCESS });
-
-	isSuccess.value = true;
-	isRemoving.value = false;
 };
+
+emitter.on(EMITTER_NAMES.modal, payload => {
+	if (typeof payload === 'object' && payload.action === EMITT_ACTIONS.CLOSE) {
+		isSuccess.value = true;
+		isRemoving.value = false;
+	}
+});
 </script>
 
 <template>
