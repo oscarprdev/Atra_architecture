@@ -1,5 +1,4 @@
 ---
-import type { File } from '../../api/index';
 import { IMAGE_URL } from '../../constants';
 import { strCapitalized } from '../../utils/strCapitalized';
 
@@ -7,7 +6,7 @@ interface Props {
 	title: string;
 	description: string;
 	year: number;
-	mainImage: File;
+	mainImage: string;
 }
 
 const { title, description, year, mainImage }: Props = Astro.props;
