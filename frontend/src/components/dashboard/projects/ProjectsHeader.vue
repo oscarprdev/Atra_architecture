@@ -29,7 +29,7 @@ const actionDropdownOptions: Option[] = [
 	},
 	{
 		label: 'Per defecte',
-		cb: () => emitter.emit(EMITTER_NAMES.sort, { action: EMITT_ACTIONS.SORT, kind: 'top' }),
+		cb: () => emitter.emit(EMITTER_NAMES.sort, { action: EMITT_ACTIONS.SORT, kind: 'default' }),
 	},
 ];
 </script>

@@ -96,6 +96,7 @@ emitter.on(EMITTER_NAMES.sort, async payload => {
 				await mountProjectList({ page: currentPage.value, date: sortedValues.date });
 				break;
 			default:
+				console.log('here');
 				sortedValues.date = undefined;
 				sortedValues.top = undefined;
 				sortedValues.year = undefined;
@@ -221,7 +222,7 @@ td {
 }
 
 th {
-	font-size: var(--font-medium);
+	font-size: var(--font-small);
 }
 
 tr {
@@ -230,7 +231,7 @@ tr {
 	align-items: center;
 	margin: 0 2rem;
 	gap: 1rem;
-	height: 95px;
+	height: 85px;
 	border-bottom: 1px solid var(--primary-light);
 }
 
