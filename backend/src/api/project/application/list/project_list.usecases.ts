@@ -21,23 +21,12 @@ export class DefaultProjectListUsecases implements ProjectListUsecases {
 			const offset = this.calculateOffset(page);
 			const { projects } = await this.ports.listProjects({ search, date, isTop, year, offset, limit: LIMIT, env });
 
-			return await Promise.all(
-				projects.map(async (project) => {
-					const { image } = await this.ports.getImageByKey({ key: project.mainImage, env });
-					const images =
-						project.images && project.images.length > 0
-							? await Promise.all(project.images.split(',').map((image) => this.ports.getImageByKey({ key: image, env })))
-							: [];
-
-					const title = project.title.replaceAll(' ', '_');
-
-					return {
-						...project,
-						mainImage: `${title}/${image.name}`,
-						images: images.map((img) => `${title}/${img.image.name}`),
-					};
-				})
-			);
+			return projects.map((project) => {
+				return {
+					...project,
+					images: project.images && project.images.length > 0 ? project.images.split(',') : [],
+				};
+			});
 		} catch (error) {
 			const { status, message } = extractErrorInfo(error);
 

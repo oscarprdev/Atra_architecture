@@ -11,17 +11,10 @@ export interface ProjectDescribeUsecases {
 export class DefaultProjectDescribeUsecases implements ProjectDescribeUsecases {
 	constructor(private readonly ports: ProjectDescribePorts) {}
 
-	private async nextRequest(mainImageKey: string, imagesKeys: string, env: Env): Promise<DescribeProjectUsecasesTypes.NextRequestOutput> {
-		const imagesKeysArray = imagesKeys && imagesKeys.length > 0 ? imagesKeys.split(',') : [];
-
-		const [mainImageResponse, imagesResponse] = await Promise.all([
-			this.ports.getImageByKey({ key: mainImageKey, env }),
-			Promise.all(imagesKeysArray.map((imageKey) => this.ports.getImageByKey({ key: imageKey, env }))),
-		]);
-
+	private async nextRequest(mainImageKey: string, imagesKeys: string): Promise<DescribeProjectUsecasesTypes.NextRequestOutput> {
 		return {
-			mainImage: mainImageResponse.image,
-			images: imagesResponse.map((i) => i.image),
+			mainImage: mainImageKey,
+			images: imagesKeys && imagesKeys.length > 0 ? imagesKeys.split(',') : [],
 		};
 	}
 
@@ -31,8 +24,8 @@ export class DefaultProjectDescribeUsecases implements ProjectDescribeUsecases {
 
 			return {
 				...response.project,
-				mainImage: `${response.project.title}/${response.project.mainImage}`,
-				images: response.project.images.map((img) => `${response.project.title}/${img}`),
+				mainImage: response.project.mainImage,
+				images: response.project.images,
 			};
 		} catch (error) {
 			const { status, message } = extractErrorInfo(error);

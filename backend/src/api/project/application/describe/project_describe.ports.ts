@@ -18,8 +18,8 @@ export namespace DescribeProjectPorts {
 	};
 
 	export type NextRequestOutput = {
-		mainImage: File;
-		images: File[];
+		mainImage: string;
+		images: string[];
 	};
 }
 

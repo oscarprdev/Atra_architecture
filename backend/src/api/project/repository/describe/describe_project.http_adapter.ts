@@ -18,8 +18,8 @@ export class DescribeProjectHttpAdapter implements ProjectDescribePorts {
 		return {
 			project: {
 				...mapProjectDbToApp(project),
-				mainImage: mainImage.name,
-				images: images.map((img) => img.name),
+				mainImage,
+				images,
 			},
 		};
 	}

@@ -18,8 +18,6 @@ export class DefaultUpdatePasswordUsecases extends AuthUsecases implements Updat
 
 			const isValid = await this.verifyPassword(oldPassword, env.SALT, passwordHashed);
 
-			console.log(isValid);
-
 			if (!isValid) {
 				throw new Error(
 					JSON.stringify({
