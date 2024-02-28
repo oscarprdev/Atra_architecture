@@ -2,12 +2,15 @@
 import { ref } from 'vue';
 import type { Option } from './Dropdown.types';
 import { IconChevronUp } from '@tabler/icons-vue';
+import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../utils/emitter';
 
 const props = defineProps<{
 	options: Option[];
 	defaultText: string;
 }>();
 
+const isDropdownDisabled = ref(false);
+const selectedOption = ref(props.defaultText);
 const isOpen = ref(false);
 const options = ref<Option[]>(props.options);
 
@@ -17,18 +20,30 @@ const toggleDropdown = () => {
 
 const selectOption = (option: Option) => {
 	isOpen.value = false;
-
+	selectedOption.value = option.label;
+	isDropdownDisabled.value = true;
 	const optionToPerform = options.value.find(op => op.label === option.label);
 	optionToPerform?.cb();
 };
+
+emitter.on(EMITTER_NAMES.dropdown, () => {
+	selectedOption.value = props.defaultText;
+});
+
+emitter.on(EMITTER_NAMES.pagination, payload => {
+	if (typeof payload === 'object' && payload.action === EMITT_ACTIONS.NUM_PROJECTS) {
+		isDropdownDisabled.value = false;
+	}
+});
 </script>
 
 <template>
 	<div class="dropdown">
 		<button
-			:class="{ opened: isOpen }"
+			:class="{ opened: isOpen || selectedOption !== props.defaultText }"
+			:disabled="isDropdownDisabled"
 			@click="toggleDropdown">
-			<p>{{ props.defaultText }}</p>
+			<p>{{ selectedOption }}</p>
 			<IconChevronUp
 				class="icon"
 				:class="{ rotate: !isOpen }" />
@@ -51,7 +66,7 @@ const selectOption = (option: Option) => {
 	position: relative;
 	display: inline-block;
 
-	width: 120px;
+	width: fit-content;
 }
 
 .icon {
@@ -80,7 +95,7 @@ button {
 	color: var(--text-color);
 }
 
-.opened {
+.opened:not(:disabled) {
 	background-color: var(--contrast-light);
 	border: 1px solid var(--contrast-dark);
 }

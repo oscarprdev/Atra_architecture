@@ -11,6 +11,7 @@ export enum EmittActions {
 	SORT = 'SORT',
 	PAGINATION = 'PAGINATION',
 	NUM_PROJECTS = 'NUM_PROJECTS',
+	DROPDOWN = 'DROPDOWN',
 }
 
 export const EMITT_ACTIONS = {
@@ -23,6 +24,7 @@ export const EMITT_ACTIONS = {
 	SORT: 'SORT' as EmittActions.SORT,
 	PAGINATION: 'PAGINATION' as EmittActions.PAGINATION,
 	NUM_PROJECTS: 'NUM_PROJECTS' as EmittActions.NUM_PROJECTS,
+	DROPDOWN: 'DROPDOWN' as EmittActions.DROPDOWN,
 };
 
 interface CreateProjectPayload {
@@ -55,7 +57,7 @@ interface Error {
 	message: string;
 }
 
-export type SortKind = 'year' | 'top' | 'date';
+export type SortKind = 'year' | 'top' | 'date' | 'default';
 
 interface Sort {
 	action: EmittActions.SORT;
@@ -72,6 +74,7 @@ type Events = {
 	searchProject: string;
 	sort: Sort;
 	pagination: Pagination;
+	dropdown: boolean;
 	modal: CreateProjectPayload | RemoveProjectsPayload | EditProjectPayload | CloseModal;
 	success: Success;
 	error: Error;
@@ -83,6 +86,7 @@ export const EMITTER_NAMES: Record<keyof Events, keyof Events> = {
 	searchProject: 'searchProject',
 	sort: 'sort',
 	pagination: 'pagination',
+	dropdown: 'dropdown',
 	modal: 'modal',
 	success: 'success',
 	error: 'error',

@@ -43,6 +43,7 @@ const closeModal = () => {
 
 	setTimeout(() => {
 		isOpened.value = false;
+		emitter.emit(EMITTER_NAMES.dropdown, true);
 	}, 200);
 };
 

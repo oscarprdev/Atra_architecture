@@ -78,24 +78,28 @@ emitter.on(EMITTER_NAMES.sort, async payload => {
 	if (typeof payload === 'object' && payload.action === EMITT_ACTIONS.SORT) {
 		switch (payload.kind) {
 			case 'year':
-				sortedValues.year = sortedValues.year ? !sortedValues.year : true;
+				sortedValues.year = true;
 				sortedValues.date = undefined;
 				sortedValues.top = undefined;
 				await mountProjectList({ page: currentPage.value, year: sortedValues.year });
 				break;
 			case 'top':
-				sortedValues.top = sortedValues.top ? !sortedValues.top : true;
+				sortedValues.top = true;
 				sortedValues.date = undefined;
 				sortedValues.year = undefined;
 				await mountProjectList({ page: currentPage.value, isTop: sortedValues.top });
 				break;
 			case 'date':
-				sortedValues.date = sortedValues.date ? !sortedValues.date : true;
+				sortedValues.date = true;
 				sortedValues.top = undefined;
 				sortedValues.year = undefined;
 				await mountProjectList({ page: currentPage.value, date: sortedValues.date });
 				break;
 			default:
+				sortedValues.date = undefined;
+				sortedValues.top = undefined;
+				sortedValues.year = undefined;
+				await mountProjectList({ page: currentPage.value });
 				break;
 		}
 	}

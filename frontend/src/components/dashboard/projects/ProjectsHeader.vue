@@ -6,25 +6,41 @@ import { BUTTON_KINDS } from '../ActionButton.types';
 import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../../utils/emitter';
 import SortButton from './SortButton.vue';
 import Pagination from './Pagination.vue';
+import Dropdown from '../Dropdown.vue';
+import type { Option } from '../Dropdown.types';
+import { IconArrowUp, IconArrowDown } from '@tabler/icons-vue';
 
 const onCreateProjectClick = () => {
 	emitter.emit(EMITTER_NAMES.modal, { action: EMITT_ACTIONS.CREATE, componentName: 'CreateProjectModal' });
 };
+
+const actionDropdownOptions: Option[] = [
+	{
+		label: 'Destacats',
+		cb: () => emitter.emit(EMITTER_NAMES.sort, { action: EMITT_ACTIONS.SORT, kind: 'top' }),
+	},
+	{
+		label: 'Nous projectes',
+		cb: () => emitter.emit(EMITTER_NAMES.sort, { action: EMITT_ACTIONS.SORT, kind: 'year' }),
+	},
+	{
+		label: 'Ultims actualitzats',
+		cb: () => emitter.emit(EMITTER_NAMES.sort, { action: EMITT_ACTIONS.SORT, kind: 'date' }),
+	},
+	{
+		label: 'Per defecte',
+		cb: () => emitter.emit(EMITTER_NAMES.sort, { action: EMITT_ACTIONS.SORT, kind: 'top' }),
+	},
+];
 </script>
 
 <template>
 	<header>
 		<div class="filters">
 			<InputSearch />
-			<SortButton
-				text="Destacat"
-				kind="top" />
-			<SortButton
-				text="Any"
-				kind="year" />
-			<SortButton
-				text="Actualitzat"
-				kind="date" />
+			<Dropdown
+				:options="actionDropdownOptions"
+				default-text="Ordenar" />
 			<Pagination />
 		</div>
 
