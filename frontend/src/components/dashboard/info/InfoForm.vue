@@ -2,8 +2,6 @@
 import { reactive, ref } from 'vue';
 import type { User } from '../../../api';
 import { IMAGE_URL } from '../../../constants';
-import { BUTTON_KINDS } from '../ActionButton.types';
-import ActionButton from '../ActionButton.vue';
 import TextareaForm from '../TextareaForm.vue';
 import MainImageForm from '../projects/MainImageForm.vue';
 import ErrorMessage from '../ErrorMessage.vue';
@@ -85,10 +83,7 @@ const onSubmit = (e: Event) => {
 			:value="user.description"
 			@change="onTextareaChange" />
 		<div class="action">
-			<ActionButton
-				text="Editar informació"
-				:type="'submit'"
-				:kind="BUTTON_KINDS.PRIMARY" />
+			<slot name="action" />
 		</div>
 		<div
 			v-if="formState.image.error"

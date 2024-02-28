@@ -26,7 +26,7 @@ const createFormData = async (payload: UpdateInfoPayload) => {
 
 	formData.append('email', payload.email);
 	formData.append('name', payload.name);
-	formData.append('direction', payload.description);
+	formData.append('direction', payload.direction);
 	formData.append('description', payload.description);
 	formData.append('phone', payload.phone.toString());
 	formData.append('id', payload.id);

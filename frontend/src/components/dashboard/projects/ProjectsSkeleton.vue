@@ -57,16 +57,7 @@ td {
 		var(--primary-hover) 75%
 	);
 	background-size: 300px 100%;
-	animation: loading 4s infinite linear;
+	animation: skeleton-loading 4s infinite linear;
 	border-radius: 0.5rem;
-}
-
-@keyframes loading {
-	0% {
-		background-position: -300px 0;
-	}
-	100% {
-		background-position: 300px 0;
-	}
 }
 </style>

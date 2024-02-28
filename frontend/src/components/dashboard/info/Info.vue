@@ -5,8 +5,13 @@ import InfoForm from './InfoForm.vue';
 import { getUserInfo } from '../../../api/endpoints/get-user-info';
 import type { InfoFormState } from './InfoForm.types';
 import { updateUserInfo, type UpdateInfoPayload } from '../../../api/endpoints/update-user-info';
+import SkeletonInfo from './SkeletonInfo.vue';
+import { BUTTON_KINDS } from '../ActionButton.types';
+import ActionButton from '../ActionButton.vue';
+import { IconRotateClockwise } from '@tabler/icons-vue';
 
 const user = ref<User | null>(null);
+const isUserLoading = ref(false);
 
 const onSubmitInfo = async (values: InfoFormState) => {
 	if (user.value && values.image.value && values.description.value) {
@@ -16,16 +21,21 @@ const onSubmitInfo = async (values: InfoFormState) => {
 			description: values.description.value,
 		} satisfies UpdateInfoPayload;
 
+		isUserLoading.value = true;
 		const userResponse = await updateUserInfo(paylaod);
 
 		if (userResponse) {
 			user.value = userResponse;
 		}
+
+		isUserLoading.value = false;
 	}
 };
 
 onMounted(async () => {
+	isUserLoading.value = true;
 	user.value = await getUserInfo();
+	isUserLoading.value = false;
 });
 </script>
 
@@ -38,7 +48,23 @@ onMounted(async () => {
 		<InfoForm
 			v-if="user"
 			:user="user"
-			@submit="onSubmitInfo" />
+			@submit="onSubmitInfo">
+			<template #action>
+				<ActionButton
+					:text="`${isUserLoading ? 'Editant..' : 'Editar informació'}`"
+					:type="'submit'"
+					:kind="BUTTON_KINDS.PRIMARY">
+					<template
+						#icon
+						v-if="isUserLoading">
+						<IconRotateClockwise
+							width="18"
+							class="spinner" />
+					</template>
+				</ActionButton>
+			</template>
+		</InfoForm>
+		<SkeletonInfo v-if="!user" />
 	</section>
 </template>
 
