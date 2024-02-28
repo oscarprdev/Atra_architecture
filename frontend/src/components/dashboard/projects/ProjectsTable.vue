@@ -103,7 +103,12 @@ emitter.on(EMITTER_NAMES.sort, async payload => {
 
 emitter.on(EMITTER_NAMES.success, async payload => {
 	if (typeof payload === 'object' && payload.action === EMITT_ACTIONS.SUCCESS) {
-		await mountProjectList({ page: currentPage.value });
+		await mountProjectList({
+			page: currentPage.value,
+			year: sortedValues.year,
+			date: sortedValues.date,
+			isTop: sortedValues.top,
+		});
 	}
 
 	emitter.emit(EMITTER_NAMES.modal, { action: EMITT_ACTIONS.CLOSE });
