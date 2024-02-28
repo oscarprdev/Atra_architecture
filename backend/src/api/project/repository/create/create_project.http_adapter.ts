@@ -2,6 +2,7 @@ import { ImagesUsecases } from '../../../images/application/images.usecases';
 import {
 	InsertImagePorts,
 	InsertProjectPorts,
+	ListProjectsTitles,
 	ProjectCreatePorts,
 	UploadImagePorts,
 	UploadImagesPorts,
@@ -30,5 +31,13 @@ export class CreateProjectHttpAdapter implements ProjectCreatePorts {
 
 	async uploadImages({ files, project, env }: UploadImagesPorts.Input): Promise<UploadImagesPorts.Output> {
 		return await this.imageUsecases.uploadImages({ files, project, env });
+	}
+
+	async listProjectsTitles({ env }: ListProjectsTitles.Input): Promise<ListProjectsTitles.Output> {
+		const projects = await this.client.listProject({ offset: 0, limit: 100, env });
+
+		return {
+			titles: projects.projects.map((pr) => pr.title),
+		};
 	}
 }

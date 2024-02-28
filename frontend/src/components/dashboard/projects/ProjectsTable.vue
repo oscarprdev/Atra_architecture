@@ -1,17 +1,26 @@
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import type { Project } from '../../../api';
 import InputCheckbox from './InputCheckbox.vue';
-import { EMITTER_NAMES, emitter } from '../../../utils/emitter';
-import { getProjectList } from '../../../api/projects/get-projects-list';
+import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../../utils/emitter';
+import { getProjectList, type GetProjectListInput } from '../../../api/endpoints/get-projects-list';
 import ProjectRow from './ProjectRow.vue';
 import ProjectsSkeleton from './ProjectsSkeleton.vue';
 import CommonActionsTooltip from './CommonActionsTooltip.vue';
+import Pagination from './Pagination.vue';
 
+const currentPage = ref(1);
 const isLoading = ref(false);
+
 const projects = ref<Project[]>([]);
 const checkedProjects = ref<Project[]>([]);
 const areAllProjectsChecked = ref(false);
+
+const sortedValues = reactive<{ top?: boolean; year?: boolean; date?: boolean }>({
+	top: undefined,
+	year: undefined,
+	date: undefined,
+});
 
 const onToggleAllCheckboxes = () => {
 	areAllProjectsChecked.value = !areAllProjectsChecked.value;
@@ -30,6 +39,10 @@ const onToggleCheckedProject = (id: string) => {
 
 	if (indexOfProjectChecked >= 0) {
 		checkedProjects.value.splice(indexOfProjectChecked, 1);
+
+		if (checkedProjects.value.length === 0) {
+			areAllProjectsChecked.value = false;
+		}
 		return;
 	}
 
@@ -37,16 +50,6 @@ const onToggleCheckedProject = (id: string) => {
 
 	if (project) {
 		checkedProjects.value.push(project);
-	}
-};
-
-const filterProjectsBySearchValue = async (searchValue: string) => {
-	if (searchValue.length > 0) {
-		projects.value = projects.value.filter(project =>
-			project.title.toLowerCase().includes(searchValue.toLowerCase())
-		);
-	} else {
-		mountProjectList();
 	}
 };
 
@@ -63,20 +66,85 @@ const cleanCheckedProjects = () => {
 	areAllProjectsChecked.value = false;
 };
 
-emitter.on(EMITTER_NAMES.searchProject, async searchValue =>
-	typeof searchValue === 'string'
-		? await filterProjectsBySearchValue(searchValue)
-		: emitter.off(EMITTER_NAMES.searchProject)
-);
+emitter.on(EMITTER_NAMES.searchProject, async searchValue => {
+	if (typeof searchValue === 'string') {
+		await mountProjectList({ page: currentPage.value, search: searchValue });
+	} else {
+		await mountProjectList({ page: currentPage.value });
+	}
+});
 
-const mountProjectList = async () => {
+emitter.on(EMITTER_NAMES.sort, async payload => {
+	if (typeof payload === 'object' && payload.action === EMITT_ACTIONS.SORT) {
+		switch (payload.kind) {
+			case 'year':
+				sortedValues.year = true;
+				sortedValues.date = undefined;
+				sortedValues.top = undefined;
+				await mountProjectList({ page: currentPage.value, year: sortedValues.year });
+				break;
+			case 'top':
+				sortedValues.top = true;
+				sortedValues.date = undefined;
+				sortedValues.year = undefined;
+				await mountProjectList({ page: currentPage.value, isTop: sortedValues.top });
+				break;
+			case 'date':
+				sortedValues.date = true;
+				sortedValues.top = undefined;
+				sortedValues.year = undefined;
+				await mountProjectList({ page: currentPage.value, date: sortedValues.date });
+				break;
+			default:
+				sortedValues.date = undefined;
+				sortedValues.top = undefined;
+				sortedValues.year = undefined;
+				await mountProjectList({ page: currentPage.value });
+				break;
+		}
+	}
+});
+
+emitter.on(EMITTER_NAMES.success, async payload => {
+	if (typeof payload === 'object' && payload.action === EMITT_ACTIONS.SUCCESS) {
+		await mountProjectList({
+			page: currentPage.value,
+			year: sortedValues.year,
+			date: sortedValues.date,
+			isTop: sortedValues.top,
+		});
+	}
+
+	emitter.emit(EMITTER_NAMES.modal, { action: EMITT_ACTIONS.CLOSE });
+});
+
+emitter.on(EMITTER_NAMES.pagination, async payload => {
+	if (typeof payload === 'object' && payload.action === EMITT_ACTIONS.PAGINATION) {
+		currentPage.value = payload.currentPage;
+
+		await mountProjectList({
+			page: currentPage.value,
+			date: sortedValues.date,
+			year: sortedValues.year,
+			isTop: sortedValues.top,
+		});
+	}
+});
+
+const mountProjectList = async ({ page, search, date, year, isTop }: GetProjectListInput) => {
 	isLoading.value = true;
-	const response = (await getProjectList()) || [];
+	const response = (await getProjectList({ page, search, year, date, isTop })) || [];
 	isLoading.value = false;
 	projects.value = response;
+
+	emitter.emit(EMITTER_NAMES.pagination, {
+		currentPage: page,
+		totalProject: projects.value.length,
+		action: EMITT_ACTIONS.NUM_PROJECTS,
+	});
 };
 
-onMounted(async () => mountProjectList());
+onMounted(async () => mountProjectList({ page: currentPage.value }));
 </script>
 
 <template>
@@ -100,13 +168,23 @@ onMounted(async () => mountProjectList());
 		</thead>
 		<tbody>
 			<ProjectRow
+				v-if="!isLoading"
 				v-for="project in projects"
+				:key="project.id"
 				:is-project-checked="checkedProjects.some(pr => pr.id === project.id)"
 				:project="project"
 				@toggle-checked-project="onToggleCheckedProject" />
 			<ProjectsSkeleton
-				v-if="projects.length < 1 && isLoading"
-				v-for="i in new Array(5).fill('')" />
+				v-else-if="isLoading"
+				v-for="i in new Array(6).fill('')" />
+			<tr
+				v-else-if="!isLoading && projects.length === 0"
+				class="empty">
+				<p>Cap resultat</p>
+			</tr>
+			<tr class="pagination">
+				<Pagination />
+			</tr>
 		</tbody>
 	</table>
 </template>
@@ -143,7 +221,7 @@ td {
 }
 
 th {
-	font-size: var(--font-medium);
+	font-size: var(--font-small);
 }
 
 tr {
@@ -152,8 +230,12 @@ tr {
 	align-items: center;
 	margin: 0 2rem;
 	gap: 1rem;
-	height: 95px;
+	height: 82px;
 	border-bottom: 1px solid var(--primary-light);
+}
+
+thead tr {
+	height: 60px;
 }
 
 tbody > tr:hover {
@@ -197,5 +279,22 @@ tbody > tr:hover {
 .table-dropdown {
 	margin-left: auto;
 	margin-right: 1rem;
+}
+
+.pagination {
+	display: flex;
+	justify-content: end;
+	padding-top: -5rem;
+	margin-right: 1.2rem;
+}
+
+.pagination:hover {
+	background-color: transparent;
+}
+
+.empty {
+	display: flex;
+	justify-content: center;
+	text-align: center;
 }
 </style>

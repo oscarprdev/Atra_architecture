@@ -48,8 +48,14 @@ properties:
     nullable: false
     example: '2024-01-10T19:14:04.489431Z'
   mainImage:
-    $ref: 'components/_index.yaml#/schemas/File'
+    type: string
+    description: 'The main image url.'
+    nullable: false
+    example: 'project/main.webp-5bab0fbc-93ac-4bda-be69-af67fc9c2a54'
   images:
     type: array
     items:
-      $ref: 'components/_index.yaml#/schemas/File'
+      type: string
+      description: 'The image url.'
+      nullable: false
+      example: 'project/1.webp-5bab0fbc-93ac-4bda-be69-af67fc9c2a54'

@@ -2,14 +2,16 @@
 import { ref } from 'vue';
 import type { Option } from './Dropdown.types';
 import { IconChevronUp } from '@tabler/icons-vue';
+import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../utils/emitter';
 
 const props = defineProps<{
 	options: Option[];
 	defaultText: string;
 }>();
 
+const isDropdownDisabled = ref(false);
+const selectedOption = ref(props.defaultText);
 const isOpen = ref(false);
-const selectedOption = ref<string | null>(null);
 const options = ref<Option[]>(props.options);
 
 const toggleDropdown = () => {
@@ -17,18 +19,31 @@ const toggleDropdown = () => {
 };
 
 const selectOption = (option: Option) => {
-	selectedOption.value = option.label;
 	isOpen.value = false;
-
+	selectedOption.value = option.label;
+	isDropdownDisabled.value = true;
 	const optionToPerform = options.value.find(op => op.label === option.label);
 	optionToPerform?.cb();
 };
+
+emitter.on(EMITTER_NAMES.dropdown, () => {
+	selectedOption.value = props.defaultText;
+});
+
+emitter.on(EMITTER_NAMES.pagination, payload => {
+	if (typeof payload === 'object' && payload.action === EMITT_ACTIONS.NUM_PROJECTS) {
+		isDropdownDisabled.value = false;
+	}
+});
 </script>
 
 <template>
 	<div class="dropdown">
-		<button @click="toggleDropdown">
-			<p>{{ selectedOption || props.defaultText }}</p>
+		<button
+			:class="{ opened: isOpen || selectedOption !== props.defaultText }"
+			:disabled="isDropdownDisabled"
+			@click="toggleDropdown">
+			<p>{{ selectedOption }}</p>
 			<IconChevronUp
 				class="icon"
 				:class="{ rotate: !isOpen }" />
@@ -51,7 +66,7 @@ const selectOption = (option: Option) => {
 	position: relative;
 	display: inline-block;
 
-	width: 120px;
+	width: fit-content;
 }
 
 .icon {
@@ -68,6 +83,7 @@ button {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	cursor: pointer;
 
 	gap: 0.5rem;
 	padding: 0.5rem 1.2rem;
@@ -77,6 +93,11 @@ button {
 	border: none;
 	background-color: var(--primary-light);
 	color: var(--text-color);
+}
+
+.opened:not(:disabled) {
+	background-color: var(--contrast-light);
+	border: 1px solid var(--contrast-dark);
 }
 
 .dropdown-menu {
@@ -89,10 +110,10 @@ button {
 	margin-top: 0.75rem;
 	min-width: 120px;
 
-	background-color: var(--primary-light);
+	background-color: var(--bg-dropdown);
 	color: var(--text-color);
 
-	border: 1px solid var(--primary-light);
+	border: 1px solid var(--border-dropdown);
 	border-radius: var(--border-radius);
 	box-shadow: var(--box-shadow);
 
@@ -120,10 +141,6 @@ button {
 	font-size: var(--font-small);
 	transition: all 0.2s ease;
 	cursor: pointer;
-}
-
-.dropdown-menu li:first-child {
-	border-bottom: 1px solid var(--primary-light);
 }
 
 .dropdown-menu li:hover {

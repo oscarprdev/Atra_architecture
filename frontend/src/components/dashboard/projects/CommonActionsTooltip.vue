@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import { IconDotsVertical, IconTrashX, IconCrown, IconRotateClockwise } from '@tabler/icons-vue';
+import { IconDotsVertical, IconRotateClockwise } from '@tabler/icons-vue';
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import type { Project } from '../../../api';
-import { MODAL_EMITTER_NAMES, modalEmitter } from '../../../utils/emitter';
-import { updateProject } from '../../../api/projects/update-project';
+import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../../utils/emitter';
+import { updateProject } from '../../../api/endpoints/update-project';
+import ActionButton from '../ActionButton.vue';
+import { BUTTON_KINDS } from '../ActionButton.types';
+import { updateProjectIsTop } from '../../../api/endpoints/update-project-is-top';
 
 const props = defineProps<{
 	checkedProjects: Project[];
@@ -29,7 +32,7 @@ const onUpdateTopProjects = async () => {
 	const updatedProjects = props.checkedProjects.map(pr => ({ ...pr, isTop: !pr.isTop }));
 
 	isUpdatePending.value = true;
-	await Promise.all(updatedProjects.map(pr => updateProject(pr)));
+	await Promise.all(updatedProjects.map(pr => updateProjectIsTop(pr.id, pr.isTop)));
 	isUpdatePending.value = false;
 
 	emits('onProjectsUpdated', updatedProjects);
@@ -37,10 +40,10 @@ const onUpdateTopProjects = async () => {
 };
 
 const onRemoveProjects = () => {
-	modalEmitter.emit(MODAL_EMITTER_NAMES.showRemoveProjectModal, {
+	emitter.emit(EMITTER_NAMES.modal, {
 		componentName: 'RemoveProjectModal',
 		projects: props.checkedProjects,
-		kind: 'remove',
+		action: EMITT_ACTIONS.REMOVE,
 	});
 	closeTooltip();
 };
@@ -75,19 +78,24 @@ onUnmounted(() => {
 				{{ numOfProjectsChecked }}
 			</p>
 			<div class="actions">
-				<button
-					class="icon-btn"
+				<ActionButton
+					:text="isUpdatePending ? '' : 'Destacar'"
+					:kind="BUTTON_KINDS.SECONDARY"
 					:disabled="isUpdatePending"
-					@click="onUpdateTopProjects">
-					<template v-if="!isUpdatePending">Destacar</template>
-					<template v-else><IconRotateClockwise class="spinner" /></template>
-				</button>
-				<button
-					class="icon-btn"
+					@on-action-click="onUpdateTopProjects">
+					<template
+						#icon
+						v-if="isUpdatePending">
+						<IconRotateClockwise
+							width="20"
+							class="spinner" />
+					</template>
+				</ActionButton>
+				<ActionButton
+					text="Eliminar"
+					:kind="BUTTON_KINDS.SECONDARY"
 					:disabled="isUpdatePending"
-					@click="onRemoveProjects">
-					Eliminar
-				</button>
+					@on-action-click="onRemoveProjects" />
 			</div>
 		</span>
 		<IconDotsVertical
@@ -129,8 +137,9 @@ onUnmounted(() => {
 	opacity: 0;
 	transition: all 0.2s ease;
 
+	border: 1px solid var(--border-dropdown);
 	border-radius: var(--border-radius);
-	background-color: var(--primary-light);
+	background-color: var(--bg-dropdown);
 	box-shadow: var(--box-shadow);
 }
 
@@ -143,25 +152,6 @@ onUnmounted(() => {
 	display: flex;
 	align-items: center;
 	gap: 0.5rem;
-}
-
-.projects-actions-tooltip .actions button {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: 0.5rem;
-	font-size: var(--font-small);
-	padding: 0.5rem 1.2rem;
-	border-radius: 0.3rem;
-	cursor: pointer;
-
-	min-width: 80px;
-
-	border: 1px solid var(--primary-hover);
-	background-color: var(--primary-light);
-	color: var(--text-color);
-
-	transition: all 0.2s ease;
 }
 
 .projects-actions-tooltip .actions button:not(:disabled):hover {

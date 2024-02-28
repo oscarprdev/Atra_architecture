@@ -12,10 +12,6 @@ export type UpdateProjectBody = {
      */
     title: string;
     /**
-     * The project's old title.
-     */
-    oldTitle: string;
-    /**
      * The project's description.
      */
     description: string;
@@ -27,65 +23,7 @@ export type UpdateProjectBody = {
      * Flag of project top.
      */
     isTop: boolean;
-    mainImage: {
-        /**
-         * Image key
-         */
-        Key: string;
-        /**
-         * The timestamp when the iamge was modified.
-         */
-        LastModified: string;
-        /**
-         * Image etag
-         */
-        ETag: string;
-        /**
-         * Image size
-         */
-        Size: number;
-        /**
-         * Image storage class
-         */
-        StorageClass: string;
-        /**
-         * Image type
-         */
-        Type?: string;
-        /**
-         * Image name
-         */
-        name?: string;
-    };
-    images: Array<{
-        /**
-         * Image key
-         */
-        Key: string;
-        /**
-         * The timestamp when the iamge was modified.
-         */
-        LastModified: string;
-        /**
-         * Image etag
-         */
-        ETag: string;
-        /**
-         * Image size
-         */
-        Size: number;
-        /**
-         * Image storage class
-         */
-        StorageClass: string;
-        /**
-         * Image type
-         */
-        Type?: string;
-        /**
-         * Image name
-         */
-        name?: string;
-    }>;
+    mainImage: Blob;
+    images: Array<Blob>;
 };
 

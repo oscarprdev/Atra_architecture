@@ -1,0 +1,17 @@
+post:
+  tags:
+    - Auth
+  description: Validate user
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: 'components/_index.yaml#/schemas/ValidateUserBody'
+  responses:
+    '200':
+      $ref: 'components/_index.yaml#/responses/ValidateUserResponse'
+    '400':
+      $ref: 'components/_index.yaml#/responses/BadRequestResponse'
+    '500':
+      $ref: 'components/_index.yaml#/responses/InternalErrorResponse'

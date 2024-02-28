@@ -31,5 +31,8 @@
 '/auth/login':
   $ref: 'paths/auth/login.yaml'
 
+'/auth/validate':
+  $ref: 'paths/auth/validate.yaml'
+
 '/auth/logout':
   $ref: 'paths/auth/logout.yaml'

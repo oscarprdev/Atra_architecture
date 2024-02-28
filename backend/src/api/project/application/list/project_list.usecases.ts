@@ -3,7 +3,7 @@ import { Project } from '../../../generated';
 import { ProjectListPorts } from './project_list.ports';
 import { ProjectListUsecasesTypes } from './project_list.types';
 
-export const LIMIT = 10;
+export const LIMIT = 6;
 
 export interface ProjectListUsecases {
 	listProjects(input: ProjectListUsecasesTypes.Input): Promise<Project[]>;
@@ -16,20 +16,25 @@ export class DefaultProjectListUsecases implements ProjectListUsecases {
 		return LIMIT * (page - 1);
 	};
 
-	async listProjects({ search, page, env }: ProjectListUsecasesTypes.Input): Promise<Project[]> {
+	async listProjects({ search, date, isTop, year, page, env }: ProjectListUsecasesTypes.Input): Promise<Project[]> {
 		try {
 			const offset = this.calculateOffset(page);
-			const { projects } = await this.ports.listProjects({ search, offset, limit: LIMIT, env });
+			const { projects } = await this.ports.listProjects({ search, date, isTop, year, offset, limit: LIMIT, env });
 
 			return await Promise.all(
 				projects.map(async (project) => {
 					const { image } = await this.ports.getImageByKey({ key: project.mainImage, env });
-					const images = await Promise.all(project.images.split(',').map((image) => this.ports.getImageByKey({ key: image, env })));
+					const images =
+						project.images && project.images.length > 0
+							? await Promise.all(project.images.split(',').map((image) => this.ports.getImageByKey({ key: image, env })))
+							: [];
+
+					const title = project.title.replaceAll(' ', '_');
 
 					return {
 						...project,
-						mainImage: image,
-						images: images.map((img) => img.image),
+						mainImage: `${title}/${image.name}`,
+						images: images.map((img) => `${title}/${img.image.name}`),
 					};
 				})
 			);

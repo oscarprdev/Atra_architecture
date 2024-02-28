@@ -18,11 +18,13 @@ export class DefaultUpdatePasswordUsecases extends AuthUsecases implements Updat
 
 			const isValid = await this.verifyPassword(oldPassword, env.SALT, passwordHashed);
 
+			console.log(isValid);
+
 			if (!isValid) {
 				throw new Error(
 					JSON.stringify({
 						status: 400,
-						message: 'Password not valid',
+						message: 'La contrasenya no es correcta',
 					})
 				);
 			}
@@ -36,7 +38,7 @@ export class DefaultUpdatePasswordUsecases extends AuthUsecases implements Updat
 			throw new Error(
 				JSON.stringify({
 					status: status || 500,
-					message: `${error instanceof Error ? message : 'Error updating password'}`,
+					message: `${error instanceof Error ? message : 'Error actualitzant contrasenya'}`,
 				})
 			);
 		}

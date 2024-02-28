@@ -1,5 +1,4 @@
 import { Env } from '../../../..';
-import { File } from '../../../generated';
 import { ProjectResponse } from '../../shared/project_types';
 
 export interface ProjectListPorts {
@@ -10,6 +9,9 @@ export interface ProjectListPorts {
 export namespace ProjectListPortsTypes {
 	export type Input = {
 		search?: string;
+		date?: boolean;
+		year?: boolean;
+		isTop?: boolean;
 		offset: number;
 		limit: number;
 		env: Env;

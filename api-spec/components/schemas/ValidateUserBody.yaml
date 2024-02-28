@@ -1,0 +1,9 @@
+type: object
+required:
+  - jwt
+properties:
+  jwt:
+    type: string
+    description: 'Auth jwt'
+    nullable: false
+    example: 'WVwZXJlemxsb3Bpc0BnbWFpbC5jb20iLCJpYXQiOjE3MDg5MzgzODF9'

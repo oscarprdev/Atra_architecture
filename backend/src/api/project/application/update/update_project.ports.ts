@@ -1,5 +1,4 @@
 import { Env } from '../../../..';
-import { File } from '../../../generated';
 import { ProjectResponse } from '../../shared/project_types';
 
 export interface UpdateProjectPorts {
@@ -11,6 +10,9 @@ export interface UpdateProjectPorts {
 	insertImageOnDb(input: InsertImageOnDbPorts.Input): Promise<void>;
 
 	updateProject(input: UpdateProjectPorts.Input): Promise<UpdateProjectPorts.Output>;
+
+	listProjectsTitles(input: ListProjectsTitles.Input): Promise<ListProjectsTitles.Output>;
+	provideCurrentProject(input: ProvideCurrentProject.Input): Promise<ProvideCurrentProject.Output>;
 }
 
 export namespace SelectImagesByProjectFromBucketPorts {
@@ -26,7 +28,7 @@ export namespace SelectImagesByProjectFromBucketPorts {
 
 export namespace RemoveImagesFromBucketPorts {
 	export type Input = {
-		images: File[];
+		images: string[];
 		env: Env;
 	};
 }
@@ -75,5 +77,27 @@ export namespace UpdateProjectPorts {
 		year: number;
 		description: string;
 		isTop: boolean;
+	};
+}
+
+export namespace ListProjectsTitles {
+	export type Input = {
+		env: Env;
+		id: string;
+	};
+
+	export type Output = {
+		titles: string[];
+	};
+}
+
+export namespace ProvideCurrentProject {
+	export type Input = {
+		env: Env;
+		id: string;
+	};
+
+	export type Output = {
+		project: ProjectResponse;
 	};
 }

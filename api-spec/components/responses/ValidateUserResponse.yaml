@@ -1,0 +1,19 @@
+description: Returns JWT
+content:
+  application/json:
+    schema:
+      type: object
+      required:
+        - status
+        - response
+        - data
+      properties:
+        status:
+          type: integer
+          example: 200
+        response:
+          type: string
+          example: 'User authenticated successfully'
+        data:
+          type: string
+          example: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9'

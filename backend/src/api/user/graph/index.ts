@@ -4,6 +4,7 @@ import { DefaultDescribeUserUsecases } from '../application/describe/describe_us
 import { DefaultLoginUserUsecases } from '../application/login/login_user.usecases';
 import { DefaultUpdateUserUsecases } from '../application/update/update_user.usecases';
 import { DefaultUpdatePasswordUsecases } from '../application/update_password/update_password.usecases';
+import { ValidateAuthUsecase } from '../application/validate_auth/validate_auth.usecase';
 import { DefaultUserInfra } from '../infra/user_infra';
 import { CreateUserHttpAdapter } from '../repository/create/create_user.http_adapter';
 import { DescribeUserHttpAdapter } from '../repository/describe/describe_user.http_adapter';
@@ -32,3 +33,6 @@ export const createUserUsecase = new DefaultCreateUserUsecases(createUserAdapter
 // Update password usecase dependency injection
 const updatePasswordAdapter = new UpdatePasswordHttpAdapter(userInfra);
 export const updatePasswordUsecase = new DefaultUpdatePasswordUsecases(updatePasswordAdapter);
+
+// Validate auth dependency injection
+export const validateAuthUsecase = new ValidateAuthUsecase();

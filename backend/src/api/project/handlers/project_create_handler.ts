@@ -3,7 +3,7 @@ import convertToBoolean from '../../shared/utils/convert_to_bool';
 import extractErrorInfo from '../../shared/utils/extract_from_error_info';
 import { Env } from '../../..';
 import { projectCreateUsecase } from '../graph';
-import { CreateProjectBody, File as ApiFile, Project } from '../../generated';
+import { CreateProjectBody, Project } from '../../generated';
 import { ApiResponse } from '../../shared/models/api_response';
 
 export async function createProjectHandler(request: Request, env: Env) {
@@ -14,8 +14,8 @@ export async function createProjectHandler(request: Request, env: Env) {
 		const year = Number(formData.get('year'));
 		const description = formData.get('description')?.toString() || 'Default description';
 		const isTop = convertToBoolean(formData.get('isTop'));
-		const mainImage = formData.get('mainImage') as unknown as ApiFile;
-		const images = formData.getAll('image') as unknown as ApiFile[];
+		const mainImage = formData.get('mainImage') as unknown as File;
+		const images = formData.getAll('images') as unknown as File[];
 
 		const validInput = checkInputValidations({ title, year, description, isTop, mainImage, images });
 
@@ -45,11 +45,9 @@ function checkInputValidations({ title, description, year, isTop, mainImage, ima
 		year: z.number(),
 		description: z.string(),
 		isTop: z.boolean(),
-		mainImage: z.instanceof(File),
-		images: z.array(z.instanceof(File)),
 	});
 
-	const result = ProjectPayloadSchema.safeParse({ title, year, description, isTop, mainImage, images });
+	const result = ProjectPayloadSchema.safeParse({ title, year, description, isTop });
 
 	if (!result.success) {
 		throw new Error(JSON.stringify({ status: 400, message: result.error.format() }));

@@ -74,7 +74,6 @@ const { title } = Astro.props;
 
 	:root {
 		--contrast: #2984fe;
-		
 		--contrast-dark: #0052bd;
 
 		--border-radius: 0.3rem;
@@ -86,6 +85,9 @@ const { title } = Astro.props;
 		--cooltipz-border-radius: 0.3rem !important;
 
 		--box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+
+		--backdrop: rgba(0, 0, 0, 0.264);
+		--backdrop-dark: rgba(0, 0, 0, 0.546);
 	}
 
 	html {
@@ -98,8 +100,13 @@ const { title } = Astro.props;
 		--primary: #1D2125;
 		--primary-hover: #A1BDD914;
 		--primary-light: #333C44;
+		--primary-light-hover: #899fb714;
+
+		--bg-dropdown: #333C44;
+		--border-dropdown: #A1BDD914;
 	
 		--text-color: #9FADBC;
+		--text-color-disabled: #eeeeee64;
 
 		--contrast-light: #1C2B41;
 
@@ -115,9 +122,14 @@ const { title } = Astro.props;
 		--primary: #FFFFFF;
 		--primary-hover: #F7F8F9;
 		--primary-light: #DDDFE5;
+		--primary-light-hover: #eef0f2;
+
+		--bg-dropdown: #FFFFFF;
+		--border-dropdown: #DDDFE5;
 
 		--text-color: #44546F;
-
+		--text-color-disabled: #9b9b9b;
+		
 		--contrast-light: #E9F2FF;
 
 		--loading-dark: rgba(203, 203, 203, 0.2);
@@ -168,6 +180,10 @@ const { title } = Astro.props;
 		color: inherit;
 	}
 
+	textarea {
+		font-family: 'Arimo', system-ui, sans-serif;
+	}
+
 	p {
 		font-weight: 300;
 		margin: 0;
@@ -183,4 +199,61 @@ const { title } = Astro.props;
 			transform: rotate(360deg);
 		}
 	}
+
+	@keyframes fadeup {
+		from {
+			opacity: 0;
+			transform: translateY(10%);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0%);
+		}
+	}
+
+	@keyframes fadedown {
+		from {
+			opacity: 1;
+			transform: translateY(0%);
+		}
+		to {
+			opacity: 0;
+			transform: translateY(10%);
+		}
+	}
+
+	@keyframes fadeup-down {
+		0% {
+			opacity: 0;
+			visibility: visible;
+			transform: translateY(10%);
+		}
+
+		20% {
+			opacity: 1;
+			visibility: visible;
+			transform: translateY(0%);
+		}
+
+		80% {
+			opacity: 1;
+			visibility: visible;
+			transform: translateY(0%);
+		}
+
+		100% {
+			opacity: 0;
+			visibility: visible;
+			transform: translateY(10%);
+		}
+	}
+
+	@keyframes skeleton-loading {
+	0% {
+		background-position: -300px 0;
+	}
+	100% {
+		background-position: 300px 0;
+	}
+}
 </style>

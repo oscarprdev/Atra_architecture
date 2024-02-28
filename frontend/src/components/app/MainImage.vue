@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import type { File } from '../../api';
 import { defineProps, onMounted, ref } from 'vue';
 import { IMAGE_URL } from '../../constants';
 
 const props = defineProps<{
-	images: File[];
+	images: string[];
 }>();
 
 const fixedIndex = ref(0);
@@ -27,11 +26,11 @@ onMounted(() => {
 				<img
 					class="animated"
 					:key="animatedIndex"
-					:alt="images[animatedIndex].Key"
-					:src="`${IMAGE_URL}/${images[animatedIndex].Key}`" />
+					:alt="images[animatedIndex]"
+					:src="`${IMAGE_URL}/${images[animatedIndex]}`" />
 				<img
-					:alt="images[fixedIndex].Key"
-					:src="`${IMAGE_URL}/${images[fixedIndex].Key}`" />
+					:alt="images[fixedIndex]"
+					:src="`${IMAGE_URL}/${images[fixedIndex]}`" />
 			</picture>
 		</div>
 	</section>

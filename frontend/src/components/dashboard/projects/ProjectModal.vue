@@ -1,38 +1,55 @@
 <script setup lang="ts">
 import { IconX } from '@tabler/icons-vue';
-import { defineAsyncComponent, ref, onMounted, onUnmounted, watch } from 'vue';
-import { MODAL_EMITTER_NAMES, modalEmitter } from '../../../utils/emitter';
+import { defineAsyncComponent, ref, onUnmounted, watch } from 'vue';
+import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../../utils/emitter';
 import type { Project } from '../../../api';
 
-const modal = ref<HTMLElement>();
 const isOpened = ref(false);
+const modal = ref<HTMLElement>();
 const modalComponent = ref<string | null>(null);
-
 const projects = ref<Project[]>([]);
+const project = ref<Project>();
 
 const asyncComponents: Record<string, any> = {
 	RemoveProjectModal: defineAsyncComponent(() => import('./RemoveProjectModal.vue')),
+	CreateProjectModal: defineAsyncComponent(() => import('./CreateProjectModal.vue')),
+	EditProjectModal: defineAsyncComponent(() => import('./EditProjectModal.vue')),
 };
 
-modalEmitter.on(MODAL_EMITTER_NAMES.showRemoveProjectModal, data => {
+emitter.on(EMITTER_NAMES.modal, payload => {
 	isOpened.value = true;
 
-	if (data.kind === 'remove') {
-		modalComponent.value = data.componentName;
-		projects.value = data.projects;
+	if (typeof payload === 'object') {
+		switch (payload.action) {
+			case EMITT_ACTIONS.REMOVE:
+				modalComponent.value = payload.componentName;
+				projects.value = payload.projects;
+				break;
+			case EMITT_ACTIONS.CREATE:
+				modalComponent.value = payload.componentName;
+				break;
+			case EMITT_ACTIONS.EDIT:
+				modalComponent.value = payload.componentName;
+				project.value = payload.project;
+				break;
+			default:
+				break;
+		}
 	}
 });
 
-const onClickOutside = (event: MouseEvent) => {
-	if (modal.value && !modal.value.contains(event.target as Node)) {
-		console.log('here');
+const closeModal = () => {
+	modal.value?.classList.add('fadedown');
+
+	setTimeout(() => {
 		isOpened.value = false;
-	}
+		emitter.emit(EMITTER_NAMES.dropdown, true);
+	}, 200);
 };
 
 const onPressEscKey = (e: KeyboardEvent) => {
 	if (e.key === 'Escape') {
-		isOpened.value = false;
+		closeModal();
 	}
 };
 
@@ -40,16 +57,13 @@ watch(
 	() => isOpened.value,
 	isOpened => {
 		if (isOpened) {
-			console.log('helo');
 			window.addEventListener('keyup', onPressEscKey);
-			window.addEventListener('click', onClickOutside);
 		}
 	}
 );
 
 onUnmounted(() => {
 	window.removeEventListener('keyup', onPressEscKey);
-	window.removeEventListener('click', onClickOutside);
 });
 </script>
 
@@ -58,15 +72,18 @@ onUnmounted(() => {
 		class="backdrop"
 		v-if="isOpened">
 		<div
+			ref="modal"
 			class="modal"
-			ref="modal">
+			:class="{ fadeUp: isOpened }">
 			<IconX
 				class="icon-x"
-				@click="isOpened = false" />
+				@click="closeModal" />
 			<component
 				v-if="modalComponent"
 				:is="asyncComponents[modalComponent]"
-				:projects="projects" />
+				:projects="projects"
+				:project="project"
+				@close-modal="closeModal" />
 		</div>
 	</div>
 </template>
@@ -83,26 +100,29 @@ onUnmounted(() => {
 	place-items: center;
 	z-index: 10;
 
-	background-color: rgba(0, 0, 0, 0.264);
-}
-
-.open {
-	visibility: visible;
+	background-color: var(--backdrop);
 }
 
 .modal {
 	position: relative;
 	padding: 2rem;
-	background-color: var(--dropdown-bg-color);
+	background-color: var(--bg-dropdown);
 	box-shadow: var(--box-shadow);
 	border-radius: var(--border-radius);
+
+	animation: fadeup 0.2s ease forwards;
+}
+
+.fadedown {
+	animation: fadedown 0.2s ease forwards;
 }
 
 .icon-x {
 	position: absolute;
-	left: 1rem;
-	top: 1rem;
-	color: var(--text-light);
+	left: 0.7rem;
+	top: 0.7rem;
+	color: var(--text-color);
 	cursor: pointer;
+	width: 1rem;
 }
 </style>

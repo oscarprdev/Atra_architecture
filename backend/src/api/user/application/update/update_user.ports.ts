@@ -1,5 +1,4 @@
 import { Env } from '../../../..';
-import { File } from '../../../generated';
 import { UserResponse } from '../../shared/user_types';
 
 export interface UpdateUserPorts {

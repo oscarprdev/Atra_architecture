@@ -13,12 +13,12 @@ export class DefaultProjectDeleteUsecases implements ProjectDeleteUsecases {
 		try {
 			const { project } = await this.ports.deleteProject({ projectId, env });
 
-			await Promise.all([
-				this.ports.deleteImageByKey({ key: project.mainImage, env }),
-				...project.images.split(',').map((image) => this.ports.deleteImageByKey({ key: image, env })),
-			]);
+			if (project.mainImage) {
+				await this.ports.deleteImageByKey({ key: project.mainImage, env });
+			}
+
+			await Promise.all([...project.images.split(',').map((image) => this.ports.deleteImageByKey({ key: image, env }))]);
 		} catch (error) {
-			console.log(error);
 			const { status, message } = extractErrorInfo(error);
 
 			throw new Error(

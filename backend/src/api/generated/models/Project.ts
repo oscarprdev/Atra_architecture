@@ -31,65 +31,10 @@ export type Project = {
      * The timestamp when the project was updated.
      */
     updatedAt: string;
-    mainImage: {
-        /**
-         * Image key
-         */
-        Key: string;
-        /**
-         * The timestamp when the iamge was modified.
-         */
-        LastModified: string;
-        /**
-         * Image etag
-         */
-        ETag: string;
-        /**
-         * Image size
-         */
-        Size: number;
-        /**
-         * Image storage class
-         */
-        StorageClass: string;
-        /**
-         * Image type
-         */
-        Type?: string;
-        /**
-         * Image name
-         */
-        name?: string;
-    };
-    images: Array<{
-        /**
-         * Image key
-         */
-        Key: string;
-        /**
-         * The timestamp when the iamge was modified.
-         */
-        LastModified: string;
-        /**
-         * Image etag
-         */
-        ETag: string;
-        /**
-         * Image size
-         */
-        Size: number;
-        /**
-         * Image storage class
-         */
-        StorageClass: string;
-        /**
-         * Image type
-         */
-        Type?: string;
-        /**
-         * Image name
-         */
-        name?: string;
-    }>;
+    /**
+     * The main image url.
+     */
+    mainImage: string;
+    images: Array<string>;
 };
 

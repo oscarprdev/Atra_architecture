@@ -12,7 +12,8 @@ export class DefaultProjectDescribeUsecases implements ProjectDescribeUsecases {
 	constructor(private readonly ports: ProjectDescribePorts) {}
 
 	private async nextRequest(mainImageKey: string, imagesKeys: string, env: Env): Promise<DescribeProjectUsecasesTypes.NextRequestOutput> {
-		const imagesKeysArray = imagesKeys.split(',');
+		const imagesKeysArray = imagesKeys && imagesKeys.length > 0 ? imagesKeys.split(',') : [];
+
 		const [mainImageResponse, imagesResponse] = await Promise.all([
 			this.ports.getImageByKey({ key: mainImageKey, env }),
 			Promise.all(imagesKeysArray.map((imageKey) => this.ports.getImageByKey({ key: imageKey, env }))),
@@ -28,7 +29,11 @@ export class DefaultProjectDescribeUsecases implements ProjectDescribeUsecases {
 		try {
 			const response = await this.ports.describeProject({ projectId: id, nextRequest: this.nextRequest.bind(this), env });
 
-			return response.project;
+			return {
+				...response.project,
+				mainImage: `${response.project.title}/${response.project.mainImage}`,
+				images: response.project.images.map((img) => `${response.project.title}/${img}`),
+			};
 		} catch (error) {
 			const { status, message } = extractErrorInfo(error);
 

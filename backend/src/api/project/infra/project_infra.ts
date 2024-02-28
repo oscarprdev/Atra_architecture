@@ -124,13 +124,10 @@ export class DefaultProjectInfra implements ProjectInfra {
 				args: [title, description, year, isTop, projectId],
 			});
 
-			const dbProject = await client.execute({
-				sql: `SELECT * FROM projects WHERE project_id = ?;`,
-				args: [projectId],
-			});
+			const dbProject = await this.describeProject({ projectId, env });
 
 			return {
-				project: dbProject.rows[0] as unknown as ProjectDb,
+				project: dbProject.project,
 			};
 		} catch (error) {
 			throw new Error(
@@ -145,17 +142,34 @@ export class DefaultProjectInfra implements ProjectInfra {
 	async insertImage({ key, projectId, isMain, env }: InsertImageInfra.Input): Promise<void> {
 		try {
 			const client = buildLibsqlClient(env);
-			const imageId = crypto.randomUUID().toString();
 
+			if (isMain) {
+				const currentMainImageIdResult = await client.execute({
+					sql: `SELECT images.image_id FROM images
+					INNER JOIN project_image ON images.image_id = project_image.image_id
+					WHERE project_image.project_id = ? AND images.is_main = ?`,
+					args: [projectId, true],
+				});
+
+				if (currentMainImageIdResult.rows.length > 0) {
+					const currentMainImageId = currentMainImageIdResult.rows[0].image_id;
+					await client.execute({
+						sql: `UPDATE images SET is_main = ? WHERE image_id = ?`,
+						args: [false, currentMainImageId],
+					});
+				}
+			}
+
+			const imageId = crypto.randomUUID().toString();
 			await client.execute({
 				sql: `INSERT INTO images (image_id, key, is_main)
-				VALUES (?, ?, ?)`,
+					  VALUES (?, ?, ?)`,
 				args: [imageId, key, isMain],
 			});
 
 			await client.execute({
 				sql: `INSERT INTO project_image (project_id, image_id)
-				VALUES (?, ?)`,
+					  VALUES (?, ?)`,
 				args: [projectId, imageId],
 			});
 		} catch (error) {
@@ -168,7 +182,7 @@ export class DefaultProjectInfra implements ProjectInfra {
 		}
 	}
 
-	async listProject({ search, offset, limit, env }: ListProjectInfra.Input): Promise<ListProjectInfra.Output> {
+	async listProject({ search, date, year, isTop, offset, limit, env }: ListProjectInfra.Input): Promise<ListProjectInfra.Output> {
 		try {
 			const client = buildLibsqlClient(env);
 
@@ -195,25 +209,46 @@ export class DefaultProjectInfra implements ProjectInfra {
 
 			const args = [];
 
-			if (search && search.length > 0) {
+			const hasSearchFilter = search && search.length > 0;
+
+			if (hasSearchFilter) {
 				sqlQuery += `
 				WHERE
 				LOWER(title) LIKE CONCAT('%', LOWER(?), '%')
-				OR LOWER(description) LIKE CONCAT('%', LOWER(?), '%')
 				`;
-				args.push(search, search);
+				args.push(search);
 			}
 
 			sqlQuery += `
 			GROUP BY
 				projects.project_id, projects.title, projects.description, projects.year, projects.is_top, projects.created_at, projects.updated_at
-			ORDER BY
-				projects.created_at ASC
-			LIMIT ?
-			OFFSET ?;
 			`;
 
-			args.push(limit, offset);
+			const orderClauses = [];
+
+			if (typeof year === 'boolean') {
+				orderClauses.push(`projects.year ${year ? 'DESC' : 'ASC'}`);
+			}
+
+			if (typeof isTop === 'boolean') {
+				orderClauses.push(`projects.is_top ${isTop ? 'DESC' : 'ASC'}`);
+			}
+
+			if (typeof date === 'boolean') {
+				orderClauses.push(`projects.updated_at ${date ? 'DESC' : 'ASC'}`);
+			}
+
+			if (orderClauses.length === 0) {
+				orderClauses.push('projects.created_at ASC');
+			}
+
+			if (orderClauses.length > 0) {
+				sqlQuery += ` ORDER BY ${orderClauses.join(', ')}`;
+			}
+
+			sqlQuery += ` LIMIT ? OFFSET ?;`;
+
+			args.push(limit, hasSearchFilter || orderClauses.length > 1 ? 0 : offset);
 
 			const dbProjects = await client.execute({
 				sql: sqlQuery,
@@ -240,19 +275,14 @@ export class DefaultProjectInfra implements ProjectInfra {
 			const dbProject = await this.describeProject({ projectId, env });
 
 			await client.execute({
-				sql: `DELETE FROM images
-				WHERE image_id IN (
-					SELECT image_id
-					FROM project_image
-					WHERE project_id = ?
-				);`,
+				sql: `DELETE FROM project_image
+				WHERE project_id = ?;`,
 				args: [projectId],
 			});
 
 			await client.execute({
-				sql: `DELETE FROM project_image
-				WHERE project_id = ?;`,
-				args: [projectId],
+				sql: `DELETE FROM images WHERE key LIKE CONCAT('%', ?, '%');`,
+				args: [dbProject.project.title.replaceAll(' ', '_')],
 			});
 
 			await client.execute({
@@ -287,13 +317,13 @@ export class DefaultProjectInfra implements ProjectInfra {
 			const image = rows[0] as unknown as ImageDb;
 
 			await client.execute({
-				sql: `DELETE FROM images
+				sql: `DELETE FROM project_image
 						WHERE image_id = ?;`,
 				args: [image.image_id],
 			});
 
 			await client.execute({
-				sql: `DELETE FROM project_image
+				sql: `DELETE FROM images
 						WHERE image_id = ?;`,
 				args: [image.image_id],
 			});

@@ -1,3 +1,4 @@
+import { Env } from '../../../..';
 import { Project } from '../../../generated';
 import extractErrorInfo from '../../../shared/utils/extract_from_error_info';
 import { ProjectUsecases } from '../../shared/project.usecases';
@@ -20,11 +21,23 @@ export class DefaultProjectCreateUsecases extends ProjectUsecases implements Pro
 		]);
 	}
 
+	private async checkProjectWithSameTitle(env: Env, projectBodyTitle: string) {
+		const { titles } = await this.ports.listProjectsTitles({ env });
+
+		const isTitleAlreadyCreated = titles.some((title) => title === projectBodyTitle);
+
+		if (isTitleAlreadyCreated) {
+			throw new Error('Title already created');
+		}
+	}
+
 	async createProject({ projectBody, env }: ProjectCreateUsecasesTypes.CreateProjectInput): Promise<Project> {
 		try {
+			await this.checkProjectWithSameTitle(env, projectBody.title);
+
 			const [{ image }, { images }, projectResponse] = await Promise.all([
-				this.ports.uploadImage({ file: projectBody.mainImage, project: projectBody.title, env }),
-				this.ports.uploadImages({ files: projectBody.images, project: projectBody.title, env }),
+				this.ports.uploadImage({ file: projectBody.mainImage as File, project: projectBody.title, env }),
+				this.ports.uploadImages({ files: projectBody.images as File[], project: projectBody.title, env }),
 				this.ports.insertProject({
 					projectBody: {
 						projectId: crypto.randomUUID().toString(),
@@ -37,17 +50,20 @@ export class DefaultProjectCreateUsecases extends ProjectUsecases implements Pro
 				}),
 			]);
 
+			const mainImageKey = `${projectResponse.project.title.replaceAll(' ', '_')}/${image.name}`;
+			const imagesKeys = images.map((img) => `${projectResponse.project.title.replaceAll(' ', '_')}/${img.name}`);
+
 			await this.insertImages({
-				mainImageKey: image.Key,
-				imagesKeys: images.map((img) => img.Key),
+				mainImageKey,
+				imagesKeys,
 				projectId: projectResponse.project.id,
 				env,
 			});
 
 			return {
 				...projectResponse.project,
-				mainImage: image,
-				images,
+				mainImage: mainImageKey,
+				images: imagesKeys,
 			};
 		} catch (error) {
 			const { status, message } = extractErrorInfo(error);

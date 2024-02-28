@@ -18,7 +18,7 @@ const user = jsonResponse.data as User;
 	<ul class="nav-top">
 		<header>
 			<picture>
-				<img src={`${IMAGE_URL}/${user.image.Key}`} />
+				<img src={`${IMAGE_URL}/${user.image}`} />
 			</picture>
 		</header>
 		<ul>
@@ -96,11 +96,6 @@ const user = jsonResponse.data as User;
 		object-position: left;
 	}
 
-	h1 {
-		font-size: 1rem;
-		font-weight: 200;
-	}
-
 	ul {
 		display: flex;
 		align-items: start;
@@ -134,11 +129,13 @@ const user = jsonResponse.data as User;
 	p {
 		margin: 0;
 		margin-bottom: 0.1rem;
+		font-weight: 300;
 
 		font-size: var(--font-small);
 	}
 
 	.selected {
+		font-weight: 400;
 		color: var(--contrast);
 		cursor: pointer;
 		background-color: var(--contrast-light);
@@ -181,7 +178,7 @@ const user = jsonResponse.data as User;
 		border-radius: var(--border-radius);
 		color: var(--text-color);
 		background-color: transparent;
-		border: 1px solid var(--text-color);
+		border: 1px solid var(--primary-light);
 		cursor: pointer;
 
 		transition: all 0.2s ease;

@@ -5,10 +5,14 @@ serve:
 	make compile && \
 	npx @redocly/cli build-docs compiled.yaml && open redoc-static.html
 
-generate:
+generate-backend:
 	make compile && \
 	npx openapi-typescript-codegen \
 	--input ./compiled.yaml --output ../backend/src/api/generated --exportCore false --exportServices false \
+
+generate-frontend:
+	make compile && \
+	npx openapi-typescript-codegen \
 	--input ./compiled.yaml --output ../frontend/src/api --exportCore false --exportServices false
 
 compile:

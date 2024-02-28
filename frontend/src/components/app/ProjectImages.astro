@@ -1,9 +1,8 @@
 ---
-import type { File } from '../../api/index';
 import { IMAGE_URL } from '../../constants';
 
 interface Props {
-	images: File[];
+	images: string[];
 }
 
 const { images } = Astro.props;
@@ -17,8 +16,8 @@ const { images } = Astro.props;
 				class={`show item-${i}`}>
 				<picture>
 					<img
-						src={`${IMAGE_URL}/${image.Key}`}
-						alt={image.name || image.Key}
+						src={`${IMAGE_URL}/${image}`}
+						alt={image}
 					/>
 				</picture>
 			</li>

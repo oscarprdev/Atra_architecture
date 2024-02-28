@@ -2,9 +2,11 @@ import {
 	CompleteMultipartUploadCommand,
 	CreateMultipartUploadCommand,
 	DeleteObjectCommand,
+	GetObjectCommand,
 	ListObjectsV2Command,
 	S3Client,
 	UploadPartCommand,
+	_Object,
 } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
@@ -29,6 +31,47 @@ export class Bucket {
 				secretAccessKey: S3_SECRET_ACCESS_KEY,
 			},
 		});
+	}
+
+	private async getObjectData(key: string) {
+		return await this.S3.send(new GetObjectCommand({ Bucket: this.BucketName, Key: key }));
+	}
+
+	private async streamToBlob(stream: ReadableStream) {
+		const response = new Response(stream);
+		const blob = await response.blob();
+		return blob;
+	}
+
+	private blobToFile(blob: Blob, filename: string) {
+		const file = new File([blob], filename, { type: blob.type });
+		return file;
+	}
+
+	private async fetchFileFromS3AndConvertToFile(key: string, filename: string) {
+		try {
+			const objectData = await this.getObjectData(key);
+
+			if (objectData.Body instanceof ReadableStream) {
+				const blob = await this.streamToBlob(objectData.Body);
+				return this.blobToFile(blob, filename);
+			} else {
+				throw new Error('Received body is not a ReadableStream.');
+			}
+		} catch (error) {
+			console.error('Error fetching file from S3:', error);
+			throw error;
+		}
+	}
+
+	private async retrieveItemsAsFiles(item: _Object) {
+		if (item?.Key) {
+			const filename = item.Key.split('/').pop();
+
+			if (filename) {
+				return await this.fetchFileFromS3AndConvertToFile(item.Key, filename);
+			}
+		}
 	}
 
 	async uploadFile(file: BucketFile, key: string, contentType: string) {
@@ -71,20 +114,28 @@ export class Bucket {
 	async getItemByKey(key: string) {
 		const list = await this.listAllContent();
 
-		return list.Contents?.find((item) => item.Key === key);
+		const item = list.Contents?.find((item) => item.Key?.match(key));
+
+		return item && (await this.retrieveItemsAsFiles(item));
 	}
 
 	async getItemsByEntity(entity: string) {
 		const list = await this.listAllContent();
 
-		return list.Contents?.filter((item) => item.Key?.match(entity));
+		const items = list.Contents?.filter((item) => item.Key?.match(entity));
+
+		return items ? await Promise.all(items.map((item) => item && this.retrieveItemsAsFiles(item))) : [];
 	}
 
 	async deleteItemByKey(key: string) {
-		const url = await getSignedUrl(this.S3, new DeleteObjectCommand({ Bucket: this.BucketName, Key: key }), { expiresIn: 3600 });
+		try {
+			const url = await getSignedUrl(this.S3, new DeleteObjectCommand({ Bucket: this.BucketName, Key: key }), { expiresIn: 3600 });
 
-		await fetch(url, {
-			method: 'DELETE',
-		});
+			await fetch(url, {
+				method: 'DELETE',
+			});
+		} catch (error) {
+			console.log('bucket error', error);
+		}
 	}
 }

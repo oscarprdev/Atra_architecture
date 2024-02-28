@@ -6,6 +6,7 @@ import { IMAGE_URL } from '../../../constants';
 import InputCheckbox from './InputCheckbox.vue';
 import Dropdown from '../Dropdown.vue';
 import type { Option } from '../Dropdown.types';
+import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../../utils/emitter';
 
 const props = defineProps<{
 	project: Project;
@@ -17,26 +18,38 @@ const emits = defineEmits<{
 }>();
 
 const actionDropdownOptions: Option[] = [
-	{ label: 'Editar', cb: () => {} },
-	{ label: 'Eliminar', cb: () => {} },
+	{
+		label: 'Editar',
+		cb: () =>
+			emitter.emit(EMITTER_NAMES.modal, {
+				componentName: 'EditProjectModal',
+				project: props.project,
+				action: EMITT_ACTIONS.EDIT,
+			}),
+	},
+	{
+		label: 'Eliminar',
+		cb: () =>
+			emitter.emit(EMITTER_NAMES.modal, {
+				componentName: 'RemoveProjectModal',
+				projects: [props.project],
+				action: EMITT_ACTIONS.REMOVE,
+			}),
+	},
 ];
 </script>
 <template>
-	<tr :key="project.id">
+	<tr
+		:class="{ isTop: project.isTop }"
+		:key="project.id">
 		<InputCheckbox
 			:id="'checkbox-' + project.id"
 			:checked="isProjectChecked"
 			@on-click="emits('toggleCheckedProject', project.id)" />
 		<td class="table-main-image">
 			<img
-				:src="`${IMAGE_URL}/${project.mainImage.Key}`"
+				:src="`${IMAGE_URL}/${project.mainImage}`"
 				:alt="`Main image of ${project.title}`" />
-
-			<div
-				v-if="project.isTop"
-				aria-label="Projecte destacat"
-				data-cooltipz-dir="top"
-				class="is-top"></div>
 		</td>
 		<td class="table-name">{{ strCapitalized(project.title) }}</td>
 		<td class="table-description">
@@ -61,19 +74,12 @@ img {
 	border-radius: 50%;
 }
 
-.table-main-image {
-	position: relative;
+.isTop {
+	border-left: 2px solid var(--contrast);
 }
 
-.is-top {
-	position: absolute;
-	top: 1rem;
-	right: 0.8rem;
-	width: 0.6rem;
-	height: 0.6rem;
-
-	background-color: var(--contrast);
-	border-radius: 50%;
+.table-main-image {
+	position: relative;
 }
 
 .table-date {
