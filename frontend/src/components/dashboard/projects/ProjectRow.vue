@@ -4,7 +4,6 @@ import { strCapitalized } from '../../../utils/strCapitalized';
 import { strDate } from '../../../utils/strDate';
 import { IMAGE_URL } from '../../../constants';
 import InputCheckbox from './InputCheckbox.vue';
-import 'cooltipz-css';
 import Dropdown from '../Dropdown.vue';
 import type { Option } from '../Dropdown.types';
 
