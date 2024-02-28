@@ -30,6 +30,7 @@ const onPreviousPageClick = () => {
 emitter.on(EMITTER_NAMES.pagination, async payload => {
 	if (typeof payload === 'object' && payload.action === EMITT_ACTIONS.NUM_PROJECTS) {
 		totalProjects.value = payload.totalProject;
+		currentPage.value = payload.currentPage;
 	} else if (typeof payload === 'object' && payload.action === EMITT_ACTIONS.PAGINATION) {
 		currentPage.value = payload.currentPage;
 	}

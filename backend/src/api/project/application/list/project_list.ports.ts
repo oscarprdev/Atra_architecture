@@ -9,6 +9,9 @@ export interface ProjectListPorts {
 export namespace ProjectListPortsTypes {
 	export type Input = {
 		search?: string;
+		date?: boolean;
+		year?: boolean;
+		isTop?: boolean;
 		offset: number;
 		limit: number;
 		env: Env;

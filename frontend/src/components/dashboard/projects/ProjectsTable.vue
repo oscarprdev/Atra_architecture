@@ -3,7 +3,7 @@ import { onMounted, reactive, ref } from 'vue';
 import type { Project } from '../../../api';
 import InputCheckbox from './InputCheckbox.vue';
 import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../../utils/emitter';
-import { getProjectList } from '../../../api/endpoints/get-projects-list';
+import { getProjectList, type GetProjectListInput } from '../../../api/endpoints/get-projects-list';
 import ProjectRow from './ProjectRow.vue';
 import ProjectsSkeleton from './ProjectsSkeleton.vue';
 import CommonActionsTooltip from './CommonActionsTooltip.vue';
@@ -16,9 +16,10 @@ const projects = ref<Project[]>([]);
 const checkedProjects = ref<Project[]>([]);
 const areAllProjectsChecked = ref(false);
 
-const sortedValues = reactive({
-	top: false,
-	year: false,
+const sortedValues = reactive<{ top?: boolean; year?: boolean; date?: boolean }>({
+	top: undefined,
+	year: undefined,
+	date: undefined,
 });
 
 const onToggleAllCheckboxes = () => {
@@ -67,9 +68,9 @@ const cleanCheckedProjects = () => {
 
 emitter.on(EMITTER_NAMES.searchProject, async searchValue => {
 	if (typeof searchValue === 'string') {
-		await mountProjectList(currentPage.value, searchValue);
+		await mountProjectList({ page: currentPage.value, search: searchValue });
 	} else {
-		await mountProjectList(currentPage.value);
+		await mountProjectList({ page: currentPage.value });
 	}
 });
 
@@ -77,22 +78,22 @@ emitter.on(EMITTER_NAMES.sort, async payload => {
 	if (typeof payload === 'object' && payload.action === EMITT_ACTIONS.SORT) {
 		switch (payload.kind) {
 			case 'year':
-				projects.value = sortedValues.year
-					? projects.value.sort((a, b) => a.year - b.year)
-					: projects.value.sort((a, b) => b.year - a.year);
-				sortedValues.year = !sortedValues.year;
+				sortedValues.year = sortedValues.year ? !sortedValues.year : true;
+				sortedValues.date = undefined;
+				sortedValues.top = undefined;
+				await mountProjectList({ page: currentPage.value, year: sortedValues.year });
 				break;
 			case 'top':
-				projects.value = sortedValues.top
-					? projects.value.sort((a, b) => (a.isTop ? 0 : 1) - (b.isTop ? 0 : 1))
-					: projects.value.sort((a, b) => (b.isTop ? 0 : 1) - (a.isTop ? 0 : 1));
-				sortedValues.top = !sortedValues.top;
+				sortedValues.top = sortedValues.top ? !sortedValues.top : true;
+				sortedValues.date = undefined;
+				sortedValues.year = undefined;
+				await mountProjectList({ page: currentPage.value, isTop: sortedValues.top });
 				break;
 			case 'date':
-				projects.value = sortedValues.top
-					? projects.value.sort((a, b) => new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime())
-					: projects.value.sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime());
-				sortedValues.top = !sortedValues.top;
+				sortedValues.date = sortedValues.date ? !sortedValues.date : true;
+				sortedValues.top = undefined;
+				sortedValues.year = undefined;
+				await mountProjectList({ page: currentPage.value, date: sortedValues.date });
 				break;
 			default:
 				break;
@@ -102,7 +103,7 @@ emitter.on(EMITTER_NAMES.sort, async payload => {
 
 emitter.on(EMITTER_NAMES.success, async payload => {
 	if (typeof payload === 'object' && payload.action === EMITT_ACTIONS.SUCCESS) {
-		await mountProjectList();
+		await mountProjectList({ page: currentPage.value });
 	}
 
 	emitter.emit(EMITTER_NAMES.modal, { action: EMITT_ACTIONS.CLOSE });
@@ -111,24 +112,30 @@ emitter.on(EMITTER_NAMES.success, async payload => {
 emitter.on(EMITTER_NAMES.pagination, async payload => {
 	if (typeof payload === 'object' && payload.action === EMITT_ACTIONS.PAGINATION) {
 		currentPage.value = payload.currentPage;
-		await mountProjectList(payload.currentPage);
+
+		await mountProjectList({
+			page: currentPage.value,
+			date: sortedValues.date,
+			year: sortedValues.year,
+			isTop: sortedValues.top,
+		});
 	}
 });
 
-const mountProjectList = async (page: number = 1, search?: string) => {
+const mountProjectList = async ({ page, search, date, year, isTop }: GetProjectListInput) => {
 	isLoading.value = true;
-	const response = (await getProjectList(page, search)) || [];
+	const response = (await getProjectList({ page, search, year, date, isTop })) || [];
 	isLoading.value = false;
 	projects.value = response;
 
 	emitter.emit(EMITTER_NAMES.pagination, {
-		currentPage: currentPage.value,
+		currentPage: page,
 		totalProject: projects.value.length,
 		action: EMITT_ACTIONS.NUM_PROJECTS,
 	});
 };
 
-onMounted(async () => mountProjectList());
+onMounted(async () => mountProjectList({ page: currentPage.value }));
 </script>
 
 <template>

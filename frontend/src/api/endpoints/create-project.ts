@@ -28,6 +28,7 @@ const createFormData = (payload: CreateProjectBody) => {
 	formData.append('title', payload.title);
 	formData.append('description', payload.description);
 	formData.append('year', payload.year.toString());
+	formData.append('isTop', payload.isTop.toString());
 
 	return formData;
 };

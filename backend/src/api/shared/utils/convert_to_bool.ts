@@ -1,5 +1,5 @@
 function convertToBoolean(input: string | File | null) {
-	return input?.toString() === 'true';
+	return input ? input?.toString() === 'true' : undefined;
 }
 
 export default convertToBoolean;

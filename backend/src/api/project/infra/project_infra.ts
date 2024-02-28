@@ -182,7 +182,7 @@ export class DefaultProjectInfra implements ProjectInfra {
 		}
 	}
 
-	async listProject({ search, offset, limit, env }: ListProjectInfra.Input): Promise<ListProjectInfra.Output> {
+	async listProject({ search, date, year, isTop, offset, limit, env }: ListProjectInfra.Input): Promise<ListProjectInfra.Output> {
 		try {
 			const client = buildLibsqlClient(env);
 
@@ -214,7 +214,7 @@ export class DefaultProjectInfra implements ProjectInfra {
 			if (hasSearchFilter) {
 				sqlQuery += `
 				WHERE
-				title LIKE CONCAT('%', ?, '%')
+				LOWER(title) LIKE CONCAT('%', LOWER(?), '%')
 				`;
 				args.push(search);
 			}
@@ -222,13 +222,35 @@ export class DefaultProjectInfra implements ProjectInfra {
 			sqlQuery += `
 			GROUP BY
 				projects.project_id, projects.title, projects.description, projects.year, projects.is_top, projects.created_at, projects.updated_at
-			ORDER BY
-				projects.created_at ASC
-			LIMIT ?
-			OFFSET ?;
 			`;
 
-			args.push(limit, hasSearchFilter ? 0 : offset);
+			const orderClauses = [];
+
+			if (typeof year === 'boolean') {
+				orderClauses.push(`projects.year ${year ? 'DESC' : 'ASC'}`);
+			}
+
+			if (typeof isTop === 'boolean') {
+				orderClauses.push(`projects.is_top ${isTop ? 'DESC' : 'ASC'}`);
+			}
+
+			if (typeof date === 'boolean') {
+				orderClauses.push(`projects.updated_at ${date ? 'DESC' : 'ASC'}`);
+			}
+
+			if (orderClauses.length === 0) {
+				orderClauses.push('projects.created_at ASC');
+			}
+
+			if (orderClauses.length > 0) {
+				sqlQuery += ` ORDER BY ${orderClauses.join(', ')}`;
+			}
+
+			sqlQuery += ` LIMIT ? OFFSET ?;`;
+
+			args.push(limit, hasSearchFilter || orderClauses.length > 1 ? 0 : offset);
+
+			console.log(sqlQuery, orderClauses);
 
 			const dbProjects = await client.execute({
 				sql: sqlQuery,

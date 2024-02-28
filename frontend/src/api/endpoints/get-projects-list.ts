@@ -2,7 +2,21 @@ import type { Project } from '..';
 import { API_URL } from '../../constants';
 import { EMITTER_NAMES, EmittActions, emitter } from '../../utils/emitter';
 
-export const getProjectList = async (page: number = 1, search?: string): Promise<Project[] | null> => {
+export interface GetProjectListInput {
+	page: number;
+	search?: string;
+	date?: boolean;
+	year?: boolean;
+	isTop?: boolean;
+}
+
+export const getProjectList = async ({
+	page,
+	search,
+	date,
+	year,
+	isTop,
+}: GetProjectListInput): Promise<Project[] | null> => {
 	try {
 		const url = new URL(`${API_URL}/project/list`);
 
@@ -10,6 +24,18 @@ export const getProjectList = async (page: number = 1, search?: string): Promise
 
 		if (search) {
 			params.append('search', search);
+		}
+
+		if (typeof date === 'boolean') {
+			params.append('date', date.toString());
+		}
+
+		if (typeof year === 'boolean') {
+			params.append('year', year.toString());
+		}
+
+		if (typeof isTop === 'boolean') {
+			params.append('isTop', isTop.toString());
 		}
 
 		url.search = params.toString();

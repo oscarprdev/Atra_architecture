@@ -20,7 +20,7 @@ const extractFilename = (imagekey: string) => {
 const createFileFromImageUrl = async (imageKey: string) => {
 	const filename = extractFilename(imageKey.split('/')[1]);
 
-	const response = await fetch(`${IMAGE_URL}/${imageKey}`);
+	const response = await fetch(`${IMAGE_URL}/${imageKey.replaceAll('/', '%2F')}`);
 
 	const blob = await response.blob();
 

@@ -12,7 +12,8 @@ export class DefaultProjectDescribeUsecases implements ProjectDescribeUsecases {
 	constructor(private readonly ports: ProjectDescribePorts) {}
 
 	private async nextRequest(mainImageKey: string, imagesKeys: string, env: Env): Promise<DescribeProjectUsecasesTypes.NextRequestOutput> {
-		const imagesKeysArray = imagesKeys.split(',');
+		const imagesKeysArray = imagesKeys && imagesKeys.length > 0 ? imagesKeys.split(',') : [];
+
 		const [mainImageResponse, imagesResponse] = await Promise.all([
 			this.ports.getImageByKey({ key: mainImageKey, env }),
 			Promise.all(imagesKeysArray.map((imageKey) => this.ports.getImageByKey({ key: imageKey, env }))),

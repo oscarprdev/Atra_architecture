@@ -127,7 +127,7 @@ emitter.on(EMITTER_NAMES.modal, payload => {
 
 .success {
 	width: 70vw;
-	max-width: 250px;
+	max-width: 300px;
 }
 
 h2 {
