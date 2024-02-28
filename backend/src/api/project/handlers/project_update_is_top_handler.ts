@@ -17,7 +17,7 @@ export async function updateProjectIsTopHandler(request: Request, env: Env) {
 			throw new Error(JSON.stringify({ status: 400, message: 'Body not valid' }));
 		}
 
-		const projectOutput = await projectUpdateUsecase.updateIsTop({ id, isTop, env });
+		const projectOutput = await projectUpdateUsecase.updateIsTop({ id, isTop: isTop || false, env });
 
 		const apiResponse: ApiResponse<Project> = {
 			status: 201,
