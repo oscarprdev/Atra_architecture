@@ -21,7 +21,7 @@ tr {
 	display: flex;
 	align-items: center;
 	margin: 0 2rem;
-	height: 95px;
+	height: 82px;
 	gap: 2.4rem;
 	border-bottom: 1px solid var(--primary-light);
 }
@@ -45,6 +45,7 @@ td {
 
 .row-action-skeleton {
 	height: 40px;
+	margin-left: 2.2rem;
 }
 
 span,

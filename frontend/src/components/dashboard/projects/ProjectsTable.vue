@@ -96,7 +96,6 @@ emitter.on(EMITTER_NAMES.sort, async payload => {
 				await mountProjectList({ page: currentPage.value, date: sortedValues.date });
 				break;
 			default:
-				console.log('here');
 				sortedValues.date = undefined;
 				sortedValues.top = undefined;
 				sortedValues.year = undefined;
@@ -177,7 +176,7 @@ onMounted(async () => mountProjectList({ page: currentPage.value }));
 				@toggle-checked-project="onToggleCheckedProject" />
 			<ProjectsSkeleton
 				v-else-if="isLoading"
-				v-for="i in new Array(5).fill('')" />
+				v-for="i in new Array(6).fill('')" />
 			<tr
 				v-else-if="!isLoading && projects.length === 0"
 				class="empty">
@@ -231,8 +230,12 @@ tr {
 	align-items: center;
 	margin: 0 2rem;
 	gap: 1rem;
-	height: 85px;
+	height: 82px;
 	border-bottom: 1px solid var(--primary-light);
+}
+
+thead tr {
+	height: 60px;
 }
 
 tbody > tr:hover {
@@ -281,7 +284,7 @@ tbody > tr:hover {
 .pagination {
 	display: flex;
 	justify-content: end;
-	padding-top: -3rem;
+	padding-top: -5rem;
 	margin-right: 1.2rem;
 }
 

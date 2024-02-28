@@ -8,6 +8,7 @@ import type { ProjectFormState, ImagePreviews } from './CreateProjectForm.types'
 import { IconExclamationMark } from '@tabler/icons-vue';
 import { FORM_NAMES, VALID_IMAGE_TYPES, MAX_NUM_IMAGES } from './ProjectForm.constants';
 import { IMAGE_URL } from '../../../constants';
+import ErrorMessage from '../ErrorMessage.vue';
 
 const props = defineProps<{
 	requiredMessage?: string | null;
@@ -142,16 +143,8 @@ const onSubmit = (e: Event) => {
 		<slot name="actions" />
 		<div
 			v-if="requiredMessage"
-			class="required-message">
-			<div class="required-container">
-				<span class="required-icon">
-					<IconExclamationMark
-						stroke-width="3"
-						height="20" />
-				</span>
-				<p>{{ requiredMessage }}</p>
-				<span class="triangle-up"></span>
-			</div>
+			class="required-message-container">
+			<ErrorMessage :required-message="requiredMessage" />
 		</div>
 	</form>
 </template>
@@ -173,7 +166,7 @@ form {
 	width: 100%;
 }
 
-.required-message {
+.required-message-container {
 	position: absolute;
 	bottom: 8rem;
 	left: 2rem;
@@ -185,39 +178,5 @@ form {
 	visibility: hidden;
 
 	animation: fadeup-down 3s linear forwards;
-}
-
-.required-container {
-	position: relative;
-	width: 100%;
-	height: 100%;
-
-	display: flex;
-	align-items: center;
-	gap: 1rem;
-}
-
-.required-container p {
-	font-weight: 500;
-	color: black;
-}
-
-.required-icon {
-	padding: 1;
-	display: grid;
-	place-items: center;
-	background-color: #ff8c00;
-	color: white;
-}
-
-.triangle-up {
-	position: absolute;
-	top: -1rem;
-
-	width: 0;
-	height: 0;
-	border-left: 10px solid transparent; /* Left side of the triangle */
-	border-right: 10px solid transparent; /* Right side of the triangle */
-	border-bottom: 10px solid rgb(255, 255, 255); /* Base of the triangle (and the color) */
 }
 </style>

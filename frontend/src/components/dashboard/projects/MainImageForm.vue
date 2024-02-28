@@ -6,6 +6,7 @@ defineProps<{
 	title: string;
 	text: string;
 	mainImagePreview: string;
+	isBig?: boolean;
 }>();
 
 const emits = defineEmits<{
@@ -15,10 +16,13 @@ const emits = defineEmits<{
 
 <template>
 	<label
+		:class="{ labelbig: isBig }"
 		class="image-label"
 		:for="name">
 		{{ title }}
-		<div class="image-container">
+		<div
+			:class="{ big: isBig }"
+			class="image-container">
 			<picture v-if="mainImagePreview">
 				<img
 					:src="mainImagePreview"
@@ -39,6 +43,7 @@ const emits = defineEmits<{
 				@change="e => emits('change', e)" />
 			<div
 				class="backdrop"
+				:class="{ backdropbig: isBig }"
 				v-if="mainImagePreview">
 				<span>
 					<IconPhotoPlus
@@ -89,6 +94,15 @@ picture {
 	transition: all 0.2s ease;
 }
 
+.big {
+	height: 200px;
+}
+
+.labelbig {
+	width: 50%;
+	min-width: 300px;
+}
+
 .image-container input {
 	position: absolute;
 	visibility: hidden;
@@ -131,5 +145,13 @@ picture {
 	margin: 0;
 	padding: 0;
 	margin-top: -3em;
+}
+
+.backdropbig p {
+	margin-top: -7em;
+}
+
+.backdropbig span {
+	margin-top: 3em;
 }
 </style>

@@ -1,5 +1,6 @@
-import { API_URL, IMAGE_URL } from '../../constants';
+import { API_URL } from '../../constants';
 import { EMITTER_NAMES, EmittActions, emitter } from '../../utils/emitter';
+import { createFileFromImageUrl, extractFilename } from '../../utils/files';
 
 export interface UpdateProjectPayload {
 	id: string;
@@ -10,22 +11,6 @@ export interface UpdateProjectPayload {
 	mainImage: string | File;
 	images: Array<string> | Array<File>;
 }
-
-const extractFilename = (imagekey: string) => {
-	const parts = imagekey.split('-');
-	const nonUuidParts = parts.splice(0, parts.length - 5);
-	return nonUuidParts.length > 0 ? nonUuidParts.join('-') : imagekey;
-};
-
-const createFileFromImageUrl = async (imageKey: string) => {
-	const filename = extractFilename(imageKey.split('/')[1]);
-
-	const response = await fetch(`${IMAGE_URL}/${imageKey.replaceAll('/', '%2F')}`);
-
-	const blob = await response.blob();
-
-	return new File([blob], filename, { type: blob.type });
-};
 
 const createFormData = async (payload: UpdateProjectPayload) => {
 	const formData = new FormData();

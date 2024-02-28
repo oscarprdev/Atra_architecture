@@ -5,6 +5,7 @@ defineProps<{
 	placeholder: string;
 	title: string;
 	maxLength: number;
+	isBig?: boolean;
 }>();
 
 const emits = defineEmits<{
@@ -16,6 +17,7 @@ const emits = defineEmits<{
 	<label :for="name">
 		{{ title }}
 		<textarea
+			:class="{ isBig }"
 			required
 			:maxLength="maxLength"
 			:placeholder="placeholder"
@@ -45,6 +47,7 @@ textarea {
 	outline: none;
 	font-weight: 200;
 	font-family: 'Arimo', system-ui, sans-serif;
+	max-width: 80ch;
 
 	border: 1px solid var(--primary-light-hover);
 	font-size: var(--font-small);
@@ -76,5 +79,9 @@ textarea:hover {
 input:focus-within,
 textarea:focus-within {
 	border: 1px solid var(--contrast);
+}
+
+.isBig {
+	height: 200px;
 }
 </style>
