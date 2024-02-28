@@ -250,8 +250,6 @@ export class DefaultProjectInfra implements ProjectInfra {
 
 			args.push(limit, hasSearchFilter || orderClauses.length > 1 ? 0 : offset);
 
-			console.log(sqlQuery, orderClauses);
-
 			const dbProjects = await client.execute({
 				sql: sqlQuery,
 				args: args,
