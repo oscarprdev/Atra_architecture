@@ -3,6 +3,7 @@ import { onMounted, reactive, ref } from 'vue';
 import { loginUser } from '../../api/endpoints/login-user';
 import { validateAuth } from '../../api/endpoints/validate-auth';
 import { IconRotateClockwise } from '@tabler/icons-vue';
+import Toast from './Toast.vue';
 
 interface FormFields {
 	email: string;
@@ -33,6 +34,8 @@ const onSubmit = async (e: Event) => {
 
 	localStorage.setItem(LOCALSTORAGE_ITEM, response.data);
 	window.location.replace(DASHBOARD_URL);
+
+	isLoading.value = false;
 };
 
 onMounted(async () => {
@@ -80,6 +83,7 @@ onMounted(async () => {
 					class="spinner" />
 			</button>
 		</form>
+		<Toast />
 	</section>
 </template>
 

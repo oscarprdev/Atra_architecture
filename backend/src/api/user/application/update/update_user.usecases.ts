@@ -49,7 +49,7 @@ export class DefaultUpdateUserUsecases implements UpdateUserUsecases {
 			throw new Error(
 				JSON.stringify({
 					status: status || 500,
-					message: `${error instanceof Error ? message : 'Error updating user'}`,
+					message: `${error instanceof Error ? message : 'Error actualitzant dades personals'}`,
 				})
 			);
 		}

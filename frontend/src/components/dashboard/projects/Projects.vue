@@ -1,23 +1,10 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted } from 'vue';
 import ProjectModal from './ProjectModal.vue';
 import ProjectsHeader from './ProjectsHeader.vue';
 import ProjectsTable from './ProjectsTable.vue';
-import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../../utils/emitter';
-import ErrorToast from '../ErrorToast.vue';
 import { validateRoute } from '../../../utils/validateRoute';
-
-const error = ref<string>();
-
-emitter.on(EMITTER_NAMES.error, payload => {
-	if (typeof payload === 'object' && payload.action === EMITT_ACTIONS.ERROR) {
-		error.value = payload.message;
-
-		setTimeout(() => {
-			error.value = undefined;
-		}, 5000);
-	}
-});
+import Toast from '../Toast.vue';
 
 onMounted(async () => {
 	await validateRoute();
@@ -30,9 +17,7 @@ onMounted(async () => {
 		<ProjectsTable />
 	</section>
 	<ProjectModal />
-	<ErrorToast
-		v-if="error"
-		:error="error" />
+	<Toast />
 </template>
 
 <style>

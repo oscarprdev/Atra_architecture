@@ -25,7 +25,7 @@ export class DefaultLoginUserUsecases extends AuthUsecases implements LoginUserU
 				throw new Error(
 					JSON.stringify({
 						status: 400,
-						message: 'Email or password not valid',
+						message: 'Correu o contrasenya no son correctes',
 					})
 				);
 			}

@@ -1,17 +1,20 @@
 import { API_URL } from '../../constants';
 import { EMITTER_NAMES, EmittActions, emitter } from '../../utils/emitter';
 
-export const updateProjectIsTop = async (id: string, isTop: boolean) => {
+export interface UpdatePasswordInput {
+	oldPassword: string;
+	password: string;
+}
+
+export const updatePassword = async (input: UpdatePasswordInput) => {
 	try {
 		const jwt = localStorage.getItem('jwt');
 
-		console.log(jwt, id, isTop);
-
-		const response = await fetch(`${API_URL}/project/update/isTop`, {
+		const response = await fetch(`${API_URL}/user/update/password`, {
 			method: 'PUT',
 			body: JSON.stringify({
-				id,
-				isTop,
+				oldPassword: input.oldPassword,
+				newPassword: input.password,
 			}),
 			headers: {
 				Authorization: `Bearer ${jwt}`,
@@ -24,13 +27,11 @@ export const updateProjectIsTop = async (id: string, isTop: boolean) => {
 			throw new Error(jsonResponse);
 		}
 
-		return jsonResponse.data;
+		return jsonResponse.status === 201;
 	} catch (error) {
 		emitter.emit(EMITTER_NAMES.error, {
 			action: EmittActions.ERROR,
 			message: error as string,
 		});
-
-		return null;
 	}
 };

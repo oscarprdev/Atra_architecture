@@ -5,7 +5,7 @@ defineProps<{
 	text: string;
 	disabled?: boolean;
 	type?: 'button' | 'submit';
-	kind: ButtonKinds.PRIMARY | ButtonKinds.SECONDARY;
+	kind: ButtonKinds.PRIMARY | ButtonKinds.SECONDARY | ButtonKinds.DANGER;
 }>();
 
 const emits = defineEmits<{
@@ -16,7 +16,11 @@ const emits = defineEmits<{
 <template>
 	<button
 		:disabled="disabled"
-		:class="{ primary: kind === BUTTON_KINDS.PRIMARY, secondary: kind === BUTTON_KINDS.SECONDARY }"
+		:class="{
+			primary: kind === BUTTON_KINDS.PRIMARY,
+			secondary: kind === BUTTON_KINDS.SECONDARY,
+			danger: kind === BUTTON_KINDS.DANGER,
+		}"
 		:type="type || 'button'"
 		@click="emits('on-action-click')">
 		<slot name="icon" />
@@ -55,6 +59,20 @@ button {
 	border: 1px solid var(--border-dropdown);
 	background-color: var(--bg-dropdown);
 	color: var(--text-color);
+}
+
+.danger {
+	padding: 1rem 1.3rem;
+	font-size: 1rem;
+
+	border: 1px solid red;
+	background-color: rgba(255, 0, 0, 0.696);
+
+	color: white;
+}
+
+.danger:hover {
+	background-color: rgb(255, 52, 52);
 }
 
 .primary:hover {

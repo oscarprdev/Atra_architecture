@@ -8,6 +8,7 @@ export enum EmittActions {
 	CLOSE = 'CLOSE',
 	SUCCESS = 'SUCCESS',
 	ERROR = 'ERROR',
+	SUCCESSTOAST = 'SUCCESSTOAST',
 	SORT = 'SORT',
 	PAGINATION = 'PAGINATION',
 	NUM_PROJECTS = 'NUM_PROJECTS',
@@ -21,6 +22,7 @@ export const EMITT_ACTIONS = {
 	CLOSE: 'CLOSE' as EmittActions.CLOSE,
 	SUCCESS: 'SUCCESS' as EmittActions.SUCCESS,
 	ERROR: 'ERROR' as EmittActions.ERROR,
+	SUCCESSTOAST: 'SUCCESSTOAST' as EmittActions.SUCCESSTOAST,
 	SORT: 'SORT' as EmittActions.SORT,
 	PAGINATION: 'PAGINATION' as EmittActions.PAGINATION,
 	NUM_PROJECTS: 'NUM_PROJECTS' as EmittActions.NUM_PROJECTS,
@@ -57,6 +59,11 @@ interface Error {
 	message: string;
 }
 
+interface SuccessToast {
+	action: EmittActions.SUCCESSTOAST;
+	message: string;
+}
+
 export type SortKind = 'year' | 'top' | 'date' | 'default';
 
 interface Sort {
@@ -78,6 +85,7 @@ type Events = {
 	modal: CreateProjectPayload | RemoveProjectsPayload | EditProjectPayload | CloseModal;
 	success: Success;
 	error: Error;
+	successToast: SuccessToast;
 };
 
 export const emitter = mitt<Events>();
@@ -90,4 +98,5 @@ export const EMITTER_NAMES: Record<keyof Events, keyof Events> = {
 	modal: 'modal',
 	success: 'success',
 	error: 'error',
+	successToast: 'successToast',
 };

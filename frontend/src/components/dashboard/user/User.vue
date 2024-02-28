@@ -9,6 +9,9 @@ import SkeletonUserForm from './SkeletonUserForm.vue';
 import ActionButton from '../ActionButton.vue';
 import { BUTTON_KINDS } from '../ActionButton.types';
 import { IconRotateClockwise } from '@tabler/icons-vue';
+import { validateRoute } from '../../../utils/validateRoute';
+import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../../utils/emitter';
+import Toast from '../Toast.vue';
 
 const user = ref<User | null>(null);
 const isUserLoading = ref(false);
@@ -28,6 +31,10 @@ const onSubmitInfo = async (values: UserFormState) => {
 
 		if (userResponse) {
 			user.value = userResponse;
+			emitter.emit(EMITTER_NAMES.successToast, {
+				action: EMITT_ACTIONS.SUCCESSTOAST,
+				message: 'Informació actualitzada correctament',
+			});
 		}
 
 		isUserLoading.value = false;
@@ -35,6 +42,8 @@ const onSubmitInfo = async (values: UserFormState) => {
 };
 
 onMounted(async () => {
+	await validateRoute();
+
 	isUserLoading.value = true;
 	user.value = await getUserInfo();
 	isUserLoading.value = false;
@@ -67,6 +76,7 @@ onMounted(async () => {
 			</template>
 		</UserForm>
 		<SkeletonUserForm v-if="!user" />
+		<Toast />
 	</section>
 </template>
 
