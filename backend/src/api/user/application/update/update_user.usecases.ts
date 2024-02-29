@@ -16,14 +16,15 @@ export class DefaultUpdateUserUsecases implements UpdateUserUsecases {
 		userBody: { email, image, name, phone, direction, description },
 		env,
 	}: UpdateUserUsecasesTypes.UpdateUserInput): Promise<User> {
+		const inputImage = image;
 		try {
 			const {
-				user: { imageKey, id },
+				user: { image, id },
 			} = await this.ports.selectUser({ env });
 
 			const [_, imageUploaded] = await Promise.all([
-				this.ports.deleteImage({ key: imageKey, env }),
-				this.ports.uploadImage({ file: image as File, project: PROJECT, env }),
+				this.ports.deleteImage({ key: image, env }),
+				this.ports.uploadImage({ file: inputImage as File, project: PROJECT, env }),
 			]);
 
 			const imgKey = `${PROJECT}/${imageUploaded.image.name}`;

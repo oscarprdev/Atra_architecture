@@ -66,9 +66,11 @@ onMounted(async () => {
 					<template
 						#icon
 						v-if="isUserLoading">
-						<IconRotateClockwise
-							width="18"
-							class="spinner" />
+						<span class="icon">
+							<IconRotateClockwise
+								width="18"
+								class="spinner" />
+						</span>
 					</template>
 				</ActionButton>
 			</template>
@@ -110,5 +112,12 @@ header p {
 
 header span {
 	font-weight: bold;
+}
+
+.icon {
+	margin: 0;
+	padding: 0;
+	display: grid;
+	place-items: center;
 }
 </style>

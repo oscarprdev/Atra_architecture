@@ -5,7 +5,7 @@ export interface UserResponse {
 	phone: number;
 	direction: string;
 	description: string;
-	imageKey: string;
+	image: string;
 	createdAt: string;
 }
 

@@ -41,10 +41,12 @@ button {
 
 	cursor: pointer;
 	transition: all 0.2s ease;
+
+	padding: 0 1.3rem;
+	height: 3rem;
 }
 
 .primary {
-	padding: 0.6rem 1.3rem;
 	font-size: 1rem;
 	color: white;
 	background-color: var(--contrast);
@@ -52,18 +54,12 @@ button {
 }
 
 .secondary {
-	padding: auto 1.2rem;
-
-	height: 40px;
-
 	border: 1px solid var(--border-dropdown);
 	background-color: var(--bg-dropdown);
 	color: var(--text-color);
 }
 
 .danger {
-	padding: 0.8rem 1.3rem;
-
 	border: 1px solid red;
 	background-color: rgba(255, 0, 0, 0.696);
 
