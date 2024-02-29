@@ -49,13 +49,22 @@ const user = jsonResponse.data as User;
 		</ul>
 	</ul>
 	<div class="nav-bottom">
-		<button>
+		<button id="logout-btn">
 			<LogoutIcon />
 			<p>Tancar sessió</p>
 		</button>
 		<ThemeSelector />
 	</div>
 </nav>
+
+<script>
+	const $logoutBtn = document.getElementById('logout-btn')
+
+	$logoutBtn?.addEventListener('click', () => {
+		localStorage.clear()
+		window.location.replace('/auth')
+	})
+</script>
 
 <style>
 	nav {

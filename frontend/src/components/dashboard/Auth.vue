@@ -32,6 +32,10 @@ const onSubmit = async (e: Event) => {
 	isLoading.value = true;
 	const response = await loginUser(formFields);
 
+	if (!response) {
+		isLoading.value = false;
+	}
+
 	localStorage.setItem(LOCALSTORAGE_ITEM, response.data);
 	window.location.replace(DASHBOARD_URL);
 };
@@ -81,6 +85,7 @@ onMounted(async () => {
 					class="spinner" />
 			</button>
 		</form>
+		<slot name="hola" />
 		<Toast />
 	</section>
 </template>
