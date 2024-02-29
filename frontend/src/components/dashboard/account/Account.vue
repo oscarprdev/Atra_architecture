@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue';
+import { onMounted, reactive, ref, computed } from 'vue';
 import ActionButton from '../ActionButton.vue';
 import { BUTTON_KINDS } from '../ActionButton.types';
 import { IconRotateClockwise } from '@tabler/icons-vue';
@@ -17,17 +17,38 @@ const formState = reactive<AccountFormState>({
 	oldPassword: {
 		value: '',
 		error: null,
+		state: {
+			isValid: false,
+		},
 	},
 
 	firstPassword: {
 		value: '',
 		error: null,
+		state: {
+			isValid: false,
+			isLargerEnough: false,
+			hasNumber: false,
+			hasUppercase: false,
+		},
 	},
 
 	password: {
 		value: '',
 		error: null,
+		state: {
+			isValid: false,
+			isLargerEnough: false,
+			hasNumber: false,
+			hasUppercase: false,
+		},
 	},
+});
+
+const isFormFullfilled = computed(() => {
+	return (
+		formState.firstPassword.state.isValid && formState.oldPassword.state.isValid && formState.password.state.isValid
+	);
 });
 
 const cleanForm = () => {
@@ -96,6 +117,7 @@ onMounted(async () => {
 				<ActionButton
 					:text="`${isPasswordLoading ? 'Actualitzant contrasenya' : 'Actualitzar contrasenya'}`"
 					:type="'submit'"
+					:disabled="!isFormFullfilled"
 					:kind="BUTTON_KINDS.DANGER">
 					<template
 						#icon

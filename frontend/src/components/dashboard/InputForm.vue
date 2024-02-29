@@ -7,6 +7,7 @@ const props = defineProps<{
 	type: string;
 	placeholder: string;
 	title: string;
+	hasError?: boolean;
 	options?: Record<string, any>;
 }>();
 const input = ref<HTMLInputElement>();
@@ -25,15 +26,19 @@ onMounted(() => {
 
 <template>
 	<label :for="name">
-		{{ title }}
+		<div class="title">
+			{{ title }}
+			<slot name="icon-title" />
+		</div>
 		<input
+			:class="{ hasError }"
 			ref="input"
 			required
 			:placeholder="placeholder"
 			:type="type"
 			:name="name"
 			:value="value"
-			@change="e => emits('input', e)" />
+			@input="e => emits('input', e)" />
 	</label>
 </template>
 
@@ -88,5 +93,16 @@ textarea:hover {
 input:focus-within,
 textarea:focus-within {
 	border: 1px solid var(--contrast);
+}
+
+.title {
+	width: fit-content;
+
+	position: relative;
+}
+
+.hasError,
+.hasError:focus-within {
+	border: 1px solid var(--danger-text);
 }
 </style>

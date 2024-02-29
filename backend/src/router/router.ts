@@ -14,6 +14,7 @@ import { updateProjectHandler } from '../api/project/handlers/project_update_han
 import { validateAuthHandler } from '../api/user/handlers/validate_auth.handler';
 import { authMiddleware } from '../middlewares/auth';
 import { updateProjectIsTopHandler } from '../api/project/handlers/project_update_is_top_handler';
+import { validateasswordUserHandler } from '../api/user/handlers/validate_password.handler';
 
 function buildRouter(env: Env): RouterType {
 	const router = Router();
@@ -31,6 +32,7 @@ function buildRouter(env: Env): RouterType {
 	router.post('/user/create', corsMiddleware(uploadUserHandler));
 	router.put('/user/update', corsMiddleware(authMiddleware(updateUserHandler)));
 	router.put('/user/update/password', corsMiddleware(authMiddleware(updatePasswordUserHandler)));
+	router.post('/user/validate/password', corsMiddleware(authMiddleware(validateasswordUserHandler)));
 
 	// Auth handler
 	router.post('/auth/login', corsMiddleware(userLoginHandler));

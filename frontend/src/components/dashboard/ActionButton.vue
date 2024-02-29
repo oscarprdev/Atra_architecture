@@ -62,8 +62,7 @@ button {
 }
 
 .danger {
-	padding: 1rem 1.3rem;
-	font-size: 1rem;
+	padding: 0.8rem 1.3rem;
 
 	border: 1px solid red;
 	background-color: rgba(255, 0, 0, 0.696);
@@ -73,6 +72,12 @@ button {
 
 .danger:hover {
 	background-color: rgb(255, 52, 52);
+}
+
+.danger:disabled {
+	cursor: auto;
+	border: 1px solid var(--text-color-disabled);
+	background-color: var(--primary-hover);
 }
 
 .primary:hover {

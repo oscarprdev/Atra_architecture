@@ -22,14 +22,22 @@ const selectOption = (option: Option) => {
 	isOpen.value = false;
 	selectedOption.value = option.label;
 	isDropdownDisabled.value = true;
+
 	const optionToPerform = options.value.find(op => op.label === option.label);
 	optionToPerform?.cb();
 };
 
+/*
+ * Event listened when modal is closed
+ */
 emitter.on(EMITTER_NAMES.dropdown, () => {
 	selectedOption.value = props.defaultText;
+	isDropdownDisabled.value = false;
 });
 
+/*
+ * Event listened when pagination updates
+ */
 emitter.on(EMITTER_NAMES.pagination, payload => {
 	if (typeof payload === 'object' && payload.action === EMITT_ACTIONS.NUM_PROJECTS) {
 		isDropdownDisabled.value = false;
