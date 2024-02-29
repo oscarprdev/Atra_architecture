@@ -82,7 +82,7 @@ textarea {
 input::placeholder,
 textarea::placeholder {
 	font-size: var(--font-small);
-	color: var(--text-color);
+	color: var(--text-color-disabled);
 }
 
 input:hover,

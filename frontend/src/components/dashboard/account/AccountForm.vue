@@ -43,7 +43,6 @@ const onInputChange = async (e: Event) => {
 			case FORM_NAMES.OLDPASSWORD:
 				if (target.value.length > 0) {
 					const response = await validatePassword({ oldPassword: target.value });
-
 					updatedFormState.oldPassword.state.isValid = response || false;
 					updatedFormState.oldPassword.error = ERROR_MESSAGES.oldPassword;
 				} else {
@@ -53,6 +52,7 @@ const onInputChange = async (e: Event) => {
 
 				break;
 			case FORM_NAMES.FIRSTPASSWORD:
+				const firstPasswordIsSameAsOldPassword = updatedFormState.oldPassword.value === target.value;
 				const firstPasswordhasNumbers = /\d/.test(target.value);
 				const firstPasswordhasUppercase = /[A-Z]/.test(target.value);
 				const firstPasswordisLargeEnough = target.value.length >= MINIMUM_PASSWORD_LENGTH;
@@ -61,7 +61,21 @@ const onInputChange = async (e: Event) => {
 				updatedFormState.firstPassword.state.hasUppercase = firstPasswordhasUppercase;
 				updatedFormState.firstPassword.state.isLargerEnough = firstPasswordisLargeEnough;
 				updatedFormState.firstPassword.state.isValid =
-					firstPasswordhasNumbers && firstPasswordhasUppercase && firstPasswordisLargeEnough;
+					firstPasswordhasNumbers &&
+					firstPasswordhasUppercase &&
+					firstPasswordisLargeEnough &&
+					!firstPasswordIsSameAsOldPassword;
+
+				if (
+					firstPasswordhasNumbers &&
+					firstPasswordhasUppercase &&
+					firstPasswordisLargeEnough &&
+					firstPasswordIsSameAsOldPassword
+				) {
+					updatedFormState.firstPassword.error = 'La nova contrasenya deu ser distinta a la actual';
+				} else {
+					updatedFormState.firstPassword.error = null;
+				}
 
 				break;
 			case FORM_NAMES.PASSWORD:
@@ -107,7 +121,7 @@ const onSubmit = (e: Event) => {
 			<InputForm
 				title="Contrasenya vella"
 				type="password"
-				placeholder="xxx"
+				placeholder="Introdueix la contrasenya actual"
 				:has-error="!!formState.oldPassword.error && !formState.oldPassword.state.isValid"
 				:name="FORM_NAMES.OLDPASSWORD"
 				:value="formState.oldPassword.value"
@@ -131,7 +145,7 @@ const onSubmit = (e: Event) => {
 			<InputForm
 				title="Nova contrasenya"
 				type="password"
-				placeholder="xxx"
+				placeholder="Introdueix la nova contrasenya"
 				:has-error="formState.firstPassword.value.length > 0 && !formState.firstPassword.state.isValid"
 				:name="FORM_NAMES.FIRSTPASSWORD"
 				:value="formState.firstPassword.value"
@@ -144,6 +158,11 @@ const onSubmit = (e: Event) => {
 					</span>
 				</template>
 			</InputForm>
+			<p
+				class="error-message"
+				v-if="formState.firstPassword.error">
+				{{ formState.firstPassword.error }}
+			</p>
 			<div
 				v-if="formState.firstPassword.value.length > 0"
 				class="validations">
@@ -165,7 +184,7 @@ const onSubmit = (e: Event) => {
 			<InputForm
 				title="Repeteix contrasenya"
 				type="password"
-				placeholder="xxx"
+				placeholder="Introdueix altra vegada la nova contrasenya"
 				:has-error="formState.password.value.length > 0 && !formState.password.state.isValid"
 				:name="FORM_NAMES.PASSWORD"
 				:value="formState.password.value"

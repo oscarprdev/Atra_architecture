@@ -34,8 +34,6 @@ const onSubmit = async (e: Event) => {
 
 	localStorage.setItem(LOCALSTORAGE_ITEM, response.data);
 	window.location.replace(DASHBOARD_URL);
-
-	isLoading.value = false;
 };
 
 onMounted(async () => {

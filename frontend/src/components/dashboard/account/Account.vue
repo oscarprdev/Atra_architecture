@@ -52,12 +52,11 @@ const isFormFullfilled = computed(() => {
 });
 
 const cleanForm = () => {
-	formState.firstPassword.value = '';
-	formState.oldPassword.value = '';
-	formState.password.value = '';
-	formState.firstPassword.error = null;
-	formState.oldPassword.error = null;
-	formState.password.error = null;
+	Object.values(formState).forEach(field => {
+		field.state.isValid = false;
+		field.value = '';
+		field.error = null;
+	});
 };
 
 const setErrorMessage = (message: string) => {
