@@ -3,7 +3,6 @@ import { IconDotsVertical, IconRotateClockwise } from '@tabler/icons-vue';
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import type { Project } from '../../../api';
 import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../../utils/emitter';
-import { updateProject } from '../../../api/endpoints/update-project';
 import ActionButton from '../ActionButton.vue';
 import { BUTTON_KINDS } from '../ActionButton.types';
 import { updateProjectIsTop } from '../../../api/endpoints/update-project-is-top';
