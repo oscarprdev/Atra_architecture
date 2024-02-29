@@ -11,6 +11,7 @@ const CHECK_MESSAGES = {
 	hasNumbers: 'Un nombre',
 	hasUppercase: 'Una lletra majúscula',
 	isLargerEnough: `Mínim ${MINIMUM_PASSWORD_LENGTH} caràcters`,
+	sameAsOldPassword: 'La nova contrasenya deu ser distinta a la actual',
 };
 const ERROR_MESSAGES = {
 	oldPassword: 'Oops.. la contrasenya no es correcta',
@@ -72,7 +73,7 @@ const onInputChange = async (e: Event) => {
 					firstPasswordisLargeEnough &&
 					firstPasswordIsSameAsOldPassword
 				) {
-					updatedFormState.firstPassword.error = 'La nova contrasenya deu ser distinta a la actual';
+					updatedFormState.firstPassword.error = CHECK_MESSAGES.sameAsOldPassword;
 				} else {
 					updatedFormState.firstPassword.error = null;
 				}
