@@ -18,7 +18,7 @@ export const POST: APIRoute = async ctx => {
 
 		const jsonResponse = await response.json();
 
-		if (!jsonResponse.data) {
+		if (!jsonResponse.ok) {
 			throw new Error(jsonResponse);
 		}
 

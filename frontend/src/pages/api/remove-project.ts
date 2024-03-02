@@ -14,6 +14,10 @@ export const DELETE: APIRoute = async ctx => {
 		});
 		const jsonResponse = await response.json();
 
+		if (!jsonResponse.ok) {
+			throw new Error(jsonResponse);
+		}
+
 		return new Response(
 			JSON.stringify({
 				message: jsonResponse.response,

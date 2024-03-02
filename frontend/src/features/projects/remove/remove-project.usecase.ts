@@ -1,4 +1,4 @@
-export const removeProject = async (projectId: string) => {
+export const removeProjectUsecase = async (projectId: string) => {
 	const response = await fetch('/api/remove-project', {
 		method: 'DELETE',
 		body: JSON.stringify(projectId),

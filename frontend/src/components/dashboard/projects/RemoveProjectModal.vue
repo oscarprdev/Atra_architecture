@@ -7,7 +7,7 @@ import { IconRotateClockwise, IconCircleCheck } from '@tabler/icons-vue';
 import { emitter, EMITTER_NAMES, EMITT_ACTIONS, EmittActions } from '../../../utils/emitter';
 import { strCapitalized } from '../../../utils/strCapitalized';
 import { IconInfoTriangle } from '@tabler/icons-vue';
-import { removeProject } from '../../../features/projects/remove/remove-project.usecase';
+import { removeProjectUsecase } from '../../../features/projects/remove/remove-project.usecase';
 
 const props = defineProps<{
 	projects: Project[];
@@ -32,7 +32,7 @@ const emits = defineEmits<{
 const onRemoveProjectClick = async () => {
 	try {
 		modalState.isLoading = true;
-		await Promise.all(props.projects.map(pr => removeProject(pr.id)));
+		await Promise.all(props.projects.map(pr => removeProjectUsecase(pr.id)));
 
 		emitter.emit(EMITTER_NAMES.success, { action: EMITT_ACTIONS.SUCCESS });
 	} catch (error) {
