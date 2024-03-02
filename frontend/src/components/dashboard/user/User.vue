@@ -9,7 +9,6 @@ import SkeletonUserForm from './SkeletonUserForm.vue';
 import ActionButton from '../ActionButton.vue';
 import { BUTTON_KINDS } from '../ActionButton.types';
 import { IconRotateClockwise } from '@tabler/icons-vue';
-import { validateRoute } from '../../../utils/validateRoute';
 import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../../utils/emitter';
 import Toast from '../Toast.vue';
 
@@ -42,8 +41,6 @@ const onSubmitInfo = async (values: UserFormState) => {
 };
 
 onMounted(async () => {
-	await validateRoute();
-
 	isUserLoading.value = true;
 	user.value = await getUserInfo();
 	isUserLoading.value = false;

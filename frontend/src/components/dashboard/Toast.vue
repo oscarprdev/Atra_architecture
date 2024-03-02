@@ -66,7 +66,7 @@ emitter.on(EMITTER_NAMES.successToast, payload => {
 
 	visibility: hidden;
 	opacity: 0;
-	animation: fadeup-down-toast 5s linear forwards;
+	animation: fadeup-down-toast 5s ease forwards;
 }
 
 .toast-content {
@@ -91,7 +91,7 @@ emitter.on(EMITTER_NAMES.successToast, payload => {
 		transform: translateY(30%);
 	}
 
-	20% {
+	10% {
 		opacity: 1;
 		visibility: visible;
 		transform: translateY(0%);
