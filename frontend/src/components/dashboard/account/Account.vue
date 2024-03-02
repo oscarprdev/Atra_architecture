@@ -6,7 +6,6 @@ import { IconRotateClockwise } from '@tabler/icons-vue';
 import AccountForm from './AccountForm.vue';
 import type { AccountFormState } from './AccountForm.types';
 import { type UpdatePasswordInput, updatePassword } from '../../../api/endpoints/update-password';
-import { validateRoute } from '../../../utils/validateRoute';
 import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../../utils/emitter';
 import Toast from '../Toast.vue';
 
@@ -95,10 +94,6 @@ const onSubmitPassword = async (values: AccountFormState) => {
 		cleanForm();
 	}
 };
-
-onMounted(async () => {
-	await validateRoute();
-});
 </script>
 
 <template>

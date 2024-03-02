@@ -4,10 +4,10 @@ import { BUTTON_KINDS } from '../ActionButton.types';
 import CreateProjectForm from './CreateProjectForm.vue';
 import type { ProjectFormState } from './CreateProjectForm.types';
 import { ref } from 'vue';
-import { createProject } from '../../../api/endpoints/create-project';
 import { IconRotateClockwise, IconCircleCheck } from '@tabler/icons-vue';
-import type { CreateProjectBody } from '../../../api/endpoints/create-project';
 import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../../utils/emitter';
+import { createFormData } from '../../../pages/api/create-project';
+import type { CreateProjectBody } from '../../../pages/api/generated';
 
 const emits = defineEmits<{
 	(e: 'close-modal'): void;
@@ -27,9 +27,13 @@ const onSubmit = async (values: ProjectFormState) => {
 			images: values.images.value,
 			isTop: false,
 		} satisfies CreateProjectBody;
+		const formData = createFormData(payload);
 
 		modalLoading.value = true;
-		await createProject(payload);
+		await fetch('/api/create-project', {
+			method: 'POST',
+			body: formData,
+		});
 
 		emitter.emit(EMITTER_NAMES.success, { action: EMITT_ACTIONS.SUCCESS });
 	} else {
