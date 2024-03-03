@@ -14,7 +14,9 @@
 > [!NOTE]
 > Architecture Portfolio developed for ATRA architecture studio
 
-![701shots_so](https://github.com/oscarprdev/Atra-architecture/assets/94851836/5b85b1af-56ba-4688-9d70-53bf54756eca)
+![844shots_so](https://github.com/oscarprdev/Atra-architecture/assets/94851836/e5490060-9a21-4b2e-99a2-55fd5fe02c08)
+
+![353shots_so](https://github.com/oscarprdev/Atra-architecture/assets/94851836/2a9558f1-ae91-450f-b4cd-d0e33c474530)
 
 ## Dashboard
 
