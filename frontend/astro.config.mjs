@@ -6,5 +6,7 @@ import vercel from '@astrojs/vercel/serverless';
 export default defineConfig({
 	output: 'server',
 	integrations: [vue()],
-	adapter: vercel(),
+	adapter: vercel({
+		webAnalytics: { enabled: true },
+	}),
 });
