@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref, computed } from 'vue';
+import { reactive, ref, computed } from 'vue';
 import ActionButton from '../ActionButton.vue';
 import { BUTTON_KINDS } from '../ActionButton.types';
 import { IconRotateClockwise } from '@tabler/icons-vue';
 import AccountForm from './AccountForm.vue';
 import type { AccountFormState } from './AccountForm.types';
-import { type UpdatePasswordInput, updatePassword } from '../../../api/endpoints/update-password';
 import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../../utils/emitter';
 import Toast from '../Toast.vue';
+import { updatePasswordUsecase } from '../../../features/auth/update/update-password.usecase';
+import type { UpdateUserPasswordBody } from '../../../api';
 
 const isPasswordLoading = ref(false);
 const error = ref<string | null>(null);
@@ -79,11 +80,11 @@ const onSubmitPassword = async (values: AccountFormState) => {
 
 	const payload = {
 		oldPassword: values.oldPassword.value,
-		password: values.password.value,
-	} satisfies UpdatePasswordInput;
+		newPassword: values.password.value,
+	} satisfies UpdateUserPasswordBody;
 
 	isPasswordLoading.value = true;
-	const response = await updatePassword(payload);
+	const response = await updatePasswordUsecase(payload);
 	isPasswordLoading.value = false;
 
 	if (response) {

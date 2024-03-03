@@ -3,8 +3,8 @@ import { reactive } from 'vue';
 import ErrorMessage from '../ErrorMessage.vue';
 import type { AccountFormState } from './AccountForm.types';
 import InputForm from '../InputForm.vue';
-import { validatePassword } from '../../../api/endpoints/validate-password';
 import { IconCircleCheckFilled } from '@tabler/icons-vue';
+import { validatePasswordUsecase } from '../../../features/auth/validate/validate-password.usecase';
 
 const MINIMUM_PASSWORD_LENGTH = 6;
 const CHECK_MESSAGES = {
@@ -43,7 +43,8 @@ const onInputChange = async (e: Event) => {
 		switch (target.name) {
 			case FORM_NAMES.OLDPASSWORD:
 				if (target.value.length > 0) {
-					const response = await validatePassword({ oldPassword: target.value });
+					const response = await validatePasswordUsecase({ oldPassword: target.value });
+					console.log(response);
 					updatedFormState.oldPassword.state.isValid = response || false;
 					updatedFormState.oldPassword.error = ERROR_MESSAGES.oldPassword;
 				} else {

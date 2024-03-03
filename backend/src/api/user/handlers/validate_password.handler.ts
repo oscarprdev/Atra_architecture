@@ -13,11 +13,15 @@ export async function validateasswordUserHandler(request: Request, env: Env) {
 		if (bodyParsed.oldPassword) {
 			const { oldPassword } = checkInputValidations({ oldPassword: bodyParsed.oldPassword });
 
+			console.log(oldPassword);
+
 			const isValidated = await updatePasswordUsecase.validatePassword({ oldPassword, env });
+
+			console.log(isValidated);
 
 			const apiResponse: ApiResponse<boolean> = {
 				status: 200,
-				response: 'Password is successfully validated',
+				response: isValidated ? 'Password is successfully validated' : 'Password is not valid',
 				data: isValidated,
 			};
 
