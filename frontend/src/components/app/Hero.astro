@@ -31,7 +31,7 @@ const { mainImage, year, description }: Props = Astro.props;
 		const $figure = document.querySelector('figure');
 
 		window.addEventListener('scroll', () => {
-			const offset = window.pageYOffset;
+			const offset = window.scrollY;
 			if ($figure) {
 				$figure.style.backgroundPositionY = offset * -0.5 + 'px';
 			}
@@ -39,7 +39,7 @@ const { mainImage, year, description }: Props = Astro.props;
 	});
 </script>
 
-<style>
+<style scoped>
 	.title-container {
 		width: 100%;
 		display: flex;

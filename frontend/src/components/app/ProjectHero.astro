@@ -24,7 +24,26 @@ const { title, description, year, mainImage }: Props = Astro.props;
 	</figure>
 </section>
 
-<style>
+<script>
+	document.addEventListener('DOMContentLoaded', event => {
+		const figure = document.querySelector('figure');
+
+		if (!figure) return;
+
+		const initialBackgroundPositionY = window.getComputedStyle(figure).backgroundPositionY;
+
+		window.addEventListener('scroll', () => {
+			const offset = window.scrollY;
+
+			if (offset > 0) {
+				const newPositionY = -(offset * 0.5) + 'px';
+				figure.style.backgroundPositionY = `calc(${initialBackgroundPositionY} + ${newPositionY})`;
+			}
+		});
+	});
+</script>
+
+<style scoped>
 	section {
 		display: flex;
 		flex-direction: column;
@@ -48,8 +67,9 @@ const { title, description, year, mainImage }: Props = Astro.props;
 	}
 
 	h1 {
-		font-weight: 200;
-		font-size: 1.8rem;
+		font-weight: bold;
+		text-transform: uppercase;
+		font-size: var(--font-big);
 	}
 
 	h2,
@@ -68,7 +88,7 @@ const { title, description, year, mainImage }: Props = Astro.props;
 		margin: 0;
 
 		background-attachment: fixed;
-		background-position: bottom;
+		background-position: center;
 		background-repeat: no-repeat;
 		background-size: cover;
 	}
