@@ -26,8 +26,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18.17.0'
-          cache: 'pnpm'
-          cache-dependency-path: frontend/pnpm-lock.yaml
       - uses: pnpm/action-setup@v2
         with:
           version: 8
@@ -36,13 +34,13 @@ jobs:
         id: cache-dependencies
         with:
           path: frontend/node_modules
-          key: ${{ runner.os }}-pnpm-${{ hashFiles('frontend/**/pnpm-lock.yaml') }}
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-
       - name: Install Dependencies
         if: steps.cache-dependencies.outputs.cache-hit != 'true'
-        run: pnpm install
-        working-directory: ./frontend
+        run: |
+          cd frontend && pnpm install
   lint-format:
     runs-on: ubuntu-latest
     needs: install-cache
@@ -56,12 +54,20 @@ jobs:
       - uses: pnpm/action-setup@v2
         with:
           version: 8
+      - name: Restore pnpm dependencies
+        uses: actions/cache@v3
+        id: cache-dependencies
+        with:
+          path: frontend/node_modules
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-
       - name: Run lint
-        run: pnpm lint
-        working-directory: ./frontend
+        run: |
+          cd frontend && pnpm lint
       - name: Run prettier
-        run: pnpm format
-        working-directory: ./frontend
+        run: |
+          cd frontend && pnpm format
   type-check:
     runs-on: ubuntu-latest
     needs: install-cache
@@ -75,9 +81,17 @@ jobs:
       - uses: pnpm/action-setup@v2
         with:
           version: 8
+      - name: Restore pnpm dependencies
+        uses: actions/cache@v3
+        id: cache-dependencies
+        with:
+          path: frontend/node_modules
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-
       - name: Check types
-        run: pnpm type-check
-        working-directory: ./frontend
+        run: |
+          cd frontend && pnpm type-check
   build:
     runs-on: ubuntu-latest
     needs: [lint-format, type-check]
@@ -91,12 +105,20 @@ jobs:
       - uses: pnpm/action-setup@v2
         with:
           version: 8
+      - name: Restore pnpm dependencies
+        uses: actions/cache@v3
+        id: cache-dependencies
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-
       - name: Run build
-        run: pnpm build
-        working-directory: ./frontend
+        run: |
+          cd frontend && pnpm build
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
         with:
           name: build-output
-          path: frontend/.next
+          path: .next
           retention-days: 1
