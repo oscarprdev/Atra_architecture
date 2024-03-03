@@ -1,6 +1,6 @@
 ---
-import type { User } from '../../api';
 import { API_URL, IMAGE_URL } from '../../constants';
+import type { User } from '../../pages/api/generated';
 import ThemeSelector from './ThemeSelector.astro';
 import DescriptionIcon from './icons/DescriptionIcon.astro';
 import ListIcon from './icons/ListIcon.astro';
@@ -198,4 +198,3 @@ const user = jsonResponse.data as User;
 		border: 1px solid var(--contrast-dark);
 	}
 </style>
-../../pages/api/generated

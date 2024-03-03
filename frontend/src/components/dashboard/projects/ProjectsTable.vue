@@ -298,4 +298,3 @@ tbody > tr:hover {
 	text-align: center;
 }
 </style>
-../../../pages/api/generated

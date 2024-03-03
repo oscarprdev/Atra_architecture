@@ -1,6 +1,5 @@
 import { type APIRoute } from 'astro';
 import { API_URL, TOKEN } from '../../constants';
-import type { LoginUserBody } from './generated';
 
 export const POST: APIRoute = async ctx => {
 	try {

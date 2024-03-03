@@ -1,12 +1,12 @@
 ---
 import { API_URL } from '../../constants/index';
-import type { Project } from '../../api/index';
-import type { ApiResponse } from '../../api/api_response';
 import Layout from '../../layouts/Layout.astro';
 import { strCapitalized } from '../../utils/strCapitalized';
 import ProjectHero from '../../components/app/ProjectHero.astro';
 import ProjectImages from '../../components/app/ProjectImages.astro';
 import MoreProjects from '../../components/app/MoreProjects.astro';
+import type { ApiResponse } from '../api/api-response';
+import type { Project } from '../api/generated';
 
 const { id }: Record<string, string | undefined> = Astro.params;
 

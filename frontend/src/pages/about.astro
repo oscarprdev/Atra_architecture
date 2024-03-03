@@ -1,9 +1,9 @@
 ---
-import type { User } from '../api';
-import type { ApiResponse } from '../api/api_response';
 import AboutInfo from '../components/app/AboutInfo.astro';
 import { API_URL, IMAGE_URL } from '../constants';
 import Layout from '../layouts/Layout.astro';
+import type { ApiResponse } from './api/api-response';
+import type { User } from './api/generated';
 
 const response = await fetch(`${API_URL}/user/describe`);
 const {

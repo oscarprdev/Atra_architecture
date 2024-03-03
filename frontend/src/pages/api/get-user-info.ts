@@ -1,7 +1,7 @@
 import { type APIRoute } from 'astro';
 import { API_URL } from '../../constants';
 
-export const GET: APIRoute = async ctx => {
+export const GET: APIRoute = async () => {
 	try {
 		const response = await fetch(`${API_URL}/user/describe`);
 		const jsonResponse = await response.json();

@@ -1,4 +1,3 @@
-import { EMITTER_NAMES, EmittActions, emitter } from '../../../utils/emitter';
 import { createFileFromImageUrl, extractFilename } from '../../../utils/files';
 
 export interface UpdateProjectPayload {

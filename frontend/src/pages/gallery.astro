@@ -1,9 +1,9 @@
 ---
-import type { Project } from '../api';
-import type { ApiResponse } from '../api/api_response';
 import GalleryProjects from '../components/app/GalleryProjects.astro';
 import { API_URL } from '../constants';
 import Layout from '../layouts/Layout.astro';
+import type { ApiResponse } from './api/api-response';
+import type { Project } from './api/generated';
 
 const response = await fetch(`${API_URL}/project/list`);
 const data: ApiResponse<Project[]> = await response.json();
