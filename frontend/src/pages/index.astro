@@ -1,23 +1,24 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { API_URL } from '../constants/index';
-import MainImage from '../components/app/MainImage.vue';
 import ProjectList from '../components/app/ProjectList.astro';
 import HomeDescription from '../components/app/HomeDescription.astro';
 import type { ApiResponse } from './api/api-response';
 import type { Project } from './api/generated';
+import Hero from '../components/app/Hero.astro';
+import ProjectDetails from '../components/app/ProjectDetails.astro';
 
-const response = await fetch(`${API_URL}/project/list?all=true`);
-const data: ApiResponse<Project[]> = await response.json();
-
-const mainImages = data.data.map(p => p.mainImage);
+const response = await fetch(`${API_URL}/project/list`);
+const { data }: ApiResponse<Project[]> = await response.json();
 ---
 
 <Layout title="ATRA - Asistència tècnica en rehabilitació i arquitectura">
-	<MainImage
-		images={mainImages}
-		client:visible
+	<Hero
+		mainImage={data[0].mainImage}
+		year={data[0].year}
+		description={data[0].description}
 	/>
 	<HomeDescription />
-	<ProjectList projects={data.data} />
+	<ProjectList projects={data.slice(0, 3)} />
+	<ProjectDetails projects={data.slice(3, 6)} />
 </Layout>

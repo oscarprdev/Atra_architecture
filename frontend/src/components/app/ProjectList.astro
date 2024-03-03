@@ -10,32 +10,39 @@ const { projects }: Props = Astro.props;
 ---
 
 <section class="home-projects">
+	<h1 class="show">Projectes destacats</h1>
+
 	<ul>
 		{projects.map(pr => <ProjectItem project={pr} />)}
 	</ul>
 </section>
 
-<style>
+<style scoped>
 	.home-projects {
 		display: flex;
 		align-items: center;
 		flex-direction: column;
 
 		margin-top: 5rem;
-		gap: 10rem;
 
 		height: 100%;
 		width: 100%;
 		max-width: var(--max-width);
 	}
 
+	h1 {
+		font-size: var(--font-big);
+		margin: 0;
+	}
+
 	ul {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-		gap: 3rem;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		gap: 1rem;
 		padding: 0;
 		justify-content: center;
 		width: 80vw;
+		margin-top: 3rem;
 		max-width: var(--max-width);
 	}
 

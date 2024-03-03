@@ -11,22 +11,25 @@ import Nav from './Nav.astro';
 	<Nav />
 </header>
 
-<style>
+<style scoped>
 	header {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 
 		width: 100%;
-		max-width: var(--max-width);
+		max-width: 100vw;
 
-		border-bottom: 1px solid black;
+		border-bottom: 1px solid var(--contrast-color);
+		color: var(--contrast-color);
 
 		margin: 0 auto;
 		padding: 0 2rem;
+		height: 60px;
 	}
 
 	.title {
-		font-size: 1.5rem;
+		font-size: var(--font-small);
+		font-weight: bold;
 	}
 </style>

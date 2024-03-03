@@ -21,16 +21,18 @@ const {
 	</div>
 </footer>
 
-<style>
+<style scoped>
 	footer {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 
 		width: 100%;
-		border-top: 1px solid black;
 		padding: 1rem 3rem;
 		margin-top: 5rem;
+
+		background-color: var(--contrast-color);
+		color: var(--background-color);
 	}
 
 	.user-info {
@@ -45,7 +47,7 @@ const {
 	}
 
 	p {
-		font-size: 1rem;
+		font-size: var(--font-small);
 		text-transform: uppercase;
 	}
 

@@ -4,12 +4,18 @@ import ArrowRightUp from './icons/ArrowRightUp.astro';
 
 interface Props {
 	text: string;
+	dark?: boolean;
+	animation?: boolean;
+	small?: boolean;
 }
 
-const { text }: Props = Astro.props;
+const { text, dark, animation, small }: Props = Astro.props;
 ---
 
-<div class="text-container">
+<div
+	class="text-container"
+	class:list={[{ dark, animation, small }]}
+>
 	<p>
 		{strCapitalized(text)}
 	</p>
@@ -23,7 +29,7 @@ const { text }: Props = Astro.props;
 	</div>
 </div>
 
-<style>
+<style scoped>
 	.text-container {
 		width: fit-content;
 		display: flex;
@@ -34,7 +40,6 @@ const { text }: Props = Astro.props;
 
 	p {
 		width: fit-content;
-		position: relptive;
 		font-size: 1.2rem;
 
 		transition: color 0.3s ease;
@@ -48,7 +53,7 @@ const { text }: Props = Astro.props;
 		bottom: 14px;
 		height: 1px;
 		width: calc(100% - 19px);
-		background-color: #191919;
+		background-color: var(--contrast-color);
 		transform: scaleX(0);
 		transition: transform 0.3s ease;
 		transform-origin: left;
@@ -61,7 +66,7 @@ const { text }: Props = Astro.props;
 		width: 15px;
 		height: 15px;
 		padding-top: 5px;
-		background-color: rgb(255, 255, 255);
+		background-color: var(--background-color);
 		transform: scale(0.8);
 		overflow: hidden;
 	}
@@ -79,12 +84,30 @@ const { text }: Props = Astro.props;
 		transition: transform 0.3s ease;
 	}
 
-	.text-container:hover p::after {
+	.dark .icon-container {
+		background-color: var(--contrast-color);
+	}
+
+	.small p {
+		font-size: var(--font-small);
+		color: var(--contrast-color-hover);
+	}
+
+	.small .icon-container .icon,
+	.small .icon-container .icon-2 {
+		color: var(--contrast-color-hover);
+	}
+
+	.dark p::after {
+		background-color: var(--background-color);
+	}
+
+	.animation:hover p::after {
 		transform: scaleX(1);
 	}
 
-	.text-container:hover .icon-container .icon,
-	.text-container:hover .icon-container .icon-2 {
+	.animation:hover .icon-container .icon,
+	.animation:hover .icon-container .icon-2 {
 		transform: translateY(-55%) translateX(50%);
 	}
 </style>
