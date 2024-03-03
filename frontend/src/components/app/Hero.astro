@@ -3,9 +3,11 @@ import { IMAGE_URL } from '../../constants';
 
 interface Props {
 	mainImage: string;
+	year: number;
+	description: string;
 }
 
-const { mainImage }: Props = Astro.props;
+const { mainImage, year, description }: Props = Astro.props;
 ---
 
 <section class="title-container">
@@ -17,15 +19,25 @@ const { mainImage }: Props = Astro.props;
 		<h3>Jaume Pérez Llopis</h3>
 	</div>
 </section>
-<figure>
-	<picture>
-		<img
-			src={`${IMAGE_URL}/${mainImage}`}
-			alt="Main project of a building designed by the architect Jaume Pérez Llopis"
-			loading="eager"
-		/>
-	</picture>
+<figure style={`background-image: url(${IMAGE_URL}/${mainImage})`}>
+	<div class="project">
+		<p>{year}</p>
+		<p>{description}</p>
+	</div>
 </figure>
+
+<script>
+	document.addEventListener('DOMContentLoaded', event => {
+		const $figure = document.querySelector('figure');
+
+		window.addEventListener('scroll', () => {
+			const offset = window.pageYOffset;
+			if ($figure) {
+				$figure.style.backgroundPositionY = offset * -0.5 + 'px';
+			}
+		});
+	});
+</script>
 
 <style>
 	.title-container {
@@ -83,7 +95,12 @@ const { mainImage }: Props = Astro.props;
 		overflow: hidden;
 		width: 100%;
 		position: relative;
-		height: 100vh;
+		height: 70vh;
+
+		background-attachment: fixed;
+		background-repeat: no-repeat;
+		background-size: cover;
+		box-shadow: inset 0px -100px 80px rgba(0, 0, 0, 0.7);
 	}
 
 	figure::before {
@@ -97,29 +114,26 @@ const { mainImage }: Props = Astro.props;
 		animation: revealImage 1.2s ease-in-out forwards 0.3s;
 	}
 
-	picture {
-		width: 100%;
+	.project {
+		position: absolute;
+		bottom: 1rem;
+		right: 1rem;
+
+		display: flex;
+		flex-direction: column;
+		align-items: start;
+		color: var(--background-color);
 	}
 
-	figure img {
-		display: block;
-
-		width: 100%;
+	.project p {
+		margin: 0.1rem;
+		font-size: var(--font-small);
 	}
 
 	@keyframes fade-up {
 		to {
 			opacity: 1;
 			transform: translateY(0%);
-		}
-	}
-
-	@keyframes revealImage {
-		from {
-			width: 100%;
-		}
-		to {
-			width: 0;
 		}
 	}
 </style>

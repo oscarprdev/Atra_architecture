@@ -10,11 +10,11 @@ const data: ApiResponse<User> = await response.json();
 ---
 
 <section class="home-description">
-	<div class="title">
-		<h1 data-testid="home-title">ATRA</h1>
+	<div class="title fade-up-light">
 		<h3>Asistència tècnica en rehabilitació i arquitectura</h3>
 	</div>
-	<div class="description">
+	<span class="line grow-right"></span>
+	<div class="description fade-up-light">
 		{
 			data.data.description
 				.split('. ')
@@ -22,8 +22,15 @@ const data: ApiResponse<User> = await response.json();
 				.map(text => <p>{text}.</p>)
 		}
 	</div>
-	<Link href="/about">
-		<TextWithIcon text="Saber-ne mes" />
+	<Link
+		href="/about"
+		dark
+	>
+		<TextWithIcon
+			text="Saber-ne més"
+			dark
+			animation
+		/>
 	</Link>
 </section>
 
@@ -32,9 +39,18 @@ const data: ApiResponse<User> = await response.json();
 		display: grid;
 		place-content: center;
 		width: 100%;
-		margin-top: -5rem;
-		padding-bottom: 5rem;
-		border-bottom: 1px solid black;
+		margin-top: -1rem;
+		color: var(--background-color);
+		background-color: var(--contrast-color);
+		height: 60vh;
+	}
+
+	.line {
+		background-color: var(--background-color);
+		height: 1px;
+		opacity: 0;
+		width: 10vw;
+		animation: grow-right 0.2s ease-in-out forwards;
 	}
 
 	.title {
@@ -43,6 +59,9 @@ const data: ApiResponse<User> = await response.json();
 		gap: 1rem;
 		width: 80vw;
 		max-width: var(--max-width);
+		opacity: 0;
+		transform: translateY(-20%);
+		animation: fade-up-light 0.2s ease-in-out forwards;
 	}
 
 	h1 {
@@ -52,7 +71,7 @@ const data: ApiResponse<User> = await response.json();
 	}
 
 	h3 {
-		font-weight: 200;
+		font-weight: bold;
 		font-size: 1.5rem;
 		margin-top: -1rem;
 	}
@@ -68,5 +87,43 @@ const data: ApiResponse<User> = await response.json();
 		text-wrap: pretty;
 		font-size: 1rem;
 		line-height: auto;
+		margin-top: 2rem;
+		opacity: 0;
+		transform: translateY(20%);
+		animation: fade-up-light 0.2s ease-in-out forwards;
+	}
+
+	.grow-right {
+		view-timeline-name: --grow-right;
+		view-timeline-axis: block;
+
+		animation-timeline: --grow-right;
+		animation-name: grow-right;
+		animation-range: entry 18% cover 50%;
+		animation-fill-mode: both;
+	}
+
+	.fade-up-light {
+		view-timeline-name: --fade-up-light;
+		view-timeline-axis: block;
+
+		animation-timeline: --fade-up-light;
+		animation-name: fade-up-light;
+		animation-range: entry 18% cover 50%;
+		animation-fill-mode: both;
+	}
+
+	@keyframes grow-right {
+		to {
+			opacity: 1;
+			width: 80vw;
+		}
+	}
+
+	@keyframes fade-up-light {
+		to {
+			opacity: 1;
+			transform: translateY(0%);
+		}
 	}
 </style>

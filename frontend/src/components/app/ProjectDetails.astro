@@ -1,0 +1,114 @@
+---
+import { IMAGE_URL } from '../../constants';
+import type { Project } from '../../pages/api/generated';
+import Link from './Link.astro';
+import TextWithIcon from './TextWithIcon.astro';
+
+interface Props {
+	projects: Project[];
+}
+
+const { projects }: Props = Astro.props;
+---
+
+<section class="details">
+	<h1>Detalls</h1>
+	<ul>
+		{
+			projects.map(project => {
+				return (
+					<li class="project show">
+						<picture class="main-image">
+							<img src={`${IMAGE_URL}/${project.mainImage}`} />
+						</picture>
+						<div class="support-info">
+							<picture class="support-image">
+								<img src={`${IMAGE_URL}/${project.images[0]}`} />
+							</picture>
+							<div class="support-info--details">
+								<h3>{project.title}</h3>
+								<p>{project.description}</p>
+								<Link href={`/project/${project.id}`}>
+									<TextWithIcon
+										text="Veure més"
+										animation
+									/>
+								</Link>
+							</div>
+						</div>
+					</li>
+				);
+			})
+		}
+	</ul>
+</section>
+
+<style scoped>
+	.details {
+		margin-top: 5rem;
+		width: 100vw;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	h1 {
+		font-size: var(--font-big);
+		margin-top: 5rem;
+	}
+
+	ul {
+		display: flex;
+		flex-direction: column;
+		gap: 5rem;
+		width: var(--max-width);
+	}
+
+	.project {
+		display: flex;
+		gap: 1rem;
+		height: 80vh;
+	}
+
+	.project:nth-child(even) {
+		flex-direction: row-reverse;
+	}
+
+	picture {
+		overflow: hidden;
+		position: relative;
+		box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
+	}
+
+	.main-image {
+		height: 100%;
+		width: 60vw;
+	}
+
+	.support-image {
+		height: 60%;
+		width: 30vw;
+	}
+
+	.support-info {
+		display: flex;
+		flex-direction: column;
+		align-items: start;
+	}
+
+	.support-info--details {
+		display: flex;
+		flex-direction: column;
+		align-items: start;
+		gap: 0;
+	}
+
+	.support-info--details p {
+		margin: 0;
+		font-size: var(--font-small);
+	}
+
+	.project:nth-child(even) .support-info--details {
+		align-items: end;
+	}
+</style>

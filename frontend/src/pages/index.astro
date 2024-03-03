@@ -6,13 +6,19 @@ import HomeDescription from '../components/app/HomeDescription.astro';
 import type { ApiResponse } from './api/api-response';
 import type { Project } from './api/generated';
 import Hero from '../components/app/Hero.astro';
+import ProjectDetails from '../components/app/ProjectDetails.astro';
 
 const response = await fetch(`${API_URL}/project/list`);
 const { data }: ApiResponse<Project[]> = await response.json();
 ---
 
 <Layout title="ATRA - Asistència tècnica en rehabilitació i arquitectura">
-	<Hero mainImage={data[0].mainImage} />
+	<Hero
+		mainImage={data[0].mainImage}
+		year={data[0].year}
+		description={data[0].description}
+	/>
 	<HomeDescription />
-	<ProjectList projects={data} />
+	<ProjectList projects={data.slice(0, 3)} />
+	<ProjectDetails projects={data.slice(3, 6)} />
 </Layout>

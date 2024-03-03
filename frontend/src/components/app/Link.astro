@@ -2,14 +2,16 @@
 interface Props {
 	href: string;
 	target?: string;
+	dark?: boolean;
 }
 
-const { href, target }: Props = Astro.props;
+const { href, target, dark }: Props = Astro.props;
 ---
 
 <a
 	href={href}
 	target={target}
+	class:list={[{ dark }]}
 >
 	<slot />
 </a>
@@ -25,6 +27,10 @@ const { href, target }: Props = Astro.props;
 		gap: 4px;
 		position: relative;
 
-		color: rgb(76, 76, 76);
+		color: var(--contrast-color);
+	}
+
+	.dark {
+		color: var(--background-color);
 	}
 </style>
