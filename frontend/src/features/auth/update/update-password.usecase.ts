@@ -1,4 +1,4 @@
-import type { UpdateUserPasswordBody } from '../../../api';
+import type { UpdateUserPasswordBody } from '../../../pages/api/generated';
 import { EMITTER_NAMES, EmittActions, emitter } from '../../../utils/emitter';
 
 export const updatePasswordUsecase = async (input: UpdateUserPasswordBody) => {

@@ -1,5 +1,5 @@
 import mitt from 'mitt';
-import type { Project } from '../api';
+import type { Project } from '../pages/api/generated';
 
 export enum EmittActions {
 	CREATE = 'CREATE',

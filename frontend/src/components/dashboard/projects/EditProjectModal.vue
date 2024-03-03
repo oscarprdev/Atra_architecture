@@ -2,16 +2,16 @@
 import ActionButton from '../ActionButton.vue';
 import { BUTTON_KINDS } from '../ActionButton.types';
 import type { ProjectFormState } from './CreateProjectForm.types';
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
 import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../../utils/emitter';
-import { IconRotateClockwise, IconCircleCheck } from '@tabler/icons-vue';
-import type { Project } from '../../../api';
+import { IconRotateClockwise, IconCircleCheck, IconInfoTriangle } from '@tabler/icons-vue';
 import { strCapitalized } from '../../../utils/strCapitalized';
 import EditProjectForm from './EditProjectForm.vue';
 import {
 	updateProjectUsecase,
 	type UpdateProjectPayload,
 } from '../../../features/projects/update/update-project.usecase';
+import type { Project } from '../../../pages/api/generated';
 
 const props = defineProps<{
 	project: Project;
@@ -20,9 +20,31 @@ const props = defineProps<{
 const emits = defineEmits<{
 	(e: 'close-modal'): void;
 }>();
-const isSuccess = ref(false);
-const modalLoading = ref(false);
-const formRequiredMessage = ref<string>();
+interface State {
+	isSuccess: boolean;
+	isLoading: boolean;
+	error: string | null;
+	requiredMessage: string | null;
+}
+
+const modalState = reactive<State>({
+	isSuccess: false,
+	isLoading: false,
+	error: null,
+	requiredMessage: null,
+});
+
+const handleUpdateProject = async (payload: UpdateProjectPayload) => {
+	try {
+		modalState.isLoading = true;
+		await updateProjectUsecase(payload);
+
+		emitter.emit(EMITTER_NAMES.success, { action: EMITT_ACTIONS.SUCCESS });
+	} catch (error) {
+		modalState.isLoading = false;
+		modalState.error = error as string;
+	}
+};
 
 const onSubmit = async (values: ProjectFormState) => {
 	if (values.mainImage.value && values.images.value.length > 0) {
@@ -36,23 +58,20 @@ const onSubmit = async (values: ProjectFormState) => {
 			isTop: props.project.isTop,
 		} satisfies UpdateProjectPayload;
 
-		modalLoading.value = true;
-		await updateProjectUsecase(payload);
-
-		emitter.emit(EMITTER_NAMES.success, { action: EMITT_ACTIONS.SUCCESS });
+		await handleUpdateProject(payload);
 	} else {
-		formRequiredMessage.value = 'El projecte deu tindre 2 imatges mínim';
+		modalState.requiredMessage = 'El projecte deu tindre 2 imatges mínim';
 
 		setTimeout(() => {
-			formRequiredMessage.value = undefined;
+			modalState.requiredMessage = null;
 		}, 3000);
 	}
 };
 
 emitter.on(EMITTER_NAMES.modal, payload => {
 	if (typeof payload === 'object' && payload.action === EMITT_ACTIONS.CLOSE) {
-		modalLoading.value = false;
-		isSuccess.value = true;
+		modalState.isLoading = false;
+		modalState.isSuccess = true;
 	}
 });
 </script>
@@ -60,14 +79,17 @@ emitter.on(EMITTER_NAMES.modal, payload => {
 <template>
 	<div
 		class="edit-project-modal"
-		:class="{ default: !modalLoading, loading: modalLoading, success: isSuccess }">
-		<template v-if="!modalLoading && !isSuccess">
+		:class="{
+			default: !modalState.isLoading,
+			state: modalState.isLoading || modalState.isSuccess || modalState.error,
+		}">
+		<template v-if="!modalState.isLoading && !modalState.isSuccess && !modalState.error">
 			<h2>
 				Editar projecte de <span class="project-title">{{ strCapitalized(project.title) }}</span>
 			</h2>
 			<EditProjectForm
 				:project="project"
-				:required-message="formRequiredMessage"
+				:required-message="modalState.requiredMessage"
 				@submit="onSubmit">
 				<template #actions>
 					<div class="action-buttons">
@@ -83,7 +105,8 @@ emitter.on(EMITTER_NAMES.modal, payload => {
 				</template>
 			</EditProjectForm>
 		</template>
-		<template v-if="modalLoading">
+
+		<template v-if="modalState.isLoading">
 			<IconRotateClockwise
 				width="40"
 				height="40"
@@ -93,7 +116,8 @@ emitter.on(EMITTER_NAMES.modal, payload => {
 				Editant projecte de <span class="project-title">{{ strCapitalized(project.title) }}</span>
 			</h2>
 		</template>
-		<template v-if="isSuccess">
+
+		<template v-if="modalState.isSuccess">
 			<IconCircleCheck
 				width="40"
 				height="40"
@@ -101,6 +125,14 @@ emitter.on(EMITTER_NAMES.modal, payload => {
 			<h2>
 				Projecte de <span class="project-title">{{ strCapitalized(project.title) }}</span> editat correctament
 			</h2>
+		</template>
+
+		<template v-if="modalState.error">
+			<IconInfoTriangle
+				width="40"
+				height="40"
+				stroke-width="1" />
+			<h2>{{ modalState.error }}</h2>
 		</template>
 	</div>
 </template>
@@ -123,14 +155,9 @@ emitter.on(EMITTER_NAMES.modal, payload => {
 	max-width: 500px;
 }
 
-.loading {
+.state {
 	width: 70vw;
 	max-width: 250px;
-}
-
-.success {
-	width: 70vw;
-	max-width: 300px;
 }
 
 h2 {
@@ -152,3 +179,4 @@ h2 {
 	font-weight: bold;
 }
 </style>
+../../../pages/api/generated

@@ -131,3 +131,4 @@ form {
 	animation: fadeup-down 4s linear forwards;
 }
 </style>
+../../../pages/api/generated

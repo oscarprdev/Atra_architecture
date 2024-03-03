@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
-import type { Project } from '../../../api';
+import { reactive } from 'vue';
 import { BUTTON_KINDS } from '../ActionButton.types';
 import ActionButton from '../ActionButton.vue';
 import { IconRotateClockwise, IconCircleCheck } from '@tabler/icons-vue';
@@ -8,6 +7,7 @@ import { emitter, EMITTER_NAMES, EMITT_ACTIONS, EmittActions } from '../../../ut
 import { strCapitalized } from '../../../utils/strCapitalized';
 import { IconInfoTriangle } from '@tabler/icons-vue';
 import { removeProjectUsecase } from '../../../features/projects/remove/remove-project.usecase';
+import type { Project } from '../../../pages/api/generated';
 
 const props = defineProps<{
 	projects: Project[];
@@ -194,3 +194,4 @@ button {
 	color: var(--dropdown-text-color);
 }
 </style>
+../../../pages/api/generated

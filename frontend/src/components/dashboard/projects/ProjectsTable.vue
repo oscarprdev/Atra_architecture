@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue';
-import type { Project } from '../../../api';
 import InputCheckbox from './InputCheckbox.vue';
 import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../../utils/emitter';
 import ProjectRow from './ProjectRow.vue';
@@ -8,6 +7,7 @@ import ProjectsSkeleton from './ProjectsSkeleton.vue';
 import CommonActionsTooltip from './CommonActionsTooltip.vue';
 import Pagination from './Pagination.vue';
 import { getProjectListUsecase, type GetProjectListInput } from '../../../features/projects/get/get-projects.usecase';
+import type { Project } from '../../../pages/api/generated';
 
 const currentPage = ref(1);
 const isLoading = ref(false);
@@ -298,3 +298,4 @@ tbody > tr:hover {
 	text-align: center;
 }
 </style>
+../../../pages/api/generated

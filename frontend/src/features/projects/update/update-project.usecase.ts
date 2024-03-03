@@ -45,27 +45,16 @@ const createFormData = async (payload: UpdateProjectPayload) => {
 };
 
 export const updateProjectUsecase = async (payload: UpdateProjectPayload) => {
-	try {
-		const formData = await createFormData(payload);
+	const formData = await createFormData(payload);
 
-		const response = await fetch('/api/update-project', {
-			method: 'PUT',
-			body: formData,
-		});
+	const response = await fetch('/api/update-project', {
+		method: 'PUT',
+		body: formData,
+	});
 
+	if (response.status !== 201) {
 		const jsonResponse = await response.json();
 
-		if (response.status !== 201) {
-			throw new Error(jsonResponse);
-		}
-
-		return jsonResponse.data;
-	} catch (error) {
-		emitter.emit(EMITTER_NAMES.error, {
-			action: EmittActions.ERROR,
-			message: error as string,
-		});
-
-		return null;
+		throw new Error(jsonResponse.message);
 	}
 };

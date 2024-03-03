@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import type { User } from '../../../api';
 import InfoForm from './InfoForm.vue';
 import type { InfoFormState } from './InfoForm.types';
 import SkeletonInfo from './SkeletonInfo.vue';
@@ -11,6 +10,7 @@ import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../../utils/emitter';
 import Toast from '../Toast.vue';
 import { getUserUsecase } from '../../../features/user/get/get-user.usecase';
 import { updateUserUsecase, type UpdateInfoPayload } from '../../../features/user/update/update-user.usecase';
+import type { User } from '../../../pages/api/generated';
 
 const user = ref<User | null>(null);
 const isUserLoading = ref(false);
@@ -118,3 +118,4 @@ header span {
 	place-items: center;
 }
 </style>
+../../../pages/api/generated

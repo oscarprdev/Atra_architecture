@@ -8,7 +8,7 @@ import type { AccountFormState } from './AccountForm.types';
 import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../../utils/emitter';
 import Toast from '../Toast.vue';
 import { updatePasswordUsecase } from '../../../features/auth/update/update-password.usecase';
-import type { UpdateUserPasswordBody } from '../../../api';
+import type { UpdateUserPasswordBody } from '../../../pages/api/generated';
 
 const isPasswordLoading = ref(false);
 const error = ref<string | null>(null);
@@ -162,3 +162,4 @@ header span {
 	font-weight: bold;
 }
 </style>
+../../../pages/api/generated

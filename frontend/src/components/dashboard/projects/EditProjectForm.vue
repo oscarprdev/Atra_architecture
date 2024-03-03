@@ -58,3 +58,4 @@ const onSubmit = (formState: ProjectFormState) => {
 		</template>
 	</ProjectForm>
 </template>
+../../../pages/api/generated

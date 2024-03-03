@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { IconDotsVertical, IconRotateClockwise } from '@tabler/icons-vue';
 import { ref, computed, onMounted, onUnmounted } from 'vue';
-import type { Project } from '../../../api';
 import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../../utils/emitter';
 import ActionButton from '../ActionButton.vue';
 import { BUTTON_KINDS } from '../ActionButton.types';
 import { updateProjectIsTopUsecase } from '../../../features/projects/update/update-project-is-top.usecase';
+import type { Project } from '../../../pages/api/generated';
 
 const props = defineProps<{
 	checkedProjects: Project[];
@@ -163,3 +163,4 @@ onUnmounted(() => {
 	opacity: 1;
 }
 </style>
+../../../pages/api/generated

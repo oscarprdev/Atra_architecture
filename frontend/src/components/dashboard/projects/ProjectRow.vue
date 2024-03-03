@@ -86,3 +86,4 @@ img {
 	width: fit-content;
 }
 </style>
+../../../pages/api/generated

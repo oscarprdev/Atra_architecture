@@ -126,3 +126,4 @@ onUnmounted(() => {
 	width: 1rem;
 }
 </style>
+../../../pages/api/generated

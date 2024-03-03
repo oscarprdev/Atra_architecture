@@ -58,12 +58,12 @@ const user = jsonResponse.data as User;
 </nav>
 
 <script>
-	const $logoutBtn = document.getElementById('logout-btn')
+	const $logoutBtn = document.getElementById('logout-btn');
 
 	$logoutBtn?.addEventListener('click', () => {
-		localStorage.clear()
-		window.location.replace('/auth')
-	})
+		localStorage.clear();
+		window.location.replace('/auth');
+	});
 </script>
 
 <style>
@@ -149,7 +149,7 @@ const user = jsonResponse.data as User;
 		cursor: pointer;
 		background-color: var(--contrast-light);
 	}
-	
+
 	.selected:hover {
 		color: var(--contrast);
 		cursor: pointer;
@@ -198,3 +198,4 @@ const user = jsonResponse.data as User;
 		border: 1px solid var(--contrast-dark);
 	}
 </style>
+../../pages/api/generated
