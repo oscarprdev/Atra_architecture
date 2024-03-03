@@ -1,7 +1,5 @@
-import type { User } from '..';
-import { API_URL } from '../../constants';
-import { EMITTER_NAMES, EmittActions, emitter } from '../../utils/emitter';
-import { createFileFromImageUrl, extractFilename } from '../../utils/files';
+import { EMITTER_NAMES, EmittActions, emitter } from '../../../utils/emitter';
+import { createFileFromImageUrl, extractFilename } from '../../../utils/files';
 
 export interface UpdateInfoPayload {
 	id: string;
@@ -34,26 +32,22 @@ const createFormData = async (payload: UpdateInfoPayload) => {
 	return formData;
 };
 
-export const updateUserInfo = async (input: UpdateInfoPayload): Promise<User | undefined> => {
+export const updateUserUsecase = async (input: UpdateInfoPayload) => {
 	try {
 		const formData = await createFormData(input);
-		const jwt = localStorage.getItem('jwt');
 
-		const response = await fetch(`${API_URL}/user/update`, {
+		const response = await fetch('/api/update-user-info', {
 			method: 'PUT',
 			body: formData,
-			headers: {
-				Authorization: `Bearer ${jwt}`,
-			},
 		});
 
 		const jsonResponse = await response.json();
 
-		if (jsonResponse.status !== 201) {
-			throw new Error(jsonResponse);
+		if (response.status !== 201) {
+			throw new Error(jsonResponse.message);
 		}
 
-		return jsonResponse.data as User;
+		return jsonResponse.data;
 	} catch (error) {
 		emitter.emit(EMITTER_NAMES.error, {
 			action: EmittActions.ERROR,

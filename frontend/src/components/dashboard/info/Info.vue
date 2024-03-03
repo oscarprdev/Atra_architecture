@@ -3,7 +3,6 @@ import { onMounted, ref } from 'vue';
 import type { User } from '../../../api';
 import InfoForm from './InfoForm.vue';
 import type { InfoFormState } from './InfoForm.types';
-import { updateUserInfo, type UpdateInfoPayload } from '../../../api/endpoints/update-user-info';
 import SkeletonInfo from './SkeletonInfo.vue';
 import { BUTTON_KINDS } from '../ActionButton.types';
 import ActionButton from '../ActionButton.vue';
@@ -11,6 +10,7 @@ import { IconRotateClockwise } from '@tabler/icons-vue';
 import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../../utils/emitter';
 import Toast from '../Toast.vue';
 import { getUserUsecase } from '../../../features/user/get/get-user.usecase';
+import { updateUserUsecase, type UpdateInfoPayload } from '../../../features/user/update/update-user.usecase';
 
 const user = ref<User | null>(null);
 const isUserLoading = ref(false);
@@ -24,7 +24,7 @@ const onSubmitInfo = async (values: InfoFormState) => {
 		} satisfies UpdateInfoPayload;
 
 		isUserLoading.value = true;
-		const userResponse = await updateUserInfo(paylaod);
+		const userResponse = await updateUserUsecase(paylaod);
 
 		if (userResponse) {
 			user.value = userResponse;

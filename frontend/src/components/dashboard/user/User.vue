@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import type { User } from '../../../api';
-import { updateUserInfo, type UpdateInfoPayload } from '../../../api/endpoints/update-user-info';
 import UserForm from './UserForm.vue';
 import type { UserFormState } from './UserForm.types';
 import SkeletonUserForm from './SkeletonUserForm.vue';
@@ -11,6 +10,7 @@ import { IconRotateClockwise } from '@tabler/icons-vue';
 import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../../utils/emitter';
 import Toast from '../Toast.vue';
 import { getUserUsecase } from '../../../features/user/get/get-user.usecase';
+import { updateUserUsecase, type UpdateInfoPayload } from '../../../features/user/update/update-user.usecase';
 
 const user = ref<User | null>(null);
 const isUserLoading = ref(false);
@@ -26,7 +26,7 @@ const onSubmitInfo = async (values: UserFormState) => {
 		} satisfies UpdateInfoPayload;
 
 		isUserLoading.value = true;
-		const userResponse = await updateUserInfo(payload);
+		const userResponse = await updateUserUsecase(payload);
 
 		if (userResponse) {
 			user.value = userResponse;
