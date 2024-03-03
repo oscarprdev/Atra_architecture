@@ -1,16 +1,16 @@
-name: CI
+name: Atra architecture CI
 
 on:
   pull_request:
     branches:
       - main
     paths:
-      - '**.js'
-      - '**.jsx'
-      - '**.ts'
-      - '**.tsx'
-      - '**.yml'
-      - '**.json'
+      - 'frontend/**.js'
+      - 'frontend/**.jsx'
+      - 'frontend/**.ts'
+      - 'frontend/**.tsx'
+      - 'frontend/**.yml'
+      - 'frontend/**.json'
 
 concurrency:
   group: ${{ github.head_ref }}
