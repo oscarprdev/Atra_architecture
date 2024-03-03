@@ -9,6 +9,7 @@
 		"preview": "astro preview",
 		"astro": "astro",
 		"lint": "eslint --ext=jsx,ts,tsx .",
+		"type-check": "tsc --noEmit",
 		"e2e:tests": "npx playwright test --trace on",
 		"format": "prettier --write ."
 	},
