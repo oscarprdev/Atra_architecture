@@ -10,6 +10,7 @@ const { projects }: Props = Astro.props;
 ---
 
 <section class="gallery-projects">
+	<h1>Projectes</h1>
 	<ul>
 		{projects.map(pr => <GalleryItem project={pr} />)}
 	</ul>
@@ -22,14 +23,20 @@ const { projects }: Props = Astro.props;
 		flex-direction: column;
 
 		margin-top: 5rem;
-		gap: 10rem;
 
 		height: 100%;
 		width: 90vw;
 		max-width: var(--max-width);
 	}
 
+	h1 {
+		margin: 0;
+		margin-top: -2rem;
+		font-size: var(--font-big);
+	}
+
 	ul {
+		margin-top: 3rem;
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 		gap: 0.5rem;
