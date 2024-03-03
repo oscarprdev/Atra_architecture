@@ -3,13 +3,12 @@
 /* tslint:disable */
 /* eslint-disable */
 export type LoginUserBody = {
-    /**
-     * Password.
-     */
-    password: string;
-    /**
-     * Email.
-     */
-    email: string;
+	/**
+	 * Password.
+	 */
+	password: string;
+	/**
+	 * Email.
+	 */
+	email: string;
 };
-

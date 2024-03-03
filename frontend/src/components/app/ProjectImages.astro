@@ -13,7 +13,8 @@ const { images } = Astro.props;
 		images.map((image, i) => (
 			<li
 				id={`item-${i}`}
-				class={`show item-${i}`}>
+				class={`show item-${i}`}
+			>
 				<picture>
 					<img
 						src={`${IMAGE_URL}/${image}`}

@@ -9,7 +9,10 @@ import { IconRotateClockwise } from '@tabler/icons-vue';
 import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../../utils/emitter';
 import Toast from '../Toast.vue';
 import { getUserUsecase } from '../../../features/user/get/get-user.usecase';
-import { updateUserUsecase, type UpdateInfoPayload } from '../../../features/user/update/update-user.usecase';
+import {
+	updateUserUsecase,
+	type UpdateInfoPayload,
+} from '../../../features/user/update/update-user.usecase';
 import type { User } from '../../../pages/api/generated';
 
 const user = ref<User | null>(null);
@@ -56,18 +59,22 @@ onMounted(async () => {
 		<UserForm
 			v-if="user"
 			:user="user"
-			@submit="onSubmitInfo">
+			@submit="onSubmitInfo"
+		>
 			<template #action>
 				<ActionButton
 					:text="`${isUserLoading ? 'Editant..' : 'Editar informació'}`"
 					:type="'submit'"
-					:kind="BUTTON_KINDS.PRIMARY">
+					:kind="BUTTON_KINDS.PRIMARY"
+				>
 					<template
 						#icon
-						v-if="isUserLoading">
+						v-if="isUserLoading"
+					>
 						<IconRotateClockwise
 							width="18"
-							class="spinner" />
+							class="spinner"
+						/>
 					</template>
 				</ActionButton>
 			</template>

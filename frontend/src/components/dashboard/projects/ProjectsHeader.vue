@@ -11,7 +11,10 @@ import type { Option } from '../Dropdown.types';
 import { IconArrowUp, IconArrowDown } from '@tabler/icons-vue';
 
 const onCreateProjectClick = () => {
-	emitter.emit(EMITTER_NAMES.modal, { action: EMITT_ACTIONS.CREATE, componentName: 'CreateProjectModal' });
+	emitter.emit(EMITTER_NAMES.modal, {
+		action: EMITT_ACTIONS.CREATE,
+		componentName: 'CreateProjectModal',
+	});
 };
 
 const actionDropdownOptions: Option[] = [
@@ -40,14 +43,16 @@ const actionDropdownOptions: Option[] = [
 			<InputSearch />
 			<Dropdown
 				:options="actionDropdownOptions"
-				default-text="Ordenar" />
+				default-text="Ordenar"
+			/>
 			<Pagination />
 		</div>
 
 		<ActionButton
 			:kind="BUTTON_KINDS.PRIMARY"
 			text="Nou projecte"
-			@on-action-click="onCreateProjectClick">
+			@on-action-click="onCreateProjectClick"
+		>
 			<template #icon>
 				<IconPlus width="18" />
 			</template>

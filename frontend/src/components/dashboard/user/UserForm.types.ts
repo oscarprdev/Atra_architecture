@@ -4,6 +4,5 @@ export interface UserFormState {
 	name: FormControlField<string>;
 	email: FormControlField<string>;
 	phone: FormControlField<number>;
-    direction: FormControlField<string>;
-
+	direction: FormControlField<string>;
 }

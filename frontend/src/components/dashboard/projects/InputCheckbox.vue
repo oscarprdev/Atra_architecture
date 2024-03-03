@@ -14,11 +14,13 @@ const emit = defineEmits<{
 		<input
 			type="checkbox"
 			:id="id"
-			:checked="checked" />
+			:checked="checked"
+		/>
 		<label
 			:id="id"
 			class="checkbox-mark"
-			@click="emit('onClick', id)" />
+			@click="emit('onClick', id)"
+		/>
 	</div>
 </template>
 

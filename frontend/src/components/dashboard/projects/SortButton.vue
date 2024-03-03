@@ -15,7 +15,8 @@ const onSortClick = (kind: SortKind) => {
 <template>
 	<button
 		class="sort"
-		@click="onSortClick(kind)">
+		@click="onSortClick(kind)"
+	>
 		<p>{{ text }}</p>
 		<IconArrowsSort width="17" />
 	</button>

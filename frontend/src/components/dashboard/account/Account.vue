@@ -47,7 +47,9 @@ const formState = reactive<AccountFormState>({
 
 const isFormFullfilled = computed(() => {
 	return (
-		formState.firstPassword.state.isValid && formState.oldPassword.state.isValid && formState.password.state.isValid
+		formState.firstPassword.state.isValid &&
+		formState.oldPassword.state.isValid &&
+		formState.password.state.isValid
 	);
 });
 
@@ -107,19 +109,23 @@ const onSubmitPassword = async (values: AccountFormState) => {
 			:error-message="error"
 			:form-state="formState"
 			:reset="!isPasswordLoading"
-			@submit="onSubmitPassword">
+			@submit="onSubmitPassword"
+		>
 			<template #action>
 				<ActionButton
 					:text="`${isPasswordLoading ? 'Actualitzant contrasenya' : 'Actualitzar contrasenya'}`"
 					:type="'submit'"
 					:disabled="!isFormFullfilled"
-					:kind="BUTTON_KINDS.DANGER">
+					:kind="BUTTON_KINDS.DANGER"
+				>
 					<template
 						#icon
-						v-if="isPasswordLoading">
+						v-if="isPasswordLoading"
+					>
 						<IconRotateClockwise
 							width="18"
-							class="spinner" />
+							class="spinner"
+						/>
 					</template>
 				</ActionButton>
 			</template>

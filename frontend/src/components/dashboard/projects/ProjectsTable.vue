@@ -6,7 +6,10 @@ import ProjectRow from './ProjectRow.vue';
 import ProjectsSkeleton from './ProjectsSkeleton.vue';
 import CommonActionsTooltip from './CommonActionsTooltip.vue';
 import Pagination from './Pagination.vue';
-import { getProjectListUsecase, type GetProjectListInput } from '../../../features/projects/get/get-projects.usecase';
+import {
+	getProjectListUsecase,
+	type GetProjectListInput,
+} from '../../../features/projects/get/get-projects.usecase';
 import type { Project } from '../../../pages/api/generated';
 
 const currentPage = ref(1);
@@ -153,11 +156,13 @@ onMounted(async () => mountProjectList({ page: currentPage.value }));
 			<tr>
 				<CommonActionsTooltip
 					:checked-projects="checkedProjects"
-					@on-projects-updated="onProjectsUpdated" />
+					@on-projects-updated="onProjectsUpdated"
+				/>
 				<InputCheckbox
 					:id="'checkbox-head'"
 					:checked="areAllProjectsChecked"
-					@on-click="onToggleAllCheckboxes" />
+					@on-click="onToggleAllCheckboxes"
+				/>
 				<th class="table-main-image">Image</th>
 				<th class="table-name">Nom</th>
 				<th class="table-description">Descripció</th>
@@ -173,13 +178,16 @@ onMounted(async () => mountProjectList({ page: currentPage.value }));
 				:key="project.id"
 				:is-project-checked="checkedProjects.some(pr => pr.id === project.id)"
 				:project="project"
-				@toggle-checked-project="onToggleCheckedProject" />
+				@toggle-checked-project="onToggleCheckedProject"
+			/>
 			<ProjectsSkeleton
 				v-else-if="isLoading"
-				v-for="i in new Array(6).fill('')" />
+				v-for="i in new Array(6).fill('')"
+			/>
 			<tr
 				v-else-if="!isLoading && projects.length === 0"
-				class="empty">
+				class="empty"
+			>
 				<p>Cap resultat</p>
 			</tr>
 			<tr class="pagination">

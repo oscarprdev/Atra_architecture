@@ -33,14 +33,17 @@ emitter.on(EMITTER_NAMES.successToast, payload => {
 	<div
 		v-if="message"
 		:class="{ error: kind === 'error', success: kind === 'success' }"
-		class="toast">
+		class="toast"
+	>
 		<div class="toast-content">
 			<IconCircleCheck
 				v-if="kind === 'success'"
-				stroke-width="1" />
+				stroke-width="1"
+			/>
 			<IconInfoTriangle
 				v-if="kind === 'error'"
-				stroke-width="1" />
+				stroke-width="1"
+			/>
 			<p>{{ message }}</p>
 		</div>
 	</div>

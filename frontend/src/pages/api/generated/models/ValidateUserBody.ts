@@ -3,9 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 export type ValidateUserBody = {
-    /**
-     * Auth jwt
-     */
-    jwt: string;
+	/**
+	 * Auth jwt
+	 */
+	jwt: string;
 };
-

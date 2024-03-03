@@ -70,20 +70,24 @@ onUnmounted(() => {
 <template>
 	<div
 		class="backdrop"
-		v-if="isOpened">
+		v-if="isOpened"
+	>
 		<div
 			ref="modal"
 			class="modal"
-			:class="{ fadeUp: isOpened }">
+			:class="{ fadeUp: isOpened }"
+		>
 			<IconX
 				class="icon-x"
-				@click="closeModal" />
+				@click="closeModal"
+			/>
 			<component
 				v-if="modalComponent"
 				:is="asyncComponents[modalComponent]"
 				:projects="projects"
 				:project="project"
-				@close-modal="closeModal" />
+				@close-modal="closeModal"
+			/>
 		</div>
 	</div>
 </template>

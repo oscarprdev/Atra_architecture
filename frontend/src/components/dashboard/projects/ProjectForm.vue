@@ -108,7 +108,8 @@ const onSubmit = (e: Event) => {
 			placeholder="Quin es el nom del projecte?"
 			:name="FORM_NAMES.TITLE"
 			:value="formState.title.value"
-			@input="onInputChange" />
+			@input="onInputChange"
+		/>
 		<InputForm
 			title="Any"
 			type="number"
@@ -116,21 +117,24 @@ const onSubmit = (e: Event) => {
 			:options="{ max: currentYear(), step: 1, min: 2000 }"
 			:name="FORM_NAMES.YEAR"
 			:value="formState.year.value.toString()"
-			@input="onInputChange" />
+			@input="onInputChange"
+		/>
 		<TextareaForm
 			title="Descripció"
 			placeholder="Escriu una descripció"
 			:maxLength="150"
 			:name="FORM_NAMES.DESCRIPTION"
 			:value="formState.description.value"
-			@change="onTextareaChange" />
+			@change="onTextareaChange"
+		/>
 		<div class="images">
 			<MainImageForm
 				title="Imatge principal"
 				text="Selecciona una imatge"
 				:name="FORM_NAMES.MAINIMAGE"
 				:main-image-preview="imagePreviews.mainImagePreview"
-				@change="onInputChange" />
+				@change="onInputChange"
+			/>
 			<ImagesListForm
 				title="Resta d'imatges"
 				:images-previews="imagePreviews.imagesPreviews"
@@ -138,12 +142,14 @@ const onSubmit = (e: Event) => {
 				:error="formState.images.error"
 				:max-num-images="MAX_NUM_IMAGES"
 				@change="onInputChange"
-				@remove="onRemoveImageClick" />
+				@remove="onRemoveImageClick"
+			/>
 		</div>
 		<slot name="actions" />
 		<div
 			v-if="requiredMessage"
-			class="required-message-container">
+			class="required-message-container"
+		>
 			<ErrorMessage :required-message="requiredMessage" />
 		</div>
 	</form>

@@ -78,22 +78,26 @@ emitter.on(EMITTER_NAMES.modal, payload => {
 		:class="{
 			default: !modalState.isLoading,
 			state: modalState.isLoading || modalState.isSuccess || modalState.error,
-		}">
+		}"
+	>
 		<template v-if="!modalState.isLoading && !modalState.isSuccess && !modalState.error">
 			<h2>Crear un nou projecte</h2>
 			<CreateProjectForm
 				:required-message="modalState.requiredMessage"
-				@submit="onSubmit">
+				@submit="onSubmit"
+			>
 				<template #actions>
 					<div class="action-buttons">
 						<ActionButton
 							text="Cancelar"
 							:kind="BUTTON_KINDS.SECONDARY"
-							@on-action-click="emits('close-modal')" />
+							@on-action-click="emits('close-modal')"
+						/>
 						<ActionButton
 							text="Crear projecte"
 							:type="'submit'"
-							:kind="BUTTON_KINDS.PRIMARY" />
+							:kind="BUTTON_KINDS.PRIMARY"
+						/>
 					</div>
 				</template>
 			</CreateProjectForm>
@@ -103,14 +107,16 @@ emitter.on(EMITTER_NAMES.modal, payload => {
 				width="40"
 				height="40"
 				stroke-width="1"
-				class="spinner" />
+				class="spinner"
+			/>
 			<h2>Creant projecte...</h2>
 		</template>
 		<template v-if="modalState.isSuccess">
 			<IconCircleCheck
 				width="40"
 				height="40"
-				stroke-width="1" />
+				stroke-width="1"
+			/>
 			<h2>Projecte creat correctament</h2>
 		</template>
 
@@ -118,7 +124,8 @@ emitter.on(EMITTER_NAMES.modal, payload => {
 			<IconInfoTriangle
 				width="40"
 				height="40"
-				stroke-width="1" />
+				stroke-width="1"
+			/>
 			<h2>{{ modalState.error }}</h2>
 		</template>
 	</div>

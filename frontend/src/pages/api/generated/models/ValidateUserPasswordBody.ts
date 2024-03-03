@@ -3,9 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 export type ValidateUserPasswordBody = {
-    /**
-     * Old Password.
-     */
-    oldPassword: string;
+	/**
+	 * Old Password.
+	 */
+	oldPassword: string;
 };
-

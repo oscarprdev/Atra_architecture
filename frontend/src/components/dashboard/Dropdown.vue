@@ -50,19 +50,23 @@ emitter.on(EMITTER_NAMES.pagination, payload => {
 		<button
 			:class="{ opened: isOpen || selectedOption !== props.defaultText }"
 			:disabled="isDropdownDisabled"
-			@click="toggleDropdown">
+			@click="toggleDropdown"
+		>
 			<p>{{ selectedOption }}</p>
 			<IconChevronUp
 				class="icon"
-				:class="{ rotate: !isOpen }" />
+				:class="{ rotate: !isOpen }"
+			/>
 		</button>
 		<ul
 			:aria-checked="isOpen"
-			class="dropdown-menu">
+			class="dropdown-menu"
+		>
 			<li
 				v-for="option in options"
 				:key="option.label"
-				@click="selectOption(option)">
+				@click="selectOption(option)"
+			>
 				{{ option.label }}
 			</li>
 		</ul>

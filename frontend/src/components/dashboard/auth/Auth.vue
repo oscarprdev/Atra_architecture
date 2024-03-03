@@ -32,7 +32,8 @@ const onInputChange = (e: Event) => {
 					type="email"
 					:value="formFields.email"
 					@change="onInputChange"
-					placeholder="Email" />
+					placeholder="Email"
+				/>
 			</label>
 			<label>
 				<input
@@ -43,7 +44,8 @@ const onInputChange = (e: Event) => {
 					type="password"
 					:value="formFields.password"
 					@change="onInputChange"
-					placeholder="Contrasenya" />
+					placeholder="Contrasenya"
+				/>
 			</label>
 			<slot name="login-btn" />
 		</form>

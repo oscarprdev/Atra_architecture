@@ -23,7 +23,8 @@ const onInputChange = debounce(e => {
 			type="search"
 			@input="onInputChange"
 			placeholder="Busca un projecte..."
-			:value="inputValue" />
+			:value="inputValue"
+		/>
 	</label>
 </template>
 

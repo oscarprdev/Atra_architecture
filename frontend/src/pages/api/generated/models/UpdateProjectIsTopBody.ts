@@ -3,13 +3,12 @@
 /* tslint:disable */
 /* eslint-disable */
 export type UpdateProjectIsTopBody = {
-    /**
-     * The unique identifier for the project.
-     */
-    id: string;
-    /**
-     * Flag of project top.
-     */
-    isTop: boolean;
+	/**
+	 * The unique identifier for the project.
+	 */
+	id: string;
+	/**
+	 * Flag of project top.
+	 */
+	isTop: boolean;
 };
-

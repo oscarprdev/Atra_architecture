@@ -22,7 +22,8 @@ const emits = defineEmits<{
 			danger: kind === BUTTON_KINDS.DANGER,
 		}"
 		:type="type || 'button'"
-		@click="emits('on-action-click')">
+		@click="emits('on-action-click')"
+	>
 		<slot name="icon" />
 		<p>{{ text }}</p>
 	</button>

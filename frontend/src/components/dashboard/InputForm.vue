@@ -38,7 +38,8 @@ onMounted(() => {
 			:type="type"
 			:name="name"
 			:value="value"
-			@input="e => emits('input', e)" />
+			@input="e => emits('input', e)"
+		/>
 	</label>
 </template>
 

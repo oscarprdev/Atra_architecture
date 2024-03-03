@@ -63,12 +63,14 @@ emitter.on(EMITTER_NAMES.modal, payload => {
 					:kind="BUTTON_KINDS.SECONDARY"
 					:disabled="modalState.isLoading"
 					@on-action-click="emits('close-modal')"
-					text="Cancelar" />
+					text="Cancelar"
+				/>
 				<ActionButton
 					:kind="BUTTON_KINDS.SECONDARY"
 					:disabled="modalState.isLoading"
 					text="Eliminar"
-					@on-action-click="onRemoveProjectClick">
+					@on-action-click="onRemoveProjectClick"
+				>
 				</ActionButton>
 			</div>
 		</template>
@@ -78,7 +80,8 @@ emitter.on(EMITTER_NAMES.modal, payload => {
 				width="40"
 				height="40"
 				class="spinner"
-				stroke-width="1" />
+				stroke-width="1"
+			/>
 			<h2 v-if="projects.length > 1">Eliminant projectes</h2>
 			<h2 v-else="projects.length === 1">
 				Eliminant projecte de
@@ -90,7 +93,8 @@ emitter.on(EMITTER_NAMES.modal, payload => {
 			<IconCircleCheck
 				width="40"
 				height="40"
-				stroke-width="1" />
+				stroke-width="1"
+			/>
 			<h2 v-if="projects.length > 1">Projectes eliminats correctament</h2>
 			<h2 v-else="projects.length === 1">
 				Projecte de
@@ -103,7 +107,8 @@ emitter.on(EMITTER_NAMES.modal, payload => {
 			<IconInfoTriangle
 				width="40"
 				height="40"
-				stroke-width="1" />
+				stroke-width="1"
+			/>
 			<h2>{{ modalState.error }}</h2>
 		</template>
 	</div>

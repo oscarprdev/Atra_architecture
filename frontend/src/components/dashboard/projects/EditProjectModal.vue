@@ -82,7 +82,8 @@ emitter.on(EMITTER_NAMES.modal, payload => {
 		:class="{
 			default: !modalState.isLoading,
 			state: modalState.isLoading || modalState.isSuccess || modalState.error,
-		}">
+		}"
+	>
 		<template v-if="!modalState.isLoading && !modalState.isSuccess && !modalState.error">
 			<h2>
 				Editar projecte de <span class="project-title">{{ strCapitalized(project.title) }}</span>
@@ -90,17 +91,20 @@ emitter.on(EMITTER_NAMES.modal, payload => {
 			<EditProjectForm
 				:project="project"
 				:required-message="modalState.requiredMessage"
-				@submit="onSubmit">
+				@submit="onSubmit"
+			>
 				<template #actions>
 					<div class="action-buttons">
 						<ActionButton
 							text="Cancelar"
 							:kind="BUTTON_KINDS.SECONDARY"
-							@on-action-click="emits('close-modal')" />
+							@on-action-click="emits('close-modal')"
+						/>
 						<ActionButton
 							text="Editar projecte"
 							:type="'submit'"
-							:kind="BUTTON_KINDS.PRIMARY" />
+							:kind="BUTTON_KINDS.PRIMARY"
+						/>
 					</div>
 				</template>
 			</EditProjectForm>
@@ -111,7 +115,8 @@ emitter.on(EMITTER_NAMES.modal, payload => {
 				width="40"
 				height="40"
 				stroke-width="1"
-				class="spinner" />
+				class="spinner"
+			/>
 			<h2>
 				Editant projecte de <span class="project-title">{{ strCapitalized(project.title) }}</span>
 			</h2>
@@ -121,9 +126,11 @@ emitter.on(EMITTER_NAMES.modal, payload => {
 			<IconCircleCheck
 				width="40"
 				height="40"
-				stroke-width="1" />
+				stroke-width="1"
+			/>
 			<h2>
-				Projecte de <span class="project-title">{{ strCapitalized(project.title) }}</span> editat correctament
+				Projecte de <span class="project-title">{{ strCapitalized(project.title) }}</span> editat
+				correctament
 			</h2>
 		</template>
 
@@ -131,7 +138,8 @@ emitter.on(EMITTER_NAMES.modal, payload => {
 			<IconInfoTriangle
 				width="40"
 				height="40"
-				stroke-width="1" />
+				stroke-width="1"
+			/>
 			<h2>{{ modalState.error }}</h2>
 		</template>
 	</div>

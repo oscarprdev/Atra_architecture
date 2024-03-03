@@ -38,4 +38,3 @@ export const createProjectUsecase = async (payload: CreateProjectBody) => {
 		throw new Error(jsonResponse.message);
 	}
 };
-

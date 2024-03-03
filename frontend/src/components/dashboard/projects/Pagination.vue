@@ -42,7 +42,8 @@ emitter.on(EMITTER_NAMES.pagination, async payload => {
 		<button
 			class="icon icon--left"
 			:disabled="currentPage === 1"
-			@click="onPreviousPageClick()">
+			@click="onPreviousPageClick()"
+		>
 			<IconArrowNarrowLeft width="17" />
 		</button>
 
@@ -51,7 +52,8 @@ emitter.on(EMITTER_NAMES.pagination, async payload => {
 		<button
 			class="icon icon--right"
 			:disabled="currentPage * PROJECTS_BY_PAGE > totalProjects"
-			@click="onNextPageClick()">
+			@click="onNextPageClick()"
+		>
 			<IconArrowNarrowRight width="17" />
 		</button>
 	</div>

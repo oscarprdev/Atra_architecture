@@ -19,7 +19,9 @@ const isUpdatePending = ref(false);
 const tooltipContainer = ref<HTMLElement>();
 const isProjectsActionsTooltipVisible = ref(false);
 
-const numOfProjectsChecked = computed(() => Object.values(props.checkedProjects).filter(project => project).length);
+const numOfProjectsChecked = computed(
+	() => Object.values(props.checkedProjects).filter(project => project).length
+);
 
 const onProjectsActionsDotsClick = () => {
 	if (numOfProjectsChecked.value > 0) {
@@ -31,7 +33,9 @@ const onUpdateTopProjects = async () => {
 	const updatedProjects = props.checkedProjects.map(pr => ({ ...pr, isTop: !pr.isTop }));
 
 	isUpdatePending.value = true;
-	await Promise.all(updatedProjects.map(pr => updateProjectIsTopUsecase({ id: pr.id, isTop: pr.isTop })));
+	await Promise.all(
+		updatedProjects.map(pr => updateProjectIsTopUsecase({ id: pr.id, isTop: pr.isTop }))
+	);
 	isUpdatePending.value = false;
 
 	emits('onProjectsUpdated', updatedProjects);
@@ -68,10 +72,12 @@ onUnmounted(() => {
 	<div
 		ref="tooltipContainer"
 		class="projects-actions"
-		:class="{ tooltipAvailable: numOfProjectsChecked > 0 }">
+		:class="{ tooltipAvailable: numOfProjectsChecked > 0 }"
+	>
 		<span
 			class="projects-actions-tooltip"
-			:aria-checked="isProjectsActionsTooltipVisible">
+			:aria-checked="isProjectsActionsTooltipVisible"
+		>
 			<p>
 				Projectes seleccionats:
 				{{ numOfProjectsChecked }}
@@ -81,25 +87,30 @@ onUnmounted(() => {
 					:text="isUpdatePending ? '' : 'Destacar'"
 					:kind="BUTTON_KINDS.SECONDARY"
 					:disabled="isUpdatePending"
-					@on-action-click="onUpdateTopProjects">
+					@on-action-click="onUpdateTopProjects"
+				>
 					<template
 						#icon
-						v-if="isUpdatePending">
+						v-if="isUpdatePending"
+					>
 						<IconRotateClockwise
 							width="20"
-							class="spinner" />
+							class="spinner"
+						/>
 					</template>
 				</ActionButton>
 				<ActionButton
 					text="Eliminar"
 					:kind="BUTTON_KINDS.SECONDARY"
 					:disabled="isUpdatePending"
-					@on-action-click="onRemoveProjects" />
+					@on-action-click="onRemoveProjects"
+				/>
 			</div>
 		</span>
 		<IconDotsVertical
 			class="icon"
-			@click="onProjectsActionsDotsClick" />
+			@click="onProjectsActionsDotsClick"
+		/>
 	</div>
 </template>
 

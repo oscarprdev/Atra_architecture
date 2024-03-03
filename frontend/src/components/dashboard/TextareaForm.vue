@@ -23,7 +23,8 @@ const emits = defineEmits<{
 			:placeholder="placeholder"
 			:name="name"
 			:value="value"
-			@input="e => emits('change', e)" />
+			@input="e => emits('change', e)"
+		/>
 	</label>
 </template>
 

@@ -54,7 +54,8 @@ const onInputChange = async (e: Event) => {
 
 				break;
 			case FORM_NAMES.FIRSTPASSWORD:
-				const firstPasswordIsSameAsOldPassword = updatedFormState.oldPassword.value === target.value;
+				const firstPasswordIsSameAsOldPassword =
+					updatedFormState.oldPassword.value === target.value;
 				const firstPasswordhasNumbers = /\d/.test(target.value);
 				const firstPasswordhasUppercase = /[A-Z]/.test(target.value);
 				const firstPasswordisLargeEnough = target.value.length >= MINIMUM_PASSWORD_LENGTH;
@@ -127,10 +128,12 @@ const onSubmit = (e: Event) => {
 				:has-error="!!formState.oldPassword.error && !formState.oldPassword.state.isValid"
 				:name="FORM_NAMES.OLDPASSWORD"
 				:value="formState.oldPassword.value"
-				@input="onInputChange">
+				@input="onInputChange"
+			>
 				<template
 					v-if="formState.oldPassword.state.isValid"
-					#icon-title>
+					#icon-title
+				>
 					<span class="icon-wrapper">
 						<IconCircleCheckFilled width="18" />
 					</span>
@@ -138,7 +141,8 @@ const onSubmit = (e: Event) => {
 			</InputForm>
 			<p
 				class="error-message"
-				v-if="!!formState.oldPassword.error && !formState.oldPassword.state.isValid">
+				v-if="!!formState.oldPassword.error && !formState.oldPassword.state.isValid"
+			>
 				{{ formState.oldPassword.error }}
 			</p>
 		</div>
@@ -148,13 +152,17 @@ const onSubmit = (e: Event) => {
 				title="Nova contrasenya"
 				type="password"
 				placeholder="Introdueix la nova contrasenya"
-				:has-error="formState.firstPassword.value.length > 0 && !formState.firstPassword.state.isValid"
+				:has-error="
+					formState.firstPassword.value.length > 0 && !formState.firstPassword.state.isValid
+				"
 				:name="FORM_NAMES.FIRSTPASSWORD"
 				:value="formState.firstPassword.value"
-				@input="onInputChange">
+				@input="onInputChange"
+			>
 				<template
 					v-if="formState.firstPassword.state.isValid"
-					#icon-title>
+					#icon-title
+				>
 					<span class="icon-wrapper">
 						<IconCircleCheckFilled width="18" />
 					</span>
@@ -162,12 +170,14 @@ const onSubmit = (e: Event) => {
 			</InputForm>
 			<p
 				class="error-message"
-				v-if="formState.firstPassword.error">
+				v-if="formState.firstPassword.error"
+			>
 				{{ formState.firstPassword.error }}
 			</p>
 			<div
 				v-if="formState.firstPassword.value.length > 0"
-				class="validations">
+				class="validations"
+			>
 				<ul>
 					<li :class="{ valid: formState.firstPassword.state.hasUppercase }">
 						{{ CHECK_MESSAGES.hasUppercase }}
@@ -190,10 +200,12 @@ const onSubmit = (e: Event) => {
 				:has-error="formState.password.value.length > 0 && !formState.password.state.isValid"
 				:name="FORM_NAMES.PASSWORD"
 				:value="formState.password.value"
-				@input="onInputChange">
+				@input="onInputChange"
+			>
 				<template
 					v-if="formState.password.state.isValid"
-					#icon-title>
+					#icon-title
+				>
 					<span class="icon-wrapper">
 						<IconCircleCheckFilled width="18" />
 					</span>
@@ -201,12 +213,14 @@ const onSubmit = (e: Event) => {
 			</InputForm>
 			<p
 				class="error-message"
-				v-if="!!formState.password.error && !formState.password.state.isValid">
+				v-if="!!formState.password.error && !formState.password.state.isValid"
+			>
 				{{ formState.password.error }}
 			</p>
 			<div
 				v-if="formState.password.value.length > 0"
-				class="validations">
+				class="validations"
+			>
 				<ul>
 					<li :class="{ valid: formState.password.state.hasUppercase }">
 						{{ CHECK_MESSAGES.hasUppercase }}
@@ -227,7 +241,8 @@ const onSubmit = (e: Event) => {
 
 		<div
 			v-if="errorMessage"
-			class="required-message-container">
+			class="required-message-container"
+		>
 			<ErrorMessage :required-message="errorMessage" />
 		</div>
 	</form>
