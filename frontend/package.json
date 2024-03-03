@@ -8,6 +8,7 @@
 		"build": "astro check && astro build",
 		"preview": "astro preview",
 		"astro": "astro",
+		"lint": "eslint --ext=jsx,ts,tsx .",
 		"e2e:tests": "npx playwright test --trace on",
 		"format": "prettier --write ."
 	},
@@ -24,6 +25,14 @@
 	"devDependencies": {
 		"@playwright/test": "^1.41.2",
 		"@types/node": "^20.11.19",
+		"@typescript-eslint/eslint-plugin": "^7.1.0",
+		"@typescript-eslint/parser": "^7.1.0",
+		"eslint": "^8.57.0",
+		"eslint-config-prettier": "^9.1.0",
+		"eslint-plugin-astro": "^0.31.4",
+		"eslint-plugin-no-only-tests": "^3.1.0",
+		"eslint-plugin-prettier": "^5.1.3",
+		"prettier": "^3.2.5",
 		"prettier-plugin-astro": "^0.13.0"
 	}
 }

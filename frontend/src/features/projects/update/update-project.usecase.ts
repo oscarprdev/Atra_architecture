@@ -7,7 +7,7 @@ export interface UpdateProjectPayload {
 	year: number;
 	isTop: boolean;
 	mainImage: string | File;
-	images: Array<string> | Array<File>;
+	images: string[] | File[];
 }
 
 const createFormData = async (payload: UpdateProjectPayload) => {
