@@ -8,7 +8,10 @@ import { IconRotateClockwise, IconCircleCheck } from '@tabler/icons-vue';
 import type { Project } from '../../../api';
 import { strCapitalized } from '../../../utils/strCapitalized';
 import EditProjectForm from './EditProjectForm.vue';
-import { updateProject, type UpdateProjectPayload } from '../../../api/endpoints/update-project';
+import {
+	updateProjectUsecase,
+	type UpdateProjectPayload,
+} from '../../../features/projects/update/update-project.usecase';
 
 const props = defineProps<{
 	project: Project;
@@ -34,7 +37,7 @@ const onSubmit = async (values: ProjectFormState) => {
 		} satisfies UpdateProjectPayload;
 
 		modalLoading.value = true;
-		await updateProject(payload);
+		await updateProjectUsecase(payload);
 
 		emitter.emit(EMITTER_NAMES.success, { action: EMITT_ACTIONS.SUCCESS });
 	} else {
