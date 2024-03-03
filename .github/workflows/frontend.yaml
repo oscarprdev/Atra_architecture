@@ -1,4 +1,4 @@
-name: Atra architecture CI
+name: Atra architecture Frontend CI
 
 on:
   pull_request:
@@ -109,16 +109,10 @@ jobs:
         uses: actions/cache@v3
         id: cache-dependencies
         with:
-          path: node_modules
+          path: frontend/node_modules
           key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-
       - name: Run build
         run: |
           cd frontend && pnpm build
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: build-output
-          path: .next
-          retention-days: 1
