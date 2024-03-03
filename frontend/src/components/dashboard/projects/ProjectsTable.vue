@@ -3,11 +3,11 @@ import { onMounted, reactive, ref } from 'vue';
 import type { Project } from '../../../api';
 import InputCheckbox from './InputCheckbox.vue';
 import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../../utils/emitter';
-import { getProjectList, type GetProjectListInput } from '../../../api/endpoints/get-projects-list';
 import ProjectRow from './ProjectRow.vue';
 import ProjectsSkeleton from './ProjectsSkeleton.vue';
 import CommonActionsTooltip from './CommonActionsTooltip.vue';
 import Pagination from './Pagination.vue';
+import { getProjectListUsecase, type GetProjectListInput } from '../../../features/projects/get/get-projects.usecase';
 
 const currentPage = ref(1);
 const isLoading = ref(false);
@@ -133,7 +133,7 @@ emitter.on(EMITTER_NAMES.pagination, async payload => {
 
 const mountProjectList = async ({ page, search, date, year, isTop }: GetProjectListInput) => {
 	isLoading.value = true;
-	const response = (await getProjectList({ page, search, year, date, isTop })) || [];
+	const response = (await getProjectListUsecase({ page, search, year, date, isTop })) || [];
 	isLoading.value = false;
 	projects.value = response;
 

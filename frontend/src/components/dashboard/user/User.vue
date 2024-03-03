@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import type { User } from '../../../api';
-import { getUserInfo } from '../../../api/endpoints/get-user-info';
 import { updateUserInfo, type UpdateInfoPayload } from '../../../api/endpoints/update-user-info';
 import UserForm from './UserForm.vue';
 import type { UserFormState } from './UserForm.types';
@@ -11,6 +10,7 @@ import { BUTTON_KINDS } from '../ActionButton.types';
 import { IconRotateClockwise } from '@tabler/icons-vue';
 import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../../utils/emitter';
 import Toast from '../Toast.vue';
+import { getUserUsecase } from '../../../features/user/get/get-user.usecase';
 
 const user = ref<User | null>(null);
 const isUserLoading = ref(false);
@@ -42,7 +42,7 @@ const onSubmitInfo = async (values: UserFormState) => {
 
 onMounted(async () => {
 	isUserLoading.value = true;
-	user.value = await getUserInfo();
+	user.value = await getUserUsecase();
 	isUserLoading.value = false;
 });
 </script>

@@ -38,7 +38,4 @@ export const createProjectUsecase = async (payload: CreateProjectBody) => {
 		throw new Error(jsonResponse.message);
 	}
 };
-// emitter.emit(EMITTER_NAMES.error, {
-// 	action: EmittActions.ERROR,
-// 	message: error as string,
-// });
+

@@ -1,24 +1,10 @@
-import type { Project } from '..';
+import { type APIRoute } from 'astro';
 import { API_URL } from '../../constants';
-import { EMITTER_NAMES, EmittActions, emitter } from '../../utils/emitter';
 
-export interface GetProjectListInput {
-	page: number;
-	search?: string;
-	date?: boolean;
-	year?: boolean;
-	isTop?: boolean;
-}
-
-export const getProjectList = async ({
-	page,
-	search,
-	date,
-	year,
-	isTop,
-}: GetProjectListInput): Promise<Project[] | null> => {
+export const POST: APIRoute = async ctx => {
 	try {
 		const url = new URL(`${API_URL}/project/list`);
+		const { page, search, date, year, isTop } = await ctx.request.json();
 
 		const params = new URLSearchParams({ page: page.toString() });
 
@@ -43,13 +29,23 @@ export const getProjectList = async ({
 		const response = await fetch(url.toString());
 		const jsonResponse = await response.json();
 
-		return jsonResponse.data;
-	} catch (error) {
-		emitter.emit(EMITTER_NAMES.error, {
-			action: EmittActions.ERROR,
-			message: error as string,
-		});
-
-		return null;
+		return new Response(
+			JSON.stringify({
+				message: jsonResponse.message,
+				data: jsonResponse.data,
+			}),
+			{
+				status: 201,
+			}
+		);
+	} catch (error: unknown) {
+		return new Response(
+			JSON.stringify({
+				message: (error as { message: string }).message || 'Error listant projectes',
+			}),
+			{
+				status: 404,
+			}
+		);
 	}
 };
