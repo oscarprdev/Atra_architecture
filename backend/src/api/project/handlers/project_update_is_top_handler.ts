@@ -2,8 +2,9 @@ import convertToBoolean from '../../shared/utils/convert_to_bool';
 import extractErrorInfo from '../../shared/utils/extract_from_error_info';
 import { Env } from '../../..';
 import { projectUpdateUsecase } from '../graph';
-import { Project } from '../../generated';
+import { Project, UpdateProjectIsTopBody } from '../../generated';
 import { ApiResponse } from '../../shared/models/api_response';
+import { z } from 'zod';
 
 export async function updateProjectIsTopHandler(request: Request, env: Env) {
 	try {
@@ -17,7 +18,9 @@ export async function updateProjectIsTopHandler(request: Request, env: Env) {
 			throw new Error(JSON.stringify({ status: 400, message: 'Body not valid' }));
 		}
 
-		const projectOutput = await projectUpdateUsecase.updateIsTop({ id, isTop: isTop || false, env });
+		const validInput = checkInputValidations({ id, isTop: isTop || false });
+
+		const projectOutput = await projectUpdateUsecase.updateIsTop({ ...validInput, env });
 
 		const apiResponse: ApiResponse<Project> = {
 			status: 201,
@@ -35,4 +38,22 @@ export async function updateProjectIsTopHandler(request: Request, env: Env) {
 			status: status || 400,
 		});
 	}
+}
+
+function checkInputValidations({ id, isTop }: UpdateProjectIsTopBody): UpdateProjectIsTopBody {
+	const ProjectPayloadSchema = z.object({
+		id: z.string(),
+		isTop: z.boolean(),
+	});
+
+	const result = ProjectPayloadSchema.safeParse({ id, isTop });
+
+	if (!result.success) {
+		throw new Error(JSON.stringify({ status: 400, message: result.error.format() }));
+	}
+
+	return {
+		id,
+		isTop,
+	};
 }

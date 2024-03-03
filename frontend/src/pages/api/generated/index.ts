@@ -13,6 +13,7 @@ export type { Page } from './models/Page';
 export type { Project } from './models/Project';
 export type { Search } from './models/Search';
 export type { UpdateProjectBody } from './models/UpdateProjectBody';
+export type { UpdateProjectIsTopBody } from './models/UpdateProjectIsTopBody';
 export type { UpdateUserBody } from './models/UpdateUserBody';
 export type { UpdateUserPasswordBody } from './models/UpdateUserPasswordBody';
 export type { User } from './models/User';

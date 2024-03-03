@@ -95,3 +95,6 @@ schemas:
 
   UpdateProjectBody:
     $ref: 'components/schemas/UpdateProjectBody.yaml'
+
+  UpdateProjectIsTopBody:
+    $ref: 'components/schemas/UpdateProjectIsTopBody.yaml'
