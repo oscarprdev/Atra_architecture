@@ -41,15 +41,18 @@ const actionDropdownOptions: Option[] = [
 <template>
 	<tr
 		:class="{ isTop: project.isTop }"
-		:key="project.id">
+		:key="project.id"
+	>
 		<InputCheckbox
 			:id="'checkbox-' + project.id"
 			:checked="isProjectChecked"
-			@on-click="emits('toggleCheckedProject', project.id)" />
+			@on-click="emits('toggleCheckedProject', project.id)"
+		/>
 		<td class="table-main-image">
 			<img
 				:src="`${IMAGE_URL}/${project.mainImage}`"
-				:alt="`Main image of ${project.title}`" />
+				:alt="`Main image of ${project.title}`"
+			/>
 		</td>
 		<td class="table-name">{{ strCapitalized(project.title) }}</td>
 		<td class="table-description">
@@ -62,7 +65,8 @@ const actionDropdownOptions: Option[] = [
 		<td class="table-dropdown">
 			<Dropdown
 				:options="actionDropdownOptions"
-				default-text="Accions" />
+				default-text="Accions"
+			/>
 		</td>
 	</tr>
 </template>
@@ -86,3 +90,4 @@ img {
 	width: fit-content;
 }
 </style>
+../../../pages/api/generated

@@ -52,9 +52,11 @@ const onSubmit = (formState: ProjectFormState) => {
 		:required-message="requiredMessage"
 		:form-state="formState"
 		:image-previews="imagePreviews"
-		@submit="onSubmit">
+		@submit="onSubmit"
+	>
 		<template #actions>
 			<slot name="actions" />
 		</template>
 	</ProjectForm>
 </template>
+../../../pages/api/generated

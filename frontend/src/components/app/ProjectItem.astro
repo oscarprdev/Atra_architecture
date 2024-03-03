@@ -1,8 +1,8 @@
 ---
-import type { Project } from '../../api';
 import { IMAGE_URL } from '../../constants';
 import TextWithIcon from './TextWithIcon.astro';
 import Link from './Link.astro';
+import type { Project } from '../../pages/api/generated';
 
 interface Props {
 	project: Project;
@@ -54,3 +54,4 @@ const { project }: Props = Astro.props;
 		transform: translateY(-28%) translateX(24%);
 	}
 </style>
+../../pages/api/generated

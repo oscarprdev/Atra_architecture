@@ -88,6 +88,9 @@ const { title } = Astro.props;
 
 		--backdrop: rgba(0, 0, 0, 0.264);
 		--backdrop-dark: rgba(0, 0, 0, 0.546);
+
+		--danger-color: rgba(255, 0, 0, 0.696);
+		--danger-text: rgb(255, 52, 52);
 	}
 
 	html {
@@ -97,47 +100,47 @@ const { title } = Astro.props;
 	}
 
 	html.dark {
-		--primary: #1D2125;
-		--primary-hover: #A1BDD914;
-		--primary-light: #333C44;
+		--primary: #1d2125;
+		--primary-hover: #a1bdd914;
+		--primary-light: #333c44;
 		--primary-light-hover: #899fb714;
 
-		--bg-dropdown: #333C44;
-		--border-dropdown: #A1BDD914;
-	
-		--text-color: #9FADBC;
+		--bg-dropdown: #333c44;
+		--border-dropdown: #a1bdd914;
+
+		--text-color: #9fadbc;
 		--text-color-disabled: #eeeeee64;
 
-		--contrast-light: #1C2B41;
+		--contrast-light: #1c2b41;
 
 		--loading-dark: #36363690;
 		--loading-light: rgba(96, 96, 96, 0.385);
 
-		--cooltipz-bg-color: #ffffff !important;
-		--cooltipz-text-color: #1b1d1f !important;
-		--cooltipz-border-color: #ffffff !important;
+		--password-state-default: rgba(201, 201, 201, 0.1);
+
+		--toast-bg: #ffffff;
 	}
 
 	html.light {
-		--primary: #FFFFFF;
-		--primary-hover: #F7F8F9;
-		--primary-light: #DDDFE5;
+		--primary: #ffffff;
+		--primary-hover: #f7f8f9;
+		--primary-light: #dddfe5;
 		--primary-light-hover: #eef0f2;
 
-		--bg-dropdown: #FFFFFF;
-		--border-dropdown: #DDDFE5;
+		--bg-dropdown: #ffffff;
+		--border-dropdown: #dddfe5;
 
-		--text-color: #44546F;
+		--text-color: #44546f;
 		--text-color-disabled: #9b9b9b;
-		
-		--contrast-light: #E9F2FF;
+
+		--contrast-light: #e9f2ff;
 
 		--loading-dark: rgba(203, 203, 203, 0.2);
 		--loading-light: rgba(249, 249, 249, 0.3);
 
-		--cooltipz-bg-color: #ffffff !important;
-		--cooltipz-text-color: #1b1d1f !important;
-		--cooltipz-border-color: #ffffff !important;
+		--password-state-default: rgba(201, 201, 201, 0.3);
+
+		--toast-bg: #ffffff;
 	}
 
 	*,
@@ -249,11 +252,11 @@ const { title } = Astro.props;
 	}
 
 	@keyframes skeleton-loading {
-	0% {
-		background-position: -300px 0;
+		0% {
+			background-position: -300px 0;
+		}
+		100% {
+			background-position: 300px 0;
+		}
 	}
-	100% {
-		background-position: 300px 0;
-	}
-}
 </style>

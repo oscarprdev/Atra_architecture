@@ -13,7 +13,7 @@ generate-backend:
 generate-frontend:
 	make compile && \
 	npx openapi-typescript-codegen \
-	--input ./compiled.yaml --output ../frontend/src/api --exportCore false --exportServices false
+	--input ./compiled.yaml --output ../frontend/src/pages/api/generated --exportCore false --exportServices false
 
 compile:
 	multi-file-swagger -o yaml index.yaml > compiled_tmp1.yaml && \

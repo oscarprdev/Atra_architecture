@@ -18,37 +18,44 @@ const emits = defineEmits<{
 	<label
 		:class="{ labelbig: isBig }"
 		class="image-label"
-		:for="name">
+		:for="name"
+	>
 		{{ title }}
 		<div
 			:class="{ big: isBig }"
-			class="image-container">
+			class="image-container"
+		>
 			<picture v-if="mainImagePreview">
 				<img
 					:src="mainImagePreview"
-					alt="Project Main Image Preview" />
+					alt="Project Main Image Preview"
+				/>
 			</picture>
 
 			<IconPhotoPlus
 				v-if="!mainImagePreview"
 				class="image-icon"
 				stroke-width="1"
-				width="30" />
+				width="30"
+			/>
 			<p v-if="!mainImagePreview">{{ text }}</p>
 			<input
 				type="file"
 				accept=".png, .jpg, .jpeg, .webp"
 				:id="name"
 				:name="name"
-				@change="e => emits('change', e)" />
+				@change="e => emits('change', e)"
+			/>
 			<div
 				class="backdrop"
 				:class="{ backdropbig: isBig }"
-				v-if="mainImagePreview">
+				v-if="mainImagePreview"
+			>
 				<span>
 					<IconPhotoPlus
 						width="30"
-						stroke-width="1" />
+						stroke-width="1"
+					/>
 				</span>
 				<p>Cambia d'imatge</p>
 			</div>

@@ -1,6 +1,6 @@
 ---
-import type { User } from '../../api';
 import { API_URL, IMAGE_URL } from '../../constants';
+import type { User } from '../../pages/api/generated';
 import ThemeSelector from './ThemeSelector.astro';
 import DescriptionIcon from './icons/DescriptionIcon.astro';
 import ListIcon from './icons/ListIcon.astro';
@@ -49,13 +49,22 @@ const user = jsonResponse.data as User;
 		</ul>
 	</ul>
 	<div class="nav-bottom">
-		<button>
+		<button id="logout-btn">
 			<LogoutIcon />
 			<p>Tancar sessió</p>
 		</button>
 		<ThemeSelector />
 	</div>
 </nav>
+
+<script>
+	const $logoutBtn = document.getElementById('logout-btn');
+
+	$logoutBtn?.addEventListener('click', () => {
+		localStorage.clear();
+		window.location.replace('/auth');
+	});
+</script>
 
 <style>
 	nav {
@@ -140,7 +149,7 @@ const user = jsonResponse.data as User;
 		cursor: pointer;
 		background-color: var(--contrast-light);
 	}
-	
+
 	.selected:hover {
 		color: var(--contrast);
 		cursor: pointer;

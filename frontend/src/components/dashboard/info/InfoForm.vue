@@ -66,14 +66,16 @@ const onSubmit = (e: Event) => {
 <template>
 	<form
 		v-if="user"
-		@submit="onSubmit">
+		@submit="onSubmit"
+	>
 		<MainImageForm
 			title="Imatge principal"
 			text="Selecciona una imatge"
 			isBig
 			:name="FORM_NAMES.IMAGE"
 			:main-image-preview="imagePreview"
-			@change="onImageChange" />
+			@change="onImageChange"
+		/>
 		<TextareaForm
 			title="Descripció"
 			placeholder="Escriu una descripció"
@@ -81,13 +83,15 @@ const onSubmit = (e: Event) => {
 			:maxLength="user.description.length + 200"
 			:name="FORM_NAMES.IMAGE"
 			:value="user.description"
-			@change="onTextareaChange" />
+			@change="onTextareaChange"
+		/>
 		<div class="action">
 			<slot name="action" />
 		</div>
 		<div
 			v-if="formState.image.error"
-			class="required-message-container">
+			class="required-message-container"
+		>
 			<ErrorMessage :required-message="formState.image.error" />
 		</div>
 	</form>
@@ -116,3 +120,4 @@ form {
 	animation: fadeup-down 4s linear forwards;
 }
 </style>
+../../../pages/api/generated

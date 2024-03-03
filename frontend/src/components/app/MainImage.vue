@@ -22,15 +22,18 @@ onMounted(() => {
 		<div class="slider-container">
 			<picture
 				class="picture-container"
-				v-if="props.images.length > 0">
+				v-if="props.images.length > 0"
+			>
 				<img
 					class="animated"
 					:key="animatedIndex"
 					:alt="images[animatedIndex]"
-					:src="`${IMAGE_URL}/${images[animatedIndex]}`" />
+					:src="`${IMAGE_URL}/${images[animatedIndex]}`"
+				/>
 				<img
 					:alt="images[fixedIndex]"
-					:src="`${IMAGE_URL}/${images[fixedIndex]}`" />
+					:src="`${IMAGE_URL}/${images[fixedIndex]}`"
+				/>
 			</picture>
 		</div>
 	</section>

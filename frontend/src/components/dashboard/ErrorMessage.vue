@@ -11,7 +11,8 @@ defineProps<{
 		<span class="required-icon">
 			<IconExclamationMark
 				stroke-width="3"
-				height="20" />
+				height="20"
+			/>
 		</span>
 		<p>{{ requiredMessage }}</p>
 		<span class="triangle-up"></span>

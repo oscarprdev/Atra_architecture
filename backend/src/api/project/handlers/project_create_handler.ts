@@ -17,7 +17,7 @@ export async function createProjectHandler(request: Request, env: Env) {
 		const mainImage = formData.get('mainImage') as unknown as File;
 		const images = formData.getAll('images') as unknown as File[];
 
-		const validInput = checkInputValidations({ title, year, description, isTop, mainImage, images });
+		const validInput = checkInputValidations({ title, year, description, isTop: isTop || false, mainImage, images });
 
 		const projectOutput = await projectCreateUsecase.createProject({ projectBody: validInput, env });
 

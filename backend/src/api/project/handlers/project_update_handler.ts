@@ -22,7 +22,7 @@ export async function updateProjectHandler(request: Request, env: Env) {
 			throw new Error(JSON.stringify({ status: 400, message: 'Body not valid' }));
 		}
 
-		const validInput = checkInputValidations({ id, title, year, description, isTop, mainImage, images });
+		const validInput = checkInputValidations({ id, title, year, description, isTop: isTop || false, mainImage, images });
 
 		const projectOutput = await projectUpdateUsecase.updateProject({ updateProjectBody: validInput, env });
 

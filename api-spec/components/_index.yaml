@@ -27,6 +27,9 @@ responses:
   UpdateUserPasswordResponse:
     $ref: 'components/responses/UpdateUserPasswordResponse.yaml'
 
+  ValidateUserPasswordResponse:
+    $ref: 'components/responses/ValidateUserPasswordResponse.yaml'
+
   # Projects
   DescribeProjectsListResponse:
     $ref: 'components/responses/DescribeProjectsListResponse.yaml'
@@ -74,6 +77,9 @@ schemas:
   UpdateUserPasswordBody:
     $ref: 'components/schemas/UpdateUserPasswordBody.yaml'
 
+  ValidateUserPasswordBody:
+    $ref: 'components/schemas/ValidateUserPasswordBody.yaml'
+
   LoginUserBody:
     $ref: 'components/schemas/LoginUserBody.yaml'
 
@@ -89,3 +95,6 @@ schemas:
 
   UpdateProjectBody:
     $ref: 'components/schemas/UpdateProjectBody.yaml'
+
+  UpdateProjectIsTopBody:
+    $ref: 'components/schemas/UpdateProjectIsTopBody.yaml'

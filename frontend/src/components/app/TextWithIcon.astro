@@ -3,88 +3,88 @@ import { strCapitalized } from '../../utils/strCapitalized';
 import ArrowRightUp from './icons/ArrowRightUp.astro';
 
 interface Props {
-    text: string;
+	text: string;
 }
 
 const { text }: Props = Astro.props;
 ---
 
 <div class="text-container">
-    <p>
-        {strCapitalized(text)}
-    </p>
-    <div class="icon-container">
-        <span class="icon">
-            <ArrowRightUp />
-        </span>
-        <span class="icon-2">
-            <ArrowRightUp />
-        </span>
-    </div>
+	<p>
+		{strCapitalized(text)}
+	</p>
+	<div class="icon-container">
+		<span class="icon">
+			<ArrowRightUp />
+		</span>
+		<span class="icon-2">
+			<ArrowRightUp />
+		</span>
+	</div>
 </div>
 
 <style>
-    .text-container {
-        width: fit-content;
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        position: relative;
-    }
+	.text-container {
+		width: fit-content;
+		display: flex;
+		align-items: center;
+		gap: 4px;
+		position: relative;
+	}
 
-    p {
-        width: fit-content;
-        position: relptive;
-        font-size: 1.2rem;
+	p {
+		width: fit-content;
+		position: relptive;
+		font-size: 1.2rem;
 
-        transition: color 0.3s ease;
-    }
+		transition: color 0.3s ease;
+	}
 
-    p::after {
-        content: '';
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 14px;
-        height: 1px;
-        width: calc(100% - 19px);
-        background-color: #191919;
-        transform: scaleX(0);
-        transition: transform 0.3s ease;
-        transform-origin: left;
-    }
+	p::after {
+		content: '';
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: 14px;
+		height: 1px;
+		width: calc(100% - 19px);
+		background-color: #191919;
+		transform: scaleX(0);
+		transition: transform 0.3s ease;
+		transform-origin: left;
+	}
 
-    .icon-container {
-        position: relative;
-        display: grid;
-        place-content: center;
-        width: 15px;
-        height: 15px;
-        padding-top: 5px;
-        background-color: rgb(255, 255, 255);
-        transform: scale(0.8);
-        overflow: hidden;
-    }
+	.icon-container {
+		position: relative;
+		display: grid;
+		place-content: center;
+		width: 15px;
+		height: 15px;
+		padding-top: 5px;
+		background-color: rgb(255, 255, 255);
+		transform: scale(0.8);
+		overflow: hidden;
+	}
 
-    .icon {
-        width: fit-content;
-        transition: transform 0.3s ease;
-    }
+	.icon {
+		width: fit-content;
+		transition: transform 0.3s ease;
+	}
 
-    .icon-2 {
-        position: absolute;
-        bottom: -1.4rem;
-        left: -1rem;
-        width: fit-content;
-        transition: transform 0.3s ease;
-=    }
+	.icon-2 {
+		position: absolute;
+		bottom: -1.4rem;
+		left: -1rem;
+		width: fit-content;
+		transition: transform 0.3s ease;
+	}
 
-    .text-container:hover p::after {
-        transform: scaleX(1);
-    }
+	.text-container:hover p::after {
+		transform: scaleX(1);
+	}
 
-    .text-container:hover .icon-container .icon,
-    .text-container:hover .icon-container .icon-2 {
-        transform: translateY(-55%) translateX(50%);
-    }
+	.text-container:hover .icon-container .icon,
+	.text-container:hover .icon-container .icon-2 {
+		transform: translateY(-55%) translateX(50%);
+	}
 </style>

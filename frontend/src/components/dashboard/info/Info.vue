@@ -1,17 +1,19 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import type { User } from '../../../api';
 import InfoForm from './InfoForm.vue';
-import { getUserInfo } from '../../../api/endpoints/get-user-info';
 import type { InfoFormState } from './InfoForm.types';
-import { updateUserInfo, type UpdateInfoPayload } from '../../../api/endpoints/update-user-info';
 import SkeletonInfo from './SkeletonInfo.vue';
 import { BUTTON_KINDS } from '../ActionButton.types';
 import ActionButton from '../ActionButton.vue';
 import { IconRotateClockwise } from '@tabler/icons-vue';
-import { validateRoute } from '../../../utils/validateRoute';
 import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../../utils/emitter';
 import Toast from '../Toast.vue';
+import { getUserUsecase } from '../../../features/user/get/get-user.usecase';
+import {
+	updateUserUsecase,
+	type UpdateInfoPayload,
+} from '../../../features/user/update/update-user.usecase';
+import type { User } from '../../../pages/api/generated';
 
 const user = ref<User | null>(null);
 const isUserLoading = ref(false);
@@ -25,7 +27,7 @@ const onSubmitInfo = async (values: InfoFormState) => {
 		} satisfies UpdateInfoPayload;
 
 		isUserLoading.value = true;
-		const userResponse = await updateUserInfo(paylaod);
+		const userResponse = await updateUserUsecase(paylaod);
 
 		if (userResponse) {
 			user.value = userResponse;
@@ -40,10 +42,8 @@ const onSubmitInfo = async (values: InfoFormState) => {
 };
 
 onMounted(async () => {
-	await validateRoute();
-
 	isUserLoading.value = true;
-	user.value = await getUserInfo();
+	user.value = await getUserUsecase();
 	isUserLoading.value = false;
 });
 </script>
@@ -57,18 +57,24 @@ onMounted(async () => {
 		<InfoForm
 			v-if="user"
 			:user="user"
-			@submit="onSubmitInfo">
+			@submit="onSubmitInfo"
+		>
 			<template #action>
 				<ActionButton
 					:text="`${isUserLoading ? 'Editant..' : 'Editar informació'}`"
 					:type="'submit'"
-					:kind="BUTTON_KINDS.PRIMARY">
+					:kind="BUTTON_KINDS.PRIMARY"
+				>
 					<template
 						#icon
-						v-if="isUserLoading">
-						<IconRotateClockwise
-							width="18"
-							class="spinner" />
+						v-if="isUserLoading"
+					>
+						<span class="icon">
+							<IconRotateClockwise
+								width="18"
+								class="spinner"
+							/>
+						</span>
 					</template>
 				</ActionButton>
 			</template>
@@ -111,4 +117,12 @@ header p {
 header span {
 	font-weight: bold;
 }
+
+.icon {
+	margin: 0;
+	padding: 0;
+	display: grid;
+	place-items: center;
+}
 </style>
+../../../pages/api/generated

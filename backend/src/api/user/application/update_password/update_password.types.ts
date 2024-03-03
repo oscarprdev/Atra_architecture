@@ -11,4 +11,13 @@ export namespace UpdatePasswordUsecasesTypes {
 	export type UpdatePasswordOutput = {
 		user: User;
 	};
+
+	export type ValidatePasswordInput = {
+		oldPassword: string;
+		env: Env;
+	};
+
+	export type ValidatePasswordOutput = {
+		user: User;
+	};
 }

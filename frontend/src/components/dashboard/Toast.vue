@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../utils/emitter';
+import { IconCircleCheck, IconInfoTriangle } from '@tabler/icons-vue';
 
 const kind = ref<'error' | 'success' | null>(null);
 const message = ref<string>();
@@ -32,8 +33,19 @@ emitter.on(EMITTER_NAMES.successToast, payload => {
 	<div
 		v-if="message"
 		:class="{ error: kind === 'error', success: kind === 'success' }"
-		class="toast">
-		<p>{{ message }}</p>
+		class="toast"
+	>
+		<div class="toast-content">
+			<IconCircleCheck
+				v-if="kind === 'success'"
+				stroke-width="1"
+			/>
+			<IconInfoTriangle
+				v-if="kind === 'error'"
+				stroke-width="1"
+			/>
+			<p>{{ message }}</p>
+		</div>
 	</div>
 </template>
 
@@ -43,22 +55,36 @@ emitter.on(EMITTER_NAMES.successToast, payload => {
 	bottom: 2rem;
 	right: 2rem;
 
+	display: grid;
+	place-items: center;
+
 	width: fit-content;
-	padding: 1rem;
+	padding: 0.2rem;
+
+	border-radius: 0.5rem;
+	background-color: var(--toast-bg);
+	box-shadow:
+		rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+		rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+
+	visibility: hidden;
 	opacity: 0;
+	animation: fadeup-down-toast 5s ease forwards;
+}
+
+.toast-content {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 1rem;
 	border-radius: 0.3rem;
-	animation: fadeup-down-toast 5s linear forwards;
 }
 .error {
-	background-color: red;
-	color: white;
-	border: 1px solid rgb(185, 0, 0);
+	color: rgb(240, 0, 0);
 }
 
 .success {
-	background-color: white;
-	color: rgb(49, 49, 49);
-	border: 1px solid rgb(49, 49, 49);
+	color: rgba(66, 66, 66, 0.885);
 }
 
 @keyframes fadeup-down-toast {
@@ -68,7 +94,7 @@ emitter.on(EMITTER_NAMES.successToast, payload => {
 		transform: translateY(30%);
 	}
 
-	20% {
+	10% {
 		opacity: 1;
 		visibility: visible;
 		transform: translateY(0%);

@@ -1,8 +1,11 @@
 ---
-import Auth from '../../components/dashboard/Auth.vue';
+import Auth from '../../components/dashboard/auth/Auth.vue';
+import LoginButton from '../../components/dashboard/auth/LoginButton.astro';
 import Layout from '../../layouts/Layout.astro';
 ---
 
 <Layout title="ATRA - admin">
-	<Auth client:only />
+	<Auth client:only>
+		<LoginButton slot="login-btn" />
+	</Auth>
 </Layout>

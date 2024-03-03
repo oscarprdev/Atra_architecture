@@ -1,7 +1,7 @@
 import { Env } from '..';
 
 const corsHeaders = {
-	'Access-Control-Allow-Origin': '',
+	'Access-Control-Allow-Origin': 'http://localhost:4321',
 	'Access-Control-Allow-Methods': 'GET, OPTIONS, POST, PUT, DELETE',
 	'Access-Control-Allow-Headers': '*',
 };

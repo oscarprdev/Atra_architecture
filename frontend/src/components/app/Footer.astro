@@ -1,7 +1,7 @@
 ---
-import type { User } from '../../api';
-import type { ApiResponse } from '../../api/api_response';
 import { API_URL } from '../../constants';
+import type { User } from '../../pages/api/generated';
+import type { ApiResponse } from '../../pages/api/api-response';
 
 const response = await fetch(`${API_URL}/user/describe`);
 const {
@@ -73,3 +73,4 @@ const {
 		}
 	}
 </style>
+../../pages/api/generated

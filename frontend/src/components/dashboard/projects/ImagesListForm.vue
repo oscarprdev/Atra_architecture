@@ -27,7 +27,8 @@ const emits = defineEmits<{
 			</p>
 			<p
 				class="error"
-				v-if="error">
+				v-if="error"
+			>
 				{{ error }}
 			</p>
 		</div>
@@ -35,36 +36,43 @@ const emits = defineEmits<{
 		<div class="images-list">
 			<picture
 				class="image-list-container"
-				v-for="(previewUrl, index) in imagesPreviews">
+				v-for="(previewUrl, index) in imagesPreviews"
+			>
 				<img
 					v-if="imagesPreviews && imagesPreviews.length > 0"
 					:key="`${previewUrl}-${index}`"
 					:src="previewUrl"
-					alt="Project Image Preview" />
+					alt="Project Image Preview"
+				/>
 				<div
 					class="backdrop"
-					@click="emits('remove', index)">
+					@click="emits('remove', index)"
+				>
 					<IconX
 						width="30"
-						stroke-width="1" />
+						stroke-width="1"
+					/>
 				</div>
 			</picture>
 
 			<label
 				v-if="imagesPreviews && imagesPreviews.length < maxNumImages"
 				class="icon-container"
-				:for="name">
+				:for="name"
+			>
 				<IconLibraryPlus
 					class="image-icon"
 					stroke-width="1"
-					width="20" />
+					width="20"
+				/>
 				<input
 					type="file"
 					accept=".png, .jpg, .jpeg, .webp"
 					multiple
 					:id="name"
 					:name="name"
-					@change="e => emits('change', e)" />
+					@change="e => emits('change', e)"
+				/>
 			</label>
 		</div>
 	</div>

@@ -1,42 +1,57 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import type { Project } from '../../../api';
+import { reactive } from 'vue';
 import { BUTTON_KINDS } from '../ActionButton.types';
 import ActionButton from '../ActionButton.vue';
-import { removeProject } from '../../../api/endpoints/remove-project';
 import { IconRotateClockwise, IconCircleCheck } from '@tabler/icons-vue';
-import { emitter, EMITTER_NAMES, EMITT_ACTIONS } from '../../../utils/emitter';
+import { emitter, EMITTER_NAMES, EMITT_ACTIONS, EmittActions } from '../../../utils/emitter';
 import { strCapitalized } from '../../../utils/strCapitalized';
+import { IconInfoTriangle } from '@tabler/icons-vue';
+import { removeProjectUsecase } from '../../../features/projects/remove/remove-project.usecase';
+import type { Project } from '../../../pages/api/generated';
 
 const props = defineProps<{
 	projects: Project[];
 }>();
 
-const isSuccess = ref(false);
-const isRemoving = ref(false);
+interface State {
+	isSuccess: boolean;
+	isLoading: boolean;
+	error: string | null;
+}
+
+const modalState = reactive<State>({
+	isSuccess: false,
+	isLoading: false,
+	error: null,
+});
 
 const emits = defineEmits<{
 	(e: 'close-modal'): void;
 }>();
 
 const onRemoveProjectClick = async () => {
-	isRemoving.value = true;
-	await Promise.all(props.projects.map(pr => removeProject(pr.id)));
+	try {
+		modalState.isLoading = true;
+		await Promise.all(props.projects.map(pr => removeProjectUsecase(pr.id)));
 
-	emitter.emit(EMITTER_NAMES.success, { action: EMITT_ACTIONS.SUCCESS });
+		emitter.emit(EMITTER_NAMES.success, { action: EMITT_ACTIONS.SUCCESS });
+	} catch (error) {
+		modalState.isLoading = false;
+		modalState.error = error as string;
+	}
 };
 
 emitter.on(EMITTER_NAMES.modal, payload => {
 	if (typeof payload === 'object' && payload.action === EMITT_ACTIONS.CLOSE) {
-		isSuccess.value = true;
-		isRemoving.value = false;
+		modalState.isSuccess = true;
+		modalState.isLoading = false;
 	}
 });
 </script>
 
 <template>
 	<div class="remove-project-modal">
-		<template v-if="!isRemoving && !isSuccess">
+		<template v-if="!modalState.isLoading && !modalState.isSuccess && !modalState.error">
 			<h2 v-if="projects.length > 1">Estas segur que vols eliminar els projectes seleccionats?</h2>
 			<h2 v-else="projects.length === 1">
 				Estas segur que vols eliminar el projecte de
@@ -46,24 +61,27 @@ emitter.on(EMITTER_NAMES.modal, payload => {
 			<div class="modal-actions">
 				<ActionButton
 					:kind="BUTTON_KINDS.SECONDARY"
-					:disabled="isRemoving"
+					:disabled="modalState.isLoading"
 					@on-action-click="emits('close-modal')"
-					text="Cancelar" />
+					text="Cancelar"
+				/>
 				<ActionButton
 					:kind="BUTTON_KINDS.SECONDARY"
-					:disabled="isRemoving"
+					:disabled="modalState.isLoading"
 					text="Eliminar"
-					@on-action-click="onRemoveProjectClick">
+					@on-action-click="onRemoveProjectClick"
+				>
 				</ActionButton>
 			</div>
 		</template>
 
-		<template v-if="isRemoving">
+		<template v-if="modalState.isLoading">
 			<IconRotateClockwise
 				width="40"
 				height="40"
 				class="spinner"
-				stroke-width="1" />
+				stroke-width="1"
+			/>
 			<h2 v-if="projects.length > 1">Eliminant projectes</h2>
 			<h2 v-else="projects.length === 1">
 				Eliminant projecte de
@@ -71,17 +89,27 @@ emitter.on(EMITTER_NAMES.modal, payload => {
 			</h2>
 		</template>
 
-		<template v-if="isSuccess">
+		<template v-if="modalState.isSuccess">
 			<IconCircleCheck
 				width="40"
 				height="40"
-				stroke-width="1" />
+				stroke-width="1"
+			/>
 			<h2 v-if="projects.length > 1">Projectes eliminats correctament</h2>
 			<h2 v-else="projects.length === 1">
 				Projecte de
 				<span class="project-title">{{ strCapitalized(projects[0].title) }}</span>
 				eliminat correctament
 			</h2>
+		</template>
+
+		<template v-if="modalState.error">
+			<IconInfoTriangle
+				width="40"
+				height="40"
+				stroke-width="1"
+			/>
+			<h2>{{ modalState.error }}</h2>
 		</template>
 	</div>
 </template>
@@ -171,3 +199,4 @@ button {
 	color: var(--dropdown-text-color);
 }
 </style>
+../../../pages/api/generated

@@ -72,35 +72,40 @@ const onSubmit = (e: Event) => {
 <template>
 	<form
 		v-if="user"
-		@submit="onSubmit">
+		@submit="onSubmit"
+	>
 		<InputForm
 			title="Nom"
 			type="text"
 			placeholder="Escriu el teu nom i cognoms"
 			:name="FORM_NAMES.NAME"
 			:value="formState.name.value"
-			@input="onInputChange" />
+			@input="onInputChange"
+		/>
 		<InputForm
 			title="Correu"
 			type="text"
 			placeholder="Quin es el teu correu?"
 			:name="FORM_NAMES.EMAIL"
 			:value="formState.email.value"
-			@input="onInputChange" />
+			@input="onInputChange"
+		/>
 		<InputForm
 			title="Telèfon"
 			type="text"
 			placeholder="Quin es el teu telèfon?"
 			:name="FORM_NAMES.PHONE"
 			:value="formState.phone.value.toString()"
-			@input="onInputChange" />
+			@input="onInputChange"
+		/>
 		<InputForm
 			title="Direcció"
 			type="text"
 			placeholder="Quin es el nom del projecte?"
 			:name="FORM_NAMES.DIRECTION"
 			:value="formState.direction.value"
-			@input="onInputChange" />
+			@input="onInputChange"
+		/>
 		<div class="action">
 			<slot name="action" />
 		</div>
@@ -131,3 +136,4 @@ form {
 	animation: fadeup-down 4s linear forwards;
 }
 </style>
+../../../pages/api/generated

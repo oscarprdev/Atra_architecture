@@ -11,6 +11,9 @@
 '/user/update/password':
   $ref: 'paths/users/user_update_password.yaml'
 
+'/user/validate/password':
+  $ref: 'paths/users/user_validate_password.yaml'
+
 # Projects
 '/project/list':
   $ref: 'paths/project/project_list.yaml'
@@ -23,6 +26,9 @@
 
 '/project/update':
   $ref: 'paths/project/project_update.yaml'
+
+'/project/update-is-top':
+  $ref: 'paths/project/project_update_is_top.yaml'
 
 '/project/delete/{id}':
   $ref: 'paths/project/project_delete.yaml'

@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue';
+import { reactive, ref, computed } from 'vue';
 import ActionButton from '../ActionButton.vue';
 import { BUTTON_KINDS } from '../ActionButton.types';
 import { IconRotateClockwise } from '@tabler/icons-vue';
 import AccountForm from './AccountForm.vue';
 import type { AccountFormState } from './AccountForm.types';
-import { type UpdatePasswordInput, updatePassword } from '../../../api/endpoints/update-password';
-import { validateRoute } from '../../../utils/validateRoute';
 import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../../utils/emitter';
 import Toast from '../Toast.vue';
+import { updatePasswordUsecase } from '../../../features/auth/update/update-password.usecase';
+import type { UpdateUserPasswordBody } from '../../../pages/api/generated';
 
 const isPasswordLoading = ref(false);
 const error = ref<string | null>(null);
@@ -17,26 +17,48 @@ const formState = reactive<AccountFormState>({
 	oldPassword: {
 		value: '',
 		error: null,
+		state: {
+			isValid: false,
+		},
 	},
 
 	firstPassword: {
 		value: '',
 		error: null,
+		state: {
+			isValid: false,
+			isLargerEnough: false,
+			hasNumber: false,
+			hasUppercase: false,
+		},
 	},
 
 	password: {
 		value: '',
 		error: null,
+		state: {
+			isValid: false,
+			isLargerEnough: false,
+			hasNumber: false,
+			hasUppercase: false,
+		},
 	},
 });
 
+const isFormFullfilled = computed(() => {
+	return (
+		formState.firstPassword.state.isValid &&
+		formState.oldPassword.state.isValid &&
+		formState.password.state.isValid
+	);
+});
+
 const cleanForm = () => {
-	formState.firstPassword.value = '';
-	formState.oldPassword.value = '';
-	formState.password.value = '';
-	formState.firstPassword.error = null;
-	formState.oldPassword.error = null;
-	formState.password.error = null;
+	Object.values(formState).forEach(field => {
+		field.state.isValid = false;
+		field.value = '';
+		field.error = null;
+	});
 };
 
 const setErrorMessage = (message: string) => {
@@ -60,11 +82,11 @@ const onSubmitPassword = async (values: AccountFormState) => {
 
 	const payload = {
 		oldPassword: values.oldPassword.value,
-		password: values.password.value,
-	} satisfies UpdatePasswordInput;
+		newPassword: values.password.value,
+	} satisfies UpdateUserPasswordBody;
 
 	isPasswordLoading.value = true;
-	const response = await updatePassword(payload);
+	const response = await updatePasswordUsecase(payload);
 	isPasswordLoading.value = false;
 
 	if (response) {
@@ -75,10 +97,6 @@ const onSubmitPassword = async (values: AccountFormState) => {
 		cleanForm();
 	}
 };
-
-onMounted(async () => {
-	await validateRoute();
-});
 </script>
 
 <template>
@@ -91,18 +109,23 @@ onMounted(async () => {
 			:error-message="error"
 			:form-state="formState"
 			:reset="!isPasswordLoading"
-			@submit="onSubmitPassword">
+			@submit="onSubmitPassword"
+		>
 			<template #action>
 				<ActionButton
 					:text="`${isPasswordLoading ? 'Actualitzant contrasenya' : 'Actualitzar contrasenya'}`"
 					:type="'submit'"
-					:kind="BUTTON_KINDS.DANGER">
+					:disabled="!isFormFullfilled"
+					:kind="BUTTON_KINDS.DANGER"
+				>
 					<template
 						#icon
-						v-if="isPasswordLoading">
+						v-if="isPasswordLoading"
+					>
 						<IconRotateClockwise
 							width="18"
-							class="spinner" />
+							class="spinner"
+						/>
 					</template>
 				</ActionButton>
 			</template>
@@ -145,3 +168,4 @@ header span {
 	font-weight: bold;
 }
 </style>
+../../../pages/api/generated

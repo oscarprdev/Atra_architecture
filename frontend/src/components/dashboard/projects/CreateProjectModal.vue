@@ -3,48 +3,71 @@ import ActionButton from '../ActionButton.vue';
 import { BUTTON_KINDS } from '../ActionButton.types';
 import CreateProjectForm from './CreateProjectForm.vue';
 import type { ProjectFormState } from './CreateProjectForm.types';
-import { ref } from 'vue';
-import { createProject } from '../../../api/endpoints/create-project';
-import { IconRotateClockwise, IconCircleCheck } from '@tabler/icons-vue';
-import type { CreateProjectBody } from '../../../api/endpoints/create-project';
+import { reactive } from 'vue';
+import { IconRotateClockwise, IconCircleCheck, IconInfoTriangle } from '@tabler/icons-vue';
 import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../../utils/emitter';
+import { createProjectUsecase } from '../../../features/projects/create/create-project.usecase';
+import type { CreateProjectBody } from '../../../pages/api/generated';
 
 const emits = defineEmits<{
 	(e: 'close-modal'): void;
 }>();
 
-const modalLoading = ref(false);
-const isSuccess = ref(false);
-const formRequiredMessage = ref<string>();
+interface State {
+	isSuccess: boolean;
+	isLoading: boolean;
+	error: string | null;
+	requiredMessage: string | null;
+}
 
-const onSubmit = async (values: ProjectFormState) => {
-	if (values.mainImage.value && values.images.value.length > 0) {
-		const payload = {
-			title: values.title.value,
-			description: values.description.value,
-			year: values.year.value,
-			mainImage: values.mainImage.value,
-			images: values.images.value,
-			isTop: false,
-		} satisfies CreateProjectBody;
+const modalState = reactive<State>({
+	isSuccess: false,
+	isLoading: false,
+	error: null,
+	requiredMessage: null,
+});
 
-		modalLoading.value = true;
-		await createProject(payload);
+const displayRequiredMessage = () => {
+	modalState.requiredMessage = 'El projecte deu tindre 2 imatges mínim';
+
+	setTimeout(() => {
+		modalState.requiredMessage = null;
+	}, 3000);
+};
+
+const handleCreateProject = async (payload: CreateProjectBody) => {
+	try {
+		modalState.isLoading = true;
+		await createProjectUsecase(payload);
 
 		emitter.emit(EMITTER_NAMES.success, { action: EMITT_ACTIONS.SUCCESS });
-	} else {
-		formRequiredMessage.value = 'El projecte deu tindre 2 imatges mínim';
-
-		setTimeout(() => {
-			formRequiredMessage.value = undefined;
-		}, 3000);
+	} catch (error) {
+		modalState.isLoading = false;
+		modalState.error = error as string;
 	}
+};
+
+const onSubmit = async (values: ProjectFormState) => {
+	if (!values.mainImage.value || values.images.value.length < 0) {
+		return displayRequiredMessage();
+	}
+
+	const payload = {
+		title: values.title.value,
+		description: values.description.value,
+		year: values.year.value,
+		mainImage: values.mainImage.value,
+		images: values.images.value,
+		isTop: false,
+	} satisfies CreateProjectBody;
+
+	return await handleCreateProject(payload);
 };
 
 emitter.on(EMITTER_NAMES.modal, payload => {
 	if (typeof payload === 'object' && payload.action === EMITT_ACTIONS.CLOSE) {
-		modalLoading.value = false;
-		isSuccess.value = true;
+		modalState.isLoading = false;
+		modalState.isSuccess = true;
 	}
 });
 </script>
@@ -52,40 +75,58 @@ emitter.on(EMITTER_NAMES.modal, payload => {
 <template>
 	<div
 		class="create-project-modal"
-		:class="{ default: !modalLoading, loading: modalLoading, success: isSuccess }">
-		<template v-if="!modalLoading && !isSuccess">
+		:class="{
+			default: !modalState.isLoading,
+			state: modalState.isLoading || modalState.isSuccess || modalState.error,
+		}"
+	>
+		<template v-if="!modalState.isLoading && !modalState.isSuccess && !modalState.error">
 			<h2>Crear un nou projecte</h2>
 			<CreateProjectForm
-				:required-message="formRequiredMessage"
-				@submit="onSubmit">
+				:required-message="modalState.requiredMessage"
+				@submit="onSubmit"
+			>
 				<template #actions>
 					<div class="action-buttons">
 						<ActionButton
 							text="Cancelar"
 							:kind="BUTTON_KINDS.SECONDARY"
-							@on-action-click="emits('close-modal')" />
+							@on-action-click="emits('close-modal')"
+						/>
 						<ActionButton
 							text="Crear projecte"
 							:type="'submit'"
-							:kind="BUTTON_KINDS.PRIMARY" />
+							:kind="BUTTON_KINDS.PRIMARY"
+						/>
 					</div>
 				</template>
 			</CreateProjectForm>
 		</template>
-		<template v-if="modalLoading">
+		<template v-if="modalState.isLoading">
 			<IconRotateClockwise
 				width="40"
 				height="40"
 				stroke-width="1"
-				class="spinner" />
+				class="spinner"
+			/>
 			<h2>Creant projecte...</h2>
 		</template>
-		<template v-if="isSuccess">
+		<template v-if="modalState.isSuccess">
 			<IconCircleCheck
 				width="40"
 				height="40"
-				stroke-width="1" />
+				stroke-width="1"
+			/>
 			<h2>Projecte creat correctament</h2>
+		</template>
+
+		<template v-if="modalState.error">
+			<IconInfoTriangle
+				width="40"
+				height="40"
+				stroke-width="1"
+			/>
+			<h2>{{ modalState.error }}</h2>
 		</template>
 	</div>
 </template>
@@ -108,12 +149,7 @@ emitter.on(EMITTER_NAMES.modal, payload => {
 	max-width: 500px;
 }
 
-.loading {
-	width: 70vw;
-	max-width: 250px;
-}
-
-.success {
+.state {
 	width: 70vw;
 	max-width: 250px;
 }

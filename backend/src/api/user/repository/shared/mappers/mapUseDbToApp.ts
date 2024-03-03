@@ -8,7 +8,7 @@ export const mapUserDbToApp = (userDb: UserDb): UserResponse => {
 		phone: userDb.phone,
 		direction: userDb.direction,
 		description: userDb.description,
-		imageKey: userDb.key_image,
+		image: userDb.key_image,
 		createdAt: userDb.created_at,
 	};
 };

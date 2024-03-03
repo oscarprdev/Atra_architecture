@@ -11,11 +11,12 @@ export class DefaultUpdateProjectUsecase implements UpdateProjectUsecase {
 	constructor(private readonly ports: UpdateProjectPorts) {}
 
 	private async removeOldProjectImages(oldTitle: string, env: Env) {
-		const { images } = await this.ports.selectImagesByProjectFromBucket({ project: oldTitle, env });
+		const oldTitleFormatted = oldTitle.replaceAll(' ', '_');
+		const { images } = await this.ports.selectImagesByProjectFromBucket({ project: oldTitleFormatted, env });
 
 		await Promise.all([
-			this.ports.removeImagesFromBucket({ images: images.map((img) => `${oldTitle}/${img.name}`), env }),
-			this.ports.removeImagesFromDb({ imageKeys: images.map((img) => `${oldTitle}/${img.name}`), env }),
+			this.ports.removeImagesFromBucket({ images: images.map((img) => `${oldTitleFormatted}/${img.name}`), env }),
+			this.ports.removeImagesFromDb({ imageKeys: images.map((img) => `${oldTitleFormatted}/${img.name}`), env }),
 		]);
 	}
 
@@ -36,7 +37,7 @@ export class DefaultUpdateProjectUsecase implements UpdateProjectUsecase {
 		try {
 			await this.checkProjectWithSameTitle(env, updateProjectBody.title, updateProjectBody.id);
 
-			// Remove all images already stored
+			// // Remove all images already stored
 			const { project } = await this.ports.provideCurrentProject({ env, id: updateProjectBody.id });
 			await this.removeOldProjectImages(project.title, env);
 

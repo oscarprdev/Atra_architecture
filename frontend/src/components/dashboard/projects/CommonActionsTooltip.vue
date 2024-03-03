@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { IconDotsVertical, IconRotateClockwise } from '@tabler/icons-vue';
 import { ref, computed, onMounted, onUnmounted } from 'vue';
-import type { Project } from '../../../api';
 import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../../utils/emitter';
-import { updateProject } from '../../../api/endpoints/update-project';
 import ActionButton from '../ActionButton.vue';
 import { BUTTON_KINDS } from '../ActionButton.types';
-import { updateProjectIsTop } from '../../../api/endpoints/update-project-is-top';
+import { updateProjectIsTopUsecase } from '../../../features/projects/update/update-project-is-top.usecase';
+import type { Project } from '../../../pages/api/generated';
 
 const props = defineProps<{
 	checkedProjects: Project[];
@@ -20,7 +19,9 @@ const isUpdatePending = ref(false);
 const tooltipContainer = ref<HTMLElement>();
 const isProjectsActionsTooltipVisible = ref(false);
 
-const numOfProjectsChecked = computed(() => Object.values(props.checkedProjects).filter(project => project).length);
+const numOfProjectsChecked = computed(
+	() => Object.values(props.checkedProjects).filter(project => project).length
+);
 
 const onProjectsActionsDotsClick = () => {
 	if (numOfProjectsChecked.value > 0) {
@@ -32,7 +33,9 @@ const onUpdateTopProjects = async () => {
 	const updatedProjects = props.checkedProjects.map(pr => ({ ...pr, isTop: !pr.isTop }));
 
 	isUpdatePending.value = true;
-	await Promise.all(updatedProjects.map(pr => updateProjectIsTop(pr.id, pr.isTop)));
+	await Promise.all(
+		updatedProjects.map(pr => updateProjectIsTopUsecase({ id: pr.id, isTop: pr.isTop }))
+	);
 	isUpdatePending.value = false;
 
 	emits('onProjectsUpdated', updatedProjects);
@@ -69,10 +72,12 @@ onUnmounted(() => {
 	<div
 		ref="tooltipContainer"
 		class="projects-actions"
-		:class="{ tooltipAvailable: numOfProjectsChecked > 0 }">
+		:class="{ tooltipAvailable: numOfProjectsChecked > 0 }"
+	>
 		<span
 			class="projects-actions-tooltip"
-			:aria-checked="isProjectsActionsTooltipVisible">
+			:aria-checked="isProjectsActionsTooltipVisible"
+		>
 			<p>
 				Projectes seleccionats:
 				{{ numOfProjectsChecked }}
@@ -82,25 +87,30 @@ onUnmounted(() => {
 					:text="isUpdatePending ? '' : 'Destacar'"
 					:kind="BUTTON_KINDS.SECONDARY"
 					:disabled="isUpdatePending"
-					@on-action-click="onUpdateTopProjects">
+					@on-action-click="onUpdateTopProjects"
+				>
 					<template
 						#icon
-						v-if="isUpdatePending">
+						v-if="isUpdatePending"
+					>
 						<IconRotateClockwise
 							width="20"
-							class="spinner" />
+							class="spinner"
+						/>
 					</template>
 				</ActionButton>
 				<ActionButton
 					text="Eliminar"
 					:kind="BUTTON_KINDS.SECONDARY"
 					:disabled="isUpdatePending"
-					@on-action-click="onRemoveProjects" />
+					@on-action-click="onRemoveProjects"
+				/>
 			</div>
 		</span>
 		<IconDotsVertical
 			class="icon"
-			@click="onProjectsActionsDotsClick" />
+			@click="onProjectsActionsDotsClick"
+		/>
 	</div>
 </template>
 
@@ -164,3 +174,4 @@ onUnmounted(() => {
 	opacity: 1;
 }
 </style>
+../../../pages/api/generated

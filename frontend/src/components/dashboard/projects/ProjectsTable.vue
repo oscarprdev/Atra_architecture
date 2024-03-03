@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue';
-import type { Project } from '../../../api';
 import InputCheckbox from './InputCheckbox.vue';
 import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../../utils/emitter';
-import { getProjectList, type GetProjectListInput } from '../../../api/endpoints/get-projects-list';
 import ProjectRow from './ProjectRow.vue';
 import ProjectsSkeleton from './ProjectsSkeleton.vue';
 import CommonActionsTooltip from './CommonActionsTooltip.vue';
 import Pagination from './Pagination.vue';
+import {
+	getProjectListUsecase,
+	type GetProjectListInput,
+} from '../../../features/projects/get/get-projects.usecase';
+import type { Project } from '../../../pages/api/generated';
 
 const currentPage = ref(1);
 const isLoading = ref(false);
@@ -133,7 +136,7 @@ emitter.on(EMITTER_NAMES.pagination, async payload => {
 
 const mountProjectList = async ({ page, search, date, year, isTop }: GetProjectListInput) => {
 	isLoading.value = true;
-	const response = (await getProjectList({ page, search, year, date, isTop })) || [];
+	const response = (await getProjectListUsecase({ page, search, year, date, isTop })) || [];
 	isLoading.value = false;
 	projects.value = response;
 
@@ -153,11 +156,13 @@ onMounted(async () => mountProjectList({ page: currentPage.value }));
 			<tr>
 				<CommonActionsTooltip
 					:checked-projects="checkedProjects"
-					@on-projects-updated="onProjectsUpdated" />
+					@on-projects-updated="onProjectsUpdated"
+				/>
 				<InputCheckbox
 					:id="'checkbox-head'"
 					:checked="areAllProjectsChecked"
-					@on-click="onToggleAllCheckboxes" />
+					@on-click="onToggleAllCheckboxes"
+				/>
 				<th class="table-main-image">Image</th>
 				<th class="table-name">Nom</th>
 				<th class="table-description">Descripció</th>
@@ -173,13 +178,16 @@ onMounted(async () => mountProjectList({ page: currentPage.value }));
 				:key="project.id"
 				:is-project-checked="checkedProjects.some(pr => pr.id === project.id)"
 				:project="project"
-				@toggle-checked-project="onToggleCheckedProject" />
+				@toggle-checked-project="onToggleCheckedProject"
+			/>
 			<ProjectsSkeleton
 				v-else-if="isLoading"
-				v-for="i in new Array(6).fill('')" />
+				v-for="i in new Array(6).fill('')"
+			/>
 			<tr
 				v-else-if="!isLoading && projects.length === 0"
-				class="empty">
+				class="empty"
+			>
 				<p>Cap resultat</p>
 			</tr>
 			<tr class="pagination">

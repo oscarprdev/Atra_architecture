@@ -1,17 +1,19 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import type { User } from '../../../api';
-import { getUserInfo } from '../../../api/endpoints/get-user-info';
-import { updateUserInfo, type UpdateInfoPayload } from '../../../api/endpoints/update-user-info';
 import UserForm from './UserForm.vue';
 import type { UserFormState } from './UserForm.types';
 import SkeletonUserForm from './SkeletonUserForm.vue';
 import ActionButton from '../ActionButton.vue';
 import { BUTTON_KINDS } from '../ActionButton.types';
 import { IconRotateClockwise } from '@tabler/icons-vue';
-import { validateRoute } from '../../../utils/validateRoute';
 import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../../utils/emitter';
 import Toast from '../Toast.vue';
+import { getUserUsecase } from '../../../features/user/get/get-user.usecase';
+import {
+	updateUserUsecase,
+	type UpdateInfoPayload,
+} from '../../../features/user/update/update-user.usecase';
+import type { User } from '../../../pages/api/generated';
 
 const user = ref<User | null>(null);
 const isUserLoading = ref(false);
@@ -27,7 +29,7 @@ const onSubmitInfo = async (values: UserFormState) => {
 		} satisfies UpdateInfoPayload;
 
 		isUserLoading.value = true;
-		const userResponse = await updateUserInfo(payload);
+		const userResponse = await updateUserUsecase(payload);
 
 		if (userResponse) {
 			user.value = userResponse;
@@ -42,10 +44,8 @@ const onSubmitInfo = async (values: UserFormState) => {
 };
 
 onMounted(async () => {
-	await validateRoute();
-
 	isUserLoading.value = true;
-	user.value = await getUserInfo();
+	user.value = await getUserUsecase();
 	isUserLoading.value = false;
 });
 </script>
@@ -59,18 +59,22 @@ onMounted(async () => {
 		<UserForm
 			v-if="user"
 			:user="user"
-			@submit="onSubmitInfo">
+			@submit="onSubmitInfo"
+		>
 			<template #action>
 				<ActionButton
 					:text="`${isUserLoading ? 'Editant..' : 'Editar informació'}`"
 					:type="'submit'"
-					:kind="BUTTON_KINDS.PRIMARY">
+					:kind="BUTTON_KINDS.PRIMARY"
+				>
 					<template
 						#icon
-						v-if="isUserLoading">
+						v-if="isUserLoading"
+					>
 						<IconRotateClockwise
 							width="18"
-							class="spinner" />
+							class="spinner"
+						/>
 					</template>
 				</ActionButton>
 			</template>
@@ -114,3 +118,4 @@ header span {
 	font-weight: bold;
 }
 </style>
+../../../pages/api/generated
