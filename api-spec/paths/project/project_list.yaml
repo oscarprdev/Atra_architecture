@@ -5,6 +5,10 @@ get:
   parameters:
     - $ref: 'components/_index.yaml#/parameters/Page'
     - $ref: 'components/_index.yaml#/parameters/Search'
+    - $ref: 'components/_index.yaml#/parameters/Date'
+    - $ref: 'components/_index.yaml#/parameters/IsTop'
+    - $ref: 'components/_index.yaml#/parameters/Year'
+    - $ref: 'components/_index.yaml#/parameters/All'
   responses:
     '200':
       $ref: 'components/_index.yaml#/responses/DescribeProjectsListResponse'

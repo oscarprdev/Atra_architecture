@@ -1,0 +1,5 @@
+name: year
+in: query
+description: Year value
+schema:
+  type: number

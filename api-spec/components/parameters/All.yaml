@@ -1,0 +1,5 @@
+name: all
+in: query
+description: Flag to retrieve all the projects
+schema:
+  type: boolean

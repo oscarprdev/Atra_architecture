@@ -7,7 +7,7 @@ import HomeDescription from '../components/app/HomeDescription.astro';
 import type { ApiResponse } from './api/api-response';
 import type { Project } from './api/generated';
 
-const response = await fetch(`${API_URL}/project/list`);
+const response = await fetch(`${API_URL}/project/list?all=true`);
 const data: ApiResponse<Project[]> = await response.json();
 
 const mainImages = data.data.map(p => p.mainImage);

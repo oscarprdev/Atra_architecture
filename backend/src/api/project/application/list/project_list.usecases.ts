@@ -16,10 +16,10 @@ export class DefaultProjectListUsecases implements ProjectListUsecases {
 		return LIMIT * (page - 1);
 	};
 
-	async listProjects({ search, date, isTop, year, page, env }: ProjectListUsecasesTypes.Input): Promise<Project[]> {
+	async listProjects({ search, date, all, isTop, year, page, env }: ProjectListUsecasesTypes.Input): Promise<Project[]> {
 		try {
 			const offset = this.calculateOffset(page);
-			const { projects } = await this.ports.listProjects({ search, date, isTop, year, offset, limit: LIMIT, env });
+			const { projects } = await this.ports.listProjects({ search, date, isTop, year, offset, limit: all ? 100 : LIMIT, env });
 
 			return projects.map((project) => {
 				return {

@@ -5,6 +5,14 @@ parameters:
     $ref: 'components/parameters/Page.yaml'
   Search:
     $ref: 'components/parameters/Search.yaml'
+  Date:
+    $ref: 'components/parameters/Date.yaml'
+  IsTop:
+    $ref: 'components/parameters/IsTop.yaml'
+  Year:
+    $ref: 'components/parameters/Year.yaml'
+  All:
+    $ref: 'components/parameters/All.yaml'
 
 responses:
   # Common

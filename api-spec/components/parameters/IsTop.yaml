@@ -1,0 +1,5 @@
+name: isTop
+in: query
+description: Flag to know if the project is top
+schema:
+  type: boolean
