@@ -32,7 +32,7 @@ const { projects }: Props = Astro.props;
 								/>
 							</picture>
 							<div class="support-info--details">
-								<h3>{project.title}</h3>
+								<h2>{project.title}</h2>
 								<p>{project.description}</p>
 								<Link
 									href={`/project/${project.id}`}
@@ -115,12 +115,12 @@ const { projects }: Props = Astro.props;
 		height: 40%;
 	}
 
-	.support-info--details h3 {
+	.support-info--details h2 {
 		text-transform: uppercase;
 		font-weight: bold;
 	}
 
-	.support-info--details h3::after,
+	.support-info--details h2::after,
 	.support-info--details p::after {
 		content: '';
 		background-color: var(--contrast-color);
@@ -168,12 +168,12 @@ const { projects }: Props = Astro.props;
 			display: none;
 		}
 
-		.support-info--details h3::after,
+		.support-info--details h2::after,
 		.support-info--details p::after {
 			width: 300px;
 		}
 
-		.support-info--details h3 {
+		.support-info--details h2 {
 			font-size: 1.3rem;
 		}
 
