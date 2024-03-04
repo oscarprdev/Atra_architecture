@@ -79,28 +79,28 @@ const { description, direction, name, email, phone }: Props = Astro.props;
 		display: flex;
 		flex-direction: column;
 		margin-left: 4rem;
+	}
 
-		span {
-			font-size: 1rem;
-			font-weight: 500;
-			text-transform: uppercase;
-			margin-right: 1rem;
-			color: black;
-		}
+	.user-info span {
+		font-size: 1rem;
+		font-weight: 500;
+		text-transform: uppercase;
+		margin-right: 1rem;
+		color: black;
+	}
 
-		h3,
-		p {
-			font-size: 1rem;
-			color: rgb(108, 108, 108);
-		}
+	.user-info h3,
+	.user-info p {
+		font-size: 1rem;
+		color: rgb(108, 108, 108);
+	}
 
-		a {
-			display: flex;
-			align-items: center;
-			color: inherit;
-			width: fit-content;
-			padding-right: 1rem;
-		}
+	.user-info a {
+		display: flex;
+		align-items: center;
+		color: inherit;
+		width: fit-content;
+		padding-right: 1rem;
 	}
 
 	@media screen and (max-width: 850px) {
