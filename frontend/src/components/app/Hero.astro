@@ -162,6 +162,7 @@ const { mainImage, year, description }: Props = Astro.props;
 		left: 0;
 		width: 100%;
 		height: 100%;
+		z-index: 10;
 		background: var(--background-color);
 		animation: revealImage 1.2s ease-in-out forwards 0.3s;
 	}
@@ -203,6 +204,10 @@ const { mainImage, year, description }: Props = Astro.props;
 
 		.hero-image {
 			display: none;
+		}
+
+		.image-container {
+			height: 70dvh;
 		}
 
 		.responsive-image {
