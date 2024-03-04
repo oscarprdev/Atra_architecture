@@ -103,7 +103,7 @@ const { description, direction, name, email, phone }: Props = Astro.props;
 		}
 	}
 
-	@media (width < 850px) {
+	@media screen and (max-width: 850px) {
 		.about-content {
 			display: flex;
 			flex-direction: column;
@@ -118,7 +118,7 @@ const { description, direction, name, email, phone }: Props = Astro.props;
 		}
 	}
 
-	@media (width < 430px) {
+	@media screen and (max-width: 430px) {
 		h1,
 		h3 {
 			font-weight: 400;

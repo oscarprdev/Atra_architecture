@@ -47,7 +47,7 @@ const { href, target, dark, kind }: Props = Astro.props;
 		background-color: var(--contrast-color);
 	}
 
-	@media (width < 400px) {
+	@media screen and (max-width: 400px) {
 		.button {
 			margin-top: 1rem;
 			width: 90vw;

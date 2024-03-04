@@ -57,6 +57,7 @@ const { projects }: Props = Astro.props;
 	h1 {
 		font-size: var(--font-big);
 		margin-top: 5rem;
+		text-transform: uppercase;
 	}
 
 	ul {
@@ -108,6 +109,11 @@ const { projects }: Props = Astro.props;
 		height: 40%;
 	}
 
+	.support-info--details h3 {
+		text-transform: uppercase;
+		font-weight: bold;
+	}
+
 	.support-info--details h3::after,
 	.support-info--details p::after {
 		content: '';
@@ -128,7 +134,7 @@ const { projects }: Props = Astro.props;
 		text-align: end;
 	}
 
-	@media (width < 400px) {
+	@media screen and (max-width: 400px) {
 		h1 {
 			font-size: 2.5rem;
 			margin-top: 2rem;
