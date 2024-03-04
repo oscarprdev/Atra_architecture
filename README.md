@@ -33,8 +33,9 @@
 
 ![443shots_so](https://github.com/oscarprdev/Atra-architecture/assets/94851836/3f67c185-e9a4-4f26-8ff2-ef8ad13cd506)
 
+## Lighthouse report
 
-
+<img width="400" alt="Captura de pantalla 2024-03-04 a las 17 11 06" src="https://github.com/oscarprdev/Atra-architecture/assets/94851836/ea2f8215-e5c3-4eba-b633-e1d4502d5938">
 
 
 
