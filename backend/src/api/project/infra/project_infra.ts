@@ -240,8 +240,6 @@ export class DefaultProjectInfra implements ProjectInfra {
 
 			if (typeof year === 'boolean') {
 				orderClauses.push(`projects.year ${year ? 'DESC' : 'ASC'}`);
-			} else {
-				orderClauses.push(`projects.year DESC`);
 			}
 
 			if (orderClauses.length > 0) {

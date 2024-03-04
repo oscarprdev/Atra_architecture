@@ -9,7 +9,7 @@ interface Props {
 }
 const { id }: Props = Astro.props;
 
-const response = await fetch(`${API_URL}/project/list`);
+const response = await fetch(`${API_URL}/project/list?all=true`);
 const { data }: ApiResponse<Project[]> = await response.json();
 
 const projectIndex = data.findIndex(pr => pr.id === id);
