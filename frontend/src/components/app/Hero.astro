@@ -33,8 +33,6 @@ const { mainImage, year, description }: Props = Astro.props;
 	document.addEventListener('DOMContentLoaded', event => {
 		const figure = document.querySelector('figure');
 
-		if (window.innerWidth < 1024) return;
-
 		if (!figure) return;
 
 		const initialBackgroundPositionY = window.getComputedStyle(figure).backgroundPositionY;
@@ -109,7 +107,7 @@ const { mainImage, year, description }: Props = Astro.props;
 		overflow: hidden;
 		width: 100%;
 		position: relative;
-		height: 70vh;
+		height: 70dvh;
 
 		background-attachment: fixed;
 		background-repeat: no-repeat;
@@ -166,7 +164,7 @@ const { mainImage, year, description }: Props = Astro.props;
 		.hero-image {
 			background-size: 450px 600px;
 			background-position: center;
-			height: 60vh;
+			height: 60dvh;
 			padding-top: 2rem;
 			margin-top: 2rem;
 		}
