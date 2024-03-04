@@ -33,6 +33,8 @@ const { mainImage, year, description }: Props = Astro.props;
 	document.addEventListener('DOMContentLoaded', event => {
 		const figure = document.querySelector('figure');
 
+		if (window.innerWidth < 1024) return;
+
 		if (!figure) return;
 
 		const initialBackgroundPositionY = window.getComputedStyle(figure).backgroundPositionY;
