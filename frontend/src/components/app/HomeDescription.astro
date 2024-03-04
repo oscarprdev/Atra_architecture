@@ -39,10 +39,11 @@ const data: ApiResponse<User> = await response.json();
 		display: grid;
 		place-content: center;
 		width: 100%;
-		margin-top: -1rem;
+		margin-top: -2rem;
+		padding-top: 1rem;
 		color: var(--background-color);
 		background-color: var(--contrast-color);
-		height: 60vh;
+		height: 65vh;
 	}
 
 	.line {
@@ -130,6 +131,10 @@ const data: ApiResponse<User> = await response.json();
 	@media screen and (max-width: 400px) {
 		h3 {
 			margin-top: 2rem;
+		}
+
+		.home-description {
+			margin-top: 0;
 		}
 	}
 </style>
