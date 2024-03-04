@@ -9,7 +9,7 @@ interface Props {
 }
 const { id }: Props = Astro.props;
 
-const response = await fetch(`${API_URL}/project/list`);
+const response = await fetch(`${API_URL}/project/list?all=true`);
 const { data }: ApiResponse<Project[]> = await response.json();
 
 const projectIndex = data.findIndex(pr => pr.id === id);
@@ -159,6 +159,18 @@ if (projectsToShow.length < 3) {
 		section {
 			height: fit-content;
 			margin-top: -2rem;
+			margin-bottom: -7rem;
+		}
+
+		.project-info {
+			bottom: 0;
+			transition: none;
+			transform: translateY(0%);
+			justify-content: center;
+		}
+
+		li:hover .project-info {
+			transform: none;
 		}
 	}
 </style>
