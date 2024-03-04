@@ -119,19 +119,38 @@ const { description, direction, name, email, phone }: Props = Astro.props;
 	}
 
 	@media (width < 430px) {
+		h1,
+		h3 {
+			font-weight: 400;
+		}
+
+		.about-container {
+			padding: 0 1rem;
+		}
+
 		.user-info span {
-			display: block;
-			margin-bottom: 0.5rem;
+			display: none;
+		}
+
+		.user-info {
+			margin-left: 0;
+			margin-bottom: -7rem;
 		}
 
 		.user-info a {
 			display: flex;
 			flex-direction: column;
 			align-items: start;
+			margin-top: 1rem;
+		}
+
+		.user-info p,
+		.user-info h3 {
+			font-weight: 400;
 		}
 
 		.user-info a span {
-			margin-top: 1rem;
+			display: none;
 		}
 
 		.user-info a p {
