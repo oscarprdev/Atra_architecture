@@ -30,6 +30,20 @@ const { title } = Astro.props;
 			name="generator"
 			content={Astro.generator}
 		/>
+		<link
+			rel="preload"
+			href="/fonts/Apercu_light.otf"
+			as="font"
+			type="font/otf"
+			crossorigin="anonymous"
+		/>
+		<link
+			rel="preload"
+			href="/fonts/inter.ttf"
+			as="font"
+			type="font/ttf"
+			crossorigin="anonymous"
+		/>
 		<title>{title}</title>
 	</head>
 	<body>
