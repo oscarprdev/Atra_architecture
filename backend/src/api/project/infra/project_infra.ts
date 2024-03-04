@@ -226,12 +226,6 @@ export class DefaultProjectInfra implements ProjectInfra {
 
 			const orderClauses = [];
 
-			if (typeof year === 'boolean') {
-				orderClauses.push(`projects.year ${year ? 'DESC' : 'ASC'}`);
-			} else {
-				orderClauses.push(`projects.year DESC`);
-			}
-
 			if (typeof isTop === 'boolean') {
 				orderClauses.push(`projects.is_top ${isTop ? 'DESC' : 'ASC'}`);
 			}
@@ -244,11 +238,19 @@ export class DefaultProjectInfra implements ProjectInfra {
 				orderClauses.push('projects.created_at ASC');
 			}
 
+			if (typeof year === 'boolean') {
+				orderClauses.push(`projects.year ${year ? 'DESC' : 'ASC'}`);
+			} else {
+				orderClauses.push(`projects.year DESC`);
+			}
+
 			if (orderClauses.length > 0) {
 				sqlQuery += ` ORDER BY ${orderClauses.join(', ')}`;
 			}
 
 			sqlQuery += ` LIMIT ? OFFSET ?;`;
+
+			console.log(sqlQuery);
 
 			args.push(limit, hasSearchFilter || orderClauses.length > 1 ? 0 : offset);
 

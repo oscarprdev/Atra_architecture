@@ -30,6 +30,19 @@ const { title } = Astro.props;
 			name="generator"
 			content={Astro.generator}
 		/>
+		<link
+			rel="preconnect"
+			href="https://fonts.googleapis.com"
+		/>
+		<link
+			rel="preconnect"
+			href="https://fonts.gstatic.com"
+			crossorigin
+		/>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Yantramanav:wght@100;300;400;500;700;900&display=swap"
+			rel="stylesheet"
+		/>
 		<title>{title}</title>
 	</head>
 	<body>
@@ -57,13 +70,14 @@ const { title } = Astro.props;
 		--toast-bg: #ffffff;
 
 		--font-small: 1rem;
-		--font-medium: 1.8rem;
+		--font-medium: 1.4rem;
+		--font-medium-big: 1.8rem;
 		--font-big: 3rem;
 		--font-extra-big: 4rem;
 	}
 
 	html {
-		font-family: 'Inter', system-ui, sans-serif;
+		font-family: 'Yantramanav', system-ui, sans-serif;
 		background: var(--background-color);
 		font-weight: 200;
 	}

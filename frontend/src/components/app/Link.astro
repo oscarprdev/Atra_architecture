@@ -3,15 +3,16 @@ interface Props {
 	href: string;
 	target?: string;
 	dark?: boolean;
+	kind?: 'button';
 }
 
-const { href, target, dark }: Props = Astro.props;
+const { href, target, dark, kind }: Props = Astro.props;
 ---
 
 <a
 	href={href}
 	target={target}
-	class:list={[{ dark }]}
+	class:list={[{ dark, button: kind === 'button' }]}
 >
 	<slot />
 </a>
@@ -19,18 +20,30 @@ const { href, target, dark }: Props = Astro.props;
 <style scoped>
 	a {
 		cursor: pointer;
-		width: fit-content;
+		width: 100%;
 		height: fit-content;
 		display: flex;
 		flex-direction: column;
 		align-items: start;
 		gap: 4px;
 		position: relative;
-
-		color: var(--contrast-color);
 	}
 
 	.dark {
 		color: var(--background-color);
+	}
+
+	.button {
+		background-color: var(--contrast-color-hover);
+		color: var(--background-color);
+		padding: 0.9rem 2.5rem;
+		width: fit-content;
+		transition: all 0.3s ease;
+		font-size: var(--font-small);
+		font-weight: 300;
+	}
+
+	.button:hover {
+		background-color: var(--contrast-color);
 	}
 </style>
