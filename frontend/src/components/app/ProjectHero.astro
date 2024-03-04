@@ -27,25 +27,6 @@ const { title, description, year, mainImage }: Props = Astro.props;
 	</figure>
 </section>
 
-<script>
-	document.addEventListener('DOMContentLoaded', event => {
-		const figure = document.querySelector('figure');
-
-		if (!figure) return;
-
-		const initialBackgroundPositionY = window.getComputedStyle(figure).backgroundPositionY;
-
-		window.addEventListener('scroll', () => {
-			const offset = window.scrollY;
-
-			if (offset > 0) {
-				const newPositionY = -(offset * 0.5) + 'px';
-				figure.style.backgroundPositionY = `calc(${initialBackgroundPositionY} + ${newPositionY})`;
-			}
-		});
-	});
-</script>
-
 <style scoped>
 	section {
 		display: flex;
@@ -109,8 +90,7 @@ const { title, description, year, mainImage }: Props = Astro.props;
 
 	@media screen and (max-width: 450px) {
 		.hero-image {
-			background-size: 350px 300px;
-			background-position: bottom;
+			background-size: 650px 600px;
 			height: 70dvh;
 			padding-top: 5rem;
 			margin-top: 4rem;
