@@ -19,7 +19,10 @@ const { mainImage, year, description }: Props = Astro.props;
 		<h3>Jaume Pérez Llopis</h3>
 	</div>
 </section>
-<figure style={`background-image: url(${IMAGE_URL}/${mainImage})`}>
+<figure
+	class="hero-image"
+	style={`background-image: url(${IMAGE_URL}/${mainImage})`}
+>
 	<div class="project">
 		<p>{year}</p>
 		<p>{description}</p>
@@ -94,7 +97,7 @@ const { mainImage, year, description }: Props = Astro.props;
 		animation: fade-up 0.5s ease-out forwards 0.5s;
 	}
 
-	figure {
+	.hero-image {
 		overflow: hidden;
 		width: 100%;
 		position: relative;
@@ -106,7 +109,7 @@ const { mainImage, year, description }: Props = Astro.props;
 		box-shadow: inset 0px -100px 80px rgba(0, 0, 0, 0.7);
 	}
 
-	figure::before {
+	.hero-image::before {
 		content: '';
 		position: absolute;
 		top: 0;
@@ -145,6 +148,20 @@ const { mainImage, year, description }: Props = Astro.props;
 	h2 {
 		text-align: center;
 		font-size: 2rem;
+	}
+
+	@media screen and (max-width: 450px) {
+		.title-container {
+			padding-top: 3rem;
+		}
+
+		.hero-image {
+			background-size: 800px auto;
+			background-position: center;
+			height: 50vh;
+			padding-top: 5rem;
+			margin-top: 4rem;
+		}
 	}
 
 	@media screen and (min-width: 530px) {
