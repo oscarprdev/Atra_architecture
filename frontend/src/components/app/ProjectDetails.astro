@@ -63,7 +63,8 @@ const { projects }: Props = Astro.props;
 		display: flex;
 		flex-direction: column;
 		gap: 5rem;
-		width: var(--max-width);
+		width: 90vw;
+		max-width: var(--max-width);
 	}
 
 	.project {
@@ -125,5 +126,47 @@ const { projects }: Props = Astro.props;
 	.project:nth-child(even) .support-info--details {
 		align-items: end;
 		text-align: end;
+	}
+
+	@media (width < 400px) {
+		h1 {
+			font-size: 2.5rem;
+			margin-top: 2rem;
+		}
+
+		ul {
+			align-items: center;
+			margin: 0;
+			padding: 0;
+		}
+
+		.support-image {
+			margin-top: 2rem;
+			width: 100%;
+			height: 50vh;
+		}
+
+		.project {
+			width: 100%;
+			align-items: center;
+			flex-direction: column;
+		}
+
+		.main-image {
+			display: none;
+		}
+
+		.support-info--details h3::after,
+		.support-info--details p::after {
+			width: 300px;
+		}
+
+		.support-info--details h3 {
+			font-size: 1.3rem;
+		}
+
+		.support-info--details p {
+			font-size: 1rem;
+		}
 	}
 </style>

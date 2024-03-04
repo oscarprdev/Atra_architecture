@@ -46,4 +46,13 @@ const { href, target, dark, kind }: Props = Astro.props;
 	.button:hover {
 		background-color: var(--contrast-color);
 	}
+
+	@media (width < 400px) {
+		.button {
+			margin-top: 1rem;
+			width: 90vw;
+			display: grid;
+			place-items: center;
+		}
+	}
 </style>

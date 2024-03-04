@@ -46,6 +46,13 @@ const { projects }: Props = Astro.props;
 		max-width: var(--max-width);
 	}
 
+	@media (width < 400px) {
+		.home-projects h1 {
+			text-align: center;
+			font-size: 2.5rem;
+		}
+	}
+
 	@media (width < 650px) {
 		ul {
 			gap: 1rem;

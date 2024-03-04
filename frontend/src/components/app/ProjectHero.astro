@@ -109,7 +109,15 @@ const { title, description, year, mainImage }: Props = Astro.props;
 			margin-bottom: -1rem;
 		}
 
-		h2,
+		.project-description h2 {
+			display: none;
+		}
+
+		.project-description {
+			padding: 0 1rem;
+			margin-left: 0;
+		}
+
 		p {
 			font-size: 1rem;
 		}

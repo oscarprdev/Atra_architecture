@@ -159,6 +159,18 @@ if (projectsToShow.length < 3) {
 		section {
 			height: fit-content;
 			margin-top: -2rem;
+			margin-bottom: -7rem;
+		}
+
+		.project-info {
+			bottom: 0;
+			transition: none;
+			transform: translateY(0%);
+			justify-content: center;
+		}
+
+		li:hover .project-info {
+			transform: none;
 		}
 	}
 </style>
