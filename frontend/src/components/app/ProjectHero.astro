@@ -16,6 +16,8 @@ const { title, description, year, mainImage }: Props = Astro.props;
 	<div class="project-description">
 		<h2>{year}</h2>
 		<p>{strCapitalized(description)}</p>
+		<p>{IMAGE_URL}</p>
+		<p>{mainImage}</p>
 	</div>
 	<figure
 		class="hero-image"
