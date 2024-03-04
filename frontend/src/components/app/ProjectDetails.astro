@@ -19,11 +19,17 @@ const { projects }: Props = Astro.props;
 				return (
 					<li class="project show">
 						<picture class="main-image">
-							<img src={`${IMAGE_URL}/${project.mainImage}`} />
+							<img
+								src={`${IMAGE_URL}/${project.mainImage}`}
+								alt={`Project main image of: ${project.title}`}
+							/>
 						</picture>
 						<div class="support-info">
 							<picture class="support-image">
-								<img src={`${IMAGE_URL}/${project.images[0]}`} />
+								<img
+									src={`${IMAGE_URL}/${project.images[0]}`}
+									alt={`Project support image of: ${project.title}`}
+								/>
 							</picture>
 							<div class="support-info--details">
 								<h3>{project.title}</h3>
