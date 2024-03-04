@@ -17,7 +17,10 @@ const { title, description, year, mainImage }: Props = Astro.props;
 		<h2>{year}</h2>
 		<p>{strCapitalized(description)}</p>
 	</div>
-	<figure style={`background-image: url(${IMAGE_URL}/${mainImage})`}>
+	<figure
+		class="hero-image"
+		style={`background-image: url(${IMAGE_URL}/${mainImage})`}
+	>
 		<div class="project-title">
 			<h1>{strCapitalized(title)}</h1>
 		</div>
@@ -105,8 +108,16 @@ const { title, description, year, mainImage }: Props = Astro.props;
 	}
 
 	@media screen and (max-width: 450px) {
+		.hero-image {
+			background-size: 650px auto;
+			background-position: bottom;
+			height: 70vh;
+			padding-top: 5rem;
+			margin-top: 4rem;
+		}
+
 		.project-title {
-			margin-bottom: -1rem;
+			margin-bottom: 2rem;
 		}
 
 		.project-description h2 {
@@ -119,7 +130,9 @@ const { title, description, year, mainImage }: Props = Astro.props;
 		}
 
 		p {
-			font-size: 1rem;
+			font-size: 1.3rem;
+			margin-top: 3rem;
+			margin-bottom: -1rem;
 		}
 	}
 </style>

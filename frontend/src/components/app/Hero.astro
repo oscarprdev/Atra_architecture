@@ -31,12 +31,18 @@ const { mainImage, year, description }: Props = Astro.props;
 
 <script>
 	document.addEventListener('DOMContentLoaded', event => {
-		const $figure = document.querySelector('figure');
+		const figure = document.querySelector('figure');
+
+		if (!figure) return;
+
+		const initialBackgroundPositionY = window.getComputedStyle(figure).backgroundPositionY;
 
 		window.addEventListener('scroll', () => {
 			const offset = window.scrollY;
-			if ($figure) {
-				$figure.style.backgroundPositionY = offset * -0.5 + 'px';
+
+			if (offset > 0) {
+				const newPositionY = -(offset * 0.5) + 'px';
+				figure.style.backgroundPositionY = `calc(${initialBackgroundPositionY} + ${newPositionY})`;
 			}
 		});
 	});
@@ -156,11 +162,11 @@ const { mainImage, year, description }: Props = Astro.props;
 		}
 
 		.hero-image {
-			background-size: 800px auto;
-			background-position: center;
-			height: 50vh;
+			background-size: 650px auto;
+			background-position: bottom;
+			height: 60vh;
 			padding-top: 5rem;
-			margin-top: 4rem;
+			margin-top: 2rem;
 		}
 	}
 
