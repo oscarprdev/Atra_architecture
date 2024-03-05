@@ -6,4 +6,5 @@ export type RouteUrl = Parameters<Page['route']>[0];
 export interface SetRouteInput {
 	url: RouteUrl;
 	response: FulfillResponse;
+	assertBeforeRequest?: Promise<void>;
 }

@@ -25,6 +25,7 @@ const onInputChange = (e: Event) => {
 		<form id="login-form">
 			<label>
 				<input
+					data-testid="email-input"
 					id="email"
 					autocomplete="email"
 					name="email"
@@ -37,6 +38,7 @@ const onInputChange = (e: Event) => {
 			</label>
 			<label>
 				<input
+					data-testid="password-input"
 					id="password"
 					autocomplete="current-password"
 					name="password"

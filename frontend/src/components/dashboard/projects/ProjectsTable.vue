@@ -154,7 +154,7 @@ onMounted(async () => mountProjectList({ page: currentPage.value }));
 </script>
 
 <template>
-	<table>
+	<table data-testid="dashboard-table">
 		<thead>
 			<tr>
 				<CommonActionsTooltip

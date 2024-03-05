@@ -4,11 +4,9 @@ import ActionButton from '../ActionButton.vue';
 import InputSearch from './InputSearch.vue';
 import { BUTTON_KINDS } from '../ActionButton.types';
 import { EMITTER_NAMES, EMITT_ACTIONS, emitter } from '../../../utils/emitter';
-import SortButton from './SortButton.vue';
 import Pagination from './Pagination.vue';
 import Dropdown from '../Dropdown.vue';
 import type { Option } from '../Dropdown.types';
-import { IconArrowUp, IconArrowDown } from '@tabler/icons-vue';
 
 const onCreateProjectClick = () => {
 	emitter.emit(EMITTER_NAMES.modal, {
@@ -38,7 +36,7 @@ const actionDropdownOptions: Option[] = [
 </script>
 
 <template>
-	<header>
+	<header data-testid="dashboard-header">
 		<div class="filters">
 			<InputSearch />
 			<Dropdown
@@ -49,6 +47,7 @@ const actionDropdownOptions: Option[] = [
 		</div>
 
 		<ActionButton
+			data-testid="create-project-button"
 			:kind="BUTTON_KINDS.PRIMARY"
 			text="Nou projecte"
 			@on-action-click="onCreateProjectClick"

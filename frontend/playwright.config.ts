@@ -29,6 +29,12 @@ export default defineConfig({
 		/* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
 		trace: 'on-first-retry',
 	},
+	webServer: {
+		command: 'pnpm run dev',
+		url: 'http://localhost:4322',
+		timeout: 120 * 1000 * 5,
+		reuseExistingServer: false,
+	},
 
 	/* Configure projects for major browsers */
 	projects: [
@@ -47,11 +53,4 @@ export default defineConfig({
 			use: { ...devices['Desktop Safari'] },
 		},
 	],
-
-	/* Run your local dev server before starting the tests */
-	webServer: {
-		command: 'pnpm run dev',
-		url: 'http://localhost:4321',
-		reuseExistingServer: !process.env.CI,
-	},
 });

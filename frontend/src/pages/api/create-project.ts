@@ -16,6 +16,8 @@ export const POST: APIRoute = async ctx => {
 
 		const jsonResponse = await response.json();
 
+		console.log(jsonResponse);
+
 		if (jsonResponse.status !== 201) {
 			throw new Error(jsonResponse);
 		}

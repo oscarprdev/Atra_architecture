@@ -10,6 +10,7 @@ import { IconRotateClockwise } from '@tabler/icons-vue';
 		id="login-icon"
 		width="20"
 		class="icon"
+		data-testid="login-loading-icon"
 	/>
 	<p>Login</p>
 </button>
@@ -41,11 +42,12 @@ import { IconRotateClockwise } from '@tabler/icons-vue';
 			$loginIcon?.classList.toggle('spinner');
 			$loginButton?.classList.toggle('loadingbtn');
 
-			if (response.status === 201) {
+			const jsonResponse = await response.json();
+
+			if (jsonResponse.status === 201) {
+				console.log('redirection');
 				window.location.replace('/auth/dashboard');
 			}
-
-			const jsonResponse = await response.json();
 
 			/**
 			 * Event to open error toast
