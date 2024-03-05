@@ -149,6 +149,11 @@ if (projectsToShow.length < 3) {
 		p {
 			font-size: 16px;
 		}
+
+		.project-info {
+			transform: translateY(0%);
+			transition: none;
+		}
 	}
 
 	@media screen and (max-width: 650px) {
@@ -164,6 +169,10 @@ if (projectsToShow.length < 3) {
 		li {
 			height: 100%;
 			overflow: hidden;
+		}
+
+		picture {
+			height: 45lvh !important;
 		}
 
 		section {
