@@ -8,7 +8,7 @@ import type { Project } from './api/generated';
 import Hero from '../components/app/Hero.astro';
 import ProjectDetails from '../components/app/ProjectDetails.astro';
 
-const response = await fetch(`${API_URL}/project/list?isTop=true&year=true`);
+const response = await fetch(`${API_URL}/project/list`);
 const { data }: ApiResponse<Project[]> = await response.json();
 const sortedProjects = data;
 ---

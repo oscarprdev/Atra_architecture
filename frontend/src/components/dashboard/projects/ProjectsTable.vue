@@ -125,6 +125,8 @@ emitter.on(EMITTER_NAMES.pagination, async payload => {
 	if (typeof payload === 'object' && payload.action === EMITT_ACTIONS.PAGINATION) {
 		currentPage.value = payload.currentPage;
 
+		console.log(payload.currentPage);
+
 		await mountProjectList({
 			page: currentPage.value,
 			date: sortedValues.date,
@@ -136,6 +138,7 @@ emitter.on(EMITTER_NAMES.pagination, async payload => {
 
 const mountProjectList = async ({ page, search, date, year, isTop }: GetProjectListInput) => {
 	isLoading.value = true;
+	console.log(page, search, date, year, isTop);
 	const response = (await getProjectListUsecase({ page, search, year, date, isTop })) || [];
 	isLoading.value = false;
 	projects.value = response;
