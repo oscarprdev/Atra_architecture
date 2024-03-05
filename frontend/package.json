@@ -10,7 +10,7 @@
     "astro": "astro",
     "lint": "eslint --ext=jsx,ts,tsx .",
     "type-check": "tsc --noEmit",
-    "test:e2e": "npx playwright test --trace on",
+    "test:e2e": "npx playwright test",
     "format": "prettier --write ."
   },
   "dependencies": {
