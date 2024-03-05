@@ -226,7 +226,8 @@ export class DefaultProjectInfra implements ProjectInfra {
 
 			const orderClauses = [];
 
-			if (typeof isTop === 'boolean') {
+			if (!date && !year && typeof isTop === 'boolean') {
+				console.log(isTop);
 				orderClauses.push(`projects.is_top ${isTop ? 'DESC' : 'ASC'}`);
 			}
 
@@ -234,12 +235,14 @@ export class DefaultProjectInfra implements ProjectInfra {
 				orderClauses.push(`projects.updated_at ${date ? 'DESC' : 'ASC'}`);
 			}
 
-			if (orderClauses.length === 0) {
-				orderClauses.push('projects.created_at ASC');
-			}
-
 			if (typeof year === 'boolean') {
 				orderClauses.push(`projects.year ${year ? 'DESC' : 'ASC'}`);
+			} else {
+				orderClauses.push(`projects.year DESC`);
+			}
+
+			if (orderClauses.length === 0) {
+				orderClauses.push('projects.created_at ASC');
 			}
 
 			if (orderClauses.length > 0) {
@@ -248,9 +251,7 @@ export class DefaultProjectInfra implements ProjectInfra {
 
 			sqlQuery += ` LIMIT ? OFFSET ?;`;
 
-			console.log(sqlQuery);
-
-			args.push(limit, hasSearchFilter || orderClauses.length > 1 ? 0 : offset);
+			args.push(limit, hasSearchFilter ? 0 : offset);
 
 			const dbProjects = await client.execute({
 				sql: sqlQuery,

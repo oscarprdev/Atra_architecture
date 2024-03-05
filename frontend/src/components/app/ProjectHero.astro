@@ -15,16 +15,28 @@ const { title, description, year, mainImage }: Props = Astro.props;
 <section>
 	<div class="project-description">
 		<h2>{year}</h2>
-		<p>{strCapitalized(description)}</p>
+		<p>{description}</p>
 	</div>
-	<figure
-		class="hero-image"
-		style={`background-image: url(${IMAGE_URL}/${mainImage})`}
-	>
+	<div class="image-container">
+		<picture class="responsive-image">
+			<source
+				media="(max-width: 768px)"
+				srcset={`${IMAGE_URL}/${mainImage}`}
+			/>
+			<img
+				src={`${IMAGE_URL}/${mainImage}`}
+				alt={title}
+			/>
+		</picture>
+		<figure
+			class="hero-image"
+			style={`background-image: url(${IMAGE_URL}/${mainImage})`}
+		>
+		</figure>
 		<div class="project-title">
-			<h1>{strCapitalized(title)}</h1>
+			<h1 data-testid="project-title">{title}</h1>
 		</div>
-	</figure>
+	</div>
 </section>
 
 <script>
@@ -56,6 +68,29 @@ const { title, description, year, mainImage }: Props = Astro.props;
 		margin-bottom: 8rem;
 	}
 
+	.image-container {
+		position: relative;
+		width: 100%;
+		height: 70lvh;
+		margin-bottom: 1rem;
+	}
+
+	.responsive-image {
+		display: none;
+		width: 100%;
+		height: 100%;
+	}
+
+	.hero-image {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-size: cover;
+		background-position: center;
+	}
+
 	.project-description {
 		display: flex;
 		align-items: center;
@@ -64,9 +99,12 @@ const { title, description, year, mainImage }: Props = Astro.props;
 	}
 
 	.project-title {
-		margin-bottom: -2rem;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		text-align: center;
 		color: white;
-		z-index: 10;
 	}
 
 	h1 {
@@ -78,7 +116,11 @@ const { title, description, year, mainImage }: Props = Astro.props;
 	h2,
 	p {
 		font-weight: 200;
-		font-size: var(--font-small);
+		font-size: var(--font-medium);
+	}
+
+	p {
+		max-width: 65ch;
 	}
 
 	figure {
@@ -87,7 +129,7 @@ const { title, description, year, mainImage }: Props = Astro.props;
 		display: grid;
 		place-items: center;
 		width: 100%;
-		height: 70dvh;
+		height: 70lvh;
 		margin: 0;
 
 		background-attachment: fixed;
@@ -109,11 +151,16 @@ const { title, description, year, mainImage }: Props = Astro.props;
 
 	@media screen and (max-width: 450px) {
 		.hero-image {
-			background-size: 650px 600px;
-			background-position: bottom;
-			height: 70dvh;
-			padding-top: 5rem;
-			margin-top: 4rem;
+			display: none;
+		}
+
+		.image-container {
+			height: 560px;
+		}
+
+		.responsive-image {
+			display: block;
+			margin-top: 3rem;
 		}
 
 		.project-title {
@@ -130,8 +177,8 @@ const { title, description, year, mainImage }: Props = Astro.props;
 		}
 
 		p {
-			font-size: 1.3rem;
-			margin-top: 3rem;
+			font-size: 18px;
+			margin-top: 2rem;
 			margin-bottom: -1rem;
 		}
 	}

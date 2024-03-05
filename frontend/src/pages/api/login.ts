@@ -31,6 +31,7 @@ export const POST: APIRoute = async ctx => {
 		return new Response(
 			JSON.stringify({
 				message: jsonResponse.response,
+				status: 201,
 			}),
 			{
 				status: 201,

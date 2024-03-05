@@ -10,7 +10,10 @@ interface Props {
 const { description, direction, name, email, phone }: Props = Astro.props;
 ---
 
-<article class="about-container">
+<article
+	class="about-container"
+	data-testid="about-info"
+>
 	<div class="about-title">
 		<h1>ATRA</h1>
 		<h3>Asistència tècnica en rehabilitació i arquitectura</h3>
@@ -119,6 +122,19 @@ const { description, direction, name, email, phone }: Props = Astro.props;
 	}
 
 	@media screen and (max-width: 430px) {
+		h1 {
+			font-size: 26px;
+		}
+
+		h3 {
+			font-size: 20px;
+		}
+
+		a,
+		p {
+			font-size: 16px;
+		}
+
 		h1,
 		h3 {
 			font-weight: 400;

@@ -101,7 +101,10 @@ const onSubmit = (e: Event) => {
 </script>
 
 <template>
-	<form @submit="onSubmit">
+	<form
+		data-testid="create-project-form"
+		@submit="onSubmit"
+	>
 		<InputForm
 			title="Nom"
 			type="text"

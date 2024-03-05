@@ -54,8 +54,7 @@ if (projectsToShow.length < 3) {
 		align-items: start;
 
 		width: 100vw;
-		height: 60vh;
-		margin: 0;
+		height: 500px;
 		padding: 0;
 		margin: 5rem auto;
 
@@ -66,12 +65,12 @@ if (projectsToShow.length < 3) {
 		font-weight: bold;
 		margin-left: 10vw;
 		text-transform: uppercase;
+		font-size: 24px;
 	}
 
 	ul {
 		width: 100%;
-		height: 100%;
-		height: 50vh;
+		height: 400px;
 		margin: 0;
 		padding: 0;
 		display: grid;
@@ -84,7 +83,7 @@ if (projectsToShow.length < 3) {
 		display: flex;
 		flex-direction: column;
 		overflow: hidden;
-		height: 100%;
+		height: 400px;
 	}
 
 	li :global(a) {
@@ -92,7 +91,7 @@ if (projectsToShow.length < 3) {
 	}
 
 	picture {
-		height: 100%;
+		height: 400px;
 		width: 100%;
 		overflow: hidden;
 	}
@@ -109,7 +108,7 @@ if (projectsToShow.length < 3) {
 	}
 
 	li:hover .project-info {
-		transform: translateY(-22%);
+		transform: translateY(0%);
 	}
 
 	.project-info {
@@ -120,7 +119,6 @@ if (projectsToShow.length < 3) {
 		justify-content: end;
 		gap: 0;
 
-		transform: translateY(35%);
 		width: 100%;
 		z-index: 10;
 		background-color: var(--background-color);
@@ -141,6 +139,44 @@ if (projectsToShow.length < 3) {
 		border-radius: 50%;
 	}
 
+	@media screen and (max-width: 450px) {
+		ul,
+		section {
+			height: fit-content;
+		}
+
+		h3 {
+			font-size: 26px;
+			margin-left: 0;
+			align-self: center;
+		}
+
+		p {
+			font-size: 16px;
+		}
+
+		.project-info {
+			transform: translateY(0%);
+			transition: none;
+		}
+
+		li:hover img {
+			transform: none;
+		}
+
+		li {
+			height: 320px;
+		}
+
+		img {
+			height: fixed;
+		}
+
+		picture {
+			height: 320px;
+		}
+	}
+
 	@media screen and (max-width: 650px) {
 		ul {
 			width: 100%;
@@ -152,14 +188,13 @@ if (projectsToShow.length < 3) {
 		}
 
 		li {
-			height: 100%;
 			overflow: hidden;
 		}
 
 		section {
 			height: fit-content;
 			margin-top: -2rem;
-			margin-bottom: -7rem;
+			margin-bottom: -2rem;
 		}
 
 		.project-info {

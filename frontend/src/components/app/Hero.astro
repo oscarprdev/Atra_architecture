@@ -12,22 +12,34 @@ const { mainImage, year, description }: Props = Astro.props;
 
 <section class="title-container">
 	<div class="title">
-		<h1>ATRA</h1>
+		<h1 data-testid="home-title">ATRA</h1>
 		<h2>ARQUITECTURA</h2>
 	</div>
 	<div class="name-container">
-		<h3>Jaume Pérez Llopis</h3>
+		<h3 data-testid="home-name">Jaume Pérez Llopis</h3>
 	</div>
 </section>
-<figure
-	class="hero-image"
-	style={`background-image: url(${IMAGE_URL}/${mainImage})`}
->
+<article class="image-container">
+	<picture class="responsive-image">
+		<source
+			media="(max-width: 768px)"
+			srcset={`${IMAGE_URL}/${mainImage}`}
+		/>
+		<img
+			src={`${IMAGE_URL}/${mainImage}`}
+			alt="Hero image"
+		/>
+	</picture>
+	<figure
+		class="hero-image"
+		style={`background-image: url(${IMAGE_URL}/${mainImage})`}
+	>
+	</figure>
 	<div class="project">
 		<p>{year}</p>
 		<p>{description}</p>
 	</div>
-</figure>
+</article>
 
 <script>
 	document.addEventListener('DOMContentLoaded', event => {
@@ -103,25 +115,54 @@ const { mainImage, year, description }: Props = Astro.props;
 		animation: fade-up 0.5s ease-out forwards 0.5s;
 	}
 
-	.hero-image {
-		overflow: hidden;
-		width: 100%;
+	.image-container {
 		position: relative;
-		height: 70dvh;
-
-		background-attachment: fixed;
-		background-repeat: no-repeat;
-		background-size: cover;
-		box-shadow: inset 0px -100px 80px rgba(0, 0, 0, 0.7);
+		width: 100vw;
+		height: 70lvh;
+		margin-bottom: 2rem;
 	}
 
-	.hero-image::before {
+	.responsive-image {
+		display: none;
+		width: 100vw;
+		height: 100%;
+	}
+
+	.hero-image {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100%;
+		background-size: cover;
+		background-position: center;
+		margin: 0;
+	}
+
+	.project-description {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		margin-left: 12.5vw;
+	}
+
+	.project-title {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		text-align: center;
+		color: white;
+	}
+
+	.image-container::before {
 		content: '';
 		position: absolute;
 		top: 0;
 		left: 0;
 		width: 100%;
 		height: 100%;
+		z-index: 10;
 		background: var(--background-color);
 		animation: revealImage 1.2s ease-in-out forwards 0.3s;
 	}
@@ -158,15 +199,20 @@ const { mainImage, year, description }: Props = Astro.props;
 
 	@media screen and (max-width: 450px) {
 		.title-container {
-			padding-top: 3rem;
+			padding-top: 0.5rem;
 		}
 
 		.hero-image {
-			background-size: 450px 600px;
-			background-position: center;
-			height: 60dvh;
-			padding-top: 2rem;
-			margin-top: 2rem;
+			display: none;
+		}
+
+		.image-container {
+			height: 450px;
+		}
+
+		.responsive-image {
+			display: block;
+			margin-top: 3rem;
 		}
 	}
 

@@ -15,7 +15,7 @@ export async function listProjectsHandler(request: Request, env: Env) {
 		const date = convertToBoolean(searchParams.get('date'));
 		const all = convertToBoolean(searchParams.get('all'));
 
-		const projectsOutput = await projectListUsecase.listProjects({ search, year, all, isTop: isTop || false, date, page, env });
+		const projectsOutput = await projectListUsecase.listProjects({ search, year, all, isTop: isTop || true, date, page, env });
 
 		const apiResponse: ApiResponse<Project[]> = {
 			status: 200,

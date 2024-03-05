@@ -14,7 +14,10 @@ const data: ApiResponse<User> = await response.json();
 		<h3>Asistència tècnica en rehabilitació i arquitectura</h3>
 	</div>
 	<span class="line grow-right"></span>
-	<div class="description fade-up-light">
+	<div
+		class="description fade-up-light"
+		data-testid="description"
+	>
 		{
 			data.data.description
 				.split('. ')
@@ -25,6 +28,7 @@ const data: ApiResponse<User> = await response.json();
 	<Link
 		href="/about"
 		dark
+		id="about-link"
 	>
 		<TextWithIcon
 			text="Saber-ne més"
@@ -39,10 +43,10 @@ const data: ApiResponse<User> = await response.json();
 		display: grid;
 		place-content: center;
 		width: 100%;
-		margin-top: -1rem;
+		margin-top: -2rem;
 		color: var(--background-color);
 		background-color: var(--contrast-color);
-		height: 60vh;
+		height: 60lvh;
 	}
 
 	.line {
@@ -73,12 +77,12 @@ const data: ApiResponse<User> = await response.json();
 	h3 {
 		font-weight: bold;
 		font-size: 1.5rem;
-		margin-top: -1rem;
 	}
 
 	p {
 		font-size: 1.2rem;
 		font-weight: 200;
+		max-width: 65ch;
 	}
 
 	.description {
@@ -129,7 +133,23 @@ const data: ApiResponse<User> = await response.json();
 
 	@media screen and (max-width: 400px) {
 		h3 {
-			margin-top: 2rem;
+			font-size: 26px;
+		}
+
+		p {
+			font-size: 16px;
+		}
+
+		.home-description {
+			margin: 1rem auto;
+			padding: 2rem auto;
+			height: 400px;
+		}
+	}
+
+	@media screen and (min-width: 1500px) {
+		.home-description {
+			height: 45lvh;
 		}
 	}
 </style>

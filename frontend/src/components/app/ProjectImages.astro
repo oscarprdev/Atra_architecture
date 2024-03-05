@@ -35,6 +35,7 @@ const { images } = Astro.props;
 			>
 				<picture>
 					<img
+						data-testid="project-image"
 						src={`${IMAGE_URL}/${image}`}
 						alt={`Detailed imaged number ${i} of a project`}
 					/>
@@ -53,11 +54,11 @@ const { images } = Astro.props;
 		margin: 0;
 		padding: 0;
 		display: grid;
+		height: fit-content;
 
 		justify-content: center;
 		gap: 0.5rem;
 		padding: 0;
-		grid-auto-rows: minmax(150px, auto);
 
 		grid-template-areas:
 			'a b c'
@@ -70,39 +71,37 @@ const { images } = Astro.props;
 	}
 
 	.bento1 {
-		height: 60vh;
+		grid-template-rows: repeat(1, 350px);
 		grid-template-columns: repeat(1, 1fr);
 		grid-template-areas: none;
 	}
 
 	.bento2 {
-		height: 60vh;
 		grid-template-columns: repeat(2, 1fr);
 		grid-template-areas: none;
 	}
 
 	.bento3 {
-		height: 60vh;
 		grid-template-columns: repeat(3, 1fr);
 		grid-template-areas: none;
 	}
 
 	.bento4 {
-		height: 100vh;
+		grid-template-rows: repeat(2, 350px);
 		grid-template-areas:
 			'a b c'
 			'a d c';
 	}
 
 	.bento5 {
-		height: 100vh;
+		grid-template-rows: repeat(2, 350px);
 		grid-template-areas:
 			'a a b'
 			'c d e';
 	}
 
 	.bento6 {
-		height: 100vh;
+		grid-template-rows: repeat(3, 350px);
 		grid-template-areas:
 			'a b c'
 			'a d c'
@@ -110,7 +109,7 @@ const { images } = Astro.props;
 	}
 
 	.bento7 {
-		height: 100vh;
+		grid-template-rows: repeat(3, 350px);
 		grid-template-areas:
 			'a b c'
 			'a d c'
@@ -118,7 +117,7 @@ const { images } = Astro.props;
 	}
 
 	.bento8 {
-		height: 200vh;
+		grid-template-rows: repeat(4, 350px);
 		grid-template-areas:
 			'a b c'
 			'a d c'
@@ -127,7 +126,7 @@ const { images } = Astro.props;
 	}
 
 	.bento9 {
-		height: 200vh;
+		grid-template-rows: repeat(4, 350px);
 		grid-template-areas:
 			'a b c'
 			'a d c'
@@ -136,7 +135,7 @@ const { images } = Astro.props;
 	}
 
 	.bento10 {
-		height: 200vh;
+		grid-template-rows: repeat(4, 350px);
 		grid-template-areas:
 			'a b c'
 			'a d c'
@@ -145,7 +144,7 @@ const { images } = Astro.props;
 	}
 
 	.bento11 {
-		height: 250vh;
+		grid-template-rows: repeat(5, 350px);
 		grid-template-areas:
 			'a b c'
 			'a d c'
@@ -155,7 +154,7 @@ const { images } = Astro.props;
 	}
 
 	.bento12 {
-		height: 250vh;
+		grid-template-rows: repeat(6, 350px);
 		grid-template-areas:
 			'a b c'
 			'a d c'
@@ -213,15 +212,6 @@ const { images } = Astro.props;
 		grid-area: l;
 	}
 
-	.common {
-		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		gap: 1rem;
-		justify-content: center;
-		width: 80vw;
-		max-width: var(--max-width);
-	}
-
 	li {
 		overflow: hidden;
 	}
@@ -232,6 +222,16 @@ const { images } = Astro.props;
 
 	li:hover img {
 		transform: scale(1.1);
+	}
+
+	@media screen and (max-width: 400px) {
+		li {
+			border-radius: 8px;
+		}
+
+		img {
+			height: fixed;
+		}
 	}
 
 	@media screen and (max-width: 800px) {
@@ -251,8 +251,9 @@ const { images } = Astro.props;
 			display: flex;
 			flex-direction: column;
 			align-items: center;
-			width: 95vw;
+			width: 90vw;
 			height: fit-content;
+			gap: 1rem;
 
 			margin-top: -5rem;
 			margin-bottom: 5rem;
@@ -260,7 +261,11 @@ const { images } = Astro.props;
 
 		li {
 			width: 100%;
-			height: 50vh;
+			height: 350px;
+		}
+
+		li:hover img {
+			transform: none;
 		}
 	}
 </style>

@@ -15,6 +15,7 @@ const {
 	<section>
 		<picture>
 			<img
+				data-testid="about-image"
 				src={`${IMAGE_URL}/${image}`}
 				alt="About image"
 			/>
@@ -42,5 +43,6 @@ const {
 	picture {
 		margin-top: 2rem;
 		width: 100%;
+		aspect-ratio: 375/154;
 	}
 </style>

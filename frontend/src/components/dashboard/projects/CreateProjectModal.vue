@@ -94,6 +94,7 @@ emitter.on(EMITTER_NAMES.modal, payload => {
 							@on-action-click="emits('close-modal')"
 						/>
 						<ActionButton
+							data-testid="create-project-modal-button"
 							text="Crear projecte"
 							:type="'submit'"
 							:kind="BUTTON_KINDS.PRIMARY"
