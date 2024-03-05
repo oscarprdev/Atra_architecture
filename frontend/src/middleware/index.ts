@@ -12,16 +12,12 @@ export const onRequest = defineMiddleware(async (context, next) => {
 	if (PRIVATE_ROUTES.includes(context.url.pathname)) {
 		const token = context.cookies.get(TOKEN)?.value ?? '';
 
-		console.log(token);
-
 		const response = await fetch(`${API_URL}/auth/validate`, {
 			method: 'POST',
 			body: JSON.stringify({ jwt: token }),
 		});
 
 		const jsonResponse = await response.json();
-
-		console.log(jsonResponse);
 
 		if (jsonResponse.status !== 200) {
 			return Response.redirect(new URL('/', context.url));
