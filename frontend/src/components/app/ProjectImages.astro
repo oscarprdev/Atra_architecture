@@ -35,6 +35,7 @@ const { images } = Astro.props;
 			>
 				<picture>
 					<img
+						data-testid="project-image"
 						src={`${IMAGE_URL}/${image}`}
 						alt={`Detailed imaged number ${i} of a project`}
 					/>

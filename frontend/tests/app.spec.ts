@@ -83,4 +83,19 @@ test.describe('Home', () => {
 			'Asistència tècnica en rehabilitació i arquitectura'
 		);
 	});
+
+	test('Should display project detail page properly', async ({
+		detailPage,
+		navigateToProjectDetail,
+	}) => {
+		await navigateToProjectDetail();
+		await expect(detailPage.heroImage).toBeVisible();
+		await expect(detailPage.projectTitle).toBeVisible();
+
+		const projectsImages = await detailPage.getAllProjectImages();
+
+		for (const img of projectsImages) {
+			await expect(img).toBeVisible();
+		}
+	});
 });
