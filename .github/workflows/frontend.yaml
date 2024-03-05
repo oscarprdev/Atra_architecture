@@ -142,7 +142,16 @@ jobs:
           key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-
-      - name: Run Playwright tests
-        uses: docker://mcr.microsoft.com/playwright:v1.34.3-jammy
+      - name: Restore Playwright binary
+        id: cache-playwright-binary
+        uses: actions/cache@v4
         with:
-          args: npx playwright test
+          path: frontend/node_modules
+          key: playwright-binary-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            playwright-binary-
+      - name: Install playwright
+        run: cd frontend && npx playwright install --with-deps
+      - name: Run Tests
+        shell: bash
+        run: cd frontend && pnpm run test:e2e
