@@ -88,6 +88,16 @@ const { project }: Props = Astro.props;
 		transform: translateX(0%);
 	}
 
+	@media screen and (max-width: 450px) {
+		li {
+			box-shadow: none;
+		}
+
+		.project-info {
+			border: none;
+		}
+	}
+
 	@media screen and (max-width: 850px) {
 		.project-info {
 			transform: translateX(0%);
