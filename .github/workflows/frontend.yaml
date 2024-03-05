@@ -119,7 +119,7 @@ jobs:
   e2e-tests-chrome:
     runs-on: ubuntu-latest
     needs: build
-    timeout-minutes: 3
+    timeout-minutes: 4
     steps:
       - name: Checkout Commit
         uses: actions/checkout@v3
@@ -139,6 +139,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-
       - name: Install Playwright
+        shell: bash
         run: cd frontend && npx playwright install --with-deps
       - name: Run Tests
+        shell: bash
         run: cd frontend && pnpm run test:e2e
