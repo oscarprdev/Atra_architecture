@@ -39,9 +39,9 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/.cache/Playwright
-          key: cypress-playwright-${{ hashFiles('**/pnpm-lock.yaml') }}
+          key: playwright-binary-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
-            cypress-playwright-
+            playwright-binary-
       - name: Install Dependencies
         if: steps.cache-dependencies.outputs.cache-hit != 'true'
         run: |
