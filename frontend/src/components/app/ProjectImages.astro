@@ -67,42 +67,38 @@ const { images } = Astro.props;
 			'h j k'
 			'i j l'
 			'i m l';
+
+		grid-template-rows: repeat(20, 350px);
 	}
 
 	.bento1 {
-		height: 60lvh;
 		grid-template-columns: repeat(1, 1fr);
 		grid-template-areas: none;
 	}
 
 	.bento2 {
-		height: 60lvh;
 		grid-template-columns: repeat(2, 1fr);
 		grid-template-areas: none;
 	}
 
 	.bento3 {
-		height: 60lvh;
 		grid-template-columns: repeat(3, 1fr);
 		grid-template-areas: none;
 	}
 
 	.bento4 {
-		height: 100lvh;
 		grid-template-areas:
 			'a b c'
 			'a d c';
 	}
 
 	.bento5 {
-		height: 100lvh;
 		grid-template-areas:
 			'a a b'
 			'c d e';
 	}
 
 	.bento6 {
-		height: 100lvh;
 		grid-template-areas:
 			'a b c'
 			'a d c'
@@ -110,7 +106,6 @@ const { images } = Astro.props;
 	}
 
 	.bento7 {
-		height: 100lvh;
 		grid-template-areas:
 			'a b c'
 			'a d c'
@@ -118,7 +113,6 @@ const { images } = Astro.props;
 	}
 
 	.bento8 {
-		height: 200lvh;
 		grid-template-areas:
 			'a b c'
 			'a d c'
@@ -127,7 +121,6 @@ const { images } = Astro.props;
 	}
 
 	.bento9 {
-		height: 200lvh;
 		grid-template-areas:
 			'a b c'
 			'a d c'
@@ -136,7 +129,6 @@ const { images } = Astro.props;
 	}
 
 	.bento10 {
-		height: 200lvh;
 		grid-template-areas:
 			'a b c'
 			'a d c'
@@ -145,7 +137,6 @@ const { images } = Astro.props;
 	}
 
 	.bento11 {
-		height: 250lvh;
 		grid-template-areas:
 			'a b c'
 			'a d c'
@@ -155,7 +146,6 @@ const { images } = Astro.props;
 	}
 
 	.bento12 {
-		height: 250lvh;
 		grid-template-areas:
 			'a b c'
 			'a d c'
@@ -213,15 +203,6 @@ const { images } = Astro.props;
 		grid-area: l;
 	}
 
-	.common {
-		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		gap: 1rem;
-		justify-content: center;
-		width: 80vw;
-		max-width: var(--max-width);
-	}
-
 	li {
 		overflow: hidden;
 	}
@@ -237,6 +218,10 @@ const { images } = Astro.props;
 	@media screen and (max-width: 400px) {
 		li {
 			border-radius: 8px;
+		}
+
+		img {
+			height: fixed;
 		}
 	}
 
@@ -267,7 +252,7 @@ const { images } = Astro.props;
 
 		li {
 			width: 100%;
-			height: 50lvh;
+			height: 350px;
 		}
 
 		li:hover img {
