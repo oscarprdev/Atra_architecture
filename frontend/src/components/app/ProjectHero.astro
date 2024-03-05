@@ -15,7 +15,7 @@ const { title, description, year, mainImage }: Props = Astro.props;
 <section>
 	<div class="project-description">
 		<h2>{year}</h2>
-		<p>{strCapitalized(description)}</p>
+		<p>{description}</p>
 	</div>
 	<div class="image-container">
 		<picture class="responsive-image">
@@ -34,7 +34,7 @@ const { title, description, year, mainImage }: Props = Astro.props;
 		>
 		</figure>
 		<div class="project-title">
-			<h1>{strCapitalized(title)}</h1>
+			<h1>{title}</h1>
 		</div>
 	</div>
 </section>
@@ -116,7 +116,11 @@ const { title, description, year, mainImage }: Props = Astro.props;
 	h2,
 	p {
 		font-weight: 200;
-		font-size: var(--font-small);
+		font-size: var(--font-medium);
+	}
+
+	p {
+		max-width: 65ch;
 	}
 
 	figure {

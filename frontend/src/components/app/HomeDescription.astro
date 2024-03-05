@@ -42,7 +42,7 @@ const data: ApiResponse<User> = await response.json();
 		margin-top: -2rem;
 		color: var(--background-color);
 		background-color: var(--contrast-color);
-		height: 50lvh;
+		height: 60lvh;
 	}
 
 	.line {
@@ -73,12 +73,12 @@ const data: ApiResponse<User> = await response.json();
 	h3 {
 		font-weight: bold;
 		font-size: 1.5rem;
-		margin-top: -1rem;
 	}
 
 	p {
 		font-size: 1.2rem;
 		font-weight: 200;
+		max-width: 65ch;
 	}
 
 	.description {
@@ -130,7 +130,6 @@ const data: ApiResponse<User> = await response.json();
 	@media screen and (max-width: 400px) {
 		h3 {
 			font-size: 26px;
-			margin-top: 0;
 		}
 
 		p {
