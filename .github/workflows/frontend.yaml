@@ -150,8 +150,6 @@ jobs:
           key: playwright-binary-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             playwright-binary-
-      - name: Install node
-        run: cd frontend && pnpm ci
       - name: Install playwright
         run: cd frontend && npx playwright install --with-deps
       - name: Run Tests
