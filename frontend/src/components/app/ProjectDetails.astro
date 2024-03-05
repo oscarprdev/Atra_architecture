@@ -141,6 +141,10 @@ const { projects }: Props = Astro.props;
 	}
 
 	@media screen and (max-width: 400px) {
+		.details {
+			margin-top: 2rem;
+		}
+
 		h1 {
 			font-size: 26px;
 			margin-top: 2rem;
@@ -165,6 +169,12 @@ const { projects }: Props = Astro.props;
 			width: 100%;
 			align-items: center;
 			flex-direction: column;
+			height: 550px;
+		}
+
+		img,
+		picture {
+			height: fixed;
 		}
 
 		.main-image {
