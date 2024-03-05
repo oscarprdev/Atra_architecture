@@ -251,8 +251,6 @@ export class DefaultProjectInfra implements ProjectInfra {
 
 			sqlQuery += ` LIMIT ? OFFSET ?;`;
 
-			console.log(sqlQuery);
-
 			args.push(limit, hasSearchFilter ? 0 : offset);
 
 			const dbProjects = await client.execute({
