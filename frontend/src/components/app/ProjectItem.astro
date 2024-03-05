@@ -57,4 +57,10 @@ const { project }: Props = Astro.props;
 	li:hover :global(.icon-2) {
 		transform: translateY(-28%) translateX(24%);
 	}
+
+	@media screen and (max-width: 400px) {
+		picture {
+			border-radius: 8px;
+		}
+	}
 </style>
