@@ -14,7 +14,10 @@ const data: ApiResponse<User> = await response.json();
 		<h3>Asistència tècnica en rehabilitació i arquitectura</h3>
 	</div>
 	<span class="line grow-right"></span>
-	<div class="description fade-up-light">
+	<div
+		class="description fade-up-light"
+		data-testid="description"
+	>
 		{
 			data.data.description
 				.split('. ')
@@ -25,6 +28,7 @@ const data: ApiResponse<User> = await response.json();
 	<Link
 		href="/about"
 		dark
+		id="about-link"
 	>
 		<TextWithIcon
 			text="Saber-ne més"

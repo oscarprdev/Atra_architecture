@@ -1,4 +1,4 @@
-<nav>
+<nav data-testid="nav">
 	<input
 		class="menu-btn"
 		type="checkbox"
@@ -11,13 +11,25 @@
 	>
 	<ul class="menu">
 		<li class:list={[{ selected: Astro.url.pathname === '/' }]}>
-			<a href="/">Inici</a>
+			<a
+				data-testid="nav-home"
+				href="/"
+				>Inici</a
+			>
 		</li>
 		<li class:list={[{ selected: Astro.url.pathname === '/gallery' }]}>
-			<a href="/gallery">Galeria</a>
+			<a
+				data-testid="nav-gallery"
+				href="/gallery"
+				>Galeria</a
+			>
 		</li>
 		<li class:list={[{ selected: Astro.url.pathname === '/about' }]}>
-			<a href="/about">Qui som</a>
+			<a
+				data-testid="nav-about"
+				href="/about"
+				>Qui som</a
+			>
 		</li>
 	</ul>
 </nav>

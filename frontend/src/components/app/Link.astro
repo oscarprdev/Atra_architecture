@@ -1,15 +1,17 @@
 ---
 interface Props {
+	id?: string;
 	href: string;
 	target?: string;
 	dark?: boolean;
 	kind?: 'button';
 }
 
-const { href, target, dark, kind }: Props = Astro.props;
+const { href, target, dark, kind, id }: Props = Astro.props;
 ---
 
 <a
+	data-testid={id}
 	href={href}
 	target={target}
 	class:list={[{ dark, button: kind === 'button' }]}

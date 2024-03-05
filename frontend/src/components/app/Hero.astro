@@ -12,14 +12,14 @@ const { mainImage, year, description }: Props = Astro.props;
 
 <section class="title-container">
 	<div class="title">
-		<h1>ATRA</h1>
+		<h1 data-testid="home-title">ATRA</h1>
 		<h2>ARQUITECTURA</h2>
 	</div>
 	<div class="name-container">
-		<h3>Jaume Pérez Llopis</h3>
+		<h3 data-testid="home-name">Jaume Pérez Llopis</h3>
 	</div>
 </section>
-<div class="image-container">
+<article class="image-container">
 	<picture class="responsive-image">
 		<source
 			media="(max-width: 768px)"
@@ -39,7 +39,7 @@ const { mainImage, year, description }: Props = Astro.props;
 		<p>{year}</p>
 		<p>{description}</p>
 	</div>
-</div>
+</article>
 
 <script>
 	document.addEventListener('DOMContentLoaded', event => {

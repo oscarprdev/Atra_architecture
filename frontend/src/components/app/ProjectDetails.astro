@@ -24,7 +24,10 @@ const { projects }: Props = Astro.props;
 								alt={`Project main image of: ${project.title}`}
 							/>
 						</picture>
-						<div class="support-info">
+						<div
+							class="support-info"
+							data-testid="project-info"
+						>
 							<picture class="support-image">
 								<img
 									src={`${IMAGE_URL}/${project.images[0]}`}
