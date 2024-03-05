@@ -18,16 +18,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Commit
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18.17.0'
       - uses: pnpm/action-setup@v2
         with:
           version: 8
       - name: Cache pnpm dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: cache-dependencies
         with:
           path: frontend/node_modules
@@ -36,7 +36,7 @@ jobs:
             ${{ runner.os }}-pnpm-
       - name: Cache Playwright binary
         id: cache-playwright-binary
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: frontend/node_modules
           key: playwright-binary-${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -51,16 +51,16 @@ jobs:
     needs: install-cache
     steps:
       - name: Checkout Commit
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18.17.0'
       - uses: pnpm/action-setup@v2
         with:
           version: 8
       - name: Restore pnpm dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: cache-dependencies
         with:
           path: frontend/node_modules
@@ -78,16 +78,16 @@ jobs:
     needs: install-cache
     steps:
       - name: Checkout Commit
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18.17.0'
       - uses: pnpm/action-setup@v2
         with:
           version: 8
       - name: Restore pnpm dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: cache-dependencies
         with:
           path: frontend/node_modules
@@ -102,16 +102,16 @@ jobs:
     needs: [lint-format, type-check]
     steps:
       - name: Checkout Commit
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18.17.0'
       - uses: pnpm/action-setup@v2
         with:
           version: 8
       - name: Restore pnpm dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: cache-dependencies
         with:
           path: frontend/node_modules
@@ -126,16 +126,16 @@ jobs:
     needs: build
     steps:
       - name: Checkout Commit
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18.17.0'
       - uses: pnpm/action-setup@v2
         with:
           version: 8
       - name: Restore pnpm dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: cache-dependencies
         with:
           path: frontend/node_modules
@@ -144,7 +144,7 @@ jobs:
             ${{ runner.os }}-pnpm-
       - name: Restore Playwright binary
         id: cache-playwright-binary
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: frontend/node_modules
           key: playwright-binary-${{ hashFiles('**/pnpm-lock.yaml') }}
